@@ -1,0 +1,43 @@
+@import 'root.css';
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  vertical-align: baseline;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  font-kerning: normal;
+}
+
+body {
+  background-color: var(--background-grey);
+}
+
+.toolbarIcon {
+  display: inline-flex;
+  width: 36px;
+  height: 36px;
+  background-color: #fff;
+  border-radius: 18px;
+  margin: var(--gap) 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.toolbarIcon:hover {
+  background-color: var(--hover-grey);
+}
+
+.toolbarIcon:not(:first-child) {
+  margin-left: 9px;
+}
+
+.toolbarIcon img {
+  display: block;
+  width: 18px;
+  height: 18px;
+  margin: 9px;
+  padding-left: 0.5px; /* Fix icon not centered */
+}
