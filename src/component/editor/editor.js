@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 
 import { drag } from '../main'
+import { CodeCanvas } from '../codeCanvas/codeCanvas'
 import '../../postcss/component/editor/editor.css'
 
 import logo from '../../img/logo/logo-original.svg'
@@ -19,7 +20,9 @@ const Editor = () => {
   return (
     <div className="split">
       <div ref={leftElement} id="editor-left">
-        <div id="playground"></div>
+        <div id="playground">
+          <CodeCanvas />
+        </div>
       </div>
 
       <div ref={separator} className="separator"></div>

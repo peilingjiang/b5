@@ -9,6 +9,8 @@
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
   font-kerning: normal;
+
+  font-family: 'Inconsolata', monospace;
 }
 
 body {

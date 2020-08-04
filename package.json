@@ -9,14 +9,13 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
-    "uuid": "^8.2.0"
+    "uuid": "^8.3.0"
   },
   "scripts": {
-    "postcss": "gulp",
-    "clean": "rm -r ./src/postcss",
+    "postcss": "(rm -rf ./src/postcss || true) && gulp",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "dev": "run-s clean postcss start",
+    "dev": "run-s postcss start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,html}\""

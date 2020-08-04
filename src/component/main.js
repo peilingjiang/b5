@@ -14,23 +14,35 @@ export function drag(...args) {
         mouseDown.rightWidth
       )
       // Use % to keep responsibility (when window resized)
-      separator.current.style.left = (mouseDown.offsetLeft + deltaX) / window.innerWidth * 100 + '%'
-      leftElement.current.style.width = (mouseDown.leftWidth + deltaX) / window.innerWidth * 100 + '%'
-      rightElement.current.style.width = (mouseDown.rightWidth - deltaX) / window.innerWidth * 100 + '%'
+      separator.current.style.left =
+        ((mouseDown.offsetLeft + deltaX) / window.innerWidth) * 100 + '%'
+      leftElement.current.style.width =
+        ((mouseDown.leftWidth + deltaX) / window.innerWidth) * 100 + '%'
+      rightElement.current.style.width =
+        ((mouseDown.rightWidth - deltaX) / window.innerWidth) * 100 + '%'
     }
 
-    separator.current.addEventListener('mousedown', e => {
-      e.preventDefault()
-      mouseDown = {
-        e,
-        offsetLeft: separator.current.offsetLeft,
-        leftWidth: leftElement.current.offsetWidth,
-        rightWidth: rightElement.current.offsetWidth,
-      }
-      document.addEventListener('mousemove', moveSeparator, true)
-    })
-    document.addEventListener('mouseup', e => {
-      document.removeEventListener('mousemove', moveSeparator, true)
-    })
+    separator.current.addEventListener(
+      'mousedown',
+      e => {
+        e.preventDefault()
+        mouseDown = {
+          e,
+          offsetLeft: separator.current.offsetLeft,
+          leftWidth: leftElement.current.offsetWidth,
+          rightWidth: rightElement.current.offsetWidth,
+        }
+        document.addEventListener('mousemove', moveSeparator, true)
+        document.addEventListener(
+          'mouseup',
+          function _listener() {
+            document.removeEventListener('mousemove', moveSeparator, true)
+            document.removeEventListener('mouseup', _listener, true)
+          },
+          true
+        )
+      },
+      true
+    )
   }
 }
