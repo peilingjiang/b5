@@ -2,12 +2,12 @@ import React, { useRef, useEffect } from 'react'
 
 import { drag } from '../main'
 import { CodeCanvas } from '../codeCanvas/codeCanvas'
-import '../../postcss/component/editor/editor.css'
+import '../../postcss/components/editor/editor.css'
 
 import logo from '../../img/logo/logo-original.svg'
-import settings from '../../img/toolbarIcon/settings.svg'
-import file from '../../img/toolbarIcon/file.svg'
-import share from '../../img/toolbarIcon/share.svg'
+import settings from '../../img/toolbarIcon/settings.png'
+import file from '../../img/toolbarIcon/file.png'
+import share from '../../img/toolbarIcon/share.png'
 
 const Editor = () => {
   const leftElement = useRef(),
@@ -38,7 +38,13 @@ const Editor = () => {
           <div className="toolbarIcon share">
             <img src={share} alt="Share" />
           </div>
-          <img id="logo" src={logo} alt="b5" />
+          <a
+            href="https://github.com/peilingjiang/b5"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <img id="logo" src={logo} alt="b5" />
+          </a>
         </div>
         <div id="factory"></div>
       </div>

@@ -9,7 +9,7 @@ import {
   maxBlockCountAllowed,
 } from './constants'
 import { LineNumberRoom, BlockRoom } from './codeCanvasFrag'
-import '../../postcss/component/codeCanvas/codeCanvas.css'
+import '../../postcss/components/codeCanvas/codeCanvas.css'
 
 class Room {
   constructor() {
@@ -30,7 +30,7 @@ export class CodeCanvas extends Component {
       scale: 1, // codeCanvas scale
       maxIndX: 0, // Max index (with block in the room) on x-axis (horizontally)
       maxIndY: 0, // Max index (with block in the room) on y-axis (vertically)
-      lines: [[new Room()]],
+      lines: [[new Room()]], // Array of arrays of Room objects
     }
   }
 
