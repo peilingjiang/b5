@@ -8,12 +8,12 @@
 
 .separator {
   cursor: ew-resize;
-  background-color: var(--background-grey);
+  background-color: $background-grey;
   z-index: 1;
   box-sizing: border-box;
   background-clip: padding-box;
   margin: 0;
-  width: var(--gap);
+  width: $gap;
   user-select: none;
 }
 
@@ -36,20 +36,20 @@
 #factory {
   position: relative;
   background-color: #fff;
-  border-radius: var(--radius);
+  border-radius: $radius;
   box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, 0.17);
-  width: calc(100% - var(--gap));
+  width: calc(100% - $gap);
   overflow: hidden;
 }
 
 #playground {
-  height: calc(100% - 2 * var(--gap));
-  margin: var(--gap) 0 var(--gap) var(--gap);
+  height: calc(100% - 2 * $gap);
+  margin: $gap 0 $gap $gap;
 }
 
 #factory {
-  height: calc(100% - var(--gap) - 50px);
-  margin: 0 var(--gap) var(--gap) 0;
+  height: calc(100% - $gap - 50px);
+  margin: 0 $gap $gap 0;
 }
 
 #header {
@@ -62,5 +62,5 @@
   width: 32px;
   height: 32px;
   top: 9px;
-  right: var(--gap);
+  right: $gap;
 }

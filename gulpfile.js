@@ -1,18 +1,23 @@
-let postcss = require('gulp-postcss'),
-  gulp = require('gulp'),
-  autoprefixer = require('autoprefixer'),
-  cssnano = require('cssnano')
+import postcss from 'gulp-postcss'
+import pkg from 'gulp'
 
-gulp.task('css', () => {
-  let plugin = [
-    // PostCSS plugins here
-    autoprefixer(),
-    cssnano(),
-  ]
-  return gulp
-    .src(['./src/**/*.css', '!./src/postcss/**/*.css'])
-    .pipe(postcss(plugin))
-    .pipe(gulp.dest('./src/postcss'))
+import autoprefixer from 'autoprefixer'
+import cssnano from 'cssnano'
+import precss from 'precss'
+
+const { task, src, dest, series } = pkg
+
+task('css', () => {
+  return src(['./src/**/*.css', '!./src/postcss/**/*.css'])
+    .pipe(
+      postcss([
+        // PostCSS plugins here
+        precss(),
+        autoprefixer(),
+        cssnano(),
+      ])
+    )
+    .pipe(dest('./src/postcss'))
 })
 
-gulp.task('default', gulp.series('css'))
+task('default', series('css'))

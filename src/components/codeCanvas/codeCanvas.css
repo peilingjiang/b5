@@ -1,10 +1,8 @@
 @import '../../css/root.css';
 
-:root {
-  --line-height: 110px;
-  --line-numbers-width: 32px;
-  --block-width: 218px;
-}
+$line-height: 110px;
+$line-numbers-width: 32px;
+$block-width: 218px;
 
 .codeCanvas {
   width: 100%;
@@ -23,10 +21,10 @@
 
 .lineNumbers {
   position: absolute;
-  width: var(--line-numbers-width);
+  width: $line-numbers-width;
   top: 0;
   left: 0;
-  border-right: 1px solid var(--grey);
+  border-right: 1px solid $grey;
   box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.1);
   background-color: #fff;
 }
@@ -34,21 +32,21 @@
 .blockHome {
   position: absolute;
   top: 0;
-  left: var(--line-numbers-width);
+  left: $line-numbers-width;
 }
 
 .lineNumberRoom {
   position: relative;
-  width: var(--line-numbers-width);
-  height: var(--line-height);
-  box-shadow: 0 1px 0 0 var(--hover-grey);
+  width: $line-numbers-width;
+  height: $line-height;
+  box-shadow: 0 1px 0 0 $hover-grey;
   text-align: right;
 }
 
 .lineNumberRoom p {
-  font-size: var(--regular);
-  font-weight: var(---medium);
-  color: var(--grey);
+  font-size: $regular;
+  font-weight: $-medium;
+  color: $grey;
   position: absolute;
   bottom: 0;
   right: 0;
@@ -57,10 +55,10 @@
 
 .blockRoom {
   position: absolute;
-  width: var(--block-width);
-  height: var(--line-height);
-  border-right: 1px solid var(--light-grey);
-  /* border-bottom: 1px solid var(--hover-grey);
-  box-shadow: 1px 0 0 0 var(--light-grey); */
-  box-shadow: 0 1px 0 0 var(--hover-grey); /*Avoid 45 degree border joint*/
+  width: $block-width;
+  height: $line-height;
+  border-right: 1px solid $light-grey;
+  /* border-bottom: 1px solid $hover-grey;
+  box-shadow: 1px 0 0 0 $light-grey; */
+  box-shadow: 0 1px 0 0 $hover-grey; /*Avoid 45 degree border joint*/
 }

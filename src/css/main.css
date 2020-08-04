@@ -14,7 +14,7 @@
 }
 
 body {
-  background-color: var(--background-grey);
+  background-color: $background-grey;
 }
 
 .toolbarIcon {
@@ -23,13 +23,13 @@ body {
   height: 36px;
   background-color: #fff;
   border-radius: 18px;
-  margin: var(--gap) 0;
+  margin: $gap 0;
   padding: 0;
   cursor: pointer;
 }
 
 .toolbarIcon:hover {
-  background-color: var(--hover-grey);
+  background-color: $hover-grey;
 }
 
 .toolbarIcon:not(:first-child) {

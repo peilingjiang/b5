@@ -1,19 +1,20 @@
-:root {
-  --gap: 7px;
-  --radius: 5px;
+$gap: 7px;
+$radius: 5px;
 
-  --light-grey: #efefef;
-  --background-grey: #eee;
-  --hover-grey: #dadada;
-  --grey: #777;
-  --black: #333;
+/* Color */
+$light-grey: #efefef;
+$background-grey: #eee;
+$hover-grey: #dadada;
+$grey: #777;
+$black: #333;
 
-  --light: 300;
-  --medium: 500;
-  --semi-bold: 600;
-  --bold: 700;
+/* Font Weight */
+$light: 300;
+$medium: 500;
+$semi-bold: 600;
+$bold: 700;
 
-  --regular: 1rem;
-  --small: 0.8rem;
-  --large: 1.2rem;
-}
+/* Font Size */
+$regular: 1rem;
+$small: 0.8rem;
+$large: 1.2rem;
