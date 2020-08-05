@@ -32,17 +32,23 @@ export class CodeCanvas extends Component {
       maxIndY: 0, // Max index (with block in the room) on y-axis (vertically)
       lines: [[new Room()]], // Array of arrays of Room objects
     }
+    this.resizeObserver = new ResizeObserver(entries => {
+      this.handleResize()
+    })
+    this.timer = null // Avoid continuous re-rendering
   }
 
   componentDidMount() {
     this.refreshCanvasLines()
     this.codeCanvas.addEventListener('mousedown', this.handlePan, true)
     this.codeCanvas.addEventListener('wheel', this.handleZoom, true)
+    this.resizeObserver.observe(this.codeCanvas)
   }
 
   componentWillUnmount() {
     this.codeCanvas.removeEventListener('mousedown', this.handlePan, true)
     this.codeCanvas.removeEventListener('wheel', this.handleZoom, true)
+    this.resizeObserver.unobserve(this.codeCanvas)
   }
 
   handlePan = e => {
@@ -85,7 +91,6 @@ export class CodeCanvas extends Component {
     }
 
     this.codeCanvas.addEventListener('mousemove', grabCanvas, true)
-    console.log(this.state.left)
 
     document.addEventListener(
       'mouseup',
@@ -105,18 +110,24 @@ export class CodeCanvas extends Component {
     this.setState({
       scale:
         Math.round(
-          Math.min(Math.max(this.state.scale + e.deltaY * 0.001, 0.6), 1.1) *
-            1000
+          Math.min(
+            Math.max(
+              this.state.scale + e.deltaY * 0.0005 /* Zoom factor */,
+              0.6
+            ),
+            1.1
+          ) * 1000
         ) / 1000,
     })
     this.codeCanvas.style.transform = 'scale(' + this.state.scale + ')'
     this.codeCanvas.style.width = 100 / this.state.scale + '%'
     this.codeCanvas.style.height = 100 / this.state.scale + '%'
-    this.refreshCanvasLines()
+
+    this.timer = setTimeout(this.refreshCanvasLines.bind(this), 300)
   }
 
   handleResize = e => {
-    console.log('Resized')
+    this.timer = setTimeout(this.refreshCanvasLines.bind(this), 300)
   }
 
   _getSeclusionInd() {
@@ -143,7 +154,8 @@ export class CodeCanvas extends Component {
     })
   }
 
-  async refreshCanvasLines() {
+  refreshCanvasLines() {
+    // Get target room counts for lines and blocks per line
     let targetLineCount = Math.min(
         Math.max(
           Math.ceil(
@@ -190,6 +202,10 @@ export class CodeCanvas extends Component {
         blockCount: targetBlockCount,
       })
     }
+  }
+
+  componentDidUpdate() {
+    clearTimeout(this.timer)
   }
 
   render() {
