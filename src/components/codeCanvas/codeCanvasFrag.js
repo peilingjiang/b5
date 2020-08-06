@@ -1,18 +1,20 @@
 import React, { Component } from 'react'
 
-import { lineHeight, roomWidth } from './constants'
+import { lineHeight, roomWidth } from '../constants'
 
 export class LineNumberRoom extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
-    this.num = props.num + 1
+    this.state = {
+      style: props.style || {},
+    }
+    this.y = props.num // Start from 0
   }
 
   render() {
     return (
       <div className="lineNumberRoom">
-        <p>{this.num}</p>
+        <p>{this.y + 1}</p>
       </div>
     )
   }
@@ -21,8 +23,8 @@ export class LineNumberRoom extends Component {
 export class BlockRoom extends Component {
   constructor(props) {
     super(props)
-    this.x = props.x
-    this.y = props.y
+    this.x = props.x // Column of the room
+    this.y = props.y // Line (row) of the room
   }
 
   componentDidMount() {
@@ -32,5 +34,32 @@ export class BlockRoom extends Component {
 
   render() {
     return <div ref={e => (this.room = e)} className="blockRoom"></div>
+  }
+}
+
+export class BlockAlphabetRoom extends Component {
+  constructor(props) {
+    super(props)
+    this.x = this._convert(props.num) // num starts from 0
+  }
+
+  _convert(num) {
+    let s = '',
+      t
+    num++
+    while (num > 0) {
+      t = (num - 1) % 26
+      s = String.fromCharCode(97 + t) + s // Lowercase letters
+      num = ((num - t) / 26) | 0
+    }
+    return s
+  }
+
+  render() {
+    return (
+      <div className="blockAlphabetRoom">
+        <p>{this.x}</p>
+      </div>
+    )
   }
 }

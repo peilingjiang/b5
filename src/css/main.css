@@ -11,6 +11,7 @@
   font-kerning: normal;
 
   font-family: 'Inconsolata', monospace;
+  letter-spacing: -0.1px; /* For Inconsolata */
 }
 
 body {
@@ -38,8 +39,8 @@ body {
 
 .toolbarIcon img {
   display: block;
-  width: 18px;
-  height: 18px;
-  margin: 9px;
+  width: $icon-width;
+  height: $icon-height;
+  margin: calc((36px - $icon-width) / 2);
   padding-left: 0.5px; /* Fix icon not centered */
 }

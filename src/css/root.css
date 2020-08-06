@@ -2,14 +2,21 @@ $gap: 7px;
 $radius: 5px;
 
 /* Color */
-$light-grey: #efefef;
+$dark-white: #efefef;
 $background-grey: #eee;
 $hover-grey: #dadada;
+$light-grey: #aaa;
 $grey: #777;
 $black: #333;
 
+$variable: #f7b500;
+$function: #50d764;
+$object: #44d7b6;
+$draw: #f04979;
+
 /* Font Weight */
 $light: 300;
+$regular: 400; /* Not recommended to use */
 $medium: 500;
 $semi-bold: 600;
 $bold: 700;
@@ -18,3 +25,7 @@ $bold: 700;
 $regular: 1rem;
 $small: 0.8rem;
 $large: 1.2rem;
+
+/* Icons */
+$icon-width: 18px;
+$icon-height: 18px;

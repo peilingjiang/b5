@@ -1,41 +1,49 @@
 import React, { Component } from 'react'
-import { v4 as uuidv4 } from 'uuid'
 
 import {
   lineHeight,
   roomWidth,
   lineNumberWidth,
-  maxLineCountAllowed,
-  maxBlockCountAllowed,
-} from './constants'
-import { LineNumberRoom, BlockRoom } from './codeCanvasFrag'
+  blockAlphabetHeight,
+} from '../constants'
+import { LineNumberRoom, BlockAlphabetRoom, BlockRoom } from './codeCanvasFrag'
 import '../../postcss/components/codeCanvas/codeCanvas.css'
 
-class Room {
-  constructor() {
-    this.roomId = uuidv4()
-    this.block = null
-    this.style = {}
-  }
-}
+import DoubleClick from '../../img/icon/dclick.png'
 
 export class CodeCanvas extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      lineCount: 1, // # of lines
-      blockCount: 1, // # of block rooms for each line
+      lineCount: 0, // # of lines
+      blockCount: 0, // # of block rooms for each line
       left: 0, // Left offset (codeCanvas) after dragging
       top: 0, // Top offset (codeCanvas) after dragging
       scale: 1, // codeCanvas scale
       maxIndX: 0, // Max index (with block in the room) on x-axis (horizontally)
       maxIndY: 0, // Max index (with block in the room) on y-axis (vertically)
-      lines: [[new Room()]], // Array of arrays of Room objects
+      /* data */
+      lineStyles: {}, // Store all the rooms (with styles modified)
+      blocks: {}, // Store all the block
     }
+    /*
+    this.state.lineStyles only stores lines with modified drawing styles.
+
+    > lineStyles
+    {
+      '17': { // Line number
+        'fill': '#00d1ff',
+        'stroke': 'none',
+      }
+    }
+
+    */
     this.resizeObserver = new ResizeObserver(entries => {
       this.handleResize()
     })
     this.timer = null // Avoid continuous re-rendering
+    this.maxLineCount = props.maxLineCount
+    this.maxBlockCount = props.maxBlockCount
   }
 
   componentDidMount() {
@@ -70,19 +78,19 @@ export class CodeCanvas extends Component {
       }
       that.setState({
         left: parseInt(
-          (that.blockHome.style.left =
+          // this.state.left
+          (that.blockAlphabets.style.left = that.blockHome.style.left =
             Math.max(
               Math.min(mouse.homeLeft + delta.x, lineNumberWidth),
-              -maxBlockCountAllowed * roomWidth +
-                that.codeCanvas.offsetWidth -
-                17
+              -that.maxBlockCount * roomWidth + that.codeCanvas.offsetWidth - 17
             ) + 'px').replace('px', '')
         ),
         top: parseInt(
+          // this.state.top
           (that.lineNumbers.style.top = that.blockHome.style.top =
             Math.max(
-              Math.min(mouse.homeTop + delta.y, 0),
-              -maxLineCountAllowed * lineHeight +
+              Math.min(mouse.homeTop + delta.y, blockAlphabetHeight),
+              -that.maxLineCount * lineHeight +
                 that.codeCanvas.offsetHeight -
                 17
             ) + 'px').replace('px', '')
@@ -112,7 +120,7 @@ export class CodeCanvas extends Component {
         Math.round(
           Math.min(
             Math.max(
-              this.state.scale + e.deltaY * 0.0005 /* Zoom factor */,
+              this.state.scale - e.deltaY * 0.0005 /* Zoom factor */,
               0.6
             ),
             1.1
@@ -134,74 +142,46 @@ export class CodeCanvas extends Component {
     // Get the indices for furthest blocks in codeCanvas
     // Update only on block changes
 
-    // Vertical Search - y
-    let maxIndV = 0
-    searchY: for (let i = this.state.lineCount - 1; i >= 0; i--)
-      for (let j in this.state.lines[i])
-        if (this.state.lines[i][j].block) {
-          maxIndV = i // Line
-          break searchY
-        }
-    // Horizontal Search - x
-    let maxIndH = 0
-    for (let i = 0; i < this.state.lineCount; i++)
-      for (let j in this.state.lines[i])
-        if (this.state.lines[i][j].block && j > maxIndH) maxIndH = j // Block
-
-    this.setState({
-      maxIndY: maxIndV,
-      maxIndX: maxIndH,
-    })
+    Object.entries(this.state.blocks).length === 0
+      ? // No block in codeCanvas
+        this.setState({
+          maxIndX: 0,
+          maxIndY: 0,
+        })
+      : this.setState({
+          maxIndY: Math.max.apply(null, Object.keys(this.state.blocks)), // Max line number
+          maxIndX: Math.max.apply(
+            null,
+            Object.keys(this.state.blocks).map(lk =>
+              Math.max.apply(null, Object.keys(this.state.blocks[lk]))
+            )
+          ), // Max column number
+        })
   }
 
   refreshCanvasLines() {
     // Get target room counts for lines and blocks per line
-    let targetLineCount = Math.min(
+    // and update this.state.lineCount and this.state.blockCount
+    this.setState({
+      lineCount: Math.min(
         Math.max(
           Math.ceil(
             (this.codeCanvas.clientHeight - this.state.top) / lineHeight
           ),
-          this.state.maxIndY
+          this.state.maxIndY + 1 // Always one more block room to the most seclusive block
         ),
-        maxLineCountAllowed
+        this.maxLineCount
       ),
-      targetBlockCount = Math.min(
+      blockCount: Math.min(
         Math.max(
           Math.ceil(
             (this.codeCanvas.clientWidth - this.state.left) / roomWidth
           ),
-          this.state.maxIndX
+          this.state.maxIndX + 1
         ),
-        maxBlockCountAllowed
-      )
-    // Construct new lines and blocks
-    if (
-      this.state.lineCount !== targetLineCount ||
-      this.state.blockCount !== targetBlockCount
-    ) {
-      // Update lines arrays
-      this.setState(prevState => {
-        let newLines = []
-        for (let l = 0; l < targetLineCount; l++) {
-          newLines.push([]) // Set new empty line
-          if (l < this.state.lineCount)
-            for (let b = 0; b < targetBlockCount; b++)
-              newLines[l].push(prevState.lines[l][b] || new Room())
-          // Add from prevLines or create new rooms
-          // New lines
-          else
-            for (let b = 0; b < targetBlockCount; b++)
-              newLines[l].push(new Room())
-        }
-        return { lines: newLines }
-      })
-
-      // Update counts
-      this.setState({
-        lineCount: targetLineCount,
-        blockCount: targetBlockCount,
-      })
-    }
+        this.maxBlockCount
+      ),
+    })
   }
 
   componentDidUpdate() {
@@ -209,22 +189,56 @@ export class CodeCanvas extends Component {
   }
 
   render() {
-    let lineNumbers = this.state.lines.map((l, ind) => {
-      return <LineNumberRoom key={ind} num={ind} />
-    })
-    let blockHome = this.state.lines.map((l, ind) => {
-      return l.map((b, i) => {
-        return <BlockRoom key={b.roomId} x={i} y={ind} />
-      })
-    })
+    let lineNumbers = [],
+      blockAlphabets = [],
+      blockHome = []
+    for (let i = 0; i < this.state.lineCount; i++) {
+      // Key - 'line 17'
+      lineNumbers.push(
+        <LineNumberRoom
+          key={'lineNumber ' + i}
+          num={i}
+          style={this.state.lineStyles[i]}
+        />
+      )
+      for (let j = 0; j < this.state.blockCount; j++) {
+        // Key - 'block 2 17' (line 2, column 17)
+        blockHome.push(<BlockRoom key={'block ' + i + ' ' + j} y={i} x={j} />)
+      }
+    }
+    for (let j = 0; j < this.state.blockCount; j++) {
+      blockAlphabets.push(
+        <BlockAlphabetRoom key={'blockNumber ' + j} num={j} />
+      )
+    }
+
     return (
       <div ref={e => (this.codeCanvas = e)} className="codeCanvas grab">
+        {/* blockHome */}
         <div ref={e => (this.blockHome = e)} className="blockHome">
           {blockHome}
+          <div
+            className={
+              Object.keys(this.state.blocks).length === 0
+                ? 'visible'
+                : 'invisible'
+            }
+          >
+            <img src={DoubleClick} alt="Double Click" />
+            <p>Double click to add a block</p>
+          </div>
         </div>
+
+        {/* blockAlphabets */}
+        <div ref={e => (this.blockAlphabets = e)} className="blockAlphabets">
+          {blockAlphabets}
+        </div>
+        {/* lineNumbers */}
         <div ref={e => (this.lineNumbers = e)} className="lineNumbers">
           {lineNumbers}
         </div>
+        {/* lineJoint */}
+        <div className="lineJoint"></div>
       </div>
     )
   }

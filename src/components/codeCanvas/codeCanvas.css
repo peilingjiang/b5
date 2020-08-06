@@ -2,6 +2,7 @@
 
 $line-height: 110px;
 $line-numbers-width: 32px;
+$block-alphabet-height: 24px;
 $block-width: 218px;
 
 .codeCanvas {
@@ -22,43 +23,104 @@ $block-width: 218px;
 .lineNumbers {
   position: absolute;
   width: $line-numbers-width;
-  top: 0;
+  top: $block-alphabet-height;
   left: 0;
-  border-right: 1px solid $grey;
+  border-right: 1px solid $light-grey;
   box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.1);
   background-color: #fff;
+
+  .lineNumberRoom {
+    position: relative;
+    width: $line-numbers-width;
+    height: $line-height;
+    box-shadow: 0 1px 0 0 $hover-grey;
+    text-align: right;
+
+    p {
+      font-size: $regular;
+      font-weight: $medium;
+      color: $light-grey;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      margin: 0 3px 2px 0;
+    }
+  }
+}
+
+.blockAlphabets {
+  position: absolute;
+  height: $block-alphabet-height;
+  top: 0;
+  left: $line-numbers-width;
+  border-bottom: 1px solid $light-grey;
+  box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  white-space: nowrap;
+
+  .blockAlphabetRoom {
+    position: relative;
+    display: inline-block;
+    width: $block-width;
+    height: $block-alphabet-height;
+    top: 0;
+    box-shadow: 1px 0 0 0 $dark-white;
+    text-align: right;
+
+    p {
+      font-size: $regular;
+      font-weight: $medium;
+      color: $light-grey;
+      margin: 2.5px 3px auto auto;
+    }
+  }
 }
 
 .blockHome {
   position: absolute;
-  top: 0;
+  top: $block-alphabet-height;
   left: $line-numbers-width;
+
+  .blockRoom {
+    position: absolute;
+    width: $block-width;
+    height: $line-height;
+    border-right: 1px solid $dark-white;
+    box-shadow: 0 1px 0 0 $hover-grey; /* Avoid 45 degree border joint */
+  }
+
+  .visible {
+    margin-top: 14px;
+    margin-left: 14px;
+    padding: auto;
+
+    img {
+      display: block;
+      width: $icon-width;
+      height: $icon-height;
+    }
+
+    p { // in .visible
+      font-size: $small;
+      font-weight: $regular;
+      color: $light-grey;
+      margin-top: 7px;
+    }
+  }
+
+  .invisible {
+    display: none;
+  }
 }
 
-.lineNumberRoom {
-  position: relative;
+.lineJoint {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 1px solid $light-grey;
+  border-top: none;
+  border-left: none;
+  background-color: #fff;
   width: $line-numbers-width;
-  height: $line-height;
-  box-shadow: 0 1px 0 0 $hover-grey;
-  text-align: right;
-}
-
-.lineNumberRoom p {
-  font-size: $regular;
-  font-weight: $-medium;
-  color: $grey;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  margin: 0 3px 2px 0;
-}
-
-.blockRoom {
-  position: absolute;
-  width: $block-width;
-  height: $line-height;
-  border-right: 1px solid $light-grey;
-  /* border-bottom: 1px solid $hover-grey;
-  box-shadow: 1px 0 0 0 $light-grey; */
-  box-shadow: 0 1px 0 0 $hover-grey; /*Avoid 45 degree border joint*/
+  height: $block-alphabet-height;
 }
