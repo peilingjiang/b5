@@ -13,18 +13,42 @@ import DoubleClick from '../../img/icon/dclick.png'
 
 export default class CodeCanvas extends PureComponent {
   constructor(props) {
+    /*
+
+    > props
+    {
+      maxLineCount: 3,
+
+      maxBlockCount: 3,
+      
+      data: {
+        name: 'playground', // 'cnv'...
+        removable: false,
+        type: 'playground',
+        lineStyle: {},
+        blocks: {},
+      },
+      
+      canvasStyle: {
+        left: 0,
+        top: 0,
+        scale: 1,
+      },
+    }
+
+    */
     super(props)
     this.state = {
       lineCount: 0, // # of lines
       blockCount: 0, // # of block rooms for each line
       maxIndX: 0, // Max index (with block in the room) on x-axis (horizontally)
       maxIndY: 0, // Max index (with block in the room) on y-axis (vertically)
-      left: 0, // Left offset (codeCanvas) after dragging
-      top: 0, // Top offset (codeCanvas) after dragging
-      scale: 1, // codeCanvas scale
+      left: props.canvasStyle ? props.canvasStyle.left : 0, // Left offset (codeCanvas) after dragging
+      top: props.canvasStyle ? props.canvasStyle.top : 0, // Top offset (codeCanvas) after dragging
+      scale: props.canvasStyle ? props.canvasStyle.scale : 1, // codeCanvas scale
       /* data */
-      lineStyles: {}, // Store all the rooms (with styles modified)
-      blocks: {}, // Store all the block
+      lineStyles: props.data ? props.data.lineStyles : {}, // Store all the rooms (with styles modified)
+      blocks: props.data ? props.data.blocks : {}, // Store all the block
     }
     /*
     this.state.lineStyles only stores lines with modified drawing styles.
@@ -47,7 +71,7 @@ export default class CodeCanvas extends PureComponent {
   }
 
   componentDidMount() {
-    this.refreshCanvasLines()
+    this._refreshCodeCanvasCounts()
     this.codeCanvas.addEventListener('mousedown', this.handlePan, true)
     this.codeCanvas.addEventListener('wheel', this.handleZoom, true)
     this.resizeObserver.observe(this.codeCanvas)
@@ -80,17 +104,25 @@ export default class CodeCanvas extends PureComponent {
         left: parseInt(
           // this.state.left
           (that.blockAlphabets.style.left = that.blockHome.style.left =
-            Math.max(
-              Math.min(mouse.homeLeft + delta.x, lineNumberWidth),
-              -that.maxBlockCount * roomWidth + that.codeCanvas.offsetWidth / 2
+            Math.min(
+              Math.max(
+                mouse.homeLeft + delta.x,
+                -that.maxBlockCount * roomWidth +
+                  that.codeCanvas.offsetWidth / 2
+              ),
+              lineNumberWidth
             ) + 'px').replace('px', '')
         ),
         top: parseInt(
           // this.state.top
           (that.lineNumbers.style.top = that.blockHome.style.top =
-            Math.max(
-              Math.min(mouse.homeTop + delta.y, blockAlphabetHeight),
-              -that.maxLineCount * lineHeight + that.codeCanvas.offsetHeight / 2
+            Math.min(
+              Math.max(
+                mouse.homeTop + delta.y,
+                -that.maxLineCount * lineHeight +
+                  that.codeCanvas.offsetHeight / 2
+              ),
+              blockAlphabetHeight
             ) + 'px').replace('px', '')
         ),
       })
@@ -103,7 +135,7 @@ export default class CodeCanvas extends PureComponent {
       function _listener() {
         that.codeCanvas.className = 'codeCanvas grab'
         that.codeCanvas.removeEventListener('mousemove', grabCanvas, true)
-        that.refreshCanvasLines()
+        that._refreshCodeCanvasCounts()
         document.removeEventListener('mouseup', _listener, true)
       },
       true
@@ -129,11 +161,11 @@ export default class CodeCanvas extends PureComponent {
     this.codeCanvas.style.width = 100 / this.state.scale + '%'
     this.codeCanvas.style.height = 100 / this.state.scale + '%'
 
-    this.timer = setTimeout(this.refreshCanvasLines.bind(this), 300)
+    this.timer = setTimeout(this._refreshCodeCanvasCounts.bind(this), 300)
   }
 
   handleResize = e => {
-    this.timer = setTimeout(this.refreshCanvasLines.bind(this), 300)
+    this.timer = setTimeout(this._refreshCodeCanvasCounts.bind(this), 300)
   }
 
   _getSeclusionInd() {
@@ -157,7 +189,7 @@ export default class CodeCanvas extends PureComponent {
         })
   }
 
-  refreshCanvasLines() {
+  _refreshCodeCanvasCounts() {
     // Get target room counts for lines and blocks per line
     // and update this.state.lineCount and this.state.blockCount
     this.setState({

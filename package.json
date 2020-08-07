@@ -18,7 +18,8 @@
     "dev": "run-s css start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,html,css}\""
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,html,css}\"",
+    "deploy": "run-s css build"
   },
   "eslintConfig": {
     "extends": "react-app"

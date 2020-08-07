@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 
 import { drag } from '../main'
 import CodeCanvas from '../codeCanvas/codeCanvas'
@@ -14,9 +14,12 @@ const Editor = () => {
   const leftElement = useRef(),
     rightElement = useRef(),
     separator = useRef()
+
   useEffect(() => {
     drag('separator', separator, leftElement, rightElement)
   }, [separator])
+
+  // const [editor, setEditor] = useState()
 
   return (
     <div id="editor" className="split">
