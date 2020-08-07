@@ -1,7 +1,7 @@
 export const color = {
   variable: '#f7b500',
   function: '#50d764',
-  object: '#44d7b6',
+  object: '#34e4bd',
   draw: '#f04979',
 }
 

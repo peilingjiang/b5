@@ -1,10 +1,5 @@
 @import '../../css/root.css';
 
-$line-height: 110px;
-$line-numbers-width: 32px;
-$block-alphabet-height: 24px;
-$block-width: 218px;
-
 .codeCanvas {
   width: 100%;
   height: 100%;
@@ -43,7 +38,7 @@ $block-width: 218px;
       position: absolute;
       bottom: 0;
       right: 0;
-      margin: 0 3px 2px 0;
+      margin: 0 4px 2px 0;
     }
   }
 }
@@ -71,7 +66,7 @@ $block-width: 218px;
       font-size: $regular;
       font-weight: $medium;
       color: $light-grey;
-      margin: 2.5px 3px auto auto;
+      margin: 2.5px 5px auto auto;
     }
   }
 }
@@ -100,7 +95,8 @@ $block-width: 218px;
       height: $icon-height;
     }
 
-    p { // in .visible
+    p {
+      // in .visible
       font-size: $small;
       font-weight: $regular;
       color: $light-grey;

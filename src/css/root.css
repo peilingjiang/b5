@@ -1,5 +1,7 @@
+/* Space */
 $gap: 7px;
 $radius: 5px;
+$tiny-radius: 3px;
 
 /* Color */
 $dark-white: #efefef;
@@ -11,7 +13,7 @@ $black: #333;
 
 $variable: #f7b500;
 $function: #50d764;
-$object: #44d7b6;
+$object: #34e4bd;
 $draw: #f04979;
 
 /* Font Weight */
@@ -29,3 +31,9 @@ $large: 1.2rem;
 /* Icons */
 $icon-width: 18px;
 $icon-height: 18px;
+
+/* codeCanvas */
+$line-height: 110px;
+$line-numbers-width: 32px;
+$block-alphabet-height: 24px;
+$block-width: 218px;

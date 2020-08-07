@@ -1,5 +1,7 @@
 @import '../../css/root.css';
 
+$head-height: 50px;
+
 .split {
   width: 100vw;
   height: 100vh;
@@ -47,7 +49,7 @@
 }
 
 #factory {
-  height: calc(100% - $gap - 50px);
+  height: calc(100% - $head-height - $gap);
   margin: 0 $gap $gap 0;
 }
 

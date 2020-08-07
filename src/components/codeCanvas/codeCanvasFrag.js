@@ -2,6 +2,11 @@ import React, { Component } from 'react'
 
 import { lineHeight, roomWidth } from '../constants'
 
+/*
+ * All Block and Line counts start from 0
+ * while will all be rendered from 1
+ */
+
 export class LineNumberRoom extends Component {
   constructor(props) {
     super(props)
@@ -23,8 +28,8 @@ export class LineNumberRoom extends Component {
 export class BlockRoom extends Component {
   constructor(props) {
     super(props)
-    this.x = props.x // Column of the room
-    this.y = props.y // Line (row) of the room
+    this.x = props.x // Column of the room, from 0
+    this.y = props.y // Line (row) of the room, from 0
   }
 
   componentDidMount() {
@@ -40,13 +45,12 @@ export class BlockRoom extends Component {
 export class BlockAlphabetRoom extends Component {
   constructor(props) {
     super(props)
-    this.x = this._convert(props.num) // num starts from 0
+    this.x = this._convert(props.num + 1) // num starts from 0
   }
 
   _convert(num) {
     let s = '',
       t
-    num++
     while (num > 0) {
       t = (num - 1) % 26
       s = String.fromCharCode(97 + t) + s // Lowercase letters

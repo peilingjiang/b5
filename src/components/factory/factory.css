@@ -1,0 +1,122 @@
+@import '../../css/root.css';
+
+$tabs-height: 48px;
+$section-gap: 60px;
+$section-height: 230px;
+
+#tabs {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#tabList {
+  position: relative;
+  height: $tabs-height;
+  width: 100%;
+  list-style: none;
+  white-space: nowrap;
+  background-color: #fff;
+  box-sizing: border-box;
+  overflow: hidden;
+  z-index: 9999;
+
+  .tab {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    margin-top: 12px;
+    width: 128px;
+    font-size: $regular;
+    line-height: 100%;
+    padding: calc(18px - $regular / 2) 0;
+    border-collapse: separate;
+    border-radius: $radius $radius 0 0;
+    color: #fff;
+    opacity: 0.3;
+    text-transform: capitalize;
+    user-select: none;
+    cursor: pointer;
+  }
+
+  .tab:first-of-type {
+    margin-left: 20px;
+  }
+
+  .activeTab {
+    opacity: 1;
+  }
+}
+
+#tabContent {
+  position: relative;
+  width: 100%;
+  height: calc(100% - $tabs-height);
+  overflow: scroll;
+
+  button {
+    margin: 20px auto 0 20px;
+    text-align: center;
+    padding: auto;
+    height: 42px;
+    width: 100px;
+    font-size: $regular;
+    color: #fff;
+    border-radius: $radius;
+    cursor: pointer;
+  }
+}
+
+.section {
+  position: relative;
+  width: calc(100% - $section-gap);
+  min-width: 436px;
+  height: $section-height;
+  margin: 20px auto 0 20px;
+  border-radius: $radius;
+  white-space: nowrap;
+  overflow: hidden;
+
+  .blockHolder {
+    display: inline-block;
+    width: $block-width;
+    height: 100%;
+    border-top: none;
+    border-bottom: none;
+    border-left: none;
+  }
+
+  .codeCanvasHolder {
+    position: relative;
+    display: inline-block;
+    width: calc(100% - $block-width);
+    height: 100%;
+    overflow: hidden;
+  }
+}
+
+.variables {
+  background-color: $variable;
+}
+
+.functions {
+  background-color: $function;
+}
+
+.objects {
+  background-color: $object;
+}
+
+.variablesSection {
+  border: 2px solid color-mod($variable a(0.3));
+}
+
+.functionsSection {
+  border: 2px solid color-mod($variable a(0.3));
+}
+
+.objectsSection {
+  border: 2px solid color-mod($variable a(0.3));
+}

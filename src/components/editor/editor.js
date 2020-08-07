@@ -1,8 +1,8 @@
 import React, { useRef, useEffect } from 'react'
 
 import { drag } from '../main'
-import { CodeCanvas } from '../codeCanvas/codeCanvas'
-import Tabs from '../tabs/tabs'
+import CodeCanvas from '../codeCanvas/codeCanvas'
+import Factory from '../factory/factory'
 import '../../postcss/components/editor/editor.css'
 
 import Logo from '../../img/logo/logo-original.svg'
@@ -51,7 +51,7 @@ const Editor = () => {
         </div>
         <div id="factory">
           {/* Variables Functions Objects */}
-          <Tabs />
+          <Factory />
           <div className="shadow"></div>
         </div>
       </div>

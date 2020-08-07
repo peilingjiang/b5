@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 
 import {
   lineHeight,
@@ -11,17 +11,17 @@ import '../../postcss/components/codeCanvas/codeCanvas.css'
 
 import DoubleClick from '../../img/icon/dclick.png'
 
-export class CodeCanvas extends Component {
+export default class CodeCanvas extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
       lineCount: 0, // # of lines
       blockCount: 0, // # of block rooms for each line
+      maxIndX: 0, // Max index (with block in the room) on x-axis (horizontally)
+      maxIndY: 0, // Max index (with block in the room) on y-axis (vertically)
       left: 0, // Left offset (codeCanvas) after dragging
       top: 0, // Top offset (codeCanvas) after dragging
       scale: 1, // codeCanvas scale
-      maxIndX: 0, // Max index (with block in the room) on x-axis (horizontally)
-      maxIndY: 0, // Max index (with block in the room) on y-axis (vertically)
       /* data */
       lineStyles: {}, // Store all the rooms (with styles modified)
       blocks: {}, // Store all the block
@@ -29,7 +29,7 @@ export class CodeCanvas extends Component {
     /*
     this.state.lineStyles only stores lines with modified drawing styles.
 
-    > lineStyles
+    > this.state.lineStyles
     {
       '17': { // Line number
         'fill': '#00d1ff',
@@ -82,7 +82,7 @@ export class CodeCanvas extends Component {
           (that.blockAlphabets.style.left = that.blockHome.style.left =
             Math.max(
               Math.min(mouse.homeLeft + delta.x, lineNumberWidth),
-              -that.maxBlockCount * roomWidth + that.codeCanvas.offsetWidth - 17
+              -that.maxBlockCount * roomWidth + that.codeCanvas.offsetWidth / 2
             ) + 'px').replace('px', '')
         ),
         top: parseInt(
@@ -90,9 +90,7 @@ export class CodeCanvas extends Component {
           (that.lineNumbers.style.top = that.blockHome.style.top =
             Math.max(
               Math.min(mouse.homeTop + delta.y, blockAlphabetHeight),
-              -that.maxLineCount * lineHeight +
-                that.codeCanvas.offsetHeight -
-                17
+              -that.maxLineCount * lineHeight + that.codeCanvas.offsetHeight / 2
             ) + 'px').replace('px', '')
         ),
       })

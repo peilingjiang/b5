@@ -12,10 +12,10 @@
     "uuid": "^8.3.0"
   },
   "scripts": {
-    "postcss": "(rm -rf ./src/postcss || true) && gulp",
+    "css": "(rm -rf ./src/postcss || true) && gulp",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "dev": "run-s postcss start",
+    "dev": "run-s css start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,html,css}\""
@@ -42,6 +42,7 @@
     "gulp-postcss": "^8.0.0",
     "npm-run-all": "^4.1.5",
     "postcss-assets": "^5.0.0",
+    "postcss-color-mod-function": "^3.0.3",
     "postcss-scss": "^2.1.1",
     "precss": "^4.0.0",
     "prettier": "^2.0.5"
