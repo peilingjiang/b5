@@ -43,8 +43,8 @@ export default class CodeCanvas extends PureComponent {
       blockCount: 0, // # of block rooms for each line
       maxIndX: 0, // Max index (with block in the room) on x-axis (horizontally)
       maxIndY: 0, // Max index (with block in the room) on y-axis (vertically)
-      left: props.canvasStyle ? props.canvasStyle.left : 0, // Left offset (codeCanvas) after dragging
-      top: props.canvasStyle ? props.canvasStyle.top : 0, // Top offset (codeCanvas) after dragging
+      left: props.canvasStyle ? props.canvasStyle.left : lineNumberWidth, // Left offset (codeCanvas) after dragging
+      top: props.canvasStyle ? props.canvasStyle.top : blockAlphabetHeight, // Top offset (codeCanvas) after dragging
       scale: props.canvasStyle ? props.canvasStyle.scale : 1, // codeCanvas scale
       /* data */
       lineStyles: props.data ? props.data.lineStyles : {}, // Store all the rooms (with styles modified)
@@ -71,6 +71,15 @@ export default class CodeCanvas extends PureComponent {
   }
 
   componentDidMount() {
+    // Init canvasStyle
+    this.blockAlphabets.style.left = this.blockHome.style.left = this.state.left
+    this.lineNumbers.style.top = this.blockHome.style.top = this.state.top
+
+    this.codeCanvas.style.transform = 'scale(' + this.state.scale + ')'
+    this.codeCanvas.style.width = 100 / this.state.scale + '%'
+    this.codeCanvas.style.height = 100 / this.state.scale + '%'
+
+    // Calc target counts and add listeners
     this._refreshCodeCanvasCounts()
     this.codeCanvas.addEventListener('mousedown', this.handlePan, true)
     this.codeCanvas.addEventListener('wheel', this.handleZoom, true)
@@ -241,7 +250,6 @@ export default class CodeCanvas extends PureComponent {
         <BlockAlphabetRoom key={'blockNumber ' + j} num={j} />
       )
     }
-    console.log(this.state)
 
     return (
       <div ref={e => (this.codeCanvas = e)} className="codeCanvas grab">

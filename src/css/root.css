@@ -16,6 +16,10 @@ $function: #50d764;
 $object: #34e4bd;
 $draw: #f04979;
 
+/* Opacity */
+$fade-op: 0.3;
+$hover-op: 0.8;
+
 /* Font Weight */
 $light: 300;
 $regular: 400; /* Not recommended to use */

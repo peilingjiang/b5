@@ -35,7 +35,7 @@ $section-height: 230px;
     border-collapse: separate;
     border-radius: $radius $radius 0 0;
     color: #fff;
-    opacity: 0.3;
+    opacity: $fade-op;
     text-transform: capitalize;
     user-select: none;
     cursor: pointer;
@@ -57,7 +57,7 @@ $section-height: 230px;
   overflow: scroll;
 
   button {
-    margin: 20px auto 0 20px;
+    margin: 18px auto 54px 20px;
     text-align: center;
     height: 36px;
     width: 77px;
@@ -68,7 +68,7 @@ $section-height: 230px;
   }
 
   button:hover {
-    opacity: 0.8;
+    opacity: $hover-op;
   }
 }
 
@@ -79,7 +79,7 @@ $section-height: 230px;
   height: $section-height;
   min-height: 150px;
   max-height: 450px;
-  margin: 20px auto 0 20px;
+  margin: 18px auto 0 20px;
   border-radius: $radius;
   white-space: nowrap;
 
@@ -110,26 +110,30 @@ $section-height: 230px;
   }
 }
 
+.variable,
 .variables {
+  // Should only be '.variable' for most cases
   background-color: $variable;
 }
 
+.function,
 .functions {
   background-color: $function;
 }
 
+.object,
 .objects {
   background-color: $object;
 }
 
-.variablesSection {
-  border: 2px solid color-mod($variable a(0.3));
+.variableSection {
+  border: 2px solid color-mod($variable a($fade-op));
 }
 
-.functionsSection {
-  border: 2px solid color-mod($variable a(0.3));
+.functionSection {
+  border: 2px solid color-mod($function a($fade-op));
 }
 
-.objectsSection {
-  border: 2px solid color-mod($variable a(0.3));
+.objectSection {
+  border: 2px solid color-mod($object a($fade-op));
 }

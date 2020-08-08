@@ -98,7 +98,7 @@
     p {
       // in .visible
       font-size: $small;
-      font-weight: $regular;
+      font-weight: $light;
       color: $light-grey;
       margin-top: 7px;
     }

@@ -1,15 +1,15 @@
-import React, { PureComponent, useEffect, useRef, Component } from 'react'
+import React, { PureComponent, useEffect, useRef } from 'react'
 
-import { color } from '../constants'
+import { color, lineNumberWidth, blockAlphabetHeight } from '../constants'
 import Block from '../block/block'
 import CodeCanvas from '../codeCanvas/codeCanvas'
 import '../../postcss/components/factory/factory.css'
 
-const factoryCanvasDefaultScale = 0.9
+const factoryCanvasDefaultScale = 1
 const canvasSizes = {
-  variables: [3, 3], // maxLineCount, maxBlockCount
-  functions: [199, 19],
-  objects: [49, 9],
+  variable: [3, 3], // maxLineCount, maxBlockCount
+  function: [199, 19],
+  object: [49, 9],
 }
 
 // A section template to add to each tab
@@ -18,12 +18,16 @@ const nativeSection = {
     name: '',
     removable: true,
     type: '' /* Modify before adding... */,
+    /*
+    type should always be 'variable', 'function', and 'object'
+    (w/out 's'!) in the data object and passed along the functions
+    */
     lineStyles: {},
     blocks: {},
   },
   canvasStyle: {
-    left: 0,
-    top: 0,
+    left: lineNumberWidth,
+    top: blockAlphabetHeight,
     scale: factoryCanvasDefaultScale,
   },
 }
@@ -31,7 +35,7 @@ const nativeSectionToAdd = JSON.stringify(nativeSection) // Deep copy
 
 // A single section for each tab content component
 
-const TabSection = ({ type, data }) => {
+const TabSection = ({ type, data, canvasStyle }) => {
   const sectionRef = useRef(),
     sectionResizeRef = useRef()
 
@@ -74,6 +78,7 @@ const TabSection = ({ type, data }) => {
       <div className="codeCanvasHolder">
         <CodeCanvas
           data={data}
+          canvasStyle={canvasStyle}
           maxLineCount={canvasSizes[type][0]}
           maxBlockCount={canvasSizes[type][1]}
         />
@@ -111,7 +116,10 @@ const TabContent = ({ type, data, addSection }) => {
 }
 
 class Tab extends PureComponent {
+  // labels are 'variables', 'functions', and 'objects' (w/ s!)
+
   onClick = () => {
+    // Switch Tab
     const { label, onClick } = this.props
     onClick(label)
   }
@@ -130,16 +138,17 @@ class Tab extends PureComponent {
   }
 }
 
-export default class Factory extends Component {
+export default class Factory extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
       activeTab: 'variables',
       data: {
-        variables: [
+        variable: [
           {
+            /* --- data --- */
             data: {
-              /* data */ name: 'cnv' /* For the section/constructed block */,
+              name: 'cnv' /* For the section/constructed block */,
               removable: false /* Can we delete the section? */,
               type: 'variable' /* What is the type of the customized block? */,
               lineStyles: {} /* lineStyles */,
@@ -174,16 +183,17 @@ export default class Factory extends Component {
                 },
               },
             },
+            /* --- canvasStyle --- */
             canvasStyle: {
-              /* canvasStyle */ left: 0,
-              top: 0,
+              left: lineNumberWidth,
+              top: blockAlphabetHeight,
               scale: factoryCanvasDefaultScale,
               /* TODO: Add section height? */
             },
           },
         ],
-        functions: [],
-        objects: [],
+        function: [],
+        object: [],
       },
     }
     /*
@@ -203,10 +213,20 @@ export default class Factory extends Component {
       let newState = JSON.parse(JSON.stringify(prevState)) // Deep copy
       const toAdd = JSON.parse(nativeSectionToAdd)
       toAdd.data.type = type
-      console.log(toAdd)
       newState.data[type].push(toAdd)
       return newState
     })
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { activeTab, data } = this.state,
+      a = activeTab.slice(0, -1) // remove 's' from activeTab
+
+    if (prevState.data[a] !== data[a])
+      this.props.collect(
+        a /* source - variable, function, object */,
+        data[a] /* data */
+      )
   }
 
   render() {
@@ -237,8 +257,8 @@ export default class Factory extends Component {
           })}
         </ol>
         <TabContent
-          type={activeTab}
-          data={this.state.data[activeTab]}
+          type={activeTab.slice(0, -1)} // Remove 's'
+          data={this.state.data[activeTab.slice(0, -1)]}
           addSection={this.addSection.bind(this)}
         />
         {/* data - array of section objects */}
