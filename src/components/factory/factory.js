@@ -1,4 +1,4 @@
-import React, { PureComponent, useEffect, useRef } from 'react'
+import React, { PureComponent, useEffect, useRef, Component } from 'react'
 
 import { color } from '../constants'
 import Block from '../block/block'
@@ -11,6 +11,25 @@ const canvasSizes = {
   functions: [199, 19],
   objects: [49, 9],
 }
+
+// A section template to add to each tab
+const nativeSection = {
+  data: {
+    name: '',
+    removable: true,
+    type: '' /* Modify before adding... */,
+    lineStyles: {},
+    blocks: {},
+  },
+  canvasStyle: {
+    left: 0,
+    top: 0,
+    scale: factoryCanvasDefaultScale,
+  },
+}
+const nativeSectionToAdd = JSON.stringify(nativeSection) // Deep copy
+
+// A single section for each tab content component
 
 const TabSection = ({ type, data }) => {
   const sectionRef = useRef(),
@@ -59,13 +78,18 @@ const TabSection = ({ type, data }) => {
           maxBlockCount={canvasSizes[type][1]}
         />
       </div>
+      {/* Bottom draggable side for resizing */}
       <div ref={sectionResizeRef} className="sectionResizeBar"></div>
     </div>
   )
 }
 
-const TabContent = ({ type, data }) => {
-  const handleAddSection = () => {}
+// Content component for each tab
+
+const TabContent = ({ type, data, addSection }) => {
+  const handleAddSection = () => {
+    addSection(type)
+  }
 
   return (
     <div id="tabContent">
@@ -106,7 +130,7 @@ class Tab extends PureComponent {
   }
 }
 
-export default class Factory extends PureComponent {
+export default class Factory extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -115,14 +139,16 @@ export default class Factory extends PureComponent {
         variables: [
           {
             data: {
-              name: 'cnv',
-              removable: false,
-              type: 'variable',
-              lineStyles: {},
+              /* data */ name: 'cnv' /* For the section/constructed block */,
+              removable: false /* Can we delete the section? */,
+              type: 'variable' /* What is the type of the customized block? */,
+              lineStyles: {} /* lineStyles */,
               blocks: {
+                /* blocks */
                 '0': {
+                  /* Line number - start from 0 */
                   '0': {
-                    name: 'number',
+                    /* Column number - start from 0 */ name: 'number',
                     input: null,
                     data: [500],
                   },
@@ -136,7 +162,11 @@ export default class Factory extends PureComponent {
                   '0': {
                     name: 'createCanvas',
                     input: [
-                      [0, 0, 0],
+                      [
+                        0,
+                        0,
+                        0,
+                      ] /* Line number, column number, index of the node */,
                       [0, 1, 0],
                     ],
                     data: null,
@@ -145,9 +175,10 @@ export default class Factory extends PureComponent {
               },
             },
             canvasStyle: {
-              left: 0,
+              /* canvasStyle */ left: 0,
               top: 0,
               scale: factoryCanvasDefaultScale,
+              /* TODO: Add section height? */
             },
           },
         ],
@@ -165,6 +196,17 @@ export default class Factory extends PureComponent {
 
   onClickTab = tab => {
     this.setState({ activeTab: tab })
+  }
+
+  addSection(type) {
+    this.setState(prevState => {
+      let newState = JSON.parse(JSON.stringify(prevState)) // Deep copy
+      const toAdd = JSON.parse(nativeSectionToAdd)
+      toAdd.data.type = type
+      console.log(toAdd)
+      newState.data[type].push(toAdd)
+      return newState
+    })
   }
 
   render() {
@@ -194,7 +236,11 @@ export default class Factory extends PureComponent {
             )
           })}
         </ol>
-        <TabContent type={activeTab} data={this.state.data[activeTab]} />{' '}
+        <TabContent
+          type={activeTab}
+          data={this.state.data[activeTab]}
+          addSection={this.addSection.bind(this)}
+        />
         {/* data - array of section objects */}
       </>
     )

@@ -59,13 +59,16 @@ $section-height: 230px;
   button {
     margin: 20px auto 0 20px;
     text-align: center;
-    padding: auto;
-    height: 42px;
-    width: 100px;
+    height: 36px;
+    width: 77px;
     font-size: $regular;
     color: #fff;
     border-radius: $radius;
     cursor: pointer;
+  }
+
+  button:hover {
+    opacity: 0.8;
   }
 }
 

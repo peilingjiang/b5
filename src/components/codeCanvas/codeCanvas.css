@@ -21,7 +21,7 @@
   top: $block-alphabet-height;
   left: 0;
   border-right: 1px solid $light-grey;
-  box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.1);
+  // box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.1);
   background-color: #fff;
 
   .lineNumberRoom {
@@ -49,7 +49,7 @@
   top: 0;
   left: $line-numbers-width;
   border-bottom: 1px solid $light-grey;
-  box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.1);
+  // box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.1);
   background-color: #fff;
   white-space: nowrap;
 
@@ -59,7 +59,7 @@
     width: $block-width;
     height: $block-alphabet-height;
     top: 0;
-    box-shadow: 1px 0 0 0 $dark-white;
+    border-right: 1px solid $dark-white;
     text-align: right;
 
     p {

@@ -241,6 +241,7 @@ export default class CodeCanvas extends PureComponent {
         <BlockAlphabetRoom key={'blockNumber ' + j} num={j} />
       )
     }
+    console.log(this.state)
 
     return (
       <div ref={e => (this.codeCanvas = e)} className="codeCanvas grab">
