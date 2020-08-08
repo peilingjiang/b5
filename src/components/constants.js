@@ -10,3 +10,5 @@ export const lineHeight = 110
 export const lineNumberWidth = 32
 export const blockAlphabetHeight = 24
 export const roomWidth = 218
+
+export const factoryCanvasDefaultScale = 1

@@ -1,7 +1,11 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect, useState, Component } from 'react'
 
 import { drag } from '../main'
-import { lineNumberWidth, blockAlphabetHeight } from '../constants'
+import {
+  lineNumberWidth,
+  blockAlphabetHeight,
+  factoryCanvasDefaultScale,
+} from '../constants'
 import CodeCanvas from '../codeCanvas/codeCanvas'
 import Factory from '../factory/factory'
 import '../../postcss/components/editor/editor.css'
@@ -11,35 +15,93 @@ import Settings from '../../img/toolbar-icon/settings.png'
 import File from '../../img/toolbar-icon/file.png'
 import Share from '../../img/toolbar-icon/share.png'
 
-const Playground = ({ collect }) => {
-  const [playground, setPlayground] = useState({
-    data: {
-      lineStyle: {},
-      blocks: {},
-    },
-    canvasStyle: {
-      left: lineNumberWidth,
-      top: blockAlphabetHeight,
-      scale: 1,
-    },
-  })
+class Playground extends Component {
+  constructor(props) {
+    super(props)
+    const { data, canvasStyle, collect } = props
+    this.state = {
+      data: data,
+      canvasStyle: canvasStyle,
+    }
+  }
 
-  useEffect(() => {
-    collect('playground', playground)
-  }, [playground, collect])
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState !== this.state
+  }
 
-  return (
-    <div id="playground">
-      <CodeCanvas maxLineCount={199} maxBlockCount={9} />
-      <div className="shadow"></div>
-    </div>
-  )
+  render() {
+    return (
+      <div id="playground">
+        <CodeCanvas
+          maxLineCount={199}
+          maxBlockCount={9}
+          data={this.state.data}
+          canvasStyle={this.state.canvasStyle}
+        />
+        <div className="shadow"></div>
+      </div>
+    )
+  }
 }
 
 const Editor = () => {
   const [editor, setEditor] = useState({
-    playground: {},
-    variable: [],
+    playground: {
+      data: {
+        type: 'playground',
+        lineStyles: {},
+        blocks: {},
+      },
+      canvasStyle: {
+        left: lineNumberWidth,
+        top: blockAlphabetHeight,
+        scale: 1,
+      },
+    },
+    variable: [
+      {
+        /* --- data --- */
+        data: {
+          name: 'cnv' /* For the section/constructed block */,
+          removable: false /* Can we delete the section? */,
+          type: 'variable' /* What is the type of the customized block? */,
+          lineStyles: {} /* lineStyles */,
+          blocks: {
+            /* blocks */
+            '0': {
+              /* Line number - start from 0 */
+              '0': {
+                /* Column number - start from 0 */ name: 'number',
+                input: null,
+                data: [500],
+              },
+              '1': {
+                name: 'numberSlider',
+                input: null,
+                data: [500, 0, 2000, 10],
+              },
+            },
+            '1': {
+              '0': {
+                name: 'createCanvas',
+                input: [
+                  [0, 0, 0] /* Line number, column number, index of the node */,
+                  [0, 1, 0],
+                ],
+                data: null,
+              },
+            },
+          },
+        },
+        /* --- canvasStyle --- */
+        canvasStyle: {
+          left: lineNumberWidth,
+          top: blockAlphabetHeight,
+          scale: factoryCanvasDefaultScale,
+          /* TODO: Add section height? */
+        },
+      },
+    ],
     function: [],
     object: [],
   })
@@ -98,7 +160,11 @@ const Editor = () => {
   return (
     <div id="editor" className="split">
       <div ref={leftElement} id="editor-left">
-        <Playground collect={collectEditorData} />
+        <Playground
+          data={editor.playground.data}
+          canvasStyle={editor.playground.canvasStyle}
+          collect={collectEditorData}
+        />
       </div>
 
       {/* Separator here */}
@@ -125,7 +191,12 @@ const Editor = () => {
         </div>
         <div id="factory">
           {/* Variables Functions Objects */}
-          <Factory collect={collectEditorData} />
+          <Factory
+            v={editor.variable}
+            f={editor.function}
+            o={editor.object}
+            collect={collectEditorData}
+          />
           <div className="shadow"></div>
         </div>
       </div>

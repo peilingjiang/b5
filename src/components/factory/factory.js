@@ -1,11 +1,15 @@
-import React, { PureComponent, useEffect, useRef } from 'react'
+import React, { PureComponent, Component, useEffect, useRef } from 'react'
 
-import { color, lineNumberWidth, blockAlphabetHeight } from '../constants'
+import {
+  color,
+  lineNumberWidth,
+  blockAlphabetHeight,
+  factoryCanvasDefaultScale,
+} from '../constants'
 import Block from '../block/block'
 import CodeCanvas from '../codeCanvas/codeCanvas'
 import '../../postcss/components/factory/factory.css'
 
-const factoryCanvasDefaultScale = 1
 const canvasSizes = {
   variable: [3, 3], // maxLineCount, maxBlockCount
   function: [199, 19],
@@ -138,62 +142,16 @@ class Tab extends PureComponent {
   }
 }
 
-export default class Factory extends PureComponent {
+export default class Factory extends Component {
   constructor(props) {
     super(props)
+    const { v, f, o } = props
     this.state = {
       activeTab: 'variables',
       data: {
-        variable: [
-          {
-            /* --- data --- */
-            data: {
-              name: 'cnv' /* For the section/constructed block */,
-              removable: false /* Can we delete the section? */,
-              type: 'variable' /* What is the type of the customized block? */,
-              lineStyles: {} /* lineStyles */,
-              blocks: {
-                /* blocks */
-                '0': {
-                  /* Line number - start from 0 */
-                  '0': {
-                    /* Column number - start from 0 */ name: 'number',
-                    input: null,
-                    data: [500],
-                  },
-                  '1': {
-                    name: 'numberSlider',
-                    input: null,
-                    data: [500, 0, 2000, 10],
-                  },
-                },
-                '1': {
-                  '0': {
-                    name: 'createCanvas',
-                    input: [
-                      [
-                        0,
-                        0,
-                        0,
-                      ] /* Line number, column number, index of the node */,
-                      [0, 1, 0],
-                    ],
-                    data: null,
-                  },
-                },
-              },
-            },
-            /* --- canvasStyle --- */
-            canvasStyle: {
-              left: lineNumberWidth,
-              top: blockAlphabetHeight,
-              scale: factoryCanvasDefaultScale,
-              /* TODO: Add section height? */
-            },
-          },
-        ],
-        function: [],
-        object: [],
+        variable: v,
+        function: f,
+        object: o,
       },
     }
     /*
@@ -220,13 +178,17 @@ export default class Factory extends PureComponent {
 
   componentDidUpdate(prevProps, prevState) {
     const { activeTab, data } = this.state,
-      a = activeTab.slice(0, -1) // remove 's' from activeTab
+      a = activeTab.slice(0, -1)
 
     if (prevState.data[a] !== data[a])
       this.props.collect(
         a /* source - variable, function, object */,
         data[a] /* data */
       )
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState !== this.state
   }
 
   render() {
