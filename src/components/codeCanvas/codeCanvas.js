@@ -6,7 +6,7 @@ import {
   lineNumberWidth,
   blockAlphabetHeight,
 } from '../constants'
-import { LineNumberRoom, BlockAlphabetRoom, BlockRoom } from './codeCanvasFrag'
+import { LineNumberRoom, BlockAlphabetRoom, BlockRoom } from './codeCanvasFrags'
 import '../../postcss/components/codeCanvas/codeCanvas.css'
 
 import DoubleClick from '../../img/icon/dclick.png'
@@ -17,22 +17,22 @@ export default class CodeCanvas extends PureComponent {
 
     > props
     {
-      maxLineCount: 3,
+      maxLineCount: 3, // (Required)
 
-      maxBlockCount: 3,
+      maxBlockCount: 3, // (Required)
       
       data: {
-        name: 'playground', // 'cnv'...
-        removable: false,
-        type: 'playground',
-        lineStyle: {},
-        blocks: {},
+        name: 'cnv', // playground canvas doesn't have
+        removable: false, // playground canvas doesn't have
+        type: 'playground', // (Required)
+        lineStyle: {}, // (Required)
+        blocks: {}, // (Required)
       },
       
       canvasStyle: {
-        left: 0,
-        top: 0,
-        scale: 1,
+        left: 0, // (Required)
+        top: 0, // (Required)
+        scale: 1, // (Required)
       },
     }
 
@@ -43,12 +43,13 @@ export default class CodeCanvas extends PureComponent {
       blockCount: 0, // # of block rooms for each line
       maxIndX: 0, // Max index (with block in the room) on x-axis (horizontally)
       maxIndY: 0, // Max index (with block in the room) on y-axis (vertically)
-      left: props.canvasStyle ? props.canvasStyle.left : lineNumberWidth, // Left offset (codeCanvas) after dragging
-      top: props.canvasStyle ? props.canvasStyle.top : blockAlphabetHeight, // Top offset (codeCanvas) after dragging
-      scale: props.canvasStyle ? props.canvasStyle.scale : 1, // codeCanvas scale
+      /* canvasStyle */
+      left: props.canvasStyle.left, // Left offset (codeCanvas) after dragging
+      top: props.canvasStyle.top, // Top offset (codeCanvas) after dragging
+      scale: props.canvasStyle.scale, // codeCanvas scale
       /* data */
-      lineStyles: props.data ? props.data.lineStyles : {}, // Store all the rooms (with styles modified)
-      blocks: props.data ? props.data.blocks : {}, // Store all the block
+      lineStyles: props.data.lineStyles, // Store all the rooms (with styles modified)
+      blocks: props.data.blocks, // Store all the block
     }
     /*
     this.state.lineStyles only stores lines with modified drawing styles.
@@ -62,34 +63,44 @@ export default class CodeCanvas extends PureComponent {
     }
 
     */
-    this.resizeObserver = new ResizeObserver(entries => {
-      this.handleResize()
-    })
-    this.timer = null // Avoid continuous re-rendering
+    this.zoomTimer = null // Avoid continuous re-rendering
+
     this.maxLineCount = props.maxLineCount
     this.maxBlockCount = props.maxBlockCount
+
+    this.type = props.data.type
   }
 
   componentDidMount() {
-    // Init canvasStyle
-    this.blockAlphabets.style.left = this.blockHome.style.left = this.state.left
-    this.lineNumbers.style.top = this.blockHome.style.top = this.state.top
-
+    /* Init canvasStyle */
+    // Transform
+    this.blockAlphabets.style.left = this.blockHome.style.left =
+      this.state.left + 'px'
+    this.lineNumbers.style.top = this.blockHome.style.top =
+      this.state.top + 'px'
+    // Scale
     this.codeCanvas.style.transform = 'scale(' + this.state.scale + ')'
     this.codeCanvas.style.width = 100 / this.state.scale + '%'
     this.codeCanvas.style.height = 100 / this.state.scale + '%'
 
     // Calc target counts and add listeners
+    this._getSeclusionInd()
     this._refreshCodeCanvasCounts()
     this.codeCanvas.addEventListener('mousedown', this.handlePan, true)
     this.codeCanvas.addEventListener('wheel', this.handleZoom, true)
-    this.resizeObserver.observe(this.codeCanvas)
   }
 
   componentWillUnmount() {
     this.codeCanvas.removeEventListener('mousedown', this.handlePan, true)
     this.codeCanvas.removeEventListener('wheel', this.handleZoom, true)
-    this.resizeObserver.unobserve(this.codeCanvas)
+  }
+
+  _handleStyleUpload() {
+    // 'Upload' styles (left, top, scale) to Editor
+    this.props.collectStyle(
+      this.type,
+      (({ left, top, scale }) => ({ left, top, scale }))(this.state)
+    )
   }
 
   handlePan = e => {
@@ -145,6 +156,9 @@ export default class CodeCanvas extends PureComponent {
         that.codeCanvas.className = 'codeCanvas grab'
         that.codeCanvas.removeEventListener('mousemove', grabCanvas, true)
         that._refreshCodeCanvasCounts()
+
+        that._handleStyleUpload()
+
         document.removeEventListener('mouseup', _listener, true)
       },
       true
@@ -154,27 +168,33 @@ export default class CodeCanvas extends PureComponent {
   handleZoom = e => {
     e.preventDefault()
     // TODO: Update position constrains on zoom
-    this.setState({
-      scale:
-        Math.round(
-          Math.min(
-            Math.max(
-              this.state.scale - e.deltaY * 0.0005 /* Zoom factor */,
-              0.6
-            ),
-            1.1
-          ) * 1000
-        ) / 1000,
-    })
+    this.setState(
+      {
+        scale:
+          Math.round(
+            Math.min(
+              Math.max(
+                this.state.scale - e.deltaY * 0.0005 /* Zoom factor */,
+                0.6
+              ),
+              1.1
+            ) * 1000
+          ) / 1000,
+      },
+      clearTimeout(this.zoomTimer)
+    )
     this.codeCanvas.style.transform = 'scale(' + this.state.scale + ')'
     this.codeCanvas.style.width = 100 / this.state.scale + '%'
     this.codeCanvas.style.height = 100 / this.state.scale + '%'
 
-    this.timer = setTimeout(this._refreshCodeCanvasCounts.bind(this), 300)
+    this.zoomTimer = setTimeout(() => {
+      this._refreshCodeCanvasCounts()
+      this._handleStyleUpload()
+    }, 300)
   }
 
   handleResize = e => {
-    this.timer = setTimeout(this._refreshCodeCanvasCounts.bind(this), 300)
+    this._refreshCodeCanvasCounts()
   }
 
   _getSeclusionInd() {
@@ -221,10 +241,6 @@ export default class CodeCanvas extends PureComponent {
         this.maxBlockCount
       ),
     })
-  }
-
-  componentDidUpdate() {
-    clearTimeout(this.timer)
   }
 
   render() {
