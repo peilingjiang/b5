@@ -64,11 +64,16 @@ export default class CodeCanvas extends PureComponent {
 
     */
     this.zoomTimer = null // Avoid continuous re-rendering
+    this.resizeTimer = null
 
     this.maxLineCount = props.maxLineCount
     this.maxBlockCount = props.maxBlockCount
 
     this.type = props.data.type
+
+    this.resizeObserver = new ResizeObserver(e => {
+      this.handleResize()
+    })
   }
 
   componentDidMount() {
@@ -88,11 +93,13 @@ export default class CodeCanvas extends PureComponent {
     this._refreshCodeCanvasCounts()
     this.codeCanvas.addEventListener('mousedown', this.handlePan, true)
     this.codeCanvas.addEventListener('wheel', this.handleZoom, true)
+    this.resizeObserver.observe(this.codeCanvas)
   }
 
   componentWillUnmount() {
     this.codeCanvas.removeEventListener('mousedown', this.handlePan, true)
     this.codeCanvas.removeEventListener('wheel', this.handleZoom, true)
+    this.resizeObserver.unobserve(this.codeCanvas)
   }
 
   _handleStyleUpload() {
@@ -194,7 +201,9 @@ export default class CodeCanvas extends PureComponent {
   }
 
   handleResize = e => {
-    this._refreshCodeCanvasCounts()
+    this.resizeTimer = setTimeout(() => {
+      this._refreshCodeCanvasCounts()
+    }, 300)
   }
 
   _getSeclusionInd() {
@@ -221,26 +230,29 @@ export default class CodeCanvas extends PureComponent {
   _refreshCodeCanvasCounts() {
     // Get target room counts for lines and blocks per line
     // and update this.state.lineCount and this.state.blockCount
-    this.setState({
-      lineCount: Math.min(
-        Math.max(
-          Math.ceil(
-            (this.codeCanvas.clientHeight - this.state.top) / lineHeight
+    this.setState(
+      {
+        lineCount: Math.min(
+          Math.max(
+            Math.ceil(
+              (this.codeCanvas.clientHeight - this.state.top) / lineHeight
+            ),
+            this.state.maxIndY + 1 // Always one more block room to the most seclusive block
           ),
-          this.state.maxIndY + 1 // Always one more block room to the most seclusive block
+          this.maxLineCount
         ),
-        this.maxLineCount
-      ),
-      blockCount: Math.min(
-        Math.max(
-          Math.ceil(
-            (this.codeCanvas.clientWidth - this.state.left) / roomWidth
+        blockCount: Math.min(
+          Math.max(
+            Math.ceil(
+              (this.codeCanvas.clientWidth - this.state.left) / roomWidth
+            ),
+            this.state.maxIndX + 1
           ),
-          this.state.maxIndX + 1
+          this.maxBlockCount
         ),
-        this.maxBlockCount
-      ),
-    })
+      },
+      clearTimeout(this.resizeTimer) // Clear timer for resize actions
+    )
   }
 
   render() {
