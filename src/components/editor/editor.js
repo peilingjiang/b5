@@ -188,12 +188,15 @@ const Editor = () => {
         <div id="header">
           <div className="toolbarIcon settings">
             <img src={Settings} alt="Settings" />
+            {/* <Emoji emoji="🔨" label="Settings" /> */}
           </div>
           <div className="toolbarIcon file">
             <img src={File} alt="File" />
+            {/* <Emoji emoji="🗒️" label="File" /> */}
           </div>
           <div className="toolbarIcon share">
             <img src={Share} alt="Share" />
+            {/* <Emoji emoji="🔗" label="Share" /> */}
           </div>
           <a
             href="https://github.com/peilingjiang/b5"

@@ -1,11 +1,11 @@
 /* Space */
-$gap: 7px;
+$gap: 6px;
 $radius: 5px;
 $tiny-radius: 3px;
 
 /* Color */
 $dark-white: #efefef;
-$background-grey: #eee;
+$background-grey: #ececec;
 $hover-grey: #dadada;
 $light-grey: #aaa;
 $grey: #777;
@@ -33,8 +33,12 @@ $small: 0.8rem;
 $large: 1.2rem;
 
 /* Icons */
+$icon-total-width: 36px;
+$icon-total-height: 36px;
 $icon-width: 18px;
 $icon-height: 18px;
+
+$head-height: calc($icon-total-height + 2 * $gap);
 
 /* codeCanvas */
 $line-height: 110px;

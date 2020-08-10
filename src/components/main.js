@@ -1,3 +1,5 @@
+import React from 'react'
+
 export function drag(...args) {
   // args[0] - Task Name - separator...
 
@@ -45,4 +47,22 @@ export function drag(...args) {
       true
     )
   }
+}
+
+export const Emoji = props => {
+  /*
+  Takes two props:
+  emoji="😊"
+  label="smile"
+  */
+  return (
+    <span
+      className="emoji"
+      role="img"
+      aria-label={props.label ? props.label : ''}
+      aria-hidden={props.label ? 'false' : 'true'}
+    >
+      {props.emoji}
+    </span>
+  )
 }

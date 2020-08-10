@@ -24,14 +24,19 @@ body {
   background-color: $background-grey;
 }
 
+.emoji {
+  filter: grayscale(100%);
+}
+
 .toolbarIcon {
   display: inline-flex;
-  width: 36px;
-  height: 36px;
+  width: $icon-total-width;
+  height: $icon-total-height;
   background-color: #fff;
   border-radius: 18px;
   margin: $gap 0;
   padding: 0;
+  text-align: center;
   cursor: pointer;
 }
 
@@ -40,13 +45,17 @@ body {
 }
 
 .toolbarIcon:not(:first-child) {
-  margin-left: 9px;
+  margin-left: 8px;
 }
 
 .toolbarIcon img {
   display: block;
   width: $icon-width;
   height: $icon-height;
-  margin: calc((36px - $icon-width) / 2);
-  padding-left: 0.5px; /* Fix icon not centered */
+  margin: auto;
+}
+
+.toolbarIcon .emoji {
+  font-size: $regular;
+  margin: auto;
 }

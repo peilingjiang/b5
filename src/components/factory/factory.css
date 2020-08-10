@@ -103,7 +103,7 @@ $section-height: 230px;
 
   .sectionResizeBar {
     position: absolute;
-    bottom: -3px;
+    bottom: 0px;
     width: 100%;
     height: 3px;
     cursor: ns-resize;

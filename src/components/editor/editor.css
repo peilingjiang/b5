@@ -1,7 +1,5 @@
 @import '../../css/root.css';
 
-$head-height: 50px;
-
 .split {
   width: 100vw;
   height: 100vh;
@@ -15,6 +13,7 @@ $head-height: 50px;
   box-sizing: border-box;
   background-clip: padding-box;
   margin: 0;
+  padding: 0;
   width: $gap;
   user-select: none;
 }
@@ -59,14 +58,14 @@ $head-height: 50px;
   left: 0;
   width: 100%;
   height: 100%;
-  box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, 0.17);
+  box-shadow: inset 0 0 9px 0 rgba(0, 0, 0, 0.1);
   border-radius: $radius;
   pointer-events: none !important;
   z-index: 99999;
 }
 
 #header {
-  height: 50px;
+  height: $head-height;
   width: 100%;
 }
 
@@ -74,6 +73,6 @@ $head-height: 50px;
   position: fixed;
   width: 32px;
   height: 32px;
-  top: 9px;
+  top: calc(($head-height - 32px) / 2);
   right: $gap;
 }

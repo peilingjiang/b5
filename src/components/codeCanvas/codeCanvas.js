@@ -127,32 +127,22 @@ export default class CodeCanvas extends PureComponent {
         x: e.clientX - mouse.x,
         y: e.clientY - mouse.y,
       }
-      that.setState({
-        left: parseInt(
-          // this.state.left
-          (that.blockAlphabets.style.left = that.blockHome.style.left =
-            Math.min(
-              Math.max(
-                mouse.homeLeft + delta.x,
-                -that.maxBlockCount * roomWidth +
-                  that.codeCanvas.offsetWidth / 2
-              ),
-              lineNumberWidth
-            ) + 'px').replace('px', '')
-        ),
-        top: parseInt(
-          // this.state.top
-          (that.lineNumbers.style.top = that.blockHome.style.top =
-            Math.min(
-              Math.max(
-                mouse.homeTop + delta.y,
-                -that.maxLineCount * lineHeight +
-                  that.codeCanvas.offsetHeight / 2
-              ),
-              blockAlphabetHeight
-            ) + 'px').replace('px', '')
-        ),
-      })
+      that.blockAlphabets.style.left = that.blockHome.style.left =
+        Math.min(
+          Math.max(
+            mouse.homeLeft + delta.x,
+            -that.maxBlockCount * roomWidth + that.codeCanvas.offsetWidth / 2
+          ),
+          lineNumberWidth
+        ) + 'px'
+      that.lineNumbers.style.top = that.blockHome.style.top =
+        Math.min(
+          Math.max(
+            mouse.homeTop + delta.y,
+            -that.maxLineCount * lineHeight + that.codeCanvas.offsetHeight / 2
+          ),
+          blockAlphabetHeight
+        ) + 'px'
     }
 
     this.codeCanvas.addEventListener('mousemove', grabCanvas, true)
@@ -162,9 +152,17 @@ export default class CodeCanvas extends PureComponent {
       function _listener() {
         that.codeCanvas.className = 'codeCanvas grab'
         that.codeCanvas.removeEventListener('mousemove', grabCanvas, true)
-        that._refreshCodeCanvasCounts()
 
-        that._handleStyleUpload()
+        that.setState(
+          {
+            left: that.blockHome.offsetLeft,
+            top: that.blockHome.offsetTop,
+          },
+          () => {
+            that._refreshCodeCanvasCounts()
+            that._handleStyleUpload()
+          }
+        )
 
         document.removeEventListener('mouseup', _listener, true)
       },
@@ -174,36 +172,36 @@ export default class CodeCanvas extends PureComponent {
 
   handleZoom = e => {
     e.preventDefault()
-    // TODO: Update position constrains on zoom
-    this.setState(
-      {
-        scale:
-          Math.round(
-            Math.min(
-              Math.max(
-                this.state.scale - e.deltaY * 0.0005 /* Zoom factor */,
-                0.6
-              ),
-              1.1
-            ) * 1000
-          ) / 1000,
-      },
-      clearTimeout(this.zoomTimer)
-    )
+
+    this.setState({
+      scale:
+        Math.round(
+          Math.min(
+            Math.max(
+              this.state.scale - e.deltaY * 0.0005 /* Zoom factor */,
+              0.6
+            ),
+            1.1
+          ) * 1000
+        ) / 1000,
+    })
     this.codeCanvas.style.transform = 'scale(' + this.state.scale + ')'
     this.codeCanvas.style.width = 100 / this.state.scale + '%'
     this.codeCanvas.style.height = 100 / this.state.scale + '%'
 
+    clearTimeout(this.zoomTimer)
     this.zoomTimer = setTimeout(() => {
       this._refreshCodeCanvasCounts()
       this._handleStyleUpload()
-    }, 300)
+    }, 100)
   }
 
   handleResize = e => {
+    clearTimeout(this.resizeTimer)
     this.resizeTimer = setTimeout(() => {
       this._refreshCodeCanvasCounts()
-    }, 300)
+      if (this.type !== 'playground') this._handleStyleUpload()
+    }, 50)
   }
 
   _getSeclusionInd() {
@@ -230,29 +228,26 @@ export default class CodeCanvas extends PureComponent {
   _refreshCodeCanvasCounts() {
     // Get target room counts for lines and blocks per line
     // and update this.state.lineCount and this.state.blockCount
-    this.setState(
-      {
-        lineCount: Math.min(
-          Math.max(
-            Math.ceil(
-              (this.codeCanvas.clientHeight - this.state.top) / lineHeight
-            ),
-            this.state.maxIndY + 1 // Always one more block room to the most seclusive block
+    this.setState({
+      lineCount: Math.min(
+        Math.max(
+          Math.ceil(
+            (this.codeCanvas.clientHeight - this.state.top) / lineHeight
           ),
-          this.maxLineCount
+          this.state.maxIndY + 1 // Always one more block room to the most seclusive block
         ),
-        blockCount: Math.min(
-          Math.max(
-            Math.ceil(
-              (this.codeCanvas.clientWidth - this.state.left) / roomWidth
-            ),
-            this.state.maxIndX + 1
+        this.maxLineCount
+      ),
+      blockCount: Math.min(
+        Math.max(
+          Math.ceil(
+            (this.codeCanvas.clientWidth - this.state.left) / roomWidth
           ),
-          this.maxBlockCount
+          this.state.maxIndX + 1
         ),
-      },
-      clearTimeout(this.resizeTimer) // Clear timer for resize actions
-    )
+        this.maxBlockCount
+      ),
+    })
   }
 
   render() {

@@ -26,7 +26,7 @@ const TabSection = ({
     e.preventDefault()
     let mouseDown = {
       e,
-      sectionHeight: sectionRef.current.clientHeight,
+      sectionHeight: sectionRef.current.offsetHeight,
     }
 
     const handleSectionResize = e => {
@@ -47,17 +47,28 @@ const TabSection = ({
   }
 
   const collectStyleWrapper = (source, data) => {
-    collectStyle(source, data, index)
+    /* Use offsetHeight to include border width */
+    collectStyle(
+      source,
+      { ...data, sectionHeight: sectionRef.current.offsetHeight }, // Shallow copy as data is one-level object here
+      index
+    )
   }
 
   useEffect(() => {
     const effectSectionResizeRef = sectionResizeRef.current
-    if (effectSectionResizeRef)
-      effectSectionResizeRef.addEventListener('mousedown', handleDrag, true)
+    effectSectionResizeRef.addEventListener('mousedown', handleDrag, true)
     return () => {
       effectSectionResizeRef.removeEventListener('mousedown', handleDrag, true)
     }
-  }, [])
+  }, [sectionResizeRef])
+
+  // Init sectionHeight
+  useEffect(() => {
+    if (sectionRef.current.offsetHeight !== canvasStyle.sectionHeight) {
+      sectionRef.current.style.height = canvasStyle.sectionHeight + 'px'
+    }
+  }, [sectionRef, canvasStyle])
 
   return (
     <div ref={sectionRef} className={'section ' + type + 'Section'}>
