@@ -1,0 +1,56 @@
+@import '../../css/root.css';
+
+$viewer-min-width: 150px;
+$viewer-min-height: 150px;
+
+#viewer {
+  display: block;
+  position: absolute;
+  top: 50vh;
+  left: 60vw;
+  width: auto;
+  height: auto;
+  border-radius: $radius;
+  border: $regular-border;
+  user-select: none;
+  overflow: auto;
+  background-color: $background-grey;
+  box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.15);
+  z-index: 9999999; // Above everything
+
+  .header {
+    user-select: none;
+
+    .toolbarIcon:first-of-type {
+      margin-left: $gap;
+    }
+  }
+
+  #viewerCanvas {
+    display: flex;
+    top: $head-height;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+    min-width: $viewer-min-width;
+    min-height: $viewer-min-height;
+    margin: 0;
+    padding: 0;
+  }
+
+  .p5Canvas {
+    margin: 0;
+    padding: 0;
+  }
+
+  .viewerNoLoop {
+    display: block;
+    width: 400px;
+    height: 150px;
+  }
+}
+
+.popup {
+  min-width: $viewer-min-width;
+  min-height: calc($head-height + $viewer-min-height);
+}

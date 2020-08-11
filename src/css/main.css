@@ -22,40 +22,61 @@
 
 body {
   background-color: $background-grey;
+  overflow: hidden;
 }
 
 .emoji {
   filter: grayscale(100%);
 }
 
-.toolbarIcon {
-  display: inline-flex;
-  width: $icon-total-width;
-  height: $icon-total-height;
-  background-color: #fff;
-  border-radius: 18px;
-  margin: $gap 0;
-  padding: 0;
-  text-align: center;
-  cursor: pointer;
+.header {
+  height: $head-height;
+  user-select: none;
+  width: 100%;
+
+  .toolbarIcon {
+    display: inline-flex;
+    width: $icon-total-width;
+    height: $icon-total-height;
+    background-color: #fff;
+    border-radius: 18px;
+    border: $regular-border;
+    margin: $gap 0;
+    padding: 0;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .toolbarIcon:hover {
+    background-color: $hover-grey;
+  }
+
+  .toolbarIcon:active {
+    background-color: $light-grey;
+  }
+
+  .toolbarIcon:not(:first-child) {
+    margin-left: 8px;
+  }
+
+  .toolbarIcon img {
+    display: block;
+    width: $icon-width;
+    height: $icon-height;
+    margin: auto;
+  }
+
+  .toolbarIcon .emoji {
+    font-size: $normal;
+    margin: auto;
+  }
 }
 
-.toolbarIcon:hover {
-  background-color: $hover-grey;
+// For all grab and grabbing...
+.grab {
+  cursor: grab;
 }
 
-.toolbarIcon:not(:first-child) {
-  margin-left: 8px;
-}
-
-.toolbarIcon img {
-  display: block;
-  width: $icon-width;
-  height: $icon-height;
-  margin: auto;
-}
-
-.toolbarIcon .emoji {
-  font-size: $regular;
-  margin: auto;
+.grabbing {
+  cursor: grabbing;
 }

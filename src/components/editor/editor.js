@@ -12,13 +12,12 @@ import Factory from '../factory/factory'
 import '../../postcss/components/editor/editor.css'
 
 import Logo from '../../img/logo/logo-original.svg'
-import Settings from '../../img/toolbar-icon/settings.png'
-import File from '../../img/toolbar-icon/file.png'
-import Share from '../../img/toolbar-icon/share.png'
+import Settings from '../../img/toolbar-icon/settings.svg'
+import File from '../../img/toolbar-icon/file.svg'
+import Share from '../../img/toolbar-icon/share.svg'
 
-const Editor = () => {
+const Editor = ({ bridge }) => {
   /* Editor data */
-
   const [editor, setEditor] = useState({
     playground: {
       type: 'playground',
@@ -67,7 +66,6 @@ const Editor = () => {
   })
 
   /* canvasStyle is stored separately in Editor (for update efficiency) */
-
   const [editorCanvasStyle, setEditorCanvasStyle] = useState({
     playground: {
       left: lineNumberWidth,
@@ -95,13 +93,13 @@ const Editor = () => {
 
   // Editor updated
   useEffect(() => {
-    // console.log('editor', editor)
-  }, [editor])
+    bridge(editor)
+  }, [editor, bridge])
 
   // Editor style (of some codeCanvas) updated
   useEffect(() => {
     // console.log('editorCanvasStyle', editorCanvasStyle);
-  }, [editorCanvasStyle])
+  }, [editorCanvasStyle, bridge])
 
   // Init draggable center divider
   useEffect(() => {
@@ -185,14 +183,12 @@ const Editor = () => {
       <div ref={separator} className="separator"></div>
 
       <div ref={rightElement} id="editor-right">
-        <div id="header">
+        <div className="header">
           <div className="toolbarIcon settings">
             <img src={Settings} alt="Settings" />
-            {/* <Emoji emoji="🔨" label="Settings" /> */}
           </div>
           <div className="toolbarIcon file">
             <img src={File} alt="File" />
-            {/* <Emoji emoji="🗒️" label="File" /> */}
           </div>
           <div className="toolbarIcon share">
             <img src={Share} alt="Share" />

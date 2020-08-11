@@ -4,37 +4,30 @@
   width: 100%;
   height: 100%;
   transform-origin: top left;
+  user-select: none;
   overflow: hidden;
 }
 
-.grab {
-  cursor: grab;
-}
-
-.grabbing {
-  cursor: grabbing;
-}
-
 .lineNumbers {
+  // Fixed to left
   position: absolute;
   width: $line-numbers-width;
   top: $block-alphabet-height;
   left: 0;
-  border-right: 1px solid $light-grey;
-  // box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.1);
-  background-color: #fff;
+  border-right: 1px solid $grey;
+  background-color: $near-white;
 
   .lineNumberRoom {
     position: relative;
     width: $line-numbers-width;
     height: $line-height;
-    box-shadow: 0 1px 0 0 $hover-grey;
+    box-shadow: 0 1px 0 0 $hover-grey; // Bottom
     text-align: right;
 
     p {
-      font-size: $regular;
-      font-weight: $medium;
-      color: $light-grey;
+      font-size: $normal;
+      font-weight: $regular;
+      color: $grey;
       position: absolute;
       bottom: 0;
       right: 0;
@@ -44,13 +37,13 @@
 }
 
 .blockAlphabets {
+  // Fixed to top
   position: absolute;
   height: $block-alphabet-height;
   top: 0;
   left: $line-numbers-width;
-  border-bottom: 1px solid $light-grey;
-  // box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.1);
-  background-color: #fff;
+  border-bottom: 1px solid $grey;
+  background-color: $near-white;
   white-space: nowrap;
 
   .blockAlphabetRoom {
@@ -63,9 +56,9 @@
     text-align: right;
 
     p {
-      font-size: $regular;
-      font-weight: $medium;
-      color: $light-grey;
+      font-size: $normal;
+      font-weight: $regular;
+      color: $grey;
       margin: 2.5px 5px auto auto;
     }
   }
@@ -81,7 +74,7 @@
     width: $block-width;
     height: $line-height;
     border-right: 1px solid $dark-white;
-    box-shadow: 0 1px 0 0 $hover-grey; /* Avoid 45 degree border joint */
+    box-shadow: 0 1px 0 0 $hover-grey; /* Bottom, avoid 45 degree border joint */
   }
 
   .visible {
@@ -113,10 +106,10 @@
   position: absolute;
   top: 0;
   left: 0;
-  border: 1px solid $light-grey;
+  border: 1px solid $grey;
   border-top: none;
   border-left: none;
-  background-color: #fff;
+  background-color: $near-white;
   width: $line-numbers-width;
   height: $block-alphabet-height;
 }

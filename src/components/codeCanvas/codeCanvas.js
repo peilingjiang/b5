@@ -7,9 +7,10 @@ import {
   blockAlphabetHeight,
 } from '../constants'
 import { LineNumberRoom, BlockAlphabetRoom, BlockRoom } from './codeCanvasFrags'
+import CodeBlocks from '../codeBlocks/codeBlocks'
 import '../../postcss/components/codeCanvas/codeCanvas.css'
 
-import DoubleClick from '../../img/icon/dclick.png'
+import DoubleClick from '../../img/icon/dclick.svg'
 
 export default class CodeCanvas extends PureComponent {
   constructor(props) {
@@ -289,6 +290,7 @@ export default class CodeCanvas extends PureComponent {
             <img src={DoubleClick} alt="Double Click" />
             <p>Double click to add a block</p>
           </div>
+          <CodeBlocks data={this.state.blocks} />
         </div>
 
         {/* blockAlphabets */}

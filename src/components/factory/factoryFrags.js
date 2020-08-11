@@ -1,6 +1,6 @@
 import React, { PureComponent, useEffect, useRef } from 'react'
 
-import Block from '../block/block'
+import BlockPreview from '../blockPreview/blockPreview'
 import CodeCanvas from '../codeCanvas/codeCanvas'
 
 const canvasSizes = {
@@ -72,7 +72,7 @@ const TabSection = ({
 
   return (
     <div ref={sectionRef} className={'section ' + type + 'Section'}>
-      <Block type={type} data={data} />
+      <BlockPreview type={type} data={data} />
       <div className="codeCanvasHolder">
         <CodeCanvas
           data={data}

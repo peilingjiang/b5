@@ -29,9 +29,10 @@ $section-height: 230px;
     text-align: center;
     margin-top: 12px;
     width: 128px;
-    font-size: $regular;
+    font-size: $normal;
+    font-weight: $medium;
     line-height: 100%;
-    padding: calc(18px - $regular / 2) 0;
+    padding: calc(18px - $normal / 2) 0;
     border-collapse: separate;
     border-radius: $radius $radius 0 0;
     color: #fff;
@@ -61,9 +62,11 @@ $section-height: 230px;
     text-align: center;
     height: 36px;
     width: 77px;
-    font-size: $regular;
+    font-size: $normal;
+    font-weight: $medium;
     color: #fff;
     border-radius: $radius;
+    user-select: none;
     cursor: pointer;
   }
 

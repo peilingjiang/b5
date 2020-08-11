@@ -38,6 +38,7 @@
   position: relative;
   background-color: #fff;
   border-radius: $radius;
+  border: $regular-border;
   width: calc(100% - $gap);
   overflow: hidden;
 }
@@ -59,14 +60,8 @@
   width: 100%;
   height: 100%;
   box-shadow: inset 0 0 9px 0 rgba(0, 0, 0, 0.1);
-  border-radius: $radius;
   pointer-events: none !important;
   z-index: 99999;
-}
-
-#header {
-  height: $head-height;
-  width: 100%;
 }
 
 #logo {
