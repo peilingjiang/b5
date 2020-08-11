@@ -1,0 +1,3 @@
+[submodule "src/b5.js"]
+	path = src/b5.js
+	url = https://github.com/peilingjiang/b5.js.git
