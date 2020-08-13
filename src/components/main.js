@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 
 export function drag(...args) {
   // args[0] - Task Name - separator...
@@ -65,4 +65,12 @@ export const Emoji = props => {
       {props.emoji}
     </span>
   )
+}
+
+export function usePrevious(value) {
+  const ref = useRef()
+  useEffect(() => {
+    ref.current = value
+  })
+  return ref.current
 }

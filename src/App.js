@@ -10,7 +10,8 @@ function App() {
   const [data, setData] = useState({})
 
   const bridgeData = d => {
-    setData(d)
+    // Send data from Editor to Viewer
+    setData(JSON.parse(JSON.stringify(d)))
   }
 
   return (

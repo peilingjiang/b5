@@ -7,8 +7,8 @@ import NoLoop from '../../img/toolbar-icon/noLoop.svg'
 import Loop from '../../img/toolbar-icon/loop.svg'
 import ViewerNoLoop from '../../img/icon/viewerNoLoop.svg'
 
-const Viewer = data => {
-  const [loop, setLoop] = useState(true)
+const Viewer = ({ data }) => {
+  const [loop, setLoop] = useState(true) // Render the canvas or not
 
   const viewer = useRef(),
     viewerHeader = useRef()

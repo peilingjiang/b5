@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
 
-import { drag } from '../main'
+import { drag, usePrevious } from '../main'
 import {
   lineNumberWidth,
   blockAlphabetHeight,
@@ -22,10 +22,19 @@ const Editor = ({ bridge }) => {
     playground: {
       type: 'playground',
       lineStyles: {},
-      blocks: {},
+      blocks: {
+        '0': {
+          '0': {
+            name: 'background',
+            input: [],
+            data: null,
+          },
+        },
+      },
     },
     factory: {
       variable: [
+        // 0 (The whole section canvas)
         {
           /* --- data --- */
           name: 'cnv' /* For the section/constructed block */,
@@ -37,14 +46,15 @@ const Editor = ({ bridge }) => {
             '0': {
               /* Line number - start from 0 */
               '0': {
-                /* Column number - start from 0 */ name: 'number',
+                /* Column number - start from 0 */
+                name: 'number',
                 input: null,
                 data: [500],
               },
               '1': {
                 name: 'numberSlider',
                 input: null,
-                data: [500, 0, 2000, 10],
+                data: [300, 0, 1000, 100],
               },
             },
             '1': {
@@ -59,6 +69,7 @@ const Editor = ({ bridge }) => {
             },
           },
         },
+        // 1...
       ],
       function: [],
       object: [],
@@ -92,14 +103,19 @@ const Editor = ({ bridge }) => {
     separator = useRef()
 
   // Editor updated
+  const [sentEditor, setSentEditor] = useState(false) // Ever sent to Viewer?
+  const prevEditor = usePrevious(editor) // Previous editor state
   useEffect(() => {
-    bridge(editor)
-  }, [editor, bridge])
+    if (editor !== prevEditor || !sentEditor) {
+      setSentEditor(true)
+      bridge(editor)
+    }
+  }, [editor, prevEditor, sentEditor, bridge])
 
   // Editor style (of some codeCanvas) updated
   useEffect(() => {
-    // console.log('editorCanvasStyle', editorCanvasStyle);
-  }, [editorCanvasStyle, bridge])
+    // Store the styles to localStorage
+  }, [editorCanvasStyle])
 
   // Init draggable center divider
   useEffect(() => {
@@ -126,19 +142,12 @@ const Editor = ({ bridge }) => {
 
   */
 
+  // ** setEditor **
   const collectEditorData = (source, data) => {
     // Combine data from all sources: playground, variable, function, object
-    setEditor(prevState => {
-      if (prevState[source] !== data) {
-        let newState = JSON.parse(JSON.stringify(prevState))
-        newState[source] = data
-        return newState
-      } else {
-        return prevState
-      }
-    })
   }
 
+  // ** setEditorCanvasStyle **
   const collectEditorCanvasStyle = (source, data, index = 0) => {
     setEditorCanvasStyle(prevState => {
       let newState = JSON.parse(JSON.stringify(prevState))

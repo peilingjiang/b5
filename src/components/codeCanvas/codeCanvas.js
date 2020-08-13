@@ -95,12 +95,16 @@ export default class CodeCanvas extends PureComponent {
     this.codeCanvas.addEventListener('mousedown', this.handlePan, true)
     this.codeCanvas.addEventListener('wheel', this.handleZoom, true)
     this.resizeObserver.observe(this.codeCanvas)
+
+    this.codeCanvas.addEventListener('contextmenu', this.rightClick, true)
   }
 
   componentWillUnmount() {
     this.codeCanvas.removeEventListener('mousedown', this.handlePan, true)
     this.codeCanvas.removeEventListener('wheel', this.handleZoom, true)
     this.resizeObserver.unobserve(this.codeCanvas)
+
+    this.codeCanvas.removeEventListener('contextmenu', this.rightClick, true)
   }
 
   _handleStyleUpload() {
@@ -201,8 +205,13 @@ export default class CodeCanvas extends PureComponent {
     clearTimeout(this.resizeTimer)
     this.resizeTimer = setTimeout(() => {
       this._refreshCodeCanvasCounts()
+      // Upload sectionHeight
       if (this.type !== 'playground') this._handleStyleUpload()
     }, 50)
+  }
+
+  rightClick = e => {
+    e.preventDefault()
   }
 
   _getSeclusionInd() {

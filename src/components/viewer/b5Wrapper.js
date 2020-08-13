@@ -1,29 +1,44 @@
-import React, { PureComponent, createRef } from 'react'
+import React, { Component, createRef } from 'react'
 import p5 from 'p5'
 
-// import b5 from '../../b5.js/src/b5'
+import b5 from '../../b5.js/src/app'
 
-export default class B5Wrapper extends PureComponent {
+export default class B5Wrapper extends Component {
   constructor(props) {
     super(props)
     this.viewerCanvas = createRef()
   }
 
   Sketch = p => {
-    // const b = new b5(this.props.data)
+    const b = new b5(this.props.data)
 
     p.setup = () => {
-      p.createCanvas(500, 300)
-      p.background('#fff')
+      b.runSetup(p) // Run Factory blocks
     }
 
     p.draw = () => {
-      p.noLoop()
+      b.runDraw(p) // Run Playground blocks
     }
   }
 
+  _initCanvas() {
+    const viewerCanvasCurrent = this.viewerCanvas.current
+
+    // Remove the previous canvas
+    while (viewerCanvasCurrent.firstChild)
+      viewerCanvasCurrent.removeChild(viewerCanvasCurrent.firstChild)
+
+    this.myP5 = new p5(this.Sketch, viewerCanvasCurrent)
+  }
+
   componentDidMount() {
-    this.myP5 = new p5(this.Sketch, this.viewerCanvas.current)
+    // Ignore initial rendering when data is {}
+    if (Object.keys(this.props.data).length !== 0) this._initCanvas()
+  }
+
+  componentDidUpdate(prevProps) {
+    // Only re-render when data changes
+    if (prevProps.data !== this.props.data) this._initCanvas()
   }
 
   render() {
