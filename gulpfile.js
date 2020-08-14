@@ -8,9 +8,11 @@ import assets from 'postcss-assets'
 import scss from 'postcss-scss'
 import postcssColorMod from 'postcss-color-mod-function'
 
-const { task, src, dest, series } = pkg
+const { task, src, dest, series, watch } = pkg
 
-task('css', () => {
+/* PostCSS */
+
+task('css', function () {
   return src(['./src/**/*.css', '!./src/postcss/**/*.css'])
     .pipe(
       postcss(
@@ -32,4 +34,6 @@ task('css', () => {
     .pipe(dest('./src/postcss'))
 })
 
-task('default', series('css'))
+task('default', function () {
+  watch(['./src/**/*.css', '!./src/postcss/**/*.css'], series('css'))
+})
