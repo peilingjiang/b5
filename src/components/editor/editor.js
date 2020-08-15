@@ -27,7 +27,7 @@ const Editor = ({ bridge }) => {
           '0': {
             name: 'background',
             input: [],
-            data: null,
+            inlineData: null,
           },
         },
       },
@@ -49,12 +49,12 @@ const Editor = ({ bridge }) => {
                 /* Column number - start from 0 */
                 name: 'number',
                 input: null,
-                data: [500],
+                inlineData: [500],
               },
               '1': {
                 name: 'numberSlider',
                 input: null,
-                data: [300, 0, 1000, 100],
+                inlineData: [300, 0, 1000, 100],
               },
             },
             '1': {
@@ -64,7 +64,7 @@ const Editor = ({ bridge }) => {
                   [0, 0, 0] /* Line number, column number, index of the node */,
                   [0, 1, 0],
                 ],
-                data: null,
+                inlineData: null,
               },
             },
           },
@@ -143,7 +143,7 @@ const Editor = ({ bridge }) => {
   */
 
   // ** setEditor **
-  const collectEditorData = (source, data) => {
+  const collectEditorData = (source, data, index = 0) => {
     // Combine data from all sources: playground, variable, function, object
   }
 

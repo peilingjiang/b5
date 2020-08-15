@@ -4,15 +4,12 @@ import { lineHeight, roomWidth } from '../constants'
 
 /*
  * All Block and Line counts start from 0
- * while will all be rendered from 1
+ * while will all be rendered as starting from 1/a
  */
 
 export class LineNumberRoom extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      style: props.style || {},
-    }
     this.y = props.num // Start from 0
   }
 

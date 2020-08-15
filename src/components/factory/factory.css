@@ -21,7 +21,7 @@ $section-height: 230px;
   background-color: #fff;
   box-sizing: border-box;
   overflow: hidden;
-  z-index: 9999;
+  z-index: 90000;
 
   .tab {
     position: relative;

@@ -13,6 +13,7 @@ const { task, src, dest, series, watch } = pkg
 /* PostCSS */
 
 task('css', function () {
+  console.log('Building PostCSS...')
   return src(['./src/**/*.css', '!./src/postcss/**/*.css'])
     .pipe(
       postcss(
@@ -35,5 +36,6 @@ task('css', function () {
 })
 
 task('default', function () {
+  task('css')() // Build a new one by default
   watch(['./src/**/*.css', '!./src/postcss/**/*.css'], series('css'))
 })

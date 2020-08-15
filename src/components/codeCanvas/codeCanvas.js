@@ -7,7 +7,7 @@ import {
   blockAlphabetHeight,
 } from '../constants'
 import { LineNumberRoom, BlockAlphabetRoom, BlockRoom } from './codeCanvasFrags'
-import CodeBlocks from '../codeBlocks/codeBlocks'
+import CodeBlocks from './codeBlocks/codeBlocks'
 import '../../postcss/components/codeCanvas/codeCanvas.css'
 
 import DoubleClick from '../../img/icon/dclick.svg'
@@ -266,16 +266,12 @@ export default class CodeCanvas extends PureComponent {
       blockHome = []
     for (let i = 0; i < this.state.lineCount; i++) {
       // Key - 'line 17'
-      lineNumbers.push(
-        <LineNumberRoom
-          key={'lineNumber ' + i}
-          num={i}
-          style={this.state.lineStyles[i]}
-        />
-      )
+      lineNumbers.push(<LineNumberRoom key={'lineNumber ' + i} num={i} />)
       for (let j = 0; j < this.state.blockCount; j++) {
         // Key - 'block 2 17' (line 2, column 17)
-        blockHome.push(<BlockRoom key={'block ' + i + ' ' + j} y={i} x={j} />)
+        blockHome.push(
+          <BlockRoom key={'blockRoom ' + i + ' ' + j} y={i} x={j} />
+        )
       }
     }
     for (let j = 0; j < this.state.blockCount; j++) {
@@ -289,17 +285,16 @@ export default class CodeCanvas extends PureComponent {
         {/* blockHome */}
         <div ref={e => (this.blockHome = e)} className="blockHome">
           {blockHome}
-          <div
-            className={
-              Object.keys(this.state.blocks).length === 0
-                ? 'visible'
-                : 'invisible'
-            }
-          >
-            <img src={DoubleClick} alt="Double Click" />
-            <p>Double click to add a block</p>
-          </div>
-          <CodeBlocks data={this.state.blocks} />
+
+          {/* Tips or codeBlocks */}
+          {Object.keys(this.state.blocks).length === 0 ? (
+            <div className="visible">
+              <img src={DoubleClick} alt="Double Click" />
+              <p>Double click to add a block</p>
+            </div>
+          ) : (
+            <CodeBlocks data={this.state.blocks} />
+          )}
         </div>
 
         {/* blockAlphabets */}
