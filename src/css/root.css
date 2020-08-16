@@ -1,22 +1,24 @@
 /* Space */
 $gap: 6px;
 $radius: 5px;
-$tiny-radius: 3px;
+$tiny-radius: 4px;
 
 /* Color */
 $near-white: #fdfdfd;
 $dark-white: #efefef;
 $background-grey: #eee;
-$hover-grey: #dedede;
+$hover-grey: #ddd; /* Default wire grey */
 $light-grey: #aaa; /* Active grey */
 $grey: #777;
 $dark-grey: #555;
 $black: #333;
 
+$default: #ccc;
 $variable: #f7b500;
 $function: #50d764;
-$object: #34e4bd;
+$object: #44d7b6;
 $draw: #f04979;
+$library: #b55bcd;
 
 /* Opacity */
 $fade-op: 0.3;
@@ -30,8 +32,8 @@ $semi-bold: 600;
 $bold: 700;
 
 /* Font Size */
-$normal: 1rem;
-$small: 0.8rem;
+$normal: 1rem; // 16px
+$small: 0.875rem; // 14px
 $large: 1.2rem;
 
 /* Icons */
@@ -48,4 +50,8 @@ $line-height: 110px;
 $line-numbers-width: 32px;
 $block-alphabet-height: 24px;
 
+$node-size: 9px;
+$node-border-width: 1px;
+
 $regular-border: 1px solid $hover-grey;
+$node-border: $node-border-width solid;

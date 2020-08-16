@@ -1,8 +1,10 @@
 export const color = {
+  default: '#cccccc',
   variable: '#f7b500',
   function: '#50d764',
-  object: '#34e4bd',
+  object: '#44d7b6',
   draw: '#f04979',
+  library: '#b55bcd',
 }
 
 /* codeCanvas */
@@ -11,6 +13,6 @@ export const lineNumberWidth = 32
 export const blockAlphabetHeight = 24
 export const roomWidth = 218
 
-export const sectionHeightDefault = 230
+export const sectionHeightDefault = 256
 
 export const factoryCanvasDefaultScale = 1

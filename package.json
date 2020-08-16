@@ -14,13 +14,14 @@
     "uuid": "^8.3.0"
   },
   "scripts": {
-    "css": "(rm -rf ./src/postcss || true) && gulp",
+    "css": "gulp",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,html,css}\"",
-    "deploy": "run-s css build"
+    "dev": "NODE_ENV=development npm-run-all format css",
+    "deploy": "NODE_ENV=production npm-run-all css build"
   },
   "eslintConfig": {
     "extends": "react-app"

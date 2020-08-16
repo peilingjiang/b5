@@ -16,6 +16,7 @@
   left: 0;
   border-right: 1px solid $grey;
   background-color: $near-white;
+  z-index: 100000;
 
   .lineNumberRoom {
     position: relative;
@@ -45,6 +46,7 @@
   border-bottom: 1px solid $grey;
   background-color: $near-white;
   white-space: nowrap;
+  z-index: 110000;
 
   .blockAlphabetRoom {
     position: relative;
@@ -112,4 +114,5 @@
   background-color: $near-white;
   width: $line-numbers-width;
   height: $block-alphabet-height;
+  z-index: 120000;
 }

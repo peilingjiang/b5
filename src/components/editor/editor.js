@@ -26,8 +26,12 @@ const Editor = ({ bridge }) => {
         '0': {
           '0': {
             name: 'background',
-            input: [],
-            inlineData: null,
+            input: {
+              '0': null,
+              '1': null,
+              '2': null,
+              '3': null,
+            },
           },
         },
       },
@@ -48,23 +52,25 @@ const Editor = ({ bridge }) => {
               '0': {
                 /* Column number - start from 0 */
                 name: 'number',
-                input: null,
                 inlineData: [500],
+                output: { '0': [1, 0, 0] }, // For block rendering
               },
               '1': {
                 name: 'numberSlider',
-                input: null,
                 inlineData: [300, 0, 1000, 100],
+                output: { '0': [1, 0, 1] },
               },
             },
             '1': {
               '0': {
                 name: 'createCanvas',
-                input: [
-                  [0, 0, 0] /* Line number, column number, index of the node */,
-                  [0, 1, 0],
-                ],
-                inlineData: null,
+                input: {
+                  '0': [0, 0, 0], // Line number, column number, index of the node
+                  '1': [0, 1, 0],
+                },
+                output: {
+                  '0': null,
+                },
               },
             },
           },

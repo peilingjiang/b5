@@ -11,7 +11,7 @@
   font-kerning: normal;
 
   font-family: 'Inconsolata', monospace;
-  letter-spacing: -0.1px; /* For Inconsolata */
+  // letter-spacing: -0.1px; /* For Inconsolata */
 }
 
 *,

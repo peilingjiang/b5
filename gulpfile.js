@@ -1,5 +1,6 @@
 import postcss from 'gulp-postcss'
 import pkg from 'gulp'
+import del from 'del'
 
 import autoprefixer from 'autoprefixer'
 import cssnano from 'cssnano'
@@ -11,6 +12,10 @@ import postcssColorMod from 'postcss-color-mod-function'
 const { task, src, dest, series, watch } = pkg
 
 /* PostCSS */
+
+task('clean', function () {
+  return del(['./src/postcss/**'])
+})
 
 task('css', function () {
   console.log('Building PostCSS...')
@@ -35,7 +40,12 @@ task('css', function () {
     .pipe(dest('./src/postcss'))
 })
 
-task('default', function () {
-  task('css')() // Build a new one by default
-  watch(['./src/**/*.css', '!./src/postcss/**/*.css'], series('css'))
+task('watch', function () {
+  task('css')()
+  return watch(['./src/**/*.css', '!./src/postcss/**/*.css'], series('css'))
 })
+
+task(
+  'default',
+  series('clean', process.env.NODE_ENV === 'development' ? 'watch' : 'css')
+)
