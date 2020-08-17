@@ -46,11 +46,17 @@ const TabSection = ({
     )
   }
 
-  const collectStyleWrapper = (source, data) => {
+  // setEditor functions...
+  const relocateWrapper = (...args) => {
+    // args - x1, y1, x2, y2, source
+    collect.relocate(...args, index)
+  }
+
+  const collectStyleWrapper = (data, source) => {
     /* Use offsetHeight to include border width */
     collectStyle(
-      source,
       { ...data, sectionHeight: sectionRef.current.offsetHeight }, // Shallow copy as data is one-level object here
+      source,
       index
     )
   }
@@ -70,6 +76,10 @@ const TabSection = ({
     }
   }, [sectionRef, canvasStyle])
 
+  const collectWrapper = {
+    relocate: relocateWrapper,
+  }
+
   return (
     <div ref={sectionRef} className={'section ' + type + 'Section'}>
       <BlockPreview type={type} data={data} />
@@ -79,7 +89,7 @@ const TabSection = ({
           canvasStyle={canvasStyle}
           maxLineCount={canvasSizes[type][0]}
           maxBlockCount={canvasSizes[type][1]}
-          collect={collect}
+          collect={collectWrapper}
           collectStyle={collectStyleWrapper}
         />
       </div>

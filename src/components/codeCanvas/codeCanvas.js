@@ -49,8 +49,8 @@ export default class CodeCanvas extends PureComponent {
       top: props.canvasStyle.top, // Top offset (codeCanvas) after dragging
       scale: props.canvasStyle.scale, // codeCanvas scale
       /* data */
-      lineStyles: props.data.lineStyles, // Store all the rooms (with styles modified)
-      blocks: props.data.blocks, // Store all the block
+      // lineStyles: props.data.lineStyles, // Store all the rooms (with styles modified)
+      // blocks: props.data.blocks, // Store all the block
     }
     /*
     this.state.lineStyles only stores lines with modified drawing styles.
@@ -75,6 +75,9 @@ export default class CodeCanvas extends PureComponent {
     this.resizeObserver = new ResizeObserver(e => {
       this.handleResize()
     })
+
+    // Collect functions
+    // this.relocate = props.collect.relocate
   }
 
   componentDidMount() {
@@ -92,7 +95,7 @@ export default class CodeCanvas extends PureComponent {
     // Calc target counts and add listeners
     this._getSeclusionInd()
     this._refreshCodeCanvasCounts()
-    this.codeCanvas.addEventListener('mousedown', this.handlePan, true)
+    this.codeCanvas.addEventListener('mousedown', this.handleMouseDown, true)
     this.codeCanvas.addEventListener('wheel', this.handleZoom, true)
     this.resizeObserver.observe(this.codeCanvas)
 
@@ -100,23 +103,34 @@ export default class CodeCanvas extends PureComponent {
   }
 
   componentWillUnmount() {
-    this.codeCanvas.removeEventListener('mousedown', this.handlePan, true)
+    this.codeCanvas.removeEventListener('mousedown', this.handleMouseDown, true)
     this.codeCanvas.removeEventListener('wheel', this.handleZoom, true)
     this.resizeObserver.unobserve(this.codeCanvas)
 
     this.codeCanvas.removeEventListener('contextmenu', this.rightClick, true)
   }
 
+  // setEditor functions...
+  relocateWrapper(...args) {
+    this.props.collect.relocate(...args, this.type)
+  }
+
   _handleStyleUpload() {
     // 'Upload' styles (left, top, scale) to Editor
     this.props.collectStyle(
-      this.type,
-      (({ left, top, scale }) => ({ left, top, scale }))(this.state)
+      (({ left, top, scale }) => ({ left, top, scale }))(this.state),
+      this.type
     )
   }
 
-  handlePan = e => {
+  handleMouseDown = e => {
     e.preventDefault()
+    if (e.which === 3)
+      // Right click
+      this.handlePan(e)
+  }
+
+  handlePan = e => {
     this.codeCanvas.className = 'codeCanvas grabbing'
 
     let that = this
@@ -155,7 +169,7 @@ export default class CodeCanvas extends PureComponent {
     document.addEventListener(
       'mouseup',
       function _listener() {
-        that.codeCanvas.className = 'codeCanvas grab'
+        that.codeCanvas.className = 'codeCanvas'
         that.codeCanvas.removeEventListener('mousemove', grabCanvas, true)
 
         that.setState(
@@ -217,19 +231,20 @@ export default class CodeCanvas extends PureComponent {
   _getSeclusionInd() {
     // Get the indices for furthest blocks in codeCanvas
     // Update only on block changes
+    const blocks = this.props.data.blocks
 
-    Object.entries(this.state.blocks).length === 0
+    Object.entries(blocks).length === 0
       ? // No block in codeCanvas
         this.setState({
           maxIndX: 0,
           maxIndY: 0,
         })
       : this.setState({
-          maxIndY: Math.max.apply(null, Object.keys(this.state.blocks)), // Max line number
+          maxIndY: Math.max.apply(null, Object.keys(blocks)), // Max line number
           maxIndX: Math.max.apply(
             null,
-            Object.keys(this.state.blocks).map(lk =>
-              Math.max.apply(null, Object.keys(this.state.blocks[lk]))
+            Object.keys(blocks).map(lk =>
+              Math.max.apply(null, Object.keys(blocks[lk]))
             )
           ), // Max column number
         })
@@ -264,36 +279,50 @@ export default class CodeCanvas extends PureComponent {
     let lineNumbers = [],
       blockAlphabets = [],
       blockHome = []
-    for (let i = 0; i < this.state.lineCount; i++) {
+
+    const { lineCount, blockCount } = this.state
+
+    for (let i = 0; i < lineCount; i++) {
       // Key - 'line 17'
       lineNumbers.push(<LineNumberRoom key={'lineNumber ' + i} num={i} />)
-      for (let j = 0; j < this.state.blockCount; j++) {
+      for (let j = 0; j < blockCount; j++) {
         // Key - 'block 2 17' (line 2, column 17)
         blockHome.push(
           <BlockRoom key={'blockRoom ' + i + ' ' + j} y={i} x={j} />
         )
       }
     }
-    for (let j = 0; j < this.state.blockCount; j++) {
+    for (let j = 0; j < blockCount; j++) {
       blockAlphabets.push(
         <BlockAlphabetRoom key={'blockNumber ' + j} num={j} />
       )
     }
 
+    const collectWrapper = {
+      relocate: this.relocateWrapper.bind(this),
+    }
+
     return (
-      <div ref={e => (this.codeCanvas = e)} className="codeCanvas grab">
+      <div ref={e => (this.codeCanvas = e)} className="codeCanvas">
         {/* blockHome */}
         <div ref={e => (this.blockHome = e)} className="blockHome">
           {blockHome}
 
           {/* Tips or codeBlocks */}
-          {Object.keys(this.state.blocks).length === 0 ? (
+          {Object.keys(this.props.data.blocks).length === 0 ? (
             <div className="visible">
               <img src={DoubleClick} alt="Double Click" />
               <p>Double click to add a block</p>
             </div>
           ) : (
-            <CodeBlocks data={this.state.blocks} />
+            <CodeBlocks
+              data={this.props.data.blocks}
+              canvas={{
+                lineCount: lineCount,
+                blockCount: blockCount,
+              }}
+              collect={collectWrapper}
+            />
           )}
         </div>
 

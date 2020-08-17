@@ -1,25 +1,165 @@
 import React, { Component, createRef } from 'react'
 
 import BlockRenderer from '../../../b5.js/blockRenderer/blockRenderer'
-import '../../../postcss/components/codeCanvas/codeBlocks/codeBlocks.css'
+import { roomWidth, lineHeight } from '../../constants'
 
 export default class CodeBlocks extends Component {
   constructor(props) {
-    super(props)
+    super(props) // data, canvas, collect
+
+    /*
+    
+    > props.collect
+    {
+      relocate: relocate (function),
+      ...
+    }
+    
+    */
 
     // Create Refs for each block
     const { data } = props
-    this.blocks = {}
+    this.blocksRef = {}
     for (let i in data) {
-      if (!this.blocks[i]) this.blocks[i] = {}
-      for (let j in data[i]) this.blocks[i][j] = createRef()
+      if (!this.blocksRef[i]) this.blocksRef[i] = {}
+      for (let j in data[i]) this.blocksRef[i][j] = createRef()
     }
 
     this.codeBlocks = createRef()
   }
 
-  shouldComponentUpdate(prevProps) {
-    return prevProps.data !== this.props.data
+  componentDidMount() {
+    this.codeBlocks.current.addEventListener(
+      'mousedown',
+      this.handleMouseDown,
+      true
+    )
+  }
+
+  componentWillUnmount() {
+    this.codeBlocks.current.removeEventListener(
+      'mousedown',
+      this.handleMouseDown,
+      true
+    )
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return nextProps.data !== this.props.data
+  }
+
+  handleMouseDown = e => {
+    e.preventDefault()
+    const that = this
+    if (!e.target.classList.contains('blockFill') && e.which !== 3) {
+      if (!e.target.classList.contains('node')) {
+        // BLOCK
+        const thisBlockInd = this._findBlock(e.target)
+        const thisBlock = this.blocksRef[thisBlockInd[0]][thisBlockInd[1]]
+        if (thisBlock) {
+          thisBlock.current.focus()
+          let mouse = {
+            x: e.clientX,
+            y: e.clientY,
+            blockLeft: thisBlock.current.offsetLeft,
+            blockTop: thisBlock.current.offsetTop,
+          }
+
+          const handleMove = this.handleMoveBlock.bind(this, {
+            m: mouse,
+            b: thisBlock.current,
+          })
+          const codeBlocksCurrent = this.codeBlocks.current
+          codeBlocksCurrent.addEventListener('mousemove', handleMove, true)
+          document.addEventListener(
+            'mouseup',
+            function _listener() {
+              codeBlocksCurrent.removeEventListener(
+                'mousemove',
+                handleMove,
+                true
+              )
+              that._checkMove(mouse, thisBlock, thisBlockInd)
+              document.removeEventListener('mouseup', _listener, true)
+            },
+            true
+          )
+        }
+      } else if (e.target.classList.contains('node')) {
+        // NODE
+      }
+    }
+  }
+
+  handleMoveBlock = (props, e) => {
+    const { m, b } = props // mouse, thisBlock.current
+    const {
+      canvas: { lineCount, blockCount },
+    } = this.props
+    let delta = {
+      x: e.clientX - m.x,
+      y: e.clientY - m.y,
+    }
+
+    b.style.left =
+      Math.max(
+        Math.min(m.blockLeft + delta.x, (blockCount - 1) * roomWidth),
+        0
+      ) + 'px'
+    b.style.top =
+      Math.max(
+        Math.min(m.blockTop + delta.y, (lineCount - 1) * lineHeight),
+        0
+      ) + 'px'
+  }
+
+  _checkMove(m, b, bInd) {
+    // mouse, thisBlock
+    const blockCurrent = b.current
+    const { offsetLeft, offsetTop } = blockCurrent
+    const x = Math.round(offsetLeft / roomWidth),
+      y = Math.round(offsetTop / lineHeight)
+
+    if (this.props.data[y] && this.props.data[y][x]) {
+      // Already occupied
+      blockCurrent.style.left = m.blockLeft + 'px'
+      blockCurrent.style.top = m.blockTop + 'px'
+    } else {
+      // Successfully moved!
+      blockCurrent.style.left = x * roomWidth + 'px'
+      blockCurrent.style.top = y * lineHeight + 'px'
+
+      // Handle ref
+      // Create new
+      if (!this.blocksRef[y]) this.blocksRef[y] = {}
+      this.blocksRef[y][x] = createRef()
+      // Remove old
+      delete this.blocksRef[bInd[0]][bInd[1]]
+      if (this.blocksRef[bInd[0]] === {}) delete this.blocksRef[bInd[0]]
+
+      this.props.collect.relocate(bInd[1], bInd[0], x, y)
+    }
+  }
+
+  _findBlock(target) {
+    // Find the blockFill target
+    let depth = 0
+    while (!target.classList.contains('blockFill') && depth < 4) {
+      target = target.parentElement
+      depth++ // Avoid infinite search
+    }
+    if (!target.classList.contains('blockFill')) return false
+    // Get the right ref
+    for (let i in this.blocksRef)
+      for (let j in this.blocksRef[i]) {
+        if (
+          this.blocksRef[i][j].current.offsetLeft === target.offsetLeft &&
+          this.blocksRef[i][j].current.offsetTop === target.offsetTop
+        )
+          // return this.blocksRef[i][j]
+          return [i, j] // [y, x]
+      }
+    return false
   }
 
   _getInputNodes(input) {
@@ -45,7 +185,7 @@ export default class CodeBlocks extends Component {
         blocks.push(
           <BlockRenderer
             key={'block ' + i + ' ' + j}
-            ref={this.blocks[i][j]}
+            ref={this.blocksRef[i][j]}
             data={data[i][j]}
             y={i}
             x={j}

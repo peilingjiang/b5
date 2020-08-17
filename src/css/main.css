@@ -80,3 +80,7 @@ body {
 .grabbing {
   cursor: grabbing;
 }
+
+.nodeAdd {
+  cursor: cell;
+}

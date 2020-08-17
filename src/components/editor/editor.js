@@ -22,19 +22,7 @@ const Editor = ({ bridge }) => {
     playground: {
       type: 'playground',
       lineStyles: {},
-      blocks: {
-        '0': {
-          '0': {
-            name: 'background',
-            input: {
-              '0': null,
-              '1': null,
-              '2': null,
-              '3': null,
-            },
-          },
-        },
-      },
+      blocks: {},
     },
     factory: {
       variable: [
@@ -70,6 +58,15 @@ const Editor = ({ bridge }) => {
                 },
                 output: {
                   '0': null,
+                },
+              },
+              '1': {
+                name: 'background',
+                input: {
+                  '0': null,
+                  '1': null,
+                  '2': null,
+                  '3': null,
                 },
               },
             },
@@ -149,12 +146,29 @@ const Editor = ({ bridge }) => {
   */
 
   // ** setEditor **
-  const collectEditorData = (source, data, index = 0) => {
-    // Combine data from all sources: playground, variable, function, object
+  // const collectEditorData = (source, data, index = 0) => {
+  //   // Combine data from all sources: playground, variable, function, object
+  // }
+  const relocateBlock = (x1, y1, x2, y2, source, index = 0) => {
+    setEditor(prevState => {
+      let newState = JSON.parse(JSON.stringify(prevState))
+      if (source === 'playground') console.log('playground')
+      else {
+        if (!newState.factory[source][index].blocks[y2])
+          newState.factory[source][index].blocks[y2] = {}
+        newState.factory[source][index].blocks[y2][x2] = {
+          ...newState.factory[source][index].blocks[y1][x1],
+        }
+        delete newState.factory[source][index].blocks[y1][x1]
+        if (newState.factory[source][index].blocks[y1] === {})
+          delete newState.factory[source][index].blocks[y1]
+      }
+      return newState
+    })
   }
 
   // ** setEditorCanvasStyle **
-  const collectEditorCanvasStyle = (source, data, index = 0) => {
+  const collectEditorCanvasStyle = (data, source, index = 0) => {
     setEditorCanvasStyle(prevState => {
       let newState = JSON.parse(JSON.stringify(prevState))
       if (source === 'playground') newState[source] = data
@@ -183,13 +197,17 @@ const Editor = ({ bridge }) => {
     })
   }
 
+  const collectFunctions = {
+    relocate: relocateBlock,
+  }
+
   return (
     <div id="editor" className="split">
       <div ref={leftElement} id="editor-left">
         <Playground
           data={editor.playground}
           canvasStyle={editorCanvasStyle.playground}
-          collect={collectEditorData}
+          collect={collectFunctions}
           collectStyle={collectEditorCanvasStyle}
         />
       </div>
@@ -223,7 +241,7 @@ const Editor = ({ bridge }) => {
             data={editor.factory}
             canvasStyle={editorCanvasStyle.factory}
             addSection={addSection}
-            collect={collectEditorData}
+            collect={collectFunctions}
             collectStyle={collectEditorCanvasStyle}
           />
           <div className="shadow"></div>
