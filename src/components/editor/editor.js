@@ -152,17 +152,34 @@ const Editor = ({ bridge }) => {
   const relocateBlock = (x1, y1, x2, y2, source, index = 0) => {
     setEditor(prevState => {
       let newState = JSON.parse(JSON.stringify(prevState))
-      if (source === 'playground') console.log('playground')
-      else {
-        if (!newState.factory[source][index].blocks[y2])
-          newState.factory[source][index].blocks[y2] = {}
-        newState.factory[source][index].blocks[y2][x2] = {
-          ...newState.factory[source][index].blocks[y1][x1],
-        }
-        delete newState.factory[source][index].blocks[y1][x1]
-        if (newState.factory[source][index].blocks[y1] === {})
-          delete newState.factory[source][index].blocks[y1]
+      let thisBlocks
+      if (source === 'playground') thisBlocks = newState.playground.blocks
+      else thisBlocks = newState.factory[source][index].blocks
+
+      if (!thisBlocks[y2]) thisBlocks[y2] = {}
+      thisBlocks[y2][x2] = {
+        ...thisBlocks[y1][x1],
       }
+      delete thisBlocks[y1][x1]
+      if (thisBlocks[y1] === {}) delete thisBlocks[y1]
+
+      // Remap outputs' inputs, and inputs' outputs
+      if (thisBlocks[y2][x2].output)
+        // i = "0", "1"...
+        for (let i in thisBlocks[y2][x2].output)
+          if (thisBlocks[y2][x2].output[i] !== null) {
+            const thisOutput = thisBlocks[y2][x2].output[i]
+            const childBlock = thisBlocks[thisOutput[0]][thisOutput[1]]
+            childBlock.input[thisOutput[2]] = [y2, x2, parseInt(i)]
+          }
+      if (thisBlocks[y2][x2].input)
+        for (let i in thisBlocks[y2][x2].input)
+          if (thisBlocks[y2][x2].input[i] !== null) {
+            const thisInput = thisBlocks[y2][x2].input[i]
+            const parentBlock = thisBlocks[thisInput[0]][thisInput[1]]
+            parentBlock.output[thisInput[2]] = [y2, x2, parseInt(i)]
+          }
+
       return newState
     })
   }

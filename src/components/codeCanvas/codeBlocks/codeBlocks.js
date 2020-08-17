@@ -113,14 +113,29 @@ export default class CodeBlocks extends Component {
       ) + 'px'
   }
 
+  _hasParentOrChildInTheSameLine(bD, y) {
+    if (bD.input)
+      for (let i in bD.input)
+        if (bD.input[i] !== null && bD.input[i][0] === y) return true
+    if (bD.output)
+      for (let i in bD.output)
+        if (bD.output[i] !== null && bD.output[i][0] === y) return true
+
+    return false
+  }
+
   _checkMove(m, b, bInd) {
     // mouse, thisBlock
     const blockCurrent = b.current
+    const blockData = this.props.data[bInd[0]][bInd[1]]
     const { offsetLeft, offsetTop } = blockCurrent
     const x = Math.round(offsetLeft / roomWidth),
       y = Math.round(offsetTop / lineHeight)
 
-    if (this.props.data[y] && this.props.data[y][x]) {
+    if (
+      (this.props.data[y] && this.props.data[y][x]) ||
+      this._hasParentOrChildInTheSameLine(blockData, y)
+    ) {
       // Already occupied
       blockCurrent.style.left = m.blockLeft + 'px'
       blockCurrent.style.top = m.blockTop + 'px'
