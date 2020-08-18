@@ -5,7 +5,7 @@ import { roomWidth, lineHeight } from '../../constants'
 
 export default class CodeBlocks extends Component {
   constructor(props) {
-    super(props) // data, canvas, collect
+    super(props) // data, canvas, collect, scale (for moving)
 
     /*
     
@@ -49,7 +49,7 @@ export default class CodeBlocks extends Component {
   }
 
   handleMouseDown = e => {
-    e.preventDefault()
+    // e.preventDefault()
     const that = this
     if (!e.target.classList.contains('blockFill') && e.which !== 3) {
       if (!e.target.classList.contains('node')) {
@@ -57,7 +57,11 @@ export default class CodeBlocks extends Component {
         const thisBlockInd = this._findBlock(e.target)
         const thisBlock = this.blocksRef[thisBlockInd[0]][thisBlockInd[1]]
         if (thisBlock) {
-          thisBlock.current.focus()
+          // thisBlock.current.focus()
+          thisBlock.current.childNodes[0].className = thisBlock.current.childNodes[0].className.replace(
+            'grab',
+            'grabbing'
+          )
           let mouse = {
             x: e.clientX,
             y: e.clientY,
@@ -78,6 +82,10 @@ export default class CodeBlocks extends Component {
                 'mousemove',
                 handleMove,
                 true
+              )
+              thisBlock.current.childNodes[0].className = thisBlock.current.childNodes[0].className.replace(
+                'grabbing',
+                'grab'
               )
               that._checkMove(mouse, thisBlock, thisBlockInd)
               document.removeEventListener('mouseup', _listener, true)
@@ -103,12 +111,18 @@ export default class CodeBlocks extends Component {
 
     b.style.left =
       Math.max(
-        Math.min(m.blockLeft + delta.x, (blockCount - 1) * roomWidth),
+        Math.min(
+          m.blockLeft + delta.x / this.props.scale,
+          (blockCount - 1) * roomWidth
+        ),
         0
       ) + 'px'
     b.style.top =
       Math.max(
-        Math.min(m.blockTop + delta.y, (lineCount - 1) * lineHeight),
+        Math.min(
+          m.blockTop + delta.y / this.props.scale,
+          (lineCount - 1) * lineHeight
+        ),
         0
       ) + 'px'
   }

@@ -146,7 +146,7 @@ const Editor = ({ bridge }) => {
   */
 
   // ** setEditor **
-  // const collectEditorData = (source, data, index = 0) => {
+  // const collectEditorData = (data, source, index = 0) => {
   //   // Combine data from all sources: playground, variable, function, object
   // }
   const relocateBlock = (x1, y1, x2, y2, source, index = 0) => {

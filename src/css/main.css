@@ -11,6 +11,7 @@
   font-kerning: normal;
 
   font-family: 'Inconsolata', monospace;
+  color: $black;
   // letter-spacing: -0.1px; /* For Inconsolata */
 }
 

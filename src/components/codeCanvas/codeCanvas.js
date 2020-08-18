@@ -280,7 +280,7 @@ export default class CodeCanvas extends PureComponent {
       blockAlphabets = [],
       blockHome = []
 
-    const { lineCount, blockCount } = this.state
+    const { lineCount, blockCount, scale } = this.state
 
     for (let i = 0; i < lineCount; i++) {
       // Key - 'line 17'
@@ -322,6 +322,7 @@ export default class CodeCanvas extends PureComponent {
                 blockCount: blockCount,
               }}
               collect={collectWrapper}
+              scale={scale}
             />
           )}
         </div>
