@@ -47,9 +47,9 @@ const TabSection = ({
   }
 
   // setEditor functions...
-  const relocateWrapper = (...args) => {
+  const collectWrapper = (...args) => {
     // args - x1, y1, x2, y2, source
-    collect.relocate(...args, index)
+    collect(...args, index)
   }
 
   const collectStyleWrapper = (data, source) => {
@@ -75,10 +75,6 @@ const TabSection = ({
       sectionRef.current.style.height = canvasStyle.sectionHeight + 'px'
     }
   }, [sectionRef, canvasStyle])
-
-  const collectWrapper = {
-    relocate: relocateWrapper,
-  }
 
   return (
     <div ref={sectionRef} className={'section ' + type + 'Section'}>

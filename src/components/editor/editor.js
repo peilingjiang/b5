@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
 
-import { drag, usePrevious } from '../main'
+import { drag, usePrevious, IconList } from '../main'
 import {
   lineNumberWidth,
   blockAlphabetHeight,
@@ -12,9 +12,6 @@ import Factory from '../factory/factory'
 import '../../postcss/components/editor/editor.css'
 
 import Logo from '../../img/logo/logo-original.svg'
-import Settings from '../../img/toolbar-icon/settings.svg'
-import File from '../../img/toolbar-icon/file.svg'
-import Share from '../../img/toolbar-icon/share.svg'
 
 const Editor = ({ bridge }) => {
   /* Editor data */
@@ -146,42 +143,57 @@ const Editor = ({ bridge }) => {
   */
 
   // ** setEditor **
-  // const collectEditorData = (data, source, index = 0) => {
-  //   // Combine data from all sources: playground, variable, function, object
-  // }
-  const relocateBlock = (x1, y1, x2, y2, source, index = 0) => {
+  const collectEditorData = (data, task, source, index = 0) => {
+    // Combine data from all sources: playground, variable, function, object
     setEditor(prevState => {
       let newState = JSON.parse(JSON.stringify(prevState))
       let thisBlocks
       if (source === 'playground') thisBlocks = newState.playground.blocks
       else thisBlocks = newState.factory[source][index].blocks
 
-      if (!thisBlocks[y2]) thisBlocks[y2] = {}
-      thisBlocks[y2][x2] = {
-        ...thisBlocks[y1][x1],
-      }
-      delete thisBlocks[y1][x1]
-      if (thisBlocks[y1] === {}) delete thisBlocks[y1]
+      switch (task) {
+        case 'relocateBlock':
+          relocateBlock(data[0], data[1], data[2], data[3], thisBlocks)
+          break
+        case 'inlineDataChange':
+          inlineDataChange(data, thisBlocks)
+          break
 
-      // Remap outputs' inputs, and inputs' outputs
-      if (thisBlocks[y2][x2].output)
-        // i = "0", "1"...
-        for (let i in thisBlocks[y2][x2].output)
-          if (thisBlocks[y2][x2].output[i] !== null) {
-            const thisOutput = thisBlocks[y2][x2].output[i]
-            const childBlock = thisBlocks[thisOutput[0]][thisOutput[1]]
-            childBlock.input[thisOutput[2]] = [y2, x2, parseInt(i)]
-          }
-      if (thisBlocks[y2][x2].input)
-        for (let i in thisBlocks[y2][x2].input)
-          if (thisBlocks[y2][x2].input[i] !== null) {
-            const thisInput = thisBlocks[y2][x2].input[i]
-            const parentBlock = thisBlocks[thisInput[0]][thisInput[1]]
-            parentBlock.output[thisInput[2]] = [y2, x2, parseInt(i)]
-          }
+        default:
+          break
+      }
 
       return newState
     })
+  }
+  const relocateBlock = (x1, y1, x2, y2, thisBlocks) => {
+    if (!thisBlocks[y2]) thisBlocks[y2] = {}
+    thisBlocks[y2][x2] = JSON.parse(JSON.stringify(thisBlocks[y1][x1]))
+    delete thisBlocks[y1][x1]
+    if (thisBlocks[y1] === {}) delete thisBlocks[y1]
+
+    // Remap outputs' inputs, and inputs' outputs
+    if (thisBlocks[y2][x2].output)
+      // i = "0", "1"...
+      for (let i in thisBlocks[y2][x2].output)
+        if (thisBlocks[y2][x2].output[i] !== null) {
+          const thisOutput = thisBlocks[y2][x2].output[i]
+          const childBlock = thisBlocks[thisOutput[0]][thisOutput[1]]
+          childBlock.input[thisOutput[2]] = [y2, x2, parseInt(i)]
+        }
+    if (thisBlocks[y2][x2].input)
+      for (let i in thisBlocks[y2][x2].input)
+        if (thisBlocks[y2][x2].input[i] !== null) {
+          const thisInput = thisBlocks[y2][x2].input[i]
+          const parentBlock = thisBlocks[thisInput[0]][thisInput[1]]
+          parentBlock.output[thisInput[2]] = [y2, x2, parseInt(i)]
+        }
+  }
+
+  const inlineDataChange = (data, thisBlocks) => {
+    // data - x, y, position, value
+    const [x, y, position, value] = data
+    thisBlocks[y][x].inlineData[position] = value
   }
 
   // ** setEditorCanvasStyle **
@@ -214,17 +226,13 @@ const Editor = ({ bridge }) => {
     })
   }
 
-  const collectFunctions = {
-    relocate: relocateBlock,
-  }
-
   return (
     <div id="editor" className="split">
       <div ref={leftElement} id="editor-left">
         <Playground
           data={editor.playground}
           canvasStyle={editorCanvasStyle.playground}
-          collect={collectFunctions}
+          collect={collectEditorData}
           collectStyle={collectEditorCanvasStyle}
         />
       </div>
@@ -234,16 +242,10 @@ const Editor = ({ bridge }) => {
 
       <div ref={rightElement} id="editor-right">
         <div className="header">
-          <div className="toolbarIcon settings">
-            <img src={Settings} alt="Settings" />
-          </div>
-          <div className="toolbarIcon file">
-            <img src={File} alt="File" />
-          </div>
-          <div className="toolbarIcon share">
-            <img src={Share} alt="Share" />
-            {/* <Emoji emoji="🔗" label="Share" /> */}
-          </div>
+          <IconList
+            iconsName={['Settings', 'File', 'Share']}
+            onClickFunc={[null, null, null]}
+          />
           <a
             href="https://github.com/peilingjiang/b5"
             rel="noopener noreferrer"
@@ -258,7 +260,7 @@ const Editor = ({ bridge }) => {
             data={editor.factory}
             canvasStyle={editorCanvasStyle.factory}
             addSection={addSection}
-            collect={collectFunctions}
+            collect={collectEditorData}
             collectStyle={collectEditorCanvasStyle}
           />
           <div className="shadow"></div>

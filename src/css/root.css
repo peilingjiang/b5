@@ -18,8 +18,10 @@ $default: #ccc;
 $variable: #f7b500;
 $function: #50d764;
 $object: #44d7b6;
-$draw: #ec4877;
+$draw: #e7507b;
 $library: #b55bcd;
+
+$alert: #cf1b1b;
 
 /* Opacity */
 $fade-op: 0.3;

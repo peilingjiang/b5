@@ -7,16 +7,6 @@ export default class CodeBlocks extends Component {
   constructor(props) {
     super(props) // data, canvas, collect, scale (for moving)
 
-    /*
-    
-    > props.collect
-    {
-      relocate: relocate (function),
-      ...
-    }
-    
-    */
-
     // Create Refs for each block
     const { data } = props
     this.blocksRef = {}
@@ -49,10 +39,10 @@ export default class CodeBlocks extends Component {
   }
 
   handleMouseDown = e => {
-    // e.preventDefault()
     const that = this
     if (!e.target.classList.contains('blockFill') && e.which !== 3) {
-      if (!e.target.classList.contains('node')) {
+      if (this._hoveringOnBlock(e.target.classList)) {
+        e.preventDefault()
         // BLOCK
         const thisBlockInd = this._findBlock(e.target)
         const thisBlock = this.blocksRef[thisBlockInd[0]][thisBlockInd[1]]
@@ -127,6 +117,12 @@ export default class CodeBlocks extends Component {
       ) + 'px'
   }
 
+  _hoveringOnBlock(classList) {
+    const checkList = ['node', 'inputBox']
+    for (let i in checkList) if (classList.contains(checkList[i])) return false
+    return true
+  }
+
   _hasParentOrChildInTheSameLine(bD, y) {
     if (bD.input)
       for (let i in bD.input)
@@ -166,7 +162,7 @@ export default class CodeBlocks extends Component {
       delete this.blocksRef[bInd[0]][bInd[1]]
       if (this.blocksRef[bInd[0]] === {}) delete this.blocksRef[bInd[0]]
 
-      this.props.collect.relocate(bInd[1], bInd[0], x, y)
+      this.props.collect([bInd[1], bInd[0], x, y], 'relocateBlock')
     }
   }
 
@@ -204,7 +200,7 @@ export default class CodeBlocks extends Component {
   }
 
   render() {
-    const { data } = this.props
+    const { data, collect } = this.props
     let blocks = []
     for (let i in data)
       for (let j in data[i]) {
@@ -219,6 +215,7 @@ export default class CodeBlocks extends Component {
             y={i}
             x={j}
             inputBlocks={inputBlocks}
+            collect={collect}
           />
         )
       }

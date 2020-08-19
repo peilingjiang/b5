@@ -2,6 +2,8 @@
 
 $viewer-min-width: 150px;
 $viewer-min-height: 150px;
+$viewer-max-width: 800px;
+$viewer-max-height: 800px;
 
 #viewer {
   display: block;
@@ -34,6 +36,9 @@ $viewer-min-height: 150px;
     align-items: center;
     min-width: $viewer-min-width;
     min-height: $viewer-min-height;
+    max-width: $viewer-max-width;
+    max-height: $viewer-max-height;
+    overflow: scroll;
     margin: 0;
     padding: 0;
   }

@@ -1,10 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react'
 
 import B5Wrapper from './b5Wrapper'
+import { IconList } from '../main'
 import '../../postcss/components/viewer/viewer.css'
 
-import NoLoop from '../../img/toolbar-icon/noLoop.svg'
-import Loop from '../../img/toolbar-icon/loop.svg'
 import ViewerNoLoop from '../../img/icon/viewerNoLoop.svg'
 
 const Viewer = ({ data }) => {
@@ -66,9 +65,10 @@ const Viewer = ({ data }) => {
   return (
     <div ref={viewer} id="viewer" className="popup">
       <div ref={viewerHeader} className="header grab">
-        <div className="toolbarIcon settings" onClick={toggleLoop}>
-          <img src={loop ? NoLoop : Loop} alt="Settings" />
-        </div>
+        <IconList
+          iconsName={[loop ? 'NoLoop' : 'Loop']}
+          onClickFunc={[toggleLoop]}
+        />
       </div>
       {loop ? (
         <B5Wrapper data={data} />

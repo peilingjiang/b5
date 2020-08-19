@@ -5,6 +5,7 @@
   height: 100%;
   transform-origin: top left;
   user-select: none;
+  white-space: nowrap;
   overflow: hidden;
 }
 

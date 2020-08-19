@@ -70,14 +70,15 @@ export default class CodeCanvas extends PureComponent {
     this.maxLineCount = props.maxLineCount
     this.maxBlockCount = props.maxBlockCount
 
-    this.type = props.data.type
+    // (Different from the type of blocks - object, variable...)
+    this.type = props.data.type // 'playground', 'variable'...
 
     this.resizeObserver = new ResizeObserver(e => {
       this.handleResize()
     })
 
-    // Collect functions
-    // this.relocate = props.collect.relocate
+    // Collect function
+    this.handleCollectEditorData = this.handleCollectEditorData.bind(this)
   }
 
   componentDidMount() {
@@ -111,11 +112,11 @@ export default class CodeCanvas extends PureComponent {
   }
 
   // setEditor functions...
-  relocateWrapper(...args) {
-    this.props.collect.relocate(...args, this.type)
+  handleCollectEditorData(data, task) {
+    this.props.collect(data, task, this.type)
   }
 
-  _handleStyleUpload() {
+  _handleCollectEditorCanvasStyle() {
     // 'Upload' styles (left, top, scale) to Editor
     this.props.collectStyle(
       (({ left, top, scale }) => ({ left, top, scale }))(this.state),
@@ -124,13 +125,13 @@ export default class CodeCanvas extends PureComponent {
   }
 
   handleMouseDown = e => {
-    e.preventDefault()
     if (e.which === 3)
       // Right click
       this.handlePan(e)
   }
 
   handlePan = e => {
+    e.preventDefault()
     this.codeCanvas.className = 'codeCanvas grabbing'
 
     let that = this
@@ -179,7 +180,7 @@ export default class CodeCanvas extends PureComponent {
           },
           () => {
             that._refreshCodeCanvasCounts()
-            that._handleStyleUpload()
+            that._handleCollectEditorCanvasStyle()
           }
         )
 
@@ -211,7 +212,7 @@ export default class CodeCanvas extends PureComponent {
     clearTimeout(this.zoomTimer)
     this.zoomTimer = setTimeout(() => {
       this._refreshCodeCanvasCounts()
-      this._handleStyleUpload()
+      this._handleCollectEditorCanvasStyle()
     }, 100)
   }
 
@@ -220,7 +221,7 @@ export default class CodeCanvas extends PureComponent {
     this.resizeTimer = setTimeout(() => {
       this._refreshCodeCanvasCounts()
       // Upload sectionHeight
-      if (this.type !== 'playground') this._handleStyleUpload()
+      if (this.type !== 'playground') this._handleCollectEditorCanvasStyle()
     }, 50)
   }
 
@@ -298,10 +299,6 @@ export default class CodeCanvas extends PureComponent {
       )
     }
 
-    const collectWrapper = {
-      relocate: this.relocateWrapper.bind(this),
-    }
-
     return (
       <div ref={e => (this.codeCanvas = e)} className="codeCanvas">
         {/* blockHome */}
@@ -321,7 +318,7 @@ export default class CodeCanvas extends PureComponent {
                 lineCount: lineCount,
                 blockCount: blockCount,
               }}
-              collect={collectWrapper}
+              collect={this.handleCollectEditorData}
               scale={scale}
             />
           )}
