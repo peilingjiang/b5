@@ -104,3 +104,9 @@ export function usePrevious(value) {
   })
   return ref.current
 }
+
+export function constrain(v, a, b) {
+  const min = Math.min,
+    max = Math.max
+  return max(min(v, max(a, b)), min(a, b))
+}

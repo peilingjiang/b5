@@ -38,6 +38,7 @@ export default class B5Wrapper extends Component {
 
   componentDidUpdate(prevProps) {
     // Only re-render when data changes
+    // TODO: Only update b instead of re-render the whole canvas
     if (prevProps.data !== this.props.data) this._initCanvas()
   }
 

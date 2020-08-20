@@ -4,7 +4,7 @@ export const color = {
   function: '#50d764',
   object: '#44d7b6',
   // draw: '#f04979',
-  draw: '#e7507b',
+  draw: '#f35c87',
   library: '#b55bcd',
 }
 

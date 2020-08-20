@@ -19,7 +19,28 @@ const Editor = ({ bridge }) => {
     playground: {
       type: 'playground',
       lineStyles: {},
-      blocks: {},
+      blocks: {
+        '1': {
+          '0': {
+            name: 'numberSlider',
+            inlineData: [200, 0, 600, 10],
+            output: {
+              '0': [2, 1, 0],
+            },
+          },
+        },
+        '2': {
+          '1': {
+            name: 'ellipse',
+            input: {
+              '0': [1, 0, 0],
+              '1': null,
+              '2': null,
+              '3': null,
+            },
+          },
+        },
+      },
     },
     factory: {
       variable: [
