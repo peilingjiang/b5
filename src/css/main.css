@@ -74,12 +74,20 @@ body {
 }
 
 // For all grab and grabbing...
+.defaultCursor {
+  cursor: default;
+}
+
 .grab {
   cursor: grab;
 }
 
 .grabbing {
   cursor: grabbing;
+}
+
+.ewResizing {
+  cursor: ew-resize;
 }
 
 .nodeAdd {

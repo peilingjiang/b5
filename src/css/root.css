@@ -24,6 +24,7 @@ $library: #b55bcd;
 $alert: #cf1b1b;
 
 /* Opacity */
+$light-op: 0.25;
 $fade-op: 0.3;
 $hover-op: 0.8;
 

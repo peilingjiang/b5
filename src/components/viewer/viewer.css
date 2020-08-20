@@ -2,8 +2,8 @@
 
 $viewer-min-width: 150px;
 $viewer-min-height: 150px;
-$viewer-max-width: 800px;
-$viewer-max-height: 800px;
+$viewer-max-width: 700px;
+$viewer-max-height: 700px;
 
 #viewer {
   display: block;

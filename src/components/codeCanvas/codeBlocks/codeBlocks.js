@@ -118,18 +118,20 @@ export default class CodeBlocks extends Component {
   }
 
   _hoveringOnBlock(classList) {
-    const checkList = ['node', 'inputBox']
+    const checkList = ['node', 'inputBox', 'sliderComponent']
     for (let i in checkList) if (classList.contains(checkList[i])) return false
     return true
   }
 
   _hasParentOrChildInTheSameLine(bD, y) {
     if (bD.input)
+      // Inputs cannot be below the block
       for (let i in bD.input)
-        if (bD.input[i] !== null && bD.input[i][0] === y) return true
+        if (bD.input[i] !== null && bD.input[i][0] >= y) return true
     if (bD.output)
+      // Outputs cannot be above the block
       for (let i in bD.output)
-        if (bD.output[i] !== null && bD.output[i][0] === y) return true
+        if (bD.output[i] !== null && bD.output[i][0] <= y) return true
 
     return false
   }

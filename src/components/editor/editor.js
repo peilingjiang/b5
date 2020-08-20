@@ -192,8 +192,8 @@ const Editor = ({ bridge }) => {
 
   const inlineDataChange = (data, thisBlocks) => {
     // data - x, y, position, value
-    const [x, y, position, value] = data
-    thisBlocks[y][x].inlineData[position] = value
+    const [x, y, ind, value] = data
+    thisBlocks[y][x].inlineData[ind] = value
   }
 
   // ** setEditorCanvasStyle **

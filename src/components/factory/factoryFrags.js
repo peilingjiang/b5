@@ -34,13 +34,14 @@ const TabSection = ({
       sectionRef.current.style.height = mouseDown.sectionHeight + deltaY + 'px'
     }
 
-    const tabView = sectionRef.current.parentElement // tabContent element
-    tabView.addEventListener('mousemove', handleSectionResize, true)
-    tabView.addEventListener(
+    // const tabView = sectionRef.current.parentElement // tabContent element
+    // Listen to the whole document
+    document.addEventListener('mousemove', handleSectionResize, true)
+    document.addEventListener(
       'mouseup',
       function _listener() {
-        tabView.removeEventListener('mousemove', handleSectionResize, true)
-        tabView.removeEventListener('mouseup', _listener, true)
+        document.removeEventListener('mousemove', handleSectionResize, true)
+        document.removeEventListener('mouseup', _listener, true)
       },
       true
     )
