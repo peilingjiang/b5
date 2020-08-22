@@ -54,7 +54,7 @@ $line-height: 110px;
 $line-numbers-width: 32px;
 $block-alphabet-height: 24px;
 
-$node-size: 9px;
+$node-size: 8px;
 $node-border-width: 1px;
 
 $regular-border: 1px solid $hover-grey;

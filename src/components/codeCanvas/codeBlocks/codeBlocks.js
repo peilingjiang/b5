@@ -1,7 +1,8 @@
 import React, { Component, createRef } from 'react'
 
-import BlockRenderer from '../../../b5.js/blockRenderer/blockRenderer'
+import BlockRenderer from '../../blockRenderer/blockRenderer'
 import { roomWidth, lineHeight } from '../../constants'
+import WireRenderer from '../../blockRenderer/wireRenderer'
 
 export default class CodeBlocks extends Component {
   constructor(props) {
@@ -16,6 +17,10 @@ export default class CodeBlocks extends Component {
     }
 
     this.codeBlocks = createRef()
+
+    this.state = {
+      nodesOffset: {},
+    }
   }
 
   componentDidMount() {
@@ -34,8 +39,11 @@ export default class CodeBlocks extends Component {
     )
   }
 
-  shouldComponentUpdate(nextProps) {
-    return nextProps.data !== this.props.data
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      nextProps.data !== this.props.data ||
+      nextState.nodesOffset !== this.state.nodesOffset
+    )
   }
 
   handleMouseDown = e => {
@@ -201,6 +209,25 @@ export default class CodeBlocks extends Component {
     return inputBlocks
   }
 
+  collectNodesOffset = (x, y, data) => {
+    /*
+    
+    > data
+    {
+      input: [[x1, y1], [x2, y2]],
+      output: [],
+    }
+
+    */
+    this.setState(prevState => {
+      let newState = JSON.parse(JSON.stringify(prevState))
+      if (!newState.nodesOffset[y]) newState.nodesOffset[y] = {}
+      newState.nodesOffset[y][x] = data
+
+      return newState
+    })
+  }
+
   render() {
     const { data, collect } = this.props
     let blocks = []
@@ -212,17 +239,20 @@ export default class CodeBlocks extends Component {
         blocks.push(
           <BlockRenderer
             key={'block ' + i + ' ' + j}
-            ref={this.blocksRef[i][j]}
+            thisBlockRef={this.blocksRef[i][j]}
             data={data[i][j]}
             y={i}
             x={j}
             inputBlocks={inputBlocks}
             collect={collect}
+            collectNodesOffset={this.collectNodesOffset}
           />
         )
       }
+
     return (
       <div ref={this.codeBlocks} className="codeBlocks">
+        <WireRenderer data={data} nodesOffset={this.state.nodesOffset} />
         {blocks}
       </div>
     )

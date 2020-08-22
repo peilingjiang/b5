@@ -17,3 +17,6 @@ export const roomWidth = 218
 export const sectionHeightDefault = 256
 
 export const factoryCanvasDefaultScale = 1
+
+export const nodeSize = 8
+export const sizeOffset = nodeSize / 2

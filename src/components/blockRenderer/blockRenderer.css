@@ -1,0 +1,355 @@
+@import '../../css/root.css';
+
+.wire {
+  z-index: 40000;
+  fill: none;
+  stroke-width: 2px;
+  shape-rendering: geometricPrecision;
+}
+
+.node {
+  z-index: 80000;
+  width: $node-size;
+  height: $node-size;
+  border-radius: calc($node-size / 2);
+  background-color: #fff;
+}
+
+.blockFill {
+  position: absolute;
+  width: $block-width;
+  height: $line-height;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+
+  .block {
+    z-index: 60000;
+    position: absolute;
+    border-radius: $tiny-radius;
+    align-self: center;
+    padding: 0;
+
+    .blockName {
+      color: #fff;
+      line-height: 100%;
+      margin: 7px auto;
+      font-size: $normal;
+      font-weight: $regular;
+    }
+
+    .nodesText {
+      line-height: 100%;
+      font-size: $small;
+      font-weight: $regular;
+    }
+  }
+
+  .default,
+  .defaultConnect {
+    background-color: $default;
+    color: color-mod($default blend($black 80%));
+  }
+
+  .variable,
+  .variableConnect {
+    background-color: $variable;
+    color: color-mod($variable blend($black 80%));
+  }
+
+  .function,
+  .functionConnect {
+    background-color: $function;
+    color: color-mod($function blend($black 80%));
+  }
+
+  .object,
+  .objectConnect {
+    background-color: $object;
+    color: color-mod($object blend($black 80%));
+  }
+
+  .draw,
+  .drawConnect {
+    background-color: $draw;
+    color: color-mod($draw blend($black 80%));
+  }
+
+  .library,
+  .libraryConnect {
+    background-color: $library;
+    color: color-mod($library blend($black 80%));
+  }
+
+  .nodeFill {
+    .defaultNode {
+      border: $node-border $default;
+    }
+
+    .variableNode {
+      border: $node-border $variable;
+    }
+
+    .functionNode {
+      border: $node-border $function;
+    }
+
+    .objectNode {
+      border: $node-border $object;
+    }
+
+    .drawNode {
+      border: $node-border $draw;
+    }
+
+    .libraryNode {
+      border: $node-border $library;
+    }
+
+    .connected {
+      border: $node-border $light-grey;
+    }
+
+    .focusedNode {
+      border: $node-border $dark-grey;
+    }
+  }
+
+  .nodes {
+    position: absolute;
+    display: flex;
+    margin: 0 auto;
+    width: 100%;
+
+    .nodeFill {
+      display: inline-block;
+      position: relative;
+
+      .node {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, 0);
+        // box-shadow: 0 0 3px -1px $grey;
+      }
+    }
+  }
+
+  .inputNodes {
+    top: calc(- $node-size / 2);
+  }
+
+  .outputNodes {
+    bottom: calc($node-size / 2);
+  }
+
+  .normal {
+    .nodesText {
+      display: flex;
+      text-align: center;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .inputNodesText {
+      margin-top: calc($node-size / 2 + 2px);
+    }
+
+    .outputNodesText {
+      margin-bottom: calc($node-size / 2 + 2px);
+    }
+
+    .count1 {
+      width: 100%;
+    }
+
+    .count2 {
+      width: 50%;
+    }
+
+    .count3 {
+      width: 33%;
+    }
+
+    .count4 {
+      width: 25%;
+    }
+
+    .count5 {
+      width: 20%;
+    }
+  }
+
+  .input,
+  .slider {
+    .left {
+      display: inline-block;
+      width: 64px;
+
+      .blockName {
+        margin: 9px 0;
+      }
+
+      .nodes {
+        width: 64px;
+
+        .count1 {
+          width: 100%;
+        }
+      }
+    }
+
+    .invalid {
+      border: $alert solid 1px !important;
+      color: $alert !important;
+    }
+  }
+
+  .input {
+    display: flex;
+    width: 150px;
+    height: 34px;
+
+    .right {
+      display: inline-block;
+      width: 86px;
+
+      .inputBox {
+        border-radius: $tiny-tiny-radius;
+        margin: 3px 3px 3px 0;
+        height: 28px;
+        width: 83px;
+        text-align: center;
+        font-size: $small;
+      }
+
+      // .inputBox:focus {}
+    }
+  }
+
+  .slider {
+    display: flex;
+    width: 200px;
+    height: 34px;
+
+    .right {
+      display: inline-block;
+
+      .sliderBox {
+        position: relative;
+        height: 28px;
+        width: 133px;
+        margin: 3px 3px 3px 0;
+        background-color: #fff;
+        border-radius: $tiny-tiny-radius;
+        text-align: left;
+
+        .rangeBelow {
+          display: inline-block;
+          height: 100%;
+          background-color: color-mod($object a($light-op));
+          margin: 0 auto 0 0;
+        }
+
+        .thumb {
+          position: relative;
+          display: inline-block;
+          height: 100%;
+          width: 4px;
+          border-left: $dark-grey solid 1px;
+        }
+
+        .sliderInput {
+          position: absolute;
+          width: 100%;
+          top: 28px;
+          left: 0;
+
+          pointer-events: none;
+          opacity: 0;
+          // transition: ease-in-out 0.2s;
+        }
+
+        .inputBox {
+          position: absolute;
+          border-radius: $tiny-tiny-radius;
+          height: 17px;
+          width: 36px;
+          background-color: #fff;
+          text-align: center;
+          font-size: $small;
+        }
+
+        .current {
+          top: -17px;
+          border: $dark-grey solid 1px;
+          left: calc(50% - 2px);
+          transform: translate(-50%, 0);
+        }
+
+        .min {
+          left: 0;
+        }
+
+        .step {
+          left: 50%;
+          transform: translate(-50%, 0);
+        }
+
+        .max {
+          right: 0;
+        }
+
+        .sliderSet {
+          top: 3px;
+          border: $light-grey solid 1px;
+          color: $light-grey;
+        }
+      }
+    }
+  }
+
+  // For .normal blocks
+  .nodesCount1 {
+    width: 100px;
+  }
+
+  .nodesCount2 {
+    width: 124px;
+  }
+
+  .nodesCount3 {
+    width: 150px;
+  }
+
+  .nodesCount4 {
+    width: 176px;
+  }
+
+  .nodesCount5 {
+    width: 200px;
+  }
+}
+
+.blockFill:hover .sliderInput {
+  pointer-events: auto !important;
+  opacity: 1 !important;
+}
+
+// Wire
+
+.wires {
+  position: relative;
+
+  .svg {
+    position: absolute;
+    display: flex;
+  }
+
+  .unfocused {
+    stroke: $light-grey;
+  }
+
+  .focused {
+    stroke: $dark-grey;
+  }
+}

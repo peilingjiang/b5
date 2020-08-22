@@ -25,7 +25,7 @@ const Editor = ({ bridge }) => {
             name: 'numberSlider',
             inlineData: [200, 0, 600, 10],
             output: {
-              '0': [2, 1, 0],
+              '0': [[2, 1, 0]],
             },
           },
         },
@@ -59,12 +59,12 @@ const Editor = ({ bridge }) => {
                 /* Column number - start from 0 */
                 name: 'number',
                 inlineData: [500],
-                output: { '0': [1, 0, 0] }, // For block rendering
+                output: { '0': [[1, 0, 0]] }, // For block rendering
               },
               '1': {
                 name: 'numberSlider',
                 inlineData: [300, 0, 1000, 100],
-                output: { '0': [1, 0, 1] },
+                output: { '0': [[1, 0, 1]] }, // One output node may be connected to multiple input nodes
               },
             },
             '1': {
@@ -75,7 +75,7 @@ const Editor = ({ bridge }) => {
                   '1': [0, 1, 0],
                 },
                 output: {
-                  '0': null,
+                  '0': [],
                 },
               },
               '1': {
@@ -197,17 +197,23 @@ const Editor = ({ bridge }) => {
     if (thisBlocks[y2][x2].output)
       // i = "0", "1"...
       for (let i in thisBlocks[y2][x2].output)
-        if (thisBlocks[y2][x2].output[i] !== null) {
-          const thisOutput = thisBlocks[y2][x2].output[i]
-          const childBlock = thisBlocks[thisOutput[0]][thisOutput[1]]
-          childBlock.input[thisOutput[2]] = [y2, x2, parseInt(i)]
-        }
+        if (thisBlocks[y2][x2].output[i].length !== 0)
+          for (let j in thisBlocks[y2][x2].output[i]) {
+            // output: { '0': [[1, 0, 0], [1, 0, 1]] }
+            const thisOutput = thisBlocks[y2][x2].output[i][j]
+            const childBlock = thisBlocks[thisOutput[0]][thisOutput[1]]
+            childBlock.input[thisOutput[2]] = [y2, x2, parseInt(i)]
+          }
     if (thisBlocks[y2][x2].input)
       for (let i in thisBlocks[y2][x2].input)
         if (thisBlocks[y2][x2].input[i] !== null) {
           const thisInput = thisBlocks[y2][x2].input[i]
           const parentBlock = thisBlocks[thisInput[0]][thisInput[1]]
-          parentBlock.output[thisInput[2]] = [y2, x2, parseInt(i)]
+          for (let j in parentBlock.output[thisInput[2]]) {
+            const thisOutput = parentBlock.output[thisInput[2]][j]
+            if (thisOutput[0] === Number(y1) && thisOutput[1] === Number(x1))
+              parentBlock.output[thisInput[2]][j] = [y2, x2, parseInt(i)]
+          }
         }
   }
 
