@@ -8,6 +8,7 @@ class Wire extends PureComponent {
       start: [x1, y1],
       end: [x2, y2],
     } = this.props
+    console.log(x1, x2);
 
     const midY = (y2 - y1) / 2
     const canvasLeft = Math.min(x1, x2) - sizeOffset

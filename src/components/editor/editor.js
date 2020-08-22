@@ -25,12 +25,12 @@ const Editor = ({ bridge }) => {
             name: 'numberSlider',
             inlineData: [200, 0, 600, 10],
             output: {
-              '0': [[2, 1, 0]],
+              '0': [[2, 0, 0]],
             },
           },
         },
         '2': {
-          '1': {
+          '0': {
             name: 'ellipse',
             input: {
               '0': [1, 0, 0],

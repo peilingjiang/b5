@@ -183,14 +183,15 @@
   .slider {
     .left {
       display: inline-block;
-      width: 64px;
+      width: 62px;
 
       .blockName {
         margin: 9px 0;
+        width: 100%;
       }
 
       .nodes {
-        width: 64px;
+        width: 62px;
 
         .count1 {
           width: 100%;
@@ -206,18 +207,18 @@
 
   .input {
     display: flex;
-    width: 150px;
+    width: 124px;
     height: 34px;
 
     .right {
       display: inline-block;
-      width: 86px;
+      width: 62px;
 
       .inputBox {
         border-radius: $tiny-tiny-radius;
         margin: 3px 3px 3px 0;
         height: 28px;
-        width: 83px;
+        width: 59px;
         text-align: center;
         font-size: $small;
       }
@@ -228,7 +229,7 @@
 
   .slider {
     display: flex;
-    width: 200px;
+    width: 195px;
     height: 34px;
 
     .right {
@@ -237,7 +238,7 @@
       .sliderBox {
         position: relative;
         height: 28px;
-        width: 133px;
+        width: 130px;
         margin: 3px 3px 3px 0;
         background-color: #fff;
         border-radius: $tiny-tiny-radius;
