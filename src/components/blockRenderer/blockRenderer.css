@@ -23,6 +23,14 @@
   display: flex;
   justify-content: center;
 
+  &.focused {
+    z-index: 90000 !important;
+
+    .block {
+      box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
+    }
+  }
+
   .block {
     z-index: 60000;
     position: absolute;
@@ -108,10 +116,10 @@
 
     .connected {
       border: $node-border $light-grey;
-    }
 
-    .focusedNode {
-      border: $node-border $dark-grey;
+      &.focused {
+        border: $node-border $dark-grey;
+      }
     }
   }
 

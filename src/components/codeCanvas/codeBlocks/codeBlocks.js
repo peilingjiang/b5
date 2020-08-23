@@ -20,6 +20,7 @@ export default class CodeBlocks extends Component {
 
     this.state = {
       nodesOffset: {},
+      focused: [], // [[y, x], [2, 9], [1, 0], ...]
     }
   }
 
@@ -27,6 +28,12 @@ export default class CodeBlocks extends Component {
     this.codeBlocks.current.addEventListener(
       'mousedown',
       this.handleMouseDown,
+      true
+    )
+    // Add listener to codeCanvas
+    this.codeBlocks.current.parentElement.addEventListener(
+      'click',
+      this.handleClick,
       true
     )
   }
@@ -37,64 +44,89 @@ export default class CodeBlocks extends Component {
       this.handleMouseDown,
       true
     )
+    this.codeBlocks.current.parentElement.removeEventListener(
+      'click',
+      this.handleClick,
+      true
+    )
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     return (
       nextProps.data !== this.props.data ||
-      nextState.nodesOffset !== this.state.nodesOffset
+      nextState.nodesOffset !== this.state.nodesOffset ||
+      // eslint-disable-next-line eqeqeq
+      nextState.focused != this.state.focused
     )
+  }
+
+  handleClick = e => {
+    // Left click on the block, focus the clicked one
+    if (e.which === 1) {
+      if (this._hoveringOnBlock(e.target.classList)) {
+        e.preventDefault()
+
+        this._focus(this._findBlock(e.target), false)
+
+        // TODO: Add DELETE block listener
+        // ...
+      } else {
+        this._blurAll()
+      }
+    }
   }
 
   handleMouseDown = e => {
     const that = this
-    if (!e.target.classList.contains('blockFill') && e.which !== 3) {
+    if (e.which === 1) {
       if (this._hoveringOnBlock(e.target.classList)) {
         e.preventDefault()
         // BLOCK
         const thisBlockInd = this._findBlock(e.target)
-        const thisBlock = this.blocksRef[thisBlockInd[0]][thisBlockInd[1]]
-        if (thisBlock) {
-          // thisBlock.current.focus()
-          thisBlock.current.childNodes[0].className = thisBlock.current.childNodes[0].className.replace(
-            'grab',
-            'grabbing'
-          )
-          let mouse = {
-            x: e.clientX,
-            y: e.clientY,
-            blockLeft: thisBlock.current.offsetLeft,
-            blockTop: thisBlock.current.offsetTop,
-            nodesOffset: this.state.nodesOffset[thisBlockInd[0]][
-              thisBlockInd[1]
-            ],
-          }
+        if (thisBlockInd) {
+          const thisBlock = this.blocksRef[thisBlockInd[0]][thisBlockInd[1]]
+          if (thisBlock) {
+            this._focus(thisBlockInd) // [2, 0] - [y, x]
+            thisBlock.current.childNodes[0].className = thisBlock.current.childNodes[0].className.replace(
+              'grab',
+              'grabbing'
+            )
+            let mouse = {
+              x: e.clientX,
+              y: e.clientY,
+              blockLeft: thisBlock.current.offsetLeft,
+              blockTop: thisBlock.current.offsetTop,
+              nodesOffset: this.state.nodesOffset[thisBlockInd[0]][
+                thisBlockInd[1]
+              ],
+            }
 
-          const handleMove = this.handleMoveBlock.bind(this, {
-            m: mouse,
-            b: thisBlock.current,
-            bX: thisBlockInd[1],
-            bY: thisBlockInd[0],
-          })
-          const codeBlocksCurrent = this.codeBlocks.current
-          codeBlocksCurrent.addEventListener('mousemove', handleMove, true)
-          document.addEventListener(
-            'mouseup',
-            function _listener() {
-              codeBlocksCurrent.removeEventListener(
-                'mousemove',
-                handleMove,
-                true
-              )
-              thisBlock.current.childNodes[0].className = thisBlock.current.childNodes[0].className.replace(
-                'grabbing',
-                'grab'
-              )
-              that._checkMove(mouse, thisBlock, thisBlockInd)
-              document.removeEventListener('mouseup', _listener, true)
-            },
-            true
-          )
+            const handleMove = this.handleMoveBlock.bind(this, {
+              m: mouse,
+              b: thisBlock.current,
+              bX: thisBlockInd[1],
+              bY: thisBlockInd[0],
+            })
+            const codeBlocksCurrent = this.codeBlocks.current
+            codeBlocksCurrent.addEventListener('mousemove', handleMove, true)
+            document.addEventListener(
+              'mouseup',
+              function _listener() {
+                codeBlocksCurrent.removeEventListener(
+                  'mousemove',
+                  handleMove,
+                  true
+                )
+                thisBlock.current.childNodes[0].className = thisBlock.current.childNodes[0].className.replace(
+                  'grabbing',
+                  'grab'
+                )
+                that._checkMove(mouse, thisBlock, thisBlockInd)
+                document.removeEventListener('mouseup', _listener, true)
+              },
+              true
+            )
+          }
         }
       } else if (e.target.classList.contains('node')) {
         // NODE
@@ -142,7 +174,13 @@ export default class CodeBlocks extends Component {
   }
 
   _hoveringOnBlock(classList) {
-    const checkList = ['node', 'inputBox', 'sliderComponent']
+    const checkList = [
+      'blockFill',
+      'blockRoom',
+      'node',
+      'inputBox',
+      'sliderComponent',
+    ]
     for (let i in checkList) if (classList.contains(checkList[i])) return false
     return true
   }
@@ -155,13 +193,13 @@ export default class CodeBlocks extends Component {
     if (bD.output)
       // Outputs cannot be above the block
       for (let i in bD.output)
-        if (bD.output[i] !== null && bD.output[i][0] <= y) return true
+        for (let j in bD.output[i]) if (bD.output[i][j][0] <= y) return true
 
     return false
   }
 
   _checkMove(m, b, bInd) {
-    // mouse, thisBlock
+    // mouse, thisBlock, (old) blockInd
     const blockCurrent = b.current
     const blockData = this.props.data[bInd[0]][bInd[1]]
     const { offsetLeft, offsetTop } = blockCurrent
@@ -194,6 +232,10 @@ export default class CodeBlocks extends Component {
       if (this.blocksRef[bInd[0]] === {}) delete this.blocksRef[bInd[0]]
 
       this.props.collect([bInd[1], bInd[0], x, y], 'relocateBlock')
+
+      // Replace Focus
+      this._blur(bInd)
+      this._focus([y, x], true)
     }
   }
 
@@ -230,6 +272,42 @@ export default class CodeBlocks extends Component {
     return inputBlocks
   }
 
+  _helper_getInd = bInd => {
+    for (let i in this.state.focused)
+      if (
+        // eslint-disable-next-line eqeqeq
+        this.state.focused[i][0] == bInd[0] &&
+        // eslint-disable-next-line eqeqeq
+        this.state.focused[i][1] == bInd[1]
+      )
+        return i
+    return -1
+  }
+
+  _focus = (bInd, add = false) => {
+    // Do we need to check if bInd is in state?
+    // add - true to add current, false to clear and add current
+    this.setState({
+      focused: add
+        ? [...this.state.focused, [bInd[0], bInd[1]]]
+        : [[bInd[0], bInd[1]]],
+    })
+  }
+
+  _blur = bInd => {
+    let index = this._helper_getInd(bInd)
+    if (index !== -1)
+      this.setState({ focused: [...this.state.focused].splice(index, 1) })
+  }
+
+  _blurAll = () => {
+    this.setState({ focused: [] })
+  }
+
+  _isFocused = bInd => {
+    return this._helper_getInd(bInd) === -1 ? false : true
+  }
+
   collectNodesOffset = (x, y, data) => {
     /*
     
@@ -263,8 +341,9 @@ export default class CodeBlocks extends Component {
   render() {
     const { data, collect } = this.props
     let blocks = []
-    for (let i in data)
+    for (let i in data) // y
       for (let j in data[i]) {
+        // x
         let inputBlocks = data[i][j].input
           ? this._getInputNodes(data[i][j].input)
           : null
@@ -276,6 +355,7 @@ export default class CodeBlocks extends Component {
             y={i}
             x={j}
             inputBlocks={inputBlocks}
+            focused={this._isFocused([i, j])}
             collect={collect}
             collectNodesOffset={this.collectNodesOffset}
           />
@@ -284,7 +364,11 @@ export default class CodeBlocks extends Component {
 
     return (
       <div ref={this.codeBlocks} className="codeBlocks">
-        <WireRenderer data={data} nodesOffset={this.state.nodesOffset} />
+        <WireRenderer
+          data={data}
+          nodesOffset={this.state.nodesOffset}
+          focused={this.state.focused}
+        />
         {blocks}
       </div>
     )

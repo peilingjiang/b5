@@ -1,6 +1,6 @@
 import React, { PureComponent, createRef, forwardRef } from 'react'
 
-const NodeRef = ({ count, type, connectType, thisNodeRef }) => {
+const NodeRef = ({ count, type, connectType, thisNodeRef, focused }) => {
   return (
     <div className={'nodeFill count' + count}>
       <div
@@ -8,7 +8,8 @@ const NodeRef = ({ count, type, connectType, thisNodeRef }) => {
           'nodeAdd node ' +
           (connectType === null
             ? type + 'Node'
-            : connectType + 'Connect connected')
+            : connectType + 'Connect connected') +
+          (focused ? ' focused' : '')
         }
         ref={thisNodeRef}
       ></div>

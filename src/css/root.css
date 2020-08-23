@@ -7,8 +7,8 @@ $tiny-tiny-radius: 3px;
 /* Color */
 $near-white: #fdfdfd;
 $background-grey: #f7f7f7;
-$dark-white: #f0f0f0;
-$hover-grey: #ddd; /* Default wire grey */
+$dark-white: #efefef;
+$hover-grey: #dcdcdc; /* Default wire grey */
 $light-grey: #aaa; /* Active grey */
 $grey: #777;
 $dark-grey: #555;

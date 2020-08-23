@@ -54,17 +54,12 @@ class BlockRenderer extends Component {
     this.handleCollectNodesOffset()
   }
 
-  componentWillUnmount() {
-    // Handle delete node offset data of this position
-    // this.handleDeleteNodesOffset()
-  }
-
   componentDidUpdate() {
     this.handleCollectNodesOffset()
   }
 
   shouldComponentUpdate(prevProps) {
-    return prevProps.data !== this.props.data
+    return prevProps.data !== this.props.data || prevProps.focused !== this.props.focused
   }
 
   handleCollectNodesOffset = () => {
@@ -84,10 +79,6 @@ class BlockRenderer extends Component {
     this.props.collectNodesOffset(this.props.x, this.props.y, data)
   }
 
-  handleDeleteNodesOffset = () => {
-    this.props.deleteNodesOffset(this.props.x, this.props.y)
-  }
-
   render() {
     const {
         data: { name, input, inlineData, output },
@@ -95,6 +86,7 @@ class BlockRenderer extends Component {
         x,
         y,
         collect,
+        focused
       } = this.props,
       { type, kind, inputNodes, outputNodes } = _b5BlocksObject[name]
 
@@ -123,6 +115,7 @@ class BlockRenderer extends Component {
             }
             // If connectType !== null, then connected
             ref={this.nodesRef.input[i]}
+            focused={focused}
           />
         )
         inputNodesText.push(
@@ -147,6 +140,7 @@ class BlockRenderer extends Component {
             type={type}
             connectType={output[i].length !== 0 ? outputNodes[i].type[0] : null} // output can only be [] (when not connected) instead of null
             ref={this.nodesRef.output[i]}
+            focused={focused}
           />
         )
         outputNodesText.push(
@@ -162,7 +156,7 @@ class BlockRenderer extends Component {
 
     return (
       <div
-        className="blockFill"
+        className={'blockFill' + (focused ? ' focused' : '')}
         style={{
           top: this.y * lineHeight + 'px',
           left: this.x * roomWidth + 'px',
@@ -187,6 +181,7 @@ class BlockRenderer extends Component {
             x={x}
             y={y}
             nodesRef={this.nodesRef}
+            focused={focused}
           />
         ) : kind === 'slider' ? (
           <SliderBlock
@@ -200,6 +195,7 @@ class BlockRenderer extends Component {
             x={x}
             y={y}
             nodesRef={this.nodesRef}
+            focused={focused}
           />
         ) : (
           // kind === 'normal'
