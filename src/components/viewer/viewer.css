@@ -22,10 +22,6 @@ $viewer-max-height: 700px;
 
   .header {
     user-select: none;
-
-    .toolbarIcon:first-of-type {
-      margin-left: $gap;
-    }
   }
 
   #viewerCanvas {

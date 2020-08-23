@@ -8,9 +8,8 @@ class Wire extends PureComponent {
       start: [x1, y1],
       end: [x2, y2],
     } = this.props
-    console.log(x1, x2);
 
-    const midY = (y2 - y1) / 2
+    const midY = (y2 - y1) * 0.6 // To get the mid point, divide by 2
     const canvasLeft = Math.min(x1, x2) - sizeOffset
     const canvasTop = Math.min(y1, y2)
 
@@ -46,16 +45,17 @@ export default class WireRenderer extends Component {
 
     for (let i in nodesOffset)
       for (let j in nodesOffset[i])
-        for (let node in data[i][j].input)
+        for (let node in nodesOffset[i][j].input)
           if (data[i][j].input[node] !== null) {
             const c = data[i][j].input[node] // Connected output node, [1, 2, 1]
-            wires.push(
-              <Wire
-                key={'wire ' + i + j + node + c[0] + c[1] + c[2]}
-                start={nodesOffset[i][j].input[node]} // [141, 195]
-                end={nodesOffset[c[0]][c[1]].output[c[2]]}
-              />
-            )
+            if (nodesOffset[c[0]] && nodesOffset[c[0]][c[1]])
+              wires.push(
+                <Wire
+                  key={'wire ' + i + j + node + c[0] + c[1] + c[2]}
+                  start={nodesOffset[i][j].input[node]} // [141, 195]
+                  end={nodesOffset[c[0]][c[1]].output[c[2]]}
+                />
+              )
           }
 
     return <div className="wires">{wires}</div>

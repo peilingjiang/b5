@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 
-import { color } from '../constants'
 import { Tab, TabContent } from './factoryFrags'
 import '../../postcss/components/factory/factory.css'
 
@@ -44,9 +43,7 @@ export default class Factory extends Component {
         <ol
           ref={e => (this.tabList = e)}
           id="tabList"
-          style={{
-            borderBottom: '2px solid ' + color[activeTab.slice(0, -1)], // remove 's'
-          }}
+          className={'active' + a.charAt(0).toUpperCase() + a.slice(1)}
         >
           {allTabs.map(tab => {
             return (
@@ -59,6 +56,7 @@ export default class Factory extends Component {
             )
           })}
         </ol>
+
         <TabContent
           type={a} // Remove 's'
           data={this.props.data[a]} // Array of objects

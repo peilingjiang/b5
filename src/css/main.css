@@ -56,8 +56,8 @@ body {
     background-color: $light-grey;
   }
 
-  .toolbarIcon:not(:first-child) {
-    margin-left: 8px;
+  .toolbarIcon {
+    margin-left: $gap;
   }
 
   .toolbarIcon img {

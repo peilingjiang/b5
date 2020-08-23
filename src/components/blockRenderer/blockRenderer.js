@@ -56,6 +56,11 @@ class BlockRenderer extends Component {
 
   componentWillUnmount() {
     // Handle delete node offset data of this position
+    // this.handleDeleteNodesOffset()
+  }
+
+  componentDidUpdate() {
+    this.handleCollectNodesOffset()
   }
 
   shouldComponentUpdate(prevProps) {
@@ -77,6 +82,10 @@ class BlockRenderer extends Component {
       )
 
     this.props.collectNodesOffset(this.props.x, this.props.y, data)
+  }
+
+  handleDeleteNodesOffset = () => {
+    this.props.deleteNodesOffset(this.props.x, this.props.y)
   }
 
   render() {

@@ -1,13 +1,13 @@
 /* Space */
-$gap: 6px;
+$gap: 8px;
 $radius: 5px;
 $tiny-radius: 4px;
 $tiny-tiny-radius: 3px;
 
 /* Color */
 $near-white: #fdfdfd;
-$dark-white: #efefef;
-$background-grey: #eee;
+$background-grey: #f7f7f7;
+$dark-white: #f0f0f0;
 $hover-grey: #ddd; /* Default wire grey */
 $light-grey: #aaa; /* Active grey */
 $grey: #777;
@@ -51,7 +51,7 @@ $head-height: calc($icon-total-height + 2 * $gap);
 /* codeCanvas */
 $block-width: 218px;
 $line-height: 110px;
-$line-numbers-width: 32px;
+$line-numbers-width: 29px;
 $block-alphabet-height: 24px;
 
 $node-size: 8px;

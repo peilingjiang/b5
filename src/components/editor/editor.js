@@ -20,20 +20,20 @@ const Editor = ({ bridge }) => {
       type: 'playground',
       lineStyles: {},
       blocks: {
-        '1': {
+        '0': {
           '0': {
             name: 'numberSlider',
             inlineData: [200, 0, 600, 10],
             output: {
-              '0': [[2, 0, 0]],
+              '0': [[1, 1, 0]],
             },
           },
         },
-        '2': {
-          '0': {
+        '1': {
+          '1': {
             name: 'ellipse',
             input: {
-              '0': [1, 0, 0],
+              '0': [0, 0, 0],
               '1': null,
               '2': null,
               '3': null,
@@ -191,7 +191,7 @@ const Editor = ({ bridge }) => {
     if (!thisBlocks[y2]) thisBlocks[y2] = {}
     thisBlocks[y2][x2] = JSON.parse(JSON.stringify(thisBlocks[y1][x1]))
     delete thisBlocks[y1][x1]
-    if (thisBlocks[y1] === {}) delete thisBlocks[y1]
+    if (Object.keys(thisBlocks[y1]).length === 0) delete thisBlocks[y1]
 
     // Remap outputs' inputs, and inputs' outputs
     if (thisBlocks[y2][x2].output)
@@ -254,43 +254,46 @@ const Editor = ({ bridge }) => {
   }
 
   return (
-    <div id="editor" className="split">
-      <div ref={leftElement} id="editor-left">
-        <Playground
-          data={editor.playground}
-          canvasStyle={editorCanvasStyle.playground}
-          collect={collectEditorData}
-          collectStyle={collectEditorCanvasStyle}
+    <div id="editor">
+      <div className="header">
+        <IconList
+          iconsName={['Settings', 'File', 'Share']}
+          onClickFunc={[null, null, null]}
         />
+        <a
+          href="https://github.com/peilingjiang/b5"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <img id="logo" src={Logo} alt="b5" />
+        </a>
       </div>
 
-      {/* Separator here */}
-      <div ref={separator} className="separator"></div>
-
-      <div ref={rightElement} id="editor-right">
-        <div className="header">
-          <IconList
-            iconsName={['Settings', 'File', 'Share']}
-            onClickFunc={[null, null, null]}
-          />
-          <a
-            href="https://github.com/peilingjiang/b5"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <img id="logo" src={Logo} alt="b5" />
-          </a>
+      <div className="split">
+        <div ref={leftElement} id="editor-left">
+          <div id="factory">
+            {/* Variables Functions Objects */}
+            <Factory
+              data={editor.factory}
+              canvasStyle={editorCanvasStyle.factory}
+              addSection={addSection}
+              collect={collectEditorData}
+              collectStyle={collectEditorCanvasStyle}
+            />
+            {/* <div className="shadow"></div> */}
+          </div>
         </div>
-        <div id="factory">
-          {/* Variables Functions Objects */}
-          <Factory
-            data={editor.factory}
-            canvasStyle={editorCanvasStyle.factory}
-            addSection={addSection}
+
+        {/* Separator here */}
+        <div ref={separator} className="separator"></div>
+
+        <div ref={rightElement} id="editor-right">
+          <Playground
+            data={editor.playground}
+            canvasStyle={editorCanvasStyle.playground}
             collect={collectEditorData}
             collectStyle={collectEditorCanvasStyle}
           />
-          <div className="shadow"></div>
         </div>
       </div>
     </div>

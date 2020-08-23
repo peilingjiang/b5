@@ -65,11 +65,16 @@ export default class CodeBlocks extends Component {
             y: e.clientY,
             blockLeft: thisBlock.current.offsetLeft,
             blockTop: thisBlock.current.offsetTop,
+            nodesOffset: this.state.nodesOffset[thisBlockInd[0]][
+              thisBlockInd[1]
+            ],
           }
 
           const handleMove = this.handleMoveBlock.bind(this, {
             m: mouse,
             b: thisBlock.current,
+            bX: thisBlockInd[1],
+            bY: thisBlockInd[0],
           })
           const codeBlocksCurrent = this.codeBlocks.current
           codeBlocksCurrent.addEventListener('mousemove', handleMove, true)
@@ -98,31 +103,42 @@ export default class CodeBlocks extends Component {
   }
 
   handleMoveBlock = (props, e) => {
-    const { m, b } = props // mouse, thisBlock.current
+    const { m, b, bX, bY } = props // mouse, thisBlock.current
     const {
       canvas: { lineCount, blockCount },
     } = this.props
+
     let delta = {
-      x: e.clientX - m.x,
-      y: e.clientY - m.y,
+      x: Math.max(
+        Math.min(
+          (e.clientX - m.x) / this.props.scale,
+          (blockCount - 1) * roomWidth - m.blockLeft
+        ),
+        -m.blockLeft
+      ),
+      y: Math.max(
+        Math.min(
+          (e.clientY - m.y) / this.props.scale,
+          (lineCount - 1) * lineHeight - m.blockTop
+        ),
+        -m.blockTop
+      ),
     }
 
-    b.style.left =
-      Math.max(
-        Math.min(
-          m.blockLeft + delta.x / this.props.scale,
-          (blockCount - 1) * roomWidth
-        ),
-        0
-      ) + 'px'
-    b.style.top =
-      Math.max(
-        Math.min(
-          m.blockTop + delta.y / this.props.scale,
-          (lineCount - 1) * lineHeight
-        ),
-        0
-      ) + 'px'
+    b.style.left = delta.x + m.blockLeft + 'px'
+    b.style.top = delta.y + m.blockTop + 'px'
+
+    // Update node offset
+    let oldData = JSON.parse(JSON.stringify(m.nodesOffset))
+    for (let i in oldData.input) {
+      oldData.input[i][0] += delta.x
+      oldData.input[i][1] += delta.y
+    }
+    for (let i in oldData.output) {
+      oldData.output[i][0] += delta.x
+      oldData.output[i][1] += delta.y
+    }
+    this.collectNodesOffset(bX, bY, oldData)
   }
 
   _hoveringOnBlock(classList) {
@@ -156,11 +172,16 @@ export default class CodeBlocks extends Component {
       (this.props.data[y] && this.props.data[y][x]) ||
       this._hasParentOrChildInTheSameLine(blockData, y)
     ) {
-      // Already occupied
+      // Already occupied - send block back to original position
       blockCurrent.style.left = m.blockLeft + 'px'
       blockCurrent.style.top = m.blockTop + 'px'
+      this.collectNodesOffset(bInd[1], bInd[0], m.nodesOffset)
     } else {
       // Successfully moved!
+
+      // Remove node offset
+      this.deleteNodesOffset(bInd[1], bInd[0])
+
       blockCurrent.style.left = x * roomWidth + 'px'
       blockCurrent.style.top = y * lineHeight + 'px'
 
@@ -223,6 +244,17 @@ export default class CodeBlocks extends Component {
       let newState = JSON.parse(JSON.stringify(prevState))
       if (!newState.nodesOffset[y]) newState.nodesOffset[y] = {}
       newState.nodesOffset[y][x] = data
+
+      return newState
+    })
+  }
+
+  deleteNodesOffset = (x, y) => {
+    this.setState(prevState => {
+      let newState = JSON.parse(JSON.stringify(prevState))
+
+      delete newState.nodesOffset[y][x]
+      if (Object.keys(newState.nodesOffset[y]).length === 0) delete newState[y]
 
       return newState
     })

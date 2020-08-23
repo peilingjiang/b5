@@ -79,7 +79,6 @@ const TabSection = ({
 
   return (
     <div ref={sectionRef} className={'section ' + type + 'Section'}>
-      <BlockPreview type={type} data={data} />
       <div className="codeCanvasHolder">
         <CodeCanvas
           data={data}
@@ -90,6 +89,7 @@ const TabSection = ({
           collectStyle={collectStyleWrapper}
         />
       </div>
+      <BlockPreview type={type} data={data} />
       {/* Bottom draggable side for resizing */}
       <div ref={sectionResizeRef} className="sectionResizeBar"></div>
     </div>

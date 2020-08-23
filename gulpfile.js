@@ -8,7 +8,6 @@ import precss from 'precss'
 import assets from 'postcss-assets'
 import scss from 'postcss-scss'
 import postcssColorMod from 'postcss-color-mod-function'
-import postcssInputRange from 'postcss-input-range'
 
 const { task, src, dest, series, watch } = pkg
 
@@ -31,7 +30,6 @@ task('css', function () {
           precss(),
           postcssColorMod(),
           autoprefixer(),
-          postcssInputRange(),
           cssnano(),
         ],
         {
