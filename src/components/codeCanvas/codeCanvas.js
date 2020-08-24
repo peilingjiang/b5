@@ -1,4 +1,5 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
+import equal from 'react-fast-compare'
 
 import {
   lineHeight,
@@ -8,11 +9,12 @@ import {
 } from '../constants'
 import { LineNumberRoom, BlockAlphabetRoom, BlockRoom } from './codeCanvasFrags'
 import CodeBlocks from './codeBlocks/codeBlocks'
+import BlockSearch from '../blockSearch/blockSearch'
 import '../../postcss/components/codeCanvas/codeCanvas.css'
 
 import DoubleClick from '../../img/icon/dclick.svg'
 
-export default class CodeCanvas extends PureComponent {
+export default class CodeCanvas extends Component {
   constructor(props) {
     /*
 
@@ -35,15 +37,21 @@ export default class CodeCanvas extends PureComponent {
         top: 0, // (Required)
         scale: 1, // (Required)
       },
+
+      collect, // (Required)
+      collectStyle, // (Required)
     }
 
     */
     super(props)
     this.state = {
-      lineCount: 0, // # of lines
-      blockCount: 0, // # of block rooms for each line
-      maxIndX: 0, // Max index (with block in the room) on x-axis (horizontally)
-      maxIndY: 0, // Max index (with block in the room) on y-axis (vertically)
+      render: {
+        lineCount: 0, // # of lines
+        blockCount: 0, // # of block rooms for each line
+        maxIndX: 0, // Max index (with block in the room) on x-axis (horizontally)
+        maxIndY: 0, // Max index (with block in the room) on y-axis (vertically)
+        hovering: false,
+      },
       /* canvasStyle */
       left: props.canvasStyle.left, // Left offset (codeCanvas) after dragging
       top: props.canvasStyle.top, // Top offset (codeCanvas) after dragging
@@ -101,14 +109,25 @@ export default class CodeCanvas extends PureComponent {
     this.resizeObserver.observe(this.codeCanvas)
 
     this.codeCanvas.addEventListener('contextmenu', this.rightClick, true)
+
+    this.codeCanvas.addEventListener('mouseenter', this.handleHover)
+    this.codeCanvas.addEventListener('mouseleave', this.handleLeave)
   }
 
   componentWillUnmount() {
     this.codeCanvas.removeEventListener('mousedown', this.handleMouseDown, true)
     this.codeCanvas.removeEventListener('wheel', this.handleZoom, true)
     this.resizeObserver.unobserve(this.codeCanvas)
-
     this.codeCanvas.removeEventListener('contextmenu', this.rightClick, true)
+    this.codeCanvas.removeEventListener('mouseenter', this.handleHover)
+    this.codeCanvas.removeEventListener('mouseleave', this.handleLeave)
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      !equal(this.props.data, nextProps.data) ||
+      !equal(this.state.render, nextState.render)
+    )
   }
 
   // setEditor functions...
@@ -229,51 +248,59 @@ export default class CodeCanvas extends PureComponent {
     e.preventDefault()
   }
 
+  handleHover = e => {
+    let render = { ...this.state.render }
+    render.hovering = true
+    this.setState({ render })
+  }
+
+  handleLeave = e => {
+    let render = { ...this.state.render }
+    render.hovering = false
+    this.setState({ render })
+  }
+
   _getSeclusionInd() {
     // Get the indices for furthest blocks in codeCanvas
     // Update only on block changes
     const blocks = this.props.data.blocks
+    let render = { ...this.state.render }
 
-    Object.entries(blocks).length === 0
-      ? // No block in codeCanvas
-        this.setState({
-          maxIndX: 0,
-          maxIndY: 0,
-        })
-      : this.setState({
-          maxIndY: Math.max.apply(null, Object.keys(blocks)), // Max line number
-          maxIndX: Math.max.apply(
-            null,
-            Object.keys(blocks).map(lk =>
-              Math.max.apply(null, Object.keys(blocks[lk]))
-            )
-          ), // Max column number
-        })
+    if (Object.entries(blocks).length === 0) {
+      // No block in codeCanvas
+      render.maxIndY = 0
+      render.maxIndX = 0
+    } else {
+      render.maxIndY = Math.max.apply(null, Object.keys(blocks)) // Max line number
+      render.maxIndX = Math.max.apply(
+        null,
+        Object.keys(blocks).map(lk =>
+          Math.max.apply(null, Object.keys(blocks[lk]))
+        )
+      ) // Max column number
+    }
+    this.setState({ render })
   }
 
   _refreshCodeCanvasCounts() {
     // Get target room counts for lines and blocks per line
     // and update this.state.lineCount and this.state.blockCount
-    this.setState({
-      lineCount: Math.min(
-        Math.max(
-          Math.ceil(
-            (this.codeCanvas.clientHeight - this.state.top) / lineHeight
-          ),
-          this.state.maxIndY + 1 // Always one more block room to the most seclusive block
-        ),
-        this.maxLineCount
+    let render = { ...this.state.render }
+    render.lineCount = Math.min(
+      Math.max(
+        Math.ceil((this.codeCanvas.clientHeight - this.state.top) / lineHeight),
+        this.state.render.maxIndY + 1 // Always one more block room to the most seclusive block
       ),
-      blockCount: Math.min(
-        Math.max(
-          Math.ceil(
-            (this.codeCanvas.clientWidth - this.state.left) / roomWidth
-          ),
-          this.state.maxIndX + 1
-        ),
-        this.maxBlockCount
+      this.maxLineCount
+    )
+    render.blockCount = Math.min(
+      Math.max(
+        Math.ceil((this.codeCanvas.clientWidth - this.state.left) / roomWidth),
+        this.state.render.maxIndX + 1
       ),
-    })
+      this.maxBlockCount
+    )
+    this.setState({ render })
   }
 
   render() {
@@ -281,7 +308,10 @@ export default class CodeCanvas extends PureComponent {
       blockAlphabets = [],
       blockHome = []
 
-    const { lineCount, blockCount, scale } = this.state
+    const {
+      render: { lineCount, blockCount },
+      scale,
+    } = this.state
 
     for (let i = 0; i < lineCount; i++) {
       // Key - 'line 17'
@@ -320,6 +350,7 @@ export default class CodeCanvas extends PureComponent {
               }}
               collect={this.handleCollectEditorData}
               scale={scale}
+              hovering={this.state.render.hovering}
             />
           )}
         </div>
@@ -334,6 +365,8 @@ export default class CodeCanvas extends PureComponent {
         </div>
         {/* lineJoint */}
         <div className="lineJoint"></div>
+
+        <BlockSearch type={this.props.data.type} />
       </div>
     )
   }

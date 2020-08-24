@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react'
+import equal from 'react-fast-compare'
 
 import { drag, usePrevious, IconList } from '../main'
 import {
@@ -25,7 +26,16 @@ const Editor = ({ bridge }) => {
             name: 'numberSlider',
             inlineData: [200, 0, 600, 10],
             output: {
-              '0': [[1, 1, 0]],
+              '0': [['1', '1', '0']],
+            },
+          },
+          '1': {
+            name: 'background',
+            input: {
+              '0': null,
+              '1': null,
+              '2': null,
+              '3': null,
             },
           },
         },
@@ -33,7 +43,7 @@ const Editor = ({ bridge }) => {
           '1': {
             name: 'ellipse',
             input: {
-              '0': [0, 0, 0],
+              '0': ['0', '0', '0'],
               '1': null,
               '2': null,
               '3': null,
@@ -59,32 +69,23 @@ const Editor = ({ bridge }) => {
                 /* Column number - start from 0 */
                 name: 'number',
                 inlineData: [500],
-                output: { '0': [[1, 0, 0]] }, // For block rendering
+                output: { '0': [['1', '0', '0']] }, // For block rendering
               },
               '1': {
                 name: 'numberSlider',
                 inlineData: [300, 0, 1000, 100],
-                output: { '0': [[1, 0, 1]] }, // One output node may be connected to multiple input nodes
+                output: { '0': [['1', '0', '1']] }, // One output node may be connected to multiple input nodes
               },
             },
             '1': {
               '0': {
                 name: 'createCanvas',
                 input: {
-                  '0': [0, 0, 0], // Line number, column number, index of the node
-                  '1': [0, 1, 0],
+                  '0': ['0', '0', '0'], // Line number, column number, index of the node
+                  '1': ['0', '1', '0'],
                 },
                 output: {
                   '0': [],
-                },
-              },
-              '1': {
-                name: 'background',
-                input: {
-                  '0': null,
-                  '1': null,
-                  '2': null,
-                  '3': null,
                 },
               },
             },
@@ -163,6 +164,10 @@ const Editor = ({ bridge }) => {
 
   */
 
+  // useEffect(() => {
+  //   console.log(editor);
+  // }, [editor])
+
   // ** setEditor **
   const collectEditorData = (data, task, source, index = 0) => {
     // Combine data from all sources: playground, variable, function, object
@@ -176,6 +181,9 @@ const Editor = ({ bridge }) => {
         case 'relocateBlock':
           relocateBlock(data[0], data[1], data[2], data[3], thisBlocks)
           break
+        case 'deleteBlock':
+          deleteBlock(data, thisBlocks)
+          break
         case 'inlineDataChange':
           inlineDataChange(data, thisBlocks)
           break
@@ -187,6 +195,7 @@ const Editor = ({ bridge }) => {
       return newState
     })
   }
+
   const relocateBlock = (x1, y1, x2, y2, thisBlocks) => {
     if (!thisBlocks[y2]) thisBlocks[y2] = {}
     thisBlocks[y2][x2] = JSON.parse(JSON.stringify(thisBlocks[y1][x1]))
@@ -199,10 +208,10 @@ const Editor = ({ bridge }) => {
       for (let i in thisBlocks[y2][x2].output)
         if (thisBlocks[y2][x2].output[i].length !== 0)
           for (let j in thisBlocks[y2][x2].output[i]) {
-            // output: { '0': [[1, 0, 0], [1, 0, 1]] }
+            // output: { '0': [['1', '0', '0'], ['1', '0', '1']] }
             const thisOutput = thisBlocks[y2][x2].output[i][j]
             const childBlock = thisBlocks[thisOutput[0]][thisOutput[1]]
-            childBlock.input[thisOutput[2]] = [y2, x2, parseInt(i)]
+            childBlock.input[thisOutput[2]] = [y2, x2, i]
           }
     if (thisBlocks[y2][x2].input)
       for (let i in thisBlocks[y2][x2].input)
@@ -211,10 +220,39 @@ const Editor = ({ bridge }) => {
           const parentBlock = thisBlocks[thisInput[0]][thisInput[1]]
           for (let j in parentBlock.output[thisInput[2]]) {
             const thisOutput = parentBlock.output[thisInput[2]][j]
-            if (thisOutput[0] === Number(y1) && thisOutput[1] === Number(x1))
-              parentBlock.output[thisInput[2]][j] = [y2, x2, parseInt(i)]
+            if (thisOutput[0] === y1 && thisOutput[1] === x1)
+              parentBlock.output[thisInput[2]][j] = [y2, x2, i]
           }
         }
+  }
+
+  const deleteBlock = (data, thisBlocks) => {
+    const [y, x] = data
+    // Delete input blocks' outputs
+    if (thisBlocks[y][x].input) {
+      const ins = thisBlocks[y][x].input
+      for (let i in ins)
+        if (ins[i] !== null) {
+          const thisParentOutput =
+            thisBlocks[ins[i][0]][ins[i][1]].output[ins[i][2]]
+          for (let j in thisParentOutput)
+            if (equal(thisParentOutput[j], [y, x, i]))
+              thisParentOutput.splice(j, 1)
+        }
+    }
+    // Delete output blocks' inputs
+    if (thisBlocks[y][x].output)
+      for (let i in thisBlocks[y][x].output)
+        if (thisBlocks[y][x].output[i].length !== 0) {
+          const thisOutput = thisBlocks[y][x].output[i]
+          for (let j in thisOutput)
+            thisBlocks[thisOutput[j][0]][thisOutput[j][1]].input[
+              thisOutput[j][2]
+            ] = null
+        }
+    // Delete the block
+    delete thisBlocks[y][x]
+    if (Object.keys(thisBlocks[y]).length === 0) delete thisBlocks[y]
   }
 
   const inlineDataChange = (data, thisBlocks) => {

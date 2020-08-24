@@ -6,9 +6,11 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "fuse.js": "^6.4.1",
     "p5": "^1.1.9",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-fast-compare": "^3.2.0",
     "react-scripts": "^3.4.3",
     "typescript": "^3.9.7",
     "uuid": "^8.3.0"

@@ -59,7 +59,10 @@ class BlockRenderer extends Component {
   }
 
   shouldComponentUpdate(prevProps) {
-    return prevProps.data !== this.props.data || prevProps.focused !== this.props.focused
+    return (
+      prevProps.data !== this.props.data ||
+      prevProps.focused !== this.props.focused
+    )
   }
 
   handleCollectNodesOffset = () => {
@@ -86,7 +89,7 @@ class BlockRenderer extends Component {
         x,
         y,
         collect,
-        focused
+        focused,
       } = this.props,
       { type, kind, inputNodes, outputNodes } = _b5BlocksObject[name]
 

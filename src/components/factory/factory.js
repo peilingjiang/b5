@@ -7,14 +7,14 @@ export default class Factory extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      activeTab: 'variables',
+      activeTab: 'variable',
     }
     /*
     All data from each tab of the factory will be stored here as a whole.
     Including { lineStyles, blocks } from all codeCanvas of each section
     from each tab.
     */
-    this.allTabs = ['variables', 'functions', 'objects']
+    this.allTabs = ['variable', 'function', 'object']
   }
 
   onClickTab = tab => {
@@ -22,7 +22,7 @@ export default class Factory extends Component {
   }
 
   addSectionWrapper() {
-    this.props.addSection(this.state.activeTab.slice(0, -1))
+    this.props.addSection(this.state.activeTab)
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -31,11 +31,11 @@ export default class Factory extends Component {
 
   render() {
     const {
-        allTabs,
-        onClickTab,
-        state: { activeTab },
-      } = this,
-      a = activeTab.slice(0, -1)
+      allTabs,
+      onClickTab,
+      state: { activeTab },
+    } = this
+
     const { collect, collectStyle } = this.props
 
     return (
@@ -43,7 +43,9 @@ export default class Factory extends Component {
         <ol
           ref={e => (this.tabList = e)}
           id="tabList"
-          className={'active' + a.charAt(0).toUpperCase() + a.slice(1)}
+          className={
+            'active' + activeTab.charAt(0).toUpperCase() + activeTab.slice(1)
+          }
         >
           {allTabs.map(tab => {
             return (
@@ -58,9 +60,9 @@ export default class Factory extends Component {
         </ol>
 
         <TabContent
-          type={a} // Remove 's'
-          data={this.props.data[a]} // Array of objects
-          canvasStyle={this.props.canvasStyle[a]}
+          type={activeTab}
+          data={this.props.data[activeTab]} // Array of objects
+          canvasStyle={this.props.canvasStyle[activeTab]}
           addSection={this.addSectionWrapper.bind(this)}
           collect={collect}
           collectStyle={collectStyle}

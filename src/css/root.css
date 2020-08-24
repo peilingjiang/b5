@@ -9,7 +9,7 @@ $near-white: #fdfdfd;
 $background-grey: #f7f7f7;
 $dark-white: #efefef;
 $hover-grey: #dcdcdc; /* Default wire grey */
-$light-grey: #aaa; /* Active grey */
+$light-grey: #acacac; /* Active grey */
 $grey: #777;
 $dark-grey: #555;
 $black: #333;
@@ -25,7 +25,8 @@ $alert: #cf1b1b;
 
 /* Opacity */
 $light-op: 0.25;
-$fade-op: 0.3;
+$fade-op: 0.4;
+$op: 0.5;
 $hover-op: 0.8;
 
 /* Font Weight */

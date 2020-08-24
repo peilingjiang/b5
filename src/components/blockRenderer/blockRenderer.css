@@ -5,6 +5,7 @@
   fill: none;
   stroke-width: 2px;
   shape-rendering: geometricPrecision;
+  cursor: pointer;
 }
 
 .node {
@@ -26,8 +27,28 @@
   &.focused {
     z-index: 90000 !important;
 
-    .block {
-      box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
+    .default {
+      box-shadow: 0 2px 11px -2px color-mod($default a($hover-op));
+    }
+
+    .variable {
+      box-shadow: 0 2px 11px -2px color-mod($variable a($hover-op));
+    }
+
+    .function {
+      box-shadow: 0 2px 11px -2px color-mod($function a($hover-op));
+    }
+
+    .object {
+      box-shadow: 0 2px 11px -2px color-mod($object a($hover-op));
+    }
+
+    .draw {
+      box-shadow: 0 2px 11px -2px color-mod($draw a($hover-op));
+    }
+
+    .library {
+      box-shadow: 0 2px 11px -2px color-mod($library a($hover-op));
     }
   }
 
@@ -118,7 +139,7 @@
       border: $node-border $light-grey;
 
       &.focused {
-        border: $node-border $dark-grey;
+        border: $node-border $dark-grey !important;
       }
     }
   }
@@ -352,6 +373,17 @@
   .svg {
     position: absolute;
     display: flex;
+
+    .selected {
+      filter: drop-shadow(0 0 3px $hover-grey);
+    }
+  }
+
+  .wireBackground {
+    stroke-width: 4px;
+    fill: none;
+    stroke: #fff;
+    cursor: pointer;
   }
 
   .unfocused {

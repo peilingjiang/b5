@@ -1,0 +1,6 @@
+@import '../../css/root.css';
+
+.blockSearch {
+  z-index: 10000000;
+  position: fixed;
+}

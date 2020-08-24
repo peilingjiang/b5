@@ -1,8 +1,10 @@
 import React, { Component, createRef } from 'react'
+import equal from 'react-fast-compare'
 
 import BlockRenderer from '../../blockRenderer/blockRenderer'
 import { roomWidth, lineHeight } from '../../constants'
 import WireRenderer from '../../blockRenderer/wireRenderer'
+import { operationalClick } from '../../main'
 
 export default class CodeBlocks extends Component {
   constructor(props) {
@@ -31,11 +33,9 @@ export default class CodeBlocks extends Component {
       true
     )
     // Add listener to codeCanvas
-    this.codeBlocks.current.parentElement.addEventListener(
-      'click',
-      this.handleClick,
-      true
-    )
+    document.addEventListener('click', this.handleClick)
+    // Add delete block listener
+    document.addEventListener('keydown', this.handleKeypress)
   }
 
   componentWillUnmount() {
@@ -44,36 +44,21 @@ export default class CodeBlocks extends Component {
       this.handleMouseDown,
       true
     )
-    this.codeBlocks.current.parentElement.removeEventListener(
-      'click',
-      this.handleClick,
-      true
-    )
+    document.removeEventListener('click', this.handleClick)
+    document.removeEventListener('keydown', this.handleKeypress)
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return (
-      nextProps.data !== this.props.data ||
-      nextState.nodesOffset !== this.state.nodesOffset ||
-      // eslint-disable-next-line eqeqeq
-      nextState.focused != this.state.focused
-    )
+    return nextProps.data !== this.props.data || !equal(nextState, this.state)
   }
 
   handleClick = e => {
     // Left click on the block, focus the clicked one
-    if (e.which === 1) {
-      if (this._hoveringOnBlock(e.target.classList)) {
-        e.preventDefault()
-
-        this._focus(this._findBlock(e.target), false)
-
-        // TODO: Add DELETE block listener
-        // ...
-      } else {
-        this._blurAll()
-      }
-    }
+    if (
+      (this.props.hovering && !this._hoveringOnBlock(e.target.classList)) ||
+      (!this.props.hovering && !operationalClick(e.target))
+    )
+      this._blurAll()
   }
 
   handleMouseDown = e => {
@@ -86,6 +71,7 @@ export default class CodeBlocks extends Component {
         if (thisBlockInd) {
           const thisBlock = this.blocksRef[thisBlockInd[0]][thisBlockInd[1]]
           if (thisBlock) {
+            // FOCUS CURRENT
             this._focus(thisBlockInd) // [2, 0] - [y, x]
             thisBlock.current.childNodes[0].className = thisBlock.current.childNodes[0].className.replace(
               'grab',
@@ -108,11 +94,16 @@ export default class CodeBlocks extends Component {
               bY: thisBlockInd[0],
             })
             const codeBlocksCurrent = this.codeBlocks.current
-            codeBlocksCurrent.addEventListener('mousemove', handleMove, true)
+            // Add listener to codeCanvas
+            codeBlocksCurrent.parentElement.addEventListener(
+              'mousemove',
+              handleMove,
+              true
+            )
             document.addEventListener(
               'mouseup',
               function _listener() {
-                codeBlocksCurrent.removeEventListener(
+                codeBlocksCurrent.parentElement.removeEventListener(
                   'mousemove',
                   handleMove,
                   true
@@ -173,6 +164,23 @@ export default class CodeBlocks extends Component {
     this.collectNodesOffset(bX, bY, oldData)
   }
 
+  handleKeypress = e => {
+    if (e.key === 'Backspace')
+      for (let i in this.state.focused) {
+        const f = this.state.focused[i]
+        // Remove from data
+        this.props.collect(f, 'deleteBlock')
+        // Remove ref
+        delete this.blocksRef[f[0]][f[1]]
+        if (Object.keys(this.blocksRef[f[0]]).length === 0)
+          delete this.blocksRef[f[0]]
+        // Remove nodes offset
+        this.deleteNodesOffset(f[1], f[0])
+        // Remove all focused (blur all)
+        this._blurAll()
+      }
+  }
+
   _hoveringOnBlock(classList) {
     const checkList = [
       'blockFill',
@@ -180,6 +188,9 @@ export default class CodeBlocks extends Component {
       'node',
       'inputBox',
       'sliderComponent',
+      'wireHolder',
+      'wire',
+      'wireBackground',
     ]
     for (let i in checkList) if (classList.contains(checkList[i])) return false
     return true
@@ -231,11 +242,14 @@ export default class CodeBlocks extends Component {
       delete this.blocksRef[bInd[0]][bInd[1]]
       if (this.blocksRef[bInd[0]] === {}) delete this.blocksRef[bInd[0]]
 
-      this.props.collect([bInd[1], bInd[0], x, y], 'relocateBlock')
+      this.props.collect(
+        [bInd[1], bInd[0], x.toString(), y.toString()],
+        'relocateBlock'
+      )
 
       // Replace Focus
       this._blur(bInd)
-      this._focus([y, x], true)
+      this._focus([y.toString(), x.toString()])
     }
   }
 
@@ -254,7 +268,6 @@ export default class CodeBlocks extends Component {
           this.blocksRef[i][j].current.offsetLeft === target.offsetLeft &&
           this.blocksRef[i][j].current.offsetTop === target.offsetTop
         )
-          // return this.blocksRef[i][j]
           return [i, j] // [y, x]
       }
     return false
@@ -275,10 +288,8 @@ export default class CodeBlocks extends Component {
   _helper_getInd = bInd => {
     for (let i in this.state.focused)
       if (
-        // eslint-disable-next-line eqeqeq
-        this.state.focused[i][0] == bInd[0] &&
-        // eslint-disable-next-line eqeqeq
-        this.state.focused[i][1] == bInd[1]
+        this.state.focused[i][0] === bInd[0] &&
+        this.state.focused[i][1] === bInd[1]
       )
         return i
     return -1
@@ -286,7 +297,7 @@ export default class CodeBlocks extends Component {
 
   _focus = (bInd, add = false) => {
     // Do we need to check if bInd is in state?
-    // add - true to add current, false to clear and add current
+    // add - true to add current, false to clear (blur all) and add current
     this.setState({
       focused: add
         ? [...this.state.focused, [bInd[0], bInd[1]]]
@@ -332,7 +343,8 @@ export default class CodeBlocks extends Component {
       let newState = JSON.parse(JSON.stringify(prevState))
 
       delete newState.nodesOffset[y][x]
-      if (Object.keys(newState.nodesOffset[y]).length === 0) delete newState[y]
+      if (Object.keys(newState.nodesOffset[y]).length === 0)
+        delete newState.nodesOffset[y]
 
       return newState
     })

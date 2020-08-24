@@ -21,7 +21,7 @@ export class InputBlock extends Component {
       outputNodes,
       collect,
       nodesRef,
-      focused
+      focused,
     } = this.props
     return (
       <div className={className}>
@@ -266,7 +266,7 @@ export class SliderBlock extends Component {
       outputNodes,
       collect,
       nodesRef,
-      focused
+      focused,
     } = this.props
     return (
       <div className={className}>

@@ -127,7 +127,7 @@ export const TabContent = ({
           />
         )
       })}
-      <button className={type} onClick={handleAddSection}>
+      <button className={'addButton ' + type} onClick={handleAddSection}>
         add
       </button>
     </div>
