@@ -2,7 +2,7 @@ import React, { Component, createRef } from 'react'
 
 import '../../postcss/components/blockRenderer/blockRenderer.css'
 import { lineHeight, roomWidth } from '../constants'
-import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper'
+import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper.js'
 import { Node } from './frags'
 import { InputBlock, SliderBlock } from './special'
 

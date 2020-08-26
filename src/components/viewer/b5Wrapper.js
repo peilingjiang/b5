@@ -2,7 +2,7 @@ import React, { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
 import p5 from 'p5'
 
-import b5 from '../../b5.js/src/app'
+import b5 from '../../b5.js/src/app.js'
 
 export default class B5Wrapper extends Component {
   constructor(props) {
