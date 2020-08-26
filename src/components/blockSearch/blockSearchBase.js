@@ -1,6 +1,6 @@
 import Fuse from 'fuse.js'
 
-import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper.js'
+import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper'
 
 const options = {
   keys: ['kind'],
