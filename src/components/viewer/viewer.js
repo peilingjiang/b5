@@ -63,7 +63,8 @@ const Viewer = ({ data }) => {
   }, [viewerHeader])
 
   return (
-    <div ref={viewer} id="viewer" className="popup">
+    <div ref={viewer} id="viewer" className="viewer popup">
+      {/* popup is the default status of the viewer window */}
       <div ref={viewerHeader} className="header grab">
         <IconList
           iconsName={[loop ? 'NoLoop' : 'Loop']}

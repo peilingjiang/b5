@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import _b5Fuse from './blockSearchBase'
+// import _b5Fuse from './blockSearchBase'
 
 export default class BlockSearch extends Component {
   render() {

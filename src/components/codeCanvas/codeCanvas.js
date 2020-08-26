@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import equal from 'react-fast-compare'
+import ResizeObserver from 'resize-observer-polyfill'
 
 import {
   lineHeight,
