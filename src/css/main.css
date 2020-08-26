@@ -78,6 +78,10 @@ body {
   cursor: default;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .grab {
   cursor: grab;
 }

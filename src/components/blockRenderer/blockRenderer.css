@@ -1,14 +1,14 @@
 @import '../../css/root.css';
 
 .wire {
-  z-index: 40000;
   fill: none;
   stroke-width: 2px;
   shape-rendering: geometricPrecision;
-  cursor: pointer;
+  pointer-events: initial;
 }
 
 .node {
+  position: relative;
   z-index: 80000;
   width: $node-size;
   height: $node-size;
@@ -53,11 +53,11 @@
   }
 
   .block {
-    z-index: 60000;
     position: absolute;
     border-radius: $tiny-radius;
     align-self: center;
     padding: 0;
+    z-index: 60000;
 
     .blockName {
       color: #fff;
@@ -368,11 +368,13 @@
 // Wire
 
 .wires {
+  z-index: 40000;
   position: relative;
 
   .svg {
     position: absolute;
     display: flex;
+    pointer-events: none;
 
     .selected {
       filter: drop-shadow(0 0 3px $hover-grey);
@@ -380,10 +382,11 @@
   }
 
   .wireBackground {
-    stroke-width: 4px;
+    pointer-events: initial;
+    stroke-width: 7px;
+    opacity: 0.6;
     fill: none;
     stroke: #fff;
-    cursor: pointer;
   }
 
   .unfocused {

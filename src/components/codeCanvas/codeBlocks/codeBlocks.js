@@ -19,8 +19,10 @@ export default class CodeBlocks extends Component {
     }
 
     this.codeBlocks = createRef()
+    this.blocksNodesRef = {}
 
     this.state = {
+      draggingWire: null, // Trying to add new connection, render temp wire
       nodesOffset: {},
       focused: [], // [[y, x], [2, 9], [1, 0], ...]
     }
@@ -49,7 +51,9 @@ export default class CodeBlocks extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.data !== this.props.data || !equal(nextState, this.state)
+    return (
+      !equal(nextProps.data, this.props.data) || !equal(nextState, this.state)
+    )
   }
 
   handleClick = e => {
@@ -62,12 +66,12 @@ export default class CodeBlocks extends Component {
   }
 
   handleMouseDown = e => {
-    const that = this
     if (e.which === 1) {
+      const that = this
+      const thisBlockInd = this._findBlock(e.target)
       if (this._hoveringOnBlock(e.target.classList)) {
         e.preventDefault()
         // BLOCK
-        const thisBlockInd = this._findBlock(e.target)
         if (thisBlockInd) {
           const thisBlock = this.blocksRef[thisBlockInd[0]][thisBlockInd[1]]
           if (thisBlock) {
@@ -121,7 +125,113 @@ export default class CodeBlocks extends Component {
         }
       } else if (e.target.classList.contains('node')) {
         // NODE
+        if (thisBlockInd) {
+          const thisNodesRef = this.blocksNodesRef[thisBlockInd[0]][
+            thisBlockInd[1]
+          ]
+          for (let io in thisNodesRef) // "input" or "output"
+            for (let j in thisNodesRef[io]) // "0", "1", ...
+              if (thisNodesRef[io][j].current === e.target) {
+                const that = this
+                let mouse = {
+                  x: e.clientX,
+                  y: e.clientY,
+                }
+
+                thisNodesRef[io][j].current.classList.add('focused')
+                document.body.style.cursor = 'pointer'
+
+                const startNode = {
+                  startNodeType: io,
+                  startNodeInd: j,
+                  startNodeRef: thisNodesRef[io][j],
+                }
+
+                const dragWire = this.handleDragWire.bind(this, {
+                  ...startNode,
+                  startBlockInd: thisBlockInd,
+                  m: mouse,
+                })
+                // Add the listener to codeCanvas
+                this.codeBlocks.current.parentElement.addEventListener(
+                  'mousemove',
+                  dragWire
+                )
+
+                // On mouseup
+                document.addEventListener('mouseup', function _listener(e) {
+                  that.codeBlocks.current.parentElement.removeEventListener(
+                    'mousemove',
+                    dragWire
+                  )
+                  that._checkConnect(e, startNode, thisBlockInd)
+                  document.removeEventListener('mouseup', _listener)
+                })
+              }
+        }
       }
+    }
+  }
+
+  handleDragWire = (props, e) => {
+    const { startBlockInd, startNodeType, startNodeInd, m } = props
+    let delta = {
+      x: (e.clientX - m.x) / this.props.scale,
+      y: (e.clientY - m.y) / this.props.scale,
+    }
+
+    const wireStart = this.state.nodesOffset[startBlockInd[0]][
+      startBlockInd[1]
+    ][startNodeType][startNodeInd]
+    // Render temp Wire
+    this.setState({
+      draggingWire: {
+        start: wireStart,
+        end: [wireStart[0] + delta.x, wireStart[1] + delta.y],
+      },
+    })
+  }
+
+  _checkConnect = (e, sN, startBlockInd) => {
+    const { startNodeType, startNodeInd, startNodeRef } = sN
+
+    // Stop rendering temp wire
+    startNodeRef.current.classList.remove('focused')
+    document.body.style.cursor = 'auto'
+    this.setState({ draggingWire: null })
+
+    if (e.target.classList.contains('node')) {
+      // Find end block
+      const endBlockInd = this._findBlock(e.target)
+
+      // Cannot connect to self
+      if (equal(endBlockInd, startBlockInd)) return
+
+      const thisNodesRef = this.blocksNodesRef[endBlockInd[0]][endBlockInd[1]]
+      // this thisBlockInd must exists as hovering on node
+      for (let ioEnd in thisNodesRef) // "input" or "output"
+        for (let j in thisNodesRef[ioEnd]) // "0", "1", ...
+          if (thisNodesRef[ioEnd][j].current === e.target) {
+            // Cannot connect to same node type
+            // Cannot connect to child with smaller y index or parent with larger
+            if (
+              ioEnd === startNodeType ||
+              (ioEnd === 'input' && endBlockInd[0] <= startBlockInd[0]) ||
+              (ioEnd === 'output' && endBlockInd[0] >= startBlockInd[0])
+            )
+              return
+
+            // Collect - output data first, input data follows
+            ioEnd === 'input'
+              ? this.props.collect(
+                  [startBlockInd, startNodeInd, endBlockInd, j],
+                  'addConnection'
+                )
+              : this.props.collect(
+                  [endBlockInd, j, startBlockInd, startNodeInd],
+                  'addConnection'
+                )
+          }
     }
   }
 
@@ -256,7 +366,7 @@ export default class CodeBlocks extends Component {
   _findBlock(target) {
     // Find the blockFill target
     let depth = 0
-    while (!target.classList.contains('blockFill') && depth < 4) {
+    while (!target.classList.contains('blockFill') && depth < 5) {
       target = target.parentElement
       depth++ // Avoid infinite search
     }
@@ -319,7 +429,7 @@ export default class CodeBlocks extends Component {
     return this._helper_getInd(bInd) === -1 ? false : true
   }
 
-  collectNodesOffset = (x, y, data) => {
+  collectNodesOffset = (x, y, data, ref = null) => {
     /*
     
     > data
@@ -331,11 +441,18 @@ export default class CodeBlocks extends Component {
     */
     this.setState(prevState => {
       let newState = JSON.parse(JSON.stringify(prevState))
+
       if (!newState.nodesOffset[y]) newState.nodesOffset[y] = {}
       newState.nodesOffset[y][x] = data
 
       return newState
     })
+
+    if (ref) {
+      // Collect ref for this.blocksNodesRef
+      if (!this.blocksNodesRef[y]) this.blocksNodesRef[y] = {}
+      this.blocksNodesRef[y][x] = ref
+    }
   }
 
   deleteNodesOffset = (x, y) => {
@@ -352,6 +469,7 @@ export default class CodeBlocks extends Component {
 
   render() {
     const { data, collect } = this.props
+    const { draggingWire } = this.state
     let blocks = []
     for (let i in data) // y
       for (let j in data[i]) {
@@ -380,6 +498,7 @@ export default class CodeBlocks extends Component {
           data={data}
           nodesOffset={this.state.nodesOffset}
           focused={this.state.focused}
+          draggingWire={draggingWire}
         />
         {blocks}
       </div>

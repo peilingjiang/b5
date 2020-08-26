@@ -51,7 +51,7 @@ class BlockRenderer extends Component {
 
   componentDidMount() {
     // Handle collect init positions of nodes
-    this.handleCollectNodesOffset()
+    this.handleCollectNodesOffset(true)
   }
 
   componentDidUpdate() {
@@ -65,7 +65,8 @@ class BlockRenderer extends Component {
     )
   }
 
-  handleCollectNodesOffset = () => {
+  handleCollectNodesOffset = (collectRef = false) => {
+    // Also handle collectRef for the init mount
     let data = {
       input: [],
       output: [],
@@ -79,7 +80,14 @@ class BlockRenderer extends Component {
         _getTotalOffset(this.nodesRef.output[i].current, 'blockFill')
       )
 
-    this.props.collectNodesOffset(this.props.x, this.props.y, data)
+    collectRef
+      ? this.props.collectNodesOffset(
+          this.props.x,
+          this.props.y,
+          data,
+          this.nodesRef
+        )
+      : this.props.collectNodesOffset(this.props.x, this.props.y, data)
   }
 
   render() {

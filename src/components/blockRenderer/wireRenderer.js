@@ -14,6 +14,13 @@ class Wire extends PureComponent {
     const canvasLeft = Math.min(x1, x2) - sizeOffset
     const canvasTop = Math.min(y1, y2)
 
+    const d = `
+      M ${x1 - canvasLeft} ${y1 + sizeOffset - canvasTop}
+      C ${x1 - canvasLeft} ${y1 + midY - canvasTop},
+        ${x2 - canvasLeft} ${y2 - midY - canvasTop},
+        ${x2 - canvasLeft} ${y2 + sizeOffset - canvasTop}
+    `
+
     return (
       <div
         className="svg"
@@ -23,25 +30,12 @@ class Wire extends PureComponent {
           // className="selected"
           width={`${Math.abs(x1 - x2) + nodeSize}px`}
           height={`${Math.abs(y1 - y2) + nodeSize}px`}
-          className={'wireHolder'}
+          className="wireHolder"
         >
+          <path className="wireBackground pointer" d={d} />
           <path
-            className="wireBackground"
-            d={`
-              M ${x1 - canvasLeft} ${y1 + sizeOffset - canvasTop}
-              C ${x1 - canvasLeft} ${y1 + midY - canvasTop},
-                ${x2 - canvasLeft} ${y2 - midY - canvasTop},
-                ${x2 - canvasLeft} ${y2 + sizeOffset - canvasTop}
-            `}
-          />
-          <path
-            className={'wire ' + (focused ? 'focused' : 'unfocused')}
-            d={`
-              M ${x1 - canvasLeft} ${y1 + sizeOffset - canvasTop}
-              C ${x1 - canvasLeft} ${y1 + midY - canvasTop},
-                ${x2 - canvasLeft} ${y2 - midY - canvasTop},
-                ${x2 - canvasLeft} ${y2 + sizeOffset - canvasTop}
-            `}
+            className={'wire pointer ' + (focused ? 'focused' : 'unfocused')}
+            d={d}
           />
         </svg>
       </div>
@@ -64,7 +58,7 @@ export default class WireRenderer extends Component {
 
   render() {
     // Wires are **always** drawn from input to the parent's output
-    const { data, nodesOffset } = this.props
+    const { data, nodesOffset, draggingWire } = this.props
 
     let wires = []
 
@@ -84,6 +78,17 @@ export default class WireRenderer extends Component {
                 />
               )
           }
+
+    // Render temp wire if trying to add new connection
+    if (draggingWire)
+      wires.push(
+        <Wire
+          key={'tempWire'}
+          start={draggingWire.start}
+          end={draggingWire.end}
+          focused={true}
+        />
+      )
 
     return <div className="wires">{wires}</div>
   }

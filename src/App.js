@@ -7,11 +7,11 @@ import './postcss/css/main.css'
 // const LOCAL_TODO_KEY = 'todoApp.todos'
 
 function App() {
-  const [data, setData] = useState({})
+  const [data, setData] = useState({}) // Must be {}
 
   const bridgeData = d => {
     // Send data from Editor to Viewer
-    setData(JSON.parse(JSON.stringify(d)))
+    setData(d)
   }
 
   return (

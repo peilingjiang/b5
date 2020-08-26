@@ -178,8 +178,17 @@ const Editor = ({ bridge }) => {
       else thisBlocks = newState.factory[source][index].blocks
 
       switch (task) {
+        case 'addConnection':
+          // [outputBlockInd, outputNodeInd, inputBlockInd, inputNodeInd]
+          addConnection(data, thisBlocks)
+          break
+        case 'removeConnection':
+          // [inputBlockIndY, inputBlockIndX, inputNodeInd]
+          removeConnection(data, thisBlocks)
+          break
         case 'relocateBlock':
-          relocateBlock(data[0], data[1], data[2], data[3], thisBlocks)
+          // [x1, y1, x2, y2]
+          relocateBlock(data, thisBlocks)
           break
         case 'deleteBlock':
           deleteBlock(data, thisBlocks)
@@ -196,7 +205,35 @@ const Editor = ({ bridge }) => {
     })
   }
 
-  const relocateBlock = (x1, y1, x2, y2, thisBlocks) => {
+  const addConnection = (data, thisBlocks) => {
+    // data - output to input
+    const [[outY, outX], outputNodeInd, [inY, inX], inputNodeInd] = data
+
+    // Add to outputBlock
+    thisBlocks[outY][outX].output[outputNodeInd].push([inY, inX, inputNodeInd])
+
+    // Add to inputBlock
+    // Remove old connection first (if needed)
+    if (thisBlocks[inY][inX].input[inputNodeInd] !== null)
+      removeConnection([inY, inX, inputNodeInd], thisBlocks)
+
+    thisBlocks[inY][inX].input[inputNodeInd] = [outY, outX, outputNodeInd]
+  }
+
+  const removeConnection = (data, thisBlocks) => {
+    const [inY, inX, inputNodeInd] = data
+    // Remove from this input
+    const [outY, outX, outNodeInd] = thisBlocks[inY][inX].input[inputNodeInd]
+    thisBlocks[inY][inX].input[inputNodeInd] = null
+    // Remove from parent's output
+    for (let i in thisBlocks[outY][outX].output[outNodeInd])
+      if (equal(thisBlocks[outY][outX].output[outNodeInd][i], data))
+        thisBlocks[outY][outX].output[outNodeInd].splice(i, 1)
+  }
+
+  const relocateBlock = (data, thisBlocks) => {
+    const [x1, y1, x2, y2] = data
+
     if (!thisBlocks[y2]) thisBlocks[y2] = {}
     thisBlocks[y2][x2] = JSON.parse(JSON.stringify(thisBlocks[y1][x1]))
     delete thisBlocks[y1][x1]
@@ -206,13 +243,12 @@ const Editor = ({ bridge }) => {
     if (thisBlocks[y2][x2].output)
       // i = "0", "1"...
       for (let i in thisBlocks[y2][x2].output)
-        if (thisBlocks[y2][x2].output[i].length !== 0)
-          for (let j in thisBlocks[y2][x2].output[i]) {
-            // output: { '0': [['1', '0', '0'], ['1', '0', '1']] }
-            const thisOutput = thisBlocks[y2][x2].output[i][j]
-            const childBlock = thisBlocks[thisOutput[0]][thisOutput[1]]
-            childBlock.input[thisOutput[2]] = [y2, x2, i]
-          }
+        for (let j in thisBlocks[y2][x2].output[i]) {
+          // output: { '0': [['1', '0', '0'], ['1', '0', '1']] }
+          const thisOutput = thisBlocks[y2][x2].output[i][j]
+          const childBlock = thisBlocks[thisOutput[0]][thisOutput[1]]
+          childBlock.input[thisOutput[2]] = [y2, x2, i]
+        }
     if (thisBlocks[y2][x2].input)
       for (let i in thisBlocks[y2][x2].input)
         if (thisBlocks[y2][x2].input[i] !== null) {
@@ -220,8 +256,14 @@ const Editor = ({ bridge }) => {
           const parentBlock = thisBlocks[thisInput[0]][thisInput[1]]
           for (let j in parentBlock.output[thisInput[2]]) {
             const thisOutput = parentBlock.output[thisInput[2]][j]
-            if (thisOutput[0] === y1 && thisOutput[1] === x1)
+            if (
+              thisOutput[0] === y1 &&
+              thisOutput[1] === x1 &&
+              thisOutput[2] === i
+            ) {
               parentBlock.output[thisInput[2]][j] = [y2, x2, i]
+              break
+            }
           }
         }
   }
