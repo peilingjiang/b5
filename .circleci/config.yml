@@ -1,12 +1,25 @@
 version: 2.1
 
-orbs:
-  node: circleci/node4.0.0
-
-workflows:
-  build_test:
-    jobs:
+# Define the jobs we want to run for this project
+jobs:
+  build:
+    docker:
+      - image: circleci/node4.0.0
+    steps:
       - checkout
       - run: git submodule sync
       - run: git submodule update --init
-      - node/test
+  test:
+    docker:
+      - image: circleci/node4.0.0
+    steps:
+      - run: npm test
+
+# Orchestrate our job run sequence
+workflows:
+  build_test:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
