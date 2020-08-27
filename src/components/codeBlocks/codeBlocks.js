@@ -1,10 +1,10 @@
 import React, { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
 
-import BlockRenderer from '../../blockRenderer/blockRenderer'
-import { roomWidth, lineHeight } from '../../constants'
-import WireRenderer from '../../blockRenderer/wireRenderer'
-import { operationalClick } from '../../main'
+import BlockRenderer from '../blockRenderer/blockRenderer'
+import { roomWidth, lineHeight } from '../constants'
+import WireRenderer from '../blockRenderer/wireRenderer'
+import { operationalClick } from './method'
 
 export default class CodeBlocks extends Component {
   constructor(props) {

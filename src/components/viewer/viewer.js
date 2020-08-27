@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react'
 
 import B5Wrapper from './b5Wrapper'
-import { IconList } from '../main'
+import { IconList } from '../headers'
 import '../../postcss/components/viewer/viewer.css'
 
 import ViewerNoLoop from '../../img/icon/viewerNoLoop.svg'

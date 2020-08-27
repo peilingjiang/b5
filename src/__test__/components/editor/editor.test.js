@@ -6,7 +6,7 @@ import defaultValue from '../../../components/editor/defaultValue'
 
 describe('Editor', () => {
   test('renders without crash', () => {
-    render(<Editor bridge={function() {}} />)
+    render(<Editor bridge={function () {}} />)
     // screen.debug()
   })
 
@@ -20,7 +20,7 @@ describe('Editor', () => {
   })
 
   test('render with expected factory labels', () => {
-    const { getByText } = render(<Editor bridge={function() {}} />)
+    const { getByText } = render(<Editor bridge={function () {}} />)
 
     getByText('variable')
     getByText('function')

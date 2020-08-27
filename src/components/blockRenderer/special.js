@@ -1,7 +1,15 @@
 import React, { Component, createRef } from 'react'
 
 import { Node, InputBox } from './frags'
-import { constrain } from '../main'
+
+function constrain(v, a, b) {
+  // Constrain v within a and b without
+  // knowing the relationship between a and b
+  // (which is larger and which is smaller)
+  const min = Math.min,
+    max = Math.max
+  return max(min(v, max(a, b)), min(a, b))
+}
 
 export class InputBlock extends Component {
   constructor(props) {

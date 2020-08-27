@@ -1,7 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react'
 import equal from 'react-fast-compare'
 
-import { drag, usePrevious, IconList } from '../main'
+import { drag } from './separator'
+import { IconList } from '../headers'
+import { usePrevious } from '../useHooks'
 import {
   lineNumberWidth,
   blockAlphabetHeight,
@@ -62,7 +64,7 @@ const Editor = ({ bridge }) => {
 
   // Init draggable center divider
   useEffect(() => {
-    drag('separator', separator, leftElement, rightElement)
+    drag(separator, leftElement, rightElement)
   }, [separator])
 
   /*

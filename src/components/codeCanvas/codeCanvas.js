@@ -9,7 +9,7 @@ import {
   blockAlphabetHeight,
 } from '../constants'
 import { LineNumberRoom, BlockAlphabetRoom, BlockRoom } from './codeCanvasFrags'
-import CodeBlocks from './codeBlocks/codeBlocks'
+import CodeBlocks from '../codeBlocks/codeBlocks'
 import BlockSearch from '../blockSearch/blockSearch'
 import '../../postcss/components/codeCanvas/codeCanvas.css'
 
