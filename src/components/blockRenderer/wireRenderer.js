@@ -1,7 +1,9 @@
 import React, { Component, PureComponent } from 'react'
 import equal from 'react-fast-compare'
 
-import { nodeSize, sizeOffset } from '../constants'
+import { nodeSize, sizeOffset, dragOvalSize } from '../constants'
+
+const _dragOvalR = dragOvalSize / 2
 
 class Wire extends PureComponent {
   render() {
@@ -10,6 +12,7 @@ class Wire extends PureComponent {
       end: [x2, y2],
       focused,
       selected,
+      dragged,
       inputNode,
     } = this.props
 
@@ -22,8 +25,8 @@ class Wire extends PureComponent {
       : null
 
     const midY = (y2 - y1) * 0.6 // To get the mid point, divide by 2
-    const canvasLeft = Math.min(x1, x2) - sizeOffset
-    const canvasTop = Math.min(y1, y2)
+    const canvasLeft = Math.min(x1, x2) - sizeOffset - dragOvalSize
+    const canvasTop = Math.min(y1, y2) - dragOvalSize
 
     const d = `
       M ${x1 - canvasLeft} ${y1 + sizeOffset - canvasTop}
@@ -31,6 +34,7 @@ class Wire extends PureComponent {
         ${x2 - canvasLeft} ${y2 - midY - canvasTop},
         ${x2 - canvasLeft} ${y2 + sizeOffset - canvasTop}
     `
+    // sizeOffset is half of the nodeSize
 
     return (
       <div
@@ -38,14 +42,16 @@ class Wire extends PureComponent {
         style={{ left: canvasLeft + 'px', top: canvasTop + 'px' }}
       >
         <svg
-          width={`${Math.abs(x1 - x2) + nodeSize}px`}
-          height={`${Math.abs(y1 - y2) + nodeSize}px`}
+          width={`${Math.abs(x1 - x2) + nodeSize + 2 * dragOvalSize}px`}
+          height={`${Math.abs(y1 - y2) + nodeSize + 2 * dragOvalSize}px`}
           className={'wireHolder' + (selected ? ' selected' : '')}
         >
+          {/* Only show background when not selected */}
           {!selected && (
             <path className="wireBackground pointer" d={d} {...inputNodeData} />
           )}
-          {/* {selected && <path className="wireSelected" d={d} {...inputNodeData} />} */}
+
+          {/* Main wire */}
           <path
             className={
               'wire pointer' +
@@ -56,6 +62,13 @@ class Wire extends PureComponent {
             {...inputNodeData}
           />
         </svg>
+
+        {/* Dragging point oval, only when dragged */}
+        {dragged && (
+          <svg width="100%" height="100%" className="dragOvalHolder">
+            <circle cx={x2 - canvasLeft} cy={y2 + sizeOffset - canvasTop} r={_dragOvalR} className="dragOval" />
+          </svg>
+        )}
       </div>
     )
   }
@@ -106,6 +119,7 @@ export default class WireRenderer extends Component {
                   end={nodesOffset[c[0]][c[1]].output[c[2]]}
                   focused={this._isFocused(i, j, c[0], c[1])}
                   selected={this._isSelected(i, j, node)}
+                  dragged={false}
                   inputNode={[i, j, node]} // For wire selection
                 />
               )
@@ -120,6 +134,7 @@ export default class WireRenderer extends Component {
           end={draggingWire.end}
           focused={true}
           selected={false}
+          dragged={true} // Draw a highlight circle at the dragging point
           inputNode={null}
         />
       )

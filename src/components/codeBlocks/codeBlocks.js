@@ -144,6 +144,8 @@ export default class CodeBlocks extends Component {
 
                   thisNodesRef[io][j].current.classList.add('focused')
                   document.body.style.cursor = 'pointer'
+                  // Avoid cursor style change when hovering on blocks
+                  this.codeBlocks.current.style.pointerEvents = 'none'
 
                   const startNode = {
                     startNodeType: io,
@@ -168,6 +170,7 @@ export default class CodeBlocks extends Component {
                       'mousemove',
                       dragWire
                     )
+                    that.codeBlocks.current.style.pointerEvents = 'initial'
                     that._checkConnect(e, startNode, thisBlockInd)
                     document.removeEventListener('mouseup', _listener)
                   })

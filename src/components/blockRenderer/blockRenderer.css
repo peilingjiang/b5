@@ -20,6 +20,7 @@
   border-radius: calc($node-size / 2);
   border: $node-border;
   background-color: #fff;
+  pointer-events: initial;
 }
 
 .blockFill {
@@ -31,7 +32,9 @@
   justify-content: center;
 
   &.focused {
-    z-index: 90000 !important;
+    .block {
+      z-index: 90000;
+    }
 
     .default {
       box-shadow: 0 2px 11px -2px color-mod($default a($hover-op));
@@ -382,7 +385,6 @@
 // Wire
 
 .wires {
-  z-index: 40000;
   position: relative;
 
   .svg {
@@ -390,8 +392,21 @@
     display: flex;
     pointer-events: none;
 
-    .selected {
-      filter: drop-shadow(0 0 5px color-mod($selected a($fade-op)));
+    .wireHolder {
+      z-index: 40000;
+
+      &.selected {
+        // For selected wire
+        filter: drop-shadow(0 0 5px color-mod($selected a($fade-op)));
+      }
+    }
+
+    .dragOvalHolder {
+      position: absolute;
+      z-index: 70000;
+      stroke: $dark-grey;
+      stroke-width: $node-border-width;
+      fill: #fff;
     }
   }
 
