@@ -1,4 +1,5 @@
 import React, { Component, createRef } from 'react'
+import equal from 'react-fast-compare'
 
 import '../../postcss/components/blockRenderer/blockRenderer.css'
 import { lineHeight, roomWidth } from '../constants'
@@ -17,6 +18,7 @@ function _getTotalOffset(thisNode, targetClassName) {
 }
 
 class BlockRenderer extends Component {
+  // TODO: Using PropTypes?
   constructor(props) {
     super(props) // x, y, data, inputBlocks
     this.x = props.x
@@ -60,8 +62,9 @@ class BlockRenderer extends Component {
 
   shouldComponentUpdate(prevProps) {
     return (
-      prevProps.data !== this.props.data ||
-      prevProps.focused !== this.props.focused
+      !equal(prevProps.data, this.props.data) ||
+      prevProps.focused !== this.props.focused ||
+      !equal(prevProps.selectedNodes, this.props.selectedNodes)
     )
   }
 
@@ -98,6 +101,7 @@ class BlockRenderer extends Component {
         y,
         collect,
         focused,
+        selectedNodes,
       } = this.props,
       { type, kind, inputNodes, outputNodes } = _b5BlocksObject[name]
 
@@ -127,6 +131,7 @@ class BlockRenderer extends Component {
             // If connectType !== null, then connected
             ref={this.nodesRef.input[i]}
             focused={focused}
+            selected={selectedNodes.input.includes(i)}
           />
         )
         inputNodesText.push(
@@ -152,6 +157,7 @@ class BlockRenderer extends Component {
             connectType={output[i].length !== 0 ? outputNodes[i].type[0] : null} // output can only be [] (when not connected) instead of null
             ref={this.nodesRef.output[i]}
             focused={focused}
+            selected={selectedNodes.output.includes(i)}
           />
         )
         outputNodesText.push(
@@ -193,6 +199,7 @@ class BlockRenderer extends Component {
             y={y}
             nodesRef={this.nodesRef}
             focused={focused}
+            selectedNodes={selectedNodes}
           />
         ) : kind === 'slider' ? (
           <SliderBlock
@@ -207,6 +214,7 @@ class BlockRenderer extends Component {
             y={y}
             nodesRef={this.nodesRef}
             focused={focused}
+            selectedNodes={selectedNodes}
           />
         ) : (
           // kind === 'normal'

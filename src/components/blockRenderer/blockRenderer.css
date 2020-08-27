@@ -3,8 +3,13 @@
 .wire {
   fill: none;
   stroke-width: 2px;
+  stroke-linecap: round;
   shape-rendering: geometricPrecision;
   pointer-events: initial;
+
+  &.selected {
+    stroke: $selected !important;
+  }
 }
 
 .node {
@@ -13,6 +18,7 @@
   width: $node-size;
   height: $node-size;
   border-radius: calc($node-size / 2);
+  border: $node-border;
   background-color: #fff;
 }
 
@@ -139,7 +145,15 @@
       border: $node-border $light-grey;
 
       &.focused {
-        border: $node-border $dark-grey !important;
+        border: $node-border $dark-grey;
+      }
+
+      &.selected {
+        border-color: $selected;
+      }
+
+      &.alert {
+        border-color: $alert;
       }
     }
   }
@@ -377,16 +391,17 @@
     pointer-events: none;
 
     .selected {
-      filter: drop-shadow(0 0 3px $hover-grey);
+      filter: drop-shadow(0 0 5px color-mod($selected a($fade-op)));
     }
   }
 
   .wireBackground {
     pointer-events: initial;
-    stroke-width: 7px;
     opacity: 0.6;
     fill: none;
     stroke: #fff;
+    stroke-width: 7px;
+    stroke-linecap: round;
   }
 
   .unfocused {

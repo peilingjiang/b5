@@ -10,3 +10,7 @@ export const factoryCanvasDefaultScale = 1
 
 export const nodeSize = 8
 export const sizeOffset = nodeSize / 2
+
+export const gap = 8
+export const iconTotalSize = 36
+export const headerHeight = iconTotalSize + 2 * gap

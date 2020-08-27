@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react'
 
 import B5Wrapper from './b5Wrapper'
 import { IconList } from '../headers'
+import { headerHeight } from '../constants'
 import '../../postcss/components/viewer/viewer.css'
 
 import ViewerNoLoop from '../../img/icon/viewerNoLoop.svg'
@@ -40,12 +41,14 @@ const Viewer = ({ data }) => {
         }
         viewerCurrent.style.left =
           Math.max(
-            Math.min(mouseDown.offsetLeft + delta.x, winWidth - 48),
-            -viewerBox.width + 48
+            Math.min(mouseDown.offsetLeft + delta.x, winWidth - headerHeight),
+            -viewerBox.width + headerHeight
           ) + 'px'
         viewerCurrent.style.top =
-          Math.max(Math.min(mouseDown.offsetTop + delta.y, winHeight - 48), 0) +
-          'px'
+          Math.max(
+            Math.min(mouseDown.offsetTop + delta.y, winHeight - headerHeight),
+            0
+          ) + 'px'
       }
 
       document.addEventListener('mousemove', _dragViewer, true)

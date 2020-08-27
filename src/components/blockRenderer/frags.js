@@ -1,15 +1,47 @@
 import React, { PureComponent, createRef, forwardRef } from 'react'
 
-const NodeRef = ({ count, type, connectType, thisNodeRef, focused }) => {
+const _nodeBorderClassSelector = (
+  type,
+  connectType,
+  focused,
+  selected,
+  alerted
+) => {
+  // type is the type of the block itself
+  // connectType can be null or string type of the connected node
+  // focused, selected, alerted - Boolean
+
+  // alerted > focused === selected > connected
+
+  let r = ''
+
+  if (connectType !== null) {
+    // CONNECTED
+    r += connectType + 'Connect connected' // All other classes are based on 'connected'
+    if (alerted) r += ' alert'
+    else if (focused) r += ' focused'
+    else if (selected) r += ' selected'
+  }
+  // NOT CONNECTED
+  else r += type + 'Node'
+
+  return r
+}
+
+const NodeRef = ({
+  count,
+  type,
+  connectType,
+  thisNodeRef,
+  focused,
+  selected,
+}) => {
   return (
     <div className={'nodeFill count' + count}>
       <div
         className={
           'nodeAdd node ' +
-          (connectType === null
-            ? type + 'Node'
-            : connectType + 'Connect connected') +
-          (focused ? ' focused' : '')
+          _nodeBorderClassSelector(type, connectType, focused, selected, false)
         }
         ref={thisNodeRef}
       ></div>

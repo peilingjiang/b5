@@ -4,7 +4,12 @@ import equal from 'react-fast-compare'
 import BlockRenderer from '../blockRenderer/blockRenderer'
 import { roomWidth, lineHeight } from '../constants'
 import WireRenderer from '../blockRenderer/wireRenderer'
-import { operationalClick } from './method'
+import {
+  hoveringOnBlock,
+  hoveringOnWire,
+  operationalClick,
+  helper_getInd,
+} from './method'
 
 export default class CodeBlocks extends Component {
   constructor(props) {
@@ -25,28 +30,20 @@ export default class CodeBlocks extends Component {
       draggingWire: null, // Trying to add new connection, render temp wire
       nodesOffset: {},
       focused: [], // [[y, x], [2, 9], [1, 0], ...]
+      selectedWire: [], // [[y, x, node], ...]
     }
   }
 
   componentDidMount() {
-    this.codeBlocks.current.addEventListener(
-      'mousedown',
-      this.handleMouseDown,
-      true
-    )
-    // Add listener to codeCanvas
-    document.addEventListener('click', this.handleClick)
+    document.addEventListener('mousedown', this.handleMouseDown, true)
+    // document.addEventListener('click', this.handleClick)
     // Add delete block listener
     document.addEventListener('keydown', this.handleKeypress)
   }
 
   componentWillUnmount() {
-    this.codeBlocks.current.removeEventListener(
-      'mousedown',
-      this.handleMouseDown,
-      true
-    )
-    document.removeEventListener('click', this.handleClick)
+    document.removeEventListener('mousedown', this.handleMouseDown, true)
+    // document.removeEventListener('click', this.handleClick)
     document.removeEventListener('keydown', this.handleKeypress)
   }
 
@@ -56,118 +53,134 @@ export default class CodeBlocks extends Component {
     )
   }
 
-  handleClick = e => {
-    // Left click on the block, focus the clicked one
-    if (
-      (this.props.hovering && !this._hoveringOnBlock(e.target.classList)) ||
-      (!this.props.hovering && !operationalClick(e.target))
-    )
-      this._blurAll()
-  }
+  handleClick = e => {}
 
   handleMouseDown = e => {
     if (e.which === 1) {
-      const that = this
-      const thisBlockInd = this._findBlock(e.target)
-      if (this._hoveringOnBlock(e.target.classList)) {
-        e.preventDefault()
-        // BLOCK
-        if (thisBlockInd) {
-          const thisBlock = this.blocksRef[thisBlockInd[0]][thisBlockInd[1]]
-          if (thisBlock) {
-            // FOCUS CURRENT
-            this._focus(thisBlockInd) // [2, 0] - [y, x]
-            thisBlock.current.childNodes[0].className = thisBlock.current.childNodes[0].className.replace(
-              'grab',
-              'grabbing'
-            )
-            let mouse = {
-              x: e.clientX,
-              y: e.clientY,
-              blockLeft: thisBlock.current.offsetLeft,
-              blockTop: thisBlock.current.offsetTop,
-              nodesOffset: this.state.nodesOffset[thisBlockInd[0]][
-                thisBlockInd[1]
-              ],
+      // If:
+      // Hovering on the canvas but not click on the block, or
+      // Not hovering on the canvas and not doing "operational" tasks
+      // Then: _blurAll()
+      if (!this.props.hovering && !operationalClick(e.target)) {
+        this._blurAll()
+        this._deselectWireAll()
+      } else if (this.props.hovering) {
+        if (!hoveringOnBlock(e.target.classList)) this._blurAll()
+        if (!hoveringOnWire(e.target.classList)) this._deselectWireAll()
+
+        const that = this
+        const thisBlockInd = this._findBlock(e.target)
+        if (hoveringOnBlock(e.target.classList)) {
+          // BLOCK
+          e.preventDefault()
+          if (thisBlockInd) {
+            const thisBlock = this.blocksRef[thisBlockInd[0]][thisBlockInd[1]]
+            if (thisBlock) {
+              // FOCUS CURRENT
+              this._focus(thisBlockInd) // [2, 0] - [y, x]
+              this._deselectWireAll()
+              thisBlock.current.childNodes[0].className = thisBlock.current.childNodes[0].className.replace(
+                'grab',
+                'grabbing'
+              )
+              let mouse = {
+                x: e.clientX,
+                y: e.clientY,
+                blockLeft: thisBlock.current.offsetLeft,
+                blockTop: thisBlock.current.offsetTop,
+                nodesOffset: this.state.nodesOffset[thisBlockInd[0]][
+                  thisBlockInd[1]
+                ],
+              }
+
+              const handleMove = this.handleMoveBlock.bind(this, {
+                m: mouse,
+                b: thisBlock.current,
+                bX: thisBlockInd[1],
+                bY: thisBlockInd[0],
+              })
+              const codeBlocksCurrent = this.codeBlocks.current
+              // Add listener to codeCanvas
+              codeBlocksCurrent.parentElement.addEventListener(
+                'mousemove',
+                handleMove,
+                true
+              )
+              document.addEventListener(
+                'mouseup',
+                function _listener() {
+                  codeBlocksCurrent.parentElement.removeEventListener(
+                    'mousemove',
+                    handleMove,
+                    true
+                  )
+                  thisBlock.current.childNodes[0].className = thisBlock.current.childNodes[0].className.replace(
+                    'grabbing',
+                    'grab'
+                  )
+                  that._checkMove(mouse, thisBlock, thisBlockInd)
+                  document.removeEventListener('mouseup', _listener, true)
+                },
+                true
+              )
             }
-
-            const handleMove = this.handleMoveBlock.bind(this, {
-              m: mouse,
-              b: thisBlock.current,
-              bX: thisBlockInd[1],
-              bY: thisBlockInd[0],
-            })
-            const codeBlocksCurrent = this.codeBlocks.current
-            // Add listener to codeCanvas
-            codeBlocksCurrent.parentElement.addEventListener(
-              'mousemove',
-              handleMove,
-              true
-            )
-            document.addEventListener(
-              'mouseup',
-              function _listener() {
-                codeBlocksCurrent.parentElement.removeEventListener(
-                  'mousemove',
-                  handleMove,
-                  true
-                )
-                thisBlock.current.childNodes[0].className = thisBlock.current.childNodes[0].className.replace(
-                  'grabbing',
-                  'grab'
-                )
-                that._checkMove(mouse, thisBlock, thisBlockInd)
-                document.removeEventListener('mouseup', _listener, true)
-              },
-              true
-            )
           }
-        }
-      } else if (e.target.classList.contains('node')) {
-        // NODE
-        if (thisBlockInd) {
-          const thisNodesRef = this.blocksNodesRef[thisBlockInd[0]][
-            thisBlockInd[1]
-          ]
-          for (let io in thisNodesRef) // "input" or "output"
-            for (let j in thisNodesRef[io]) // "0", "1", ...
-              if (thisNodesRef[io][j].current === e.target) {
-                const that = this
-                let mouse = {
-                  x: e.clientX,
-                  y: e.clientY,
-                }
+        } else if (e.target.classList.contains('node')) {
+          // NODE
+          e.preventDefault()
+          this._deselectWireAll()
+          if (thisBlockInd) {
+            const thisNodesRef = this.blocksNodesRef[thisBlockInd[0]][
+              thisBlockInd[1]
+            ]
+            for (let io in thisNodesRef) // "input" or "output"
+              for (let j in thisNodesRef[io]) // "0", "1", ...
+                if (thisNodesRef[io][j].current === e.target) {
+                  const that = this
+                  let mouse = {
+                    x: e.clientX,
+                    y: e.clientY,
+                  }
 
-                thisNodesRef[io][j].current.classList.add('focused')
-                document.body.style.cursor = 'pointer'
+                  thisNodesRef[io][j].current.classList.add('focused')
+                  document.body.style.cursor = 'pointer'
 
-                const startNode = {
-                  startNodeType: io,
-                  startNodeInd: j,
-                  startNodeRef: thisNodesRef[io][j],
-                }
+                  const startNode = {
+                    startNodeType: io,
+                    startNodeInd: j,
+                    startNodeRef: thisNodesRef[io][j],
+                  }
 
-                const dragWire = this.handleDragWire.bind(this, {
-                  ...startNode,
-                  startBlockInd: thisBlockInd,
-                  m: mouse,
-                })
-                // Add the listener to codeCanvas
-                this.codeBlocks.current.parentElement.addEventListener(
-                  'mousemove',
-                  dragWire
-                )
-
-                // On mouseup
-                document.addEventListener('mouseup', function _listener(e) {
-                  that.codeBlocks.current.parentElement.removeEventListener(
+                  const dragWire = this.handleDragWire.bind(this, {
+                    ...startNode,
+                    startBlockInd: thisBlockInd,
+                    m: mouse,
+                  })
+                  // Add the listener to codeCanvas
+                  this.codeBlocks.current.parentElement.addEventListener(
                     'mousemove',
                     dragWire
                   )
-                  that._checkConnect(e, startNode, thisBlockInd)
-                  document.removeEventListener('mouseup', _listener)
-                })
-              }
+
+                  // On mouseup
+                  document.addEventListener('mouseup', function _listener(e) {
+                    that.codeBlocks.current.parentElement.removeEventListener(
+                      'mousemove',
+                      dragWire
+                    )
+                    that._checkConnect(e, startNode, thisBlockInd)
+                    document.removeEventListener('mouseup', _listener)
+                  })
+                }
+          }
+        } else if (hoveringOnWire(e.target.classList)) {
+          // WIRE
+          const wireAttr = e.target.attributes
+          this._selectWire(
+            wireAttr['data-y'].nodeValue,
+            wireAttr['data-x'].nodeValue,
+            wireAttr['data-node'].nodeValue
+          )
         }
       }
     }
@@ -275,35 +288,33 @@ export default class CodeBlocks extends Component {
   }
 
   handleKeypress = e => {
-    if (e.key === 'Backspace')
-      for (let i in this.state.focused) {
-        const f = this.state.focused[i]
-        // Remove from data
-        this.props.collect(f, 'deleteBlock')
-        // Remove ref
-        delete this.blocksRef[f[0]][f[1]]
-        if (Object.keys(this.blocksRef[f[0]]).length === 0)
-          delete this.blocksRef[f[0]]
-        // Remove nodes offset
-        this.deleteNodesOffset(f[1], f[0])
-        // Remove all focused (blur all)
-        this._blurAll()
-      }
-  }
-
-  _hoveringOnBlock(classList) {
-    const checkList = [
-      'blockFill',
-      'blockRoom',
-      'node',
-      'inputBox',
-      'sliderComponent',
-      'wireHolder',
-      'wire',
-      'wireBackground',
-    ]
-    for (let i in checkList) if (classList.contains(checkList[i])) return false
-    return true
+    if (e.key === 'Backspace') {
+      if (this.state.focused.length)
+        // Theoretically, either focused or selectedWire will be []
+        // However, if both kinds of them were selected (which is a bug)
+        // Delete only blocks as priority
+        for (let i in this.state.focused) {
+          const f = this.state.focused[i]
+          // Remove from data
+          this.props.collect(f, 'deleteBlock')
+          // Remove ref
+          delete this.blocksRef[f[0]][f[1]]
+          if (Object.keys(this.blocksRef[f[0]]).length === 0)
+            delete this.blocksRef[f[0]]
+          // Remove nodes offset
+          this.deleteNodesOffset(f[1], f[0])
+          // Remove all focused (blur all)
+          this._blurAll()
+        }
+      else if (this.state.selectedWire.length)
+        for (let i in this.state.selectedWire) {
+          const w = this.state.selectedWire[i]
+          // Remove from data
+          this.props.collect(w, 'removeConnection')
+          // Remove all selected
+          this._deselectWireAll()
+        }
+    }
   }
 
   _hasParentOrChildInTheSameLine(bD, y) {
@@ -395,16 +406,6 @@ export default class CodeBlocks extends Component {
     return inputBlocks
   }
 
-  _helper_getInd = bInd => {
-    for (let i in this.state.focused)
-      if (
-        this.state.focused[i][0] === bInd[0] &&
-        this.state.focused[i][1] === bInd[1]
-      )
-        return i
-    return -1
-  }
-
   _focus = (bInd, add = false) => {
     // Do we need to check if bInd is in state?
     // add - true to add current, false to clear (blur all) and add current
@@ -416,17 +417,68 @@ export default class CodeBlocks extends Component {
   }
 
   _blur = bInd => {
-    let index = this._helper_getInd(bInd)
+    let index = helper_getInd(this.state.focused, bInd)
     if (index !== -1)
       this.setState({ focused: [...this.state.focused].splice(index, 1) })
   }
 
   _blurAll = () => {
-    this.setState({ focused: [] })
+    if (this.state.focused.length) this.setState({ focused: [] })
   }
 
   _isFocused = bInd => {
-    return this._helper_getInd(bInd) === -1 ? false : true
+    return helper_getInd(this.state.focused, bInd) === -1 ? false : true
+  }
+
+  _selectWire = (y, x, node, add = false) => {
+    this.setState({
+      selectedWire: add
+        ? [...this.state.selectedWire, [y, x, node]]
+        : [[y, x, node]],
+    })
+  }
+
+  _deselectWire = (y, x, node) => {
+    let index = helper_getInd(this.state.selectedWire, [y, x, node])
+    if (index !== -1)
+      this.setState({
+        selectedWire: [...this.state.selectedWire].splice(index, 1),
+      })
+  }
+
+  _deselectWireAll = () => {
+    if (this.state.selectedWire.length) this.setState({ selectedWire: [] })
+  }
+
+  _areSelectedNodes = (y, x) => {
+    const selectedInNodes = this.state.selectedWire
+    const { data } = this.props
+    const r = {
+      input: [],
+      output: [],
+    }
+    /*
+    
+    > r
+    {
+      input: ['0'],
+      output: ['1', '2'],
+    }
+
+    */
+    // ADD INPUT
+    for (let i in selectedInNodes)
+      if (selectedInNodes[i][0] === y && selectedInNodes[i][1] === x)
+        r.input.push(selectedInNodes[i][2])
+    // ADD OUTPUT
+    for (let i in selectedInNodes) {
+      const [inY, inX, inNode] = selectedInNodes[i]
+      if (data[inY][inX].input[inNode] !== null) {
+        const [outY, outX, outNode] = data[inY][inX].input[inNode]
+        if (outY === y && outX === x) r.output.push(outNode)
+      }
+    }
+    return r
   }
 
   collectNodesOffset = (x, y, data, ref = null) => {
@@ -486,6 +538,7 @@ export default class CodeBlocks extends Component {
             x={j}
             inputBlocks={inputBlocks}
             focused={this._isFocused([i, j])}
+            selectedNodes={this._areSelectedNodes(i, j)}
             collect={collect}
             collectNodesOffset={this.collectNodesOffset}
           />
@@ -498,6 +551,7 @@ export default class CodeBlocks extends Component {
           data={data}
           nodesOffset={this.state.nodesOffset}
           focused={this.state.focused}
+          selectedWire={this.state.selectedWire}
           draggingWire={draggingWire}
         />
         {blocks}

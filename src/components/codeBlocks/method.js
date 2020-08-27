@@ -1,3 +1,28 @@
+import equal from 'react-fast-compare'
+
+const _onBlockCheckList = [
+  'blockFill',
+  'blockRoom',
+  'node',
+  'inputBox',
+  'sliderComponent',
+  'wireHolder',
+  'wire',
+  'wireBackground',
+]
+export const hoveringOnBlock = classList => {
+  for (let i in _onBlockCheckList)
+    if (classList.contains(_onBlockCheckList[i])) return false
+  return true
+}
+
+const _onWireCheckList = ['wire', 'wireBackground']
+export const hoveringOnWire = classList => {
+  for (let i in _onWireCheckList)
+    if (classList.contains(_onWireCheckList[i])) return true
+  return false
+}
+
 const operationalClassNames = [
   'node',
   'tab',
@@ -8,7 +33,7 @@ const operationalClassNames = [
   'split',
   'sectionResizeBar',
 ]
-export function operationalClick(target) {
+export const operationalClick = target => {
   // Return true if the click is operational (dragging, clicking button...)
   let depth = 0
   while (target.parentElement !== null && depth < 2) {
@@ -19,4 +44,9 @@ export function operationalClick(target) {
     depth++
   }
   return false
+}
+
+export const helper_getInd = (stateArray, subset) => {
+  for (let i in stateArray) if (equal(stateArray[i], subset)) return i
+  return -1
 }

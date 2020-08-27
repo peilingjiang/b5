@@ -1,4 +1,5 @@
 import React, { Component, PureComponent } from 'react'
+import equal from 'react-fast-compare'
 
 import { nodeSize, sizeOffset } from '../constants'
 
@@ -8,7 +9,17 @@ class Wire extends PureComponent {
       start: [x1, y1],
       end: [x2, y2],
       focused,
+      selected,
+      inputNode,
     } = this.props
+
+    const inputNodeData = inputNode
+      ? {
+          'data-y': inputNode[0],
+          'data-x': inputNode[1],
+          'data-node': inputNode[2],
+        }
+      : null
 
     const midY = (y2 - y1) * 0.6 // To get the mid point, divide by 2
     const canvasLeft = Math.min(x1, x2) - sizeOffset
@@ -27,15 +38,22 @@ class Wire extends PureComponent {
         style={{ left: canvasLeft + 'px', top: canvasTop + 'px' }}
       >
         <svg
-          // className="selected"
           width={`${Math.abs(x1 - x2) + nodeSize}px`}
           height={`${Math.abs(y1 - y2) + nodeSize}px`}
-          className="wireHolder"
+          className={'wireHolder' + (selected ? ' selected' : '')}
         >
-          <path className="wireBackground pointer" d={d} />
+          {!selected && (
+            <path className="wireBackground pointer" d={d} {...inputNodeData} />
+          )}
+          {/* {selected && <path className="wireSelected" d={d} {...inputNodeData} />} */}
           <path
-            className={'wire pointer ' + (focused ? 'focused' : 'unfocused')}
+            className={
+              'wire pointer' +
+              (focused ? ' focused' : ' unfocused') +
+              (selected ? ' selected' : '')
+            }
             d={d}
+            {...inputNodeData}
           />
         </svg>
       </div>
@@ -44,6 +62,10 @@ class Wire extends PureComponent {
 }
 
 export default class WireRenderer extends Component {
+  shouldComponentUpdate(nextProps) {
+    return !equal(nextProps, this.props)
+  }
+
   _isFocused = (y1, x1, y2, x2) => {
     const f = this.props.focused
 
@@ -53,6 +75,14 @@ export default class WireRenderer extends Component {
         (f[i][0] === y2 && f[i][1] === x2)
       )
         return true
+    return false
+  }
+
+  _isSelected = (y, x, node) => {
+    const s = this.props.selectedWire
+    const thisNode = [y, x, node]
+
+    for (let i in s) if (equal(s[i], thisNode)) return true
     return false
   }
 
@@ -75,6 +105,8 @@ export default class WireRenderer extends Component {
                   start={nodesOffset[i][j].input[node]} // [141, 195]
                   end={nodesOffset[c[0]][c[1]].output[c[2]]}
                   focused={this._isFocused(i, j, c[0], c[1])}
+                  selected={this._isSelected(i, j, node)}
+                  inputNode={[i, j, node]} // For wire selection
                 />
               )
           }
@@ -87,6 +119,8 @@ export default class WireRenderer extends Component {
           start={draggingWire.start}
           end={draggingWire.end}
           focused={true}
+          selected={false}
+          inputNode={null}
         />
       )
 

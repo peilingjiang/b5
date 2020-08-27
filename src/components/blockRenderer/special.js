@@ -30,6 +30,7 @@ export class InputBlock extends Component {
       collect,
       nodesRef,
       focused,
+      selectedNodes,
     } = this.props
     return (
       <div className={className}>
@@ -45,6 +46,7 @@ export class InputBlock extends Component {
               }
               ref={nodesRef.output[0]}
               focused={focused}
+              selected={selectedNodes.output.includes('0')}
             />
           </div>
         </div>
@@ -275,7 +277,9 @@ export class SliderBlock extends Component {
       collect,
       nodesRef,
       focused,
+      selectedNodes,
     } = this.props
+
     return (
       <div className={className}>
         <div className="left">
@@ -290,6 +294,7 @@ export class SliderBlock extends Component {
               }
               ref={nodesRef.output[0]}
               focused={focused}
+              selected={selectedNodes.output.includes('0')}
             />
           </div>
         </div>

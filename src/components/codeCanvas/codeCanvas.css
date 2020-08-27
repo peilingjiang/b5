@@ -87,8 +87,8 @@
 
     img {
       display: block;
-      width: $icon-width;
-      height: $icon-height;
+      width: $icon-size;
+      height: $icon-size;
     }
 
     p {

@@ -22,6 +22,7 @@ $draw: #f35c87;
 $library: #b55bcd;
 
 $alert: #cf1b1b;
+$selected: #07689f;
 
 /* Opacity */
 $light-op: 0.25;
@@ -42,12 +43,10 @@ $small: 0.875rem; // 14px
 $large: 1.2rem;
 
 /* Icons */
-$icon-total-width: 36px;
-$icon-total-height: 36px;
-$icon-width: 18px;
-$icon-height: 18px;
+$icon-total-size: 36px;
+$icon-size: 18px;
 
-$head-height: calc($icon-total-height + 2 * $gap);
+$head-height: calc($icon-total-size + 2 * $gap);
 
 /* codeCanvas */
 $block-width: 218px;

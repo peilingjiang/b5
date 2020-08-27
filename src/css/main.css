@@ -37,8 +37,8 @@ body {
 
   .toolbarIcon {
     display: inline-flex;
-    width: $icon-total-width;
-    height: $icon-total-height;
+    width: $icon-total-size;
+    height: $icon-total-size;
     background-color: #fff;
     border-radius: 18px;
     border: $regular-border;
@@ -62,8 +62,8 @@ body {
 
   .toolbarIcon img {
     display: block;
-    width: $icon-width;
-    height: $icon-height;
+    width: $icon-size;
+    height: $icon-size;
     margin: auto;
   }
 
