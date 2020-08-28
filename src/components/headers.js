@@ -6,6 +6,7 @@ const iconsImg = {
   Share: require('../img/toolbar-icon/share.svg'),
   NoLoop: require('../img/toolbar-icon/noLoop.svg'),
   Loop: require('../img/toolbar-icon/loop.svg'),
+  Capture: require('../img/toolbar-icon/capture.svg'),
 }
 
 const Icon = ({ name, onClickFunc }) => {
