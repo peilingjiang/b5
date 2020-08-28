@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import equal from 'react-fast-compare'
 
-import { Tab, TabContent } from './factoryFrags'
+import { TabList, TabContent } from './factoryFrags'
 import '../../postcss/components/factory/factory.css'
 
 export default class Factory extends Component {
@@ -26,7 +27,7 @@ export default class Factory extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return nextProps !== this.props || nextState !== this.state
+    return !equal(nextProps, this.props) || !equal(nextState, this.state)
   }
 
   render() {
@@ -40,24 +41,11 @@ export default class Factory extends Component {
 
     return (
       <>
-        <ol
-          ref={e => (this.tabList = e)}
-          id="tabList"
-          className={
-            'active' + activeTab.charAt(0).toUpperCase() + activeTab.slice(1)
-          }
-        >
-          {allTabs.map(tab => {
-            return (
-              <Tab
-                key={tab}
-                label={tab}
-                active={activeTab === tab}
-                onClick={onClickTab}
-              />
-            )
-          })}
-        </ol>
+        <TabList
+          allTabs={allTabs}
+          onClickTab={onClickTab}
+          activeTab={activeTab}
+        />
 
         <TabContent
           type={activeTab}

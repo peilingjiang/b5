@@ -1,0 +1,57 @@
+@import '../../css/root.css';
+
+.wire {
+  fill: none;
+  stroke-width: 2px;
+  stroke-linecap: round;
+  shape-rendering: geometricPrecision;
+  pointer-events: initial;
+
+  &.selected {
+    stroke: $selected !important;
+  }
+}
+
+.wires {
+  position: relative;
+
+  .svg {
+    position: absolute;
+    display: flex;
+    pointer-events: none;
+
+    .wireHolder {
+      z-index: 40000;
+
+      &.selected {
+        // For selected wire
+        filter: drop-shadow(0 0 5px color-mod($selected a($fade-op)));
+      }
+    }
+
+    .dragOvalHolder {
+      position: absolute;
+      z-index: 70000;
+      stroke: $dark-grey;
+      stroke-width: $node-border-width;
+      fill: #fff;
+    }
+  }
+
+  .wireBackground {
+    pointer-events: initial;
+    opacity: 0.6;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 7px;
+    stroke-linecap: round;
+  }
+
+  .unfocused {
+    stroke: $light-grey;
+  }
+
+  .focused {
+    stroke: $dark-grey;
+  }
+}

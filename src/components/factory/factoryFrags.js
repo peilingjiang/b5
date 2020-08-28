@@ -1,4 +1,5 @@
-import React, { PureComponent, useEffect, useRef } from 'react'
+import React, { Component, PureComponent, useEffect, useRef } from 'react'
+import ResizeObserver from 'resize-observer-polyfill'
 
 import BlockPreview from '../blockPreview/blockPreview'
 import CodeCanvas from '../codeCanvas/codeCanvas'
@@ -135,8 +136,7 @@ export const TabContent = ({
 }
 
 export class Tab extends PureComponent {
-  // labels are 'variables', 'functions', and 'objects' (w/ s!)
-
+  // labels are 'variable', 'function', and 'object' (w/out s!)
   onClick = () => {
     // Switch Tab
     const { label, onClick } = this.props
@@ -144,15 +144,79 @@ export class Tab extends PureComponent {
   }
 
   render() {
+    const { label, enoughWidth, active } = this.props
     return (
       <li
-        className={
-          'tab ' + this.props.label + (this.props.active ? ' activeTab' : '')
-        }
+        className={'tab ' + label + (active ? ' activeTab' : '')}
         onClick={this.onClick}
       >
-        {this.props.label}
+        {enoughWidth ? label : label.slice(0, 3)}
       </li>
+    )
+  }
+}
+
+const _checkWidth = target => {
+  // Check if the width of the TabList is enough
+  // for displaying full names of tabs
+  return target.offsetWidth > 267 ? true : false
+}
+
+export class TabList extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      enoughWidth: true,
+    }
+  }
+
+  componentDidMount() {
+    this.setState({ enoughWidth: _checkWidth(this.tabList) }) // true (enough length) or false (too short)
+    this.resizeObserver = new ResizeObserver(entries => {
+      this.handleTabResize()
+    })
+    // Add ResizeObservers to tabs
+    this.resizeObserver.observe(this.tabList)
+  }
+
+  componentWillUnmount() {
+    this.resizeObserver.unobserve(this.tabList)
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      nextProps.activeTab !== this.props.activeTab ||
+      nextState.enoughWidth !== this.state.enoughWidth
+    )
+  }
+
+  handleTabResize = () => {
+    this.setState({ enoughWidth: _checkWidth(this.tabList) })
+  }
+
+  render() {
+    const { allTabs, onClickTab, activeTab } = this.props
+
+    return (
+      <ol
+        ref={e => (this.tabList = e)}
+        id="tabList"
+        className={
+          'active' + activeTab.charAt(0).toUpperCase() + activeTab.slice(1)
+        }
+      >
+        {allTabs.map(tab => {
+          return (
+            <Tab
+              key={tab}
+              label={tab}
+              enoughWidth={this.state.enoughWidth}
+              active={activeTab === tab}
+              onClick={onClickTab}
+            />
+          )
+        })}
+      </ol>
     )
   }
 }

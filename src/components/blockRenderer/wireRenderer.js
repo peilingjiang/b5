@@ -2,6 +2,7 @@ import React, { Component, PureComponent } from 'react'
 import equal from 'react-fast-compare'
 
 import { nodeSize, sizeOffset, dragOvalSize } from '../constants'
+import '../../postcss/components/blockRenderer/wireRenderer.css'
 
 const _dragOvalR = dragOvalSize / 2
 

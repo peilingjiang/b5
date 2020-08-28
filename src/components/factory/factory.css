@@ -54,10 +54,8 @@ $section-outline-blender: blend(#fff 30%);
     color: #fff;
     opacity: $fade-op;
     // text-transform: capitalize;
-    letter-spacing: -0.2px;
     user-select: none;
     cursor: pointer;
-    text-overflow: ellipsis;
   }
 
   .activeTab {
