@@ -39,6 +39,15 @@ $viewer-max-height: 700px;
     padding: 0;
   }
 
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  ::-webkit-scrollbar {
+    // TODO: Add customized styling to indicate current position
+    width: 0;
+    height: 0;
+    background: transparent;
+  }
+
   .p5Canvas {
     margin: 0;
     padding: 0;

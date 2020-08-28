@@ -55,7 +55,7 @@ const defaultValue = {
             },
             1: {
               name: 'numberSlider',
-              inlineData: [300, 0, 1000, 100],
+              inlineData: [300, 0, 1000, 50],
               output: { 0: [['1', '0', '1']] }, // One output node may be connected to multiple input nodes
             },
           },

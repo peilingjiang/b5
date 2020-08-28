@@ -70,8 +70,16 @@ $section-outline-blender: blend(#fff 30%);
   width: calc(100% - $gap - $gap);
   height: calc(100% - $tabs-height);
   margin: 0 $gap 0 $gap;
-  overflow: scroll;
+  overflow-y: scroll;
   text-align: center;
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    // TODO: Add customized styling to indicate current position
+    width: 0;
+  }
 
   button {
     margin: $section-gap auto 54px auto;

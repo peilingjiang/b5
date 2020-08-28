@@ -66,7 +66,12 @@ class Wire extends PureComponent {
         {/* Dragging point oval, only when dragged */}
         {dragged && (
           <svg width="100%" height="100%" className="dragOvalHolder">
-            <circle cx={x2 - canvasLeft} cy={y2 + sizeOffset - canvasTop} r={_dragOvalR} className="dragOval" />
+            <circle
+              cx={x2 - canvasLeft}
+              cy={y2 + sizeOffset - canvasTop}
+              r={_dragOvalR}
+              className="dragOval"
+            />
           </svg>
         )}
       </div>
