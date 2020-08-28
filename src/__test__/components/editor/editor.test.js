@@ -22,8 +22,8 @@ describe('Editor', () => {
   test('render with expected factory labels', () => {
     const { getByText } = render(<Editor bridge={function () {}} />)
 
-    getByText('variable')
-    getByText('function')
-    getByText('object')
+    getByText('variable') || getByText('var')
+    getByText('function') || getByText('fun')
+    getByText('object') || getByText('obj')
   })
 })
