@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 
 import { lineHeight, roomWidth } from '../constants'
 
@@ -7,7 +7,7 @@ import { lineHeight, roomWidth } from '../constants'
  * while will all be rendered as starting from 1/a
  */
 
-export class LineNumberRoom extends Component {
+export class LineNumberRoom extends PureComponent {
   constructor(props) {
     super(props)
     this.y = props.num // Start from 0
@@ -22,7 +22,7 @@ export class LineNumberRoom extends Component {
   }
 }
 
-export class BlockRoom extends Component {
+export class BlockRoom extends PureComponent {
   constructor(props) {
     super(props)
     this.x = props.x // Column of the room, from 0
@@ -39,7 +39,7 @@ export class BlockRoom extends Component {
   }
 }
 
-export class BlockAlphabetRoom extends Component {
+export class BlockAlphabetRoom extends PureComponent {
   constructor(props) {
     super(props)
     this.x = this._convert(props.num + 1) // num starts from 0

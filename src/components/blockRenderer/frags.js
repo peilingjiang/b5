@@ -1,4 +1,4 @@
-import React, { PureComponent, createRef, forwardRef } from 'react'
+import React, { PureComponent, createRef, forwardRef, memo } from 'react'
 
 const _nodeBorderClassSelector = (
   type,
@@ -49,9 +49,9 @@ const NodeRef = ({
   )
 }
 
-export const Node = forwardRef((props, ref) => (
-  <NodeRef thisNodeRef={ref} {...props} />
-))
+export const Node = memo(
+  forwardRef((props, ref) => <NodeRef thisNodeRef={ref} {...props} />)
+)
 
 export class InputBox extends PureComponent {
   constructor(props) {

@@ -105,88 +105,11 @@ class BlockRenderer extends Component {
       } = this.props,
       { type, kind, inputNodes, outputNodes } = _b5BlocksObject[name]
 
-    let blockInputNodes = [],
-      blockOutputNodes = [],
-      inputNodesText = [],
-      outputNodesText = []
+    let myBlock = null
 
-    let inputNodesCount = 0,
-      outputNodesCount = 0
-
-    if (inputNodes !== null) {
-      inputNodesCount = inputNodes.length
-      for (let i in inputNodes) {
-        blockInputNodes.push(
-          <Node
-            key={x + y + ' inputNode' + i}
-            nodeClass="input"
-            count={inputNodesCount}
-            type={type}
-            connectType={
-              input[i] !== null
-                ? _b5BlocksObject[inputBlocks[i]].outputNodes[input[i][2]]
-                    .type[0]
-                : null
-            }
-            // If connectType !== null, then connected
-            ref={this.nodesRef.input[i]}
-            focused={focused}
-            selected={selectedNodes.input.includes(i)}
-          />
-        )
-        inputNodesText.push(
-          <p
-            key={x + y + ' inputText' + i}
-            className={'inputText count' + inputNodesCount}
-          >
-            {inputNodes[i].text}
-          </p>
-        )
-      }
-    }
-
-    if (outputNodes !== null) {
-      outputNodesCount = outputNodes.length
-      for (let i in outputNodes) {
-        blockOutputNodes.push(
-          <Node
-            key={x + y + 'outputNode ' + i}
-            nodeClass="output"
-            count={outputNodesCount}
-            type={type}
-            connectType={output[i].length !== 0 ? outputNodes[i].type[0] : null} // output can only be [] (when not connected) instead of null
-            ref={this.nodesRef.output[i]}
-            focused={focused}
-            selected={selectedNodes.output.includes(i)}
-          />
-        )
-        outputNodesText.push(
-          <p
-            key={x + y + 'outputText ' + i}
-            className={'outputText count' + outputNodesCount}
-          >
-            {outputNodes[i].text}
-          </p>
-        )
-      }
-    }
-
-    return (
-      <div
-        className={'blockFill' + (focused ? ' focused' : '')}
-        style={{
-          top: this.y * lineHeight + 'px',
-          left: this.x * roomWidth + 'px',
-        }}
-        ref={this.props.thisBlockRef}
-      >
-        {kind === 'inline' ? (
-          <></>
-        ) : kind === 'method' ? (
-          <></>
-        ) : kind === 'display' ? (
-          <></>
-        ) : kind === 'input' ? (
+    switch (kind) {
+      case 'input':
+        myBlock = (
           <InputBlock
             className={'grab block ' + type + ' ' + kind}
             name={name}
@@ -201,7 +124,10 @@ class BlockRenderer extends Component {
             focused={focused}
             selectedNodes={selectedNodes}
           />
-        ) : kind === 'slider' ? (
+        )
+        break
+      case 'slider':
+        myBlock = (
           <SliderBlock
             className={'grab block ' + type + ' ' + kind}
             name={name}
@@ -216,8 +142,84 @@ class BlockRenderer extends Component {
             focused={focused}
             selectedNodes={selectedNodes}
           />
-        ) : (
-          // kind === 'normal'
+        )
+        break
+      case 'inline':
+        break
+      case 'method':
+        break
+      case 'display':
+        break
+      default:
+        /* kind === 'normal' */
+        let blockInputNodes = [],
+          blockOutputNodes = [],
+          inputNodesText = [],
+          outputNodesText = []
+
+        let inputNodesCount = 0,
+          outputNodesCount = 0
+
+        if (inputNodes !== null) {
+          inputNodesCount = inputNodes.length
+          for (let i in inputNodes) {
+            blockInputNodes.push(
+              <Node
+                key={x + y + ' inputNode' + i}
+                nodeClass="input"
+                count={inputNodesCount}
+                type={type}
+                connectType={
+                  input[i] !== null
+                    ? _b5BlocksObject[inputBlocks[i]].outputNodes[input[i][2]]
+                        .type[0]
+                    : null
+                }
+                // If connectType !== null, then connected
+                ref={this.nodesRef.input[i]}
+                focused={focused}
+                selected={selectedNodes.input.includes(i)}
+              />
+            )
+            inputNodesText.push(
+              <p
+                key={x + y + ' inputText' + i}
+                className={'inputText count' + inputNodesCount}
+              >
+                {inputNodes[i].text}
+              </p>
+            )
+          }
+        }
+
+        if (outputNodes !== null) {
+          outputNodesCount = outputNodes.length
+          for (let i in outputNodes) {
+            blockOutputNodes.push(
+              <Node
+                key={x + y + 'outputNode ' + i}
+                nodeClass="output"
+                count={outputNodesCount}
+                type={type}
+                connectType={
+                  output[i].length !== 0 ? outputNodes[i].type[0] : null
+                } // output can only be [] (when not connected) instead of null
+                ref={this.nodesRef.output[i]}
+                focused={focused}
+                selected={selectedNodes.output.includes(i)}
+              />
+            )
+            outputNodesText.push(
+              <p
+                key={x + y + 'outputText ' + i}
+                className={'outputText count' + outputNodesCount}
+              >
+                {outputNodes[i].text}
+              </p>
+            )
+          }
+        }
+        myBlock = (
           <div
             className={
               'grab block ' +
@@ -246,7 +248,20 @@ class BlockRenderer extends Component {
               </>
             ) : null}
           </div>
-        )}
+        )
+        break
+    }
+
+    return (
+      <div
+        className={'blockFill' + (focused ? ' focused' : '')}
+        style={{
+          top: this.y * lineHeight + 'px',
+          left: this.x * roomWidth + 'px',
+        }}
+        ref={this.props.thisBlockRef}
+      >
+        {myBlock}
       </div>
     )
   }
