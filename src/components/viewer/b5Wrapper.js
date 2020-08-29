@@ -2,37 +2,33 @@ import React, { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
 import p5 from 'p5'
 
-import b5 from '../../b5.js/src/app'
-
 export default class B5Wrapper extends Component {
+  // props - Readily available b5 object
   constructor(props) {
     super(props)
     this.viewerCanvas = createRef()
-    this.b = new b5()
 
     this.myP5 = null
   }
 
   Sketch = p => {
     p.setup = () => {
-      this.b.runSetup(p) // Run Factory blocks
+      this.props.b.runSetup(p) // Run Factory blocks
     }
 
     p.draw = () => {
-      this.b.runDraw(p) // Run Playground blocks
+      this.props.b.runDraw(p) // Run Playground blocks
     }
   }
 
   componentDidMount() {
-    this._updateB5()
     if (this.myP5 === null) this._initCanvas()
   }
 
   componentDidUpdate(prevProps) {
-    this._updateB5()
     if (
-      !equal(prevProps.data.factory, this.props.data.factory) &&
-      Object.keys(prevProps.data).length !== 0 // Avoid creating two canvas at first
+      !equal(prevProps.b.factory, this.props.b.factory) &&
+      Object.keys(prevProps.b).length !== 0 // Avoid creating two canvas at first
     )
       // Factory data changed, canvas needs to be re-created
       this._initCanvas()
@@ -45,7 +41,7 @@ export default class B5Wrapper extends Component {
 
   shouldComponentUpdate(nextProps) {
     // Only re-render when data changes
-    return !equal(nextProps.data, this.props.data)
+    return !equal(nextProps.b, this.props.b)
   }
 
   _initCanvas = () => {
@@ -55,13 +51,13 @@ export default class B5Wrapper extends Component {
   }
 
   _clearCanvas = () => {
-    if (this.myP5 !== null) this.myP5.remove()
-  }
-
-  _updateB5 = () => {
-    // Ignore initial rendering when data is {}
-    if (Object.keys(this.props.data).length !== 0) {
-      this.b.update(this.props.data)
+    if (this.myP5 !== null) {
+      // Remove canvas
+      this.myP5.remove()
+      delete this.myP5
+      this.myP5 = null
+      // Unplug section blocks output data
+      this.props.b.unplug()
     }
   }
 

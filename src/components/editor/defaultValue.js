@@ -1,4 +1,13 @@
-const defaultValue = {
+import {
+  lineNumberWidth,
+  blockAlphabetHeight,
+  factoryCanvasDefaultScale,
+  sectionHeightDefault,
+} from '../constants'
+
+// Default value
+
+export const defaultEditor = {
   playground: {
     type: 'playground',
     lineStyles: {},
@@ -6,24 +15,24 @@ const defaultValue = {
       0: {
         0: {
           name: 'numberSlider',
+          source: 'original',
           inlineData: [200, 0, 600, 10],
           output: {
             0: [['2', '1', '0']],
           },
         },
         1: {
-          name: 'background',
-          input: {
-            0: null,
-            1: null,
-            2: null,
-            3: null,
+          name: 'cnv',
+          source: 'custom',
+          output: {
+            0: [],
           },
         },
       },
       2: {
         1: {
           name: 'ellipse',
+          source: 'original',
           input: {
             0: ['0', '0', '0'],
             1: null,
@@ -50,11 +59,13 @@ const defaultValue = {
             0: {
               /* Column number - start from 0 */
               name: 'number',
+              source: 'original',
               inlineData: [500],
               output: { 0: [['1', '0', '0']] }, // For block rendering
             },
             1: {
               name: 'numberSlider',
+              source: 'original',
               inlineData: [300, 0, 1000, 50],
               output: { 0: [['1', '0', '1']] }, // One output node may be connected to multiple input nodes
             },
@@ -62,6 +73,7 @@ const defaultValue = {
           1: {
             0: {
               name: 'createCanvas',
+              source: 'original',
               input: {
                 0: ['0', '0', '0'], // Line number, column number, index of the node
                 1: ['0', '1', '0'],
@@ -80,4 +92,46 @@ const defaultValue = {
   },
 }
 
-export default defaultValue
+export const defaultEditorCanvasStyle = {
+  playground: {
+    left: lineNumberWidth,
+    top: blockAlphabetHeight,
+    scale: 1,
+  },
+  factory: {
+    variable: [
+      /* --- canvasStyle --- */
+      {
+        left: lineNumberWidth,
+        top: blockAlphabetHeight,
+        scale: factoryCanvasDefaultScale,
+        sectionHeight: sectionHeightDefault,
+      },
+    ],
+    function: [],
+    object: [],
+  },
+}
+
+// Structure template
+
+// A section template to add to each tab
+const nativeSectionData = {
+    name: '',
+    removable: true,
+    type: '' /* Modify before adding... */,
+    /*
+type should always be 'variable', 'function', and 'object'
+(w/out 's'!) in the data object and passed along the functions
+*/
+    lineStyles: {},
+    blocks: {},
+  },
+  nativeSectionStyle = {
+    left: lineNumberWidth,
+    top: blockAlphabetHeight,
+    scale: factoryCanvasDefaultScale,
+    sectionHeight: sectionHeightDefault,
+  }
+export const nativeSectionDataToAdd = JSON.stringify(nativeSectionData),
+  nativeSectionStyleToAdd = JSON.stringify(nativeSectionStyle)

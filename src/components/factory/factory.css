@@ -52,14 +52,34 @@ $section-outline-blender: blend(#fff 30%);
     border-collapse: separate;
     border-radius: $radius $radius 0 0;
     color: #fff;
-    opacity: $fade-op;
-    // text-transform: capitalize;
     user-select: none;
     cursor: pointer;
+
+    &.variable {
+      background-color: color-mod($variable a($op));
+    }
+
+    &.function {
+      background-color: color-mod($function a($op));
+    }
+
+    &.object {
+      background-color: color-mod($object a($op));
+    }
   }
 
   .activeTab {
-    opacity: 1;
+    &.variable {
+      background-color: $variable;
+    }
+
+    &.function {
+      background-color: $function;
+    }
+
+    &.object {
+      background-color: $object;
+    }
   }
 }
 
@@ -168,19 +188,15 @@ $section-outline-blender: blend(#fff 30%);
   }
 }
 
-.variable,
-.variables {
-  // Should only be '.variable' for most cases
+.variable {
   background-color: $variable;
 }
 
-.function,
-.functions {
+.function {
   background-color: $function;
 }
 
-.object,
-.objects {
+.object {
   background-color: $object;
 }
 

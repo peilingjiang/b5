@@ -1,11 +1,11 @@
 import React, { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
 
-import '../../postcss/components/blockRenderer/blockRenderer.css'
-import { lineHeight, roomWidth } from '../constants'
 import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper'
+import { lineHeight, roomWidth } from '../constants'
 import { Node } from './frags'
 import { InputBlock, SliderBlock } from './special'
+import '../../postcss/components/blockRenderer/blockRenderer.css'
 
 function _getTotalOffset(thisNode, targetClassName) {
   // [x, y]
@@ -95,15 +95,19 @@ class BlockRenderer extends Component {
 
   render() {
     const {
-        data: { name, input, inlineData, output },
-        inputBlocks,
-        x,
-        y,
-        collect,
-        focused,
-        selectedNodes,
-      } = this.props,
-      { type, kind, inputNodes, outputNodes } = _b5BlocksObject[name]
+      data: { name, source, input, inlineData, output },
+      inputBlocks,
+      x,
+      y,
+      scale, // Mainly for SliderBlock
+      collect,
+      focused,
+      selectedNodes,
+    } = this.props
+
+    const { type, kind, inputNodes, outputNodes } = _b5BlocksObject[source][
+      name
+    ]
 
     let myBlock = null
 
@@ -141,6 +145,7 @@ class BlockRenderer extends Component {
             nodesRef={this.nodesRef}
             focused={focused}
             selectedNodes={selectedNodes}
+            scale={scale}
           />
         )
         break
@@ -171,8 +176,9 @@ class BlockRenderer extends Component {
                 type={type}
                 connectType={
                   input[i] !== null
-                    ? _b5BlocksObject[inputBlocks[i]].outputNodes[input[i][2]]
-                        .type[0]
+                    ? _b5BlocksObject[source][inputBlocks[i]].outputNodes[
+                        input[i][2]
+                      ].type[0]
                     : null
                 }
                 // If connectType !== null, then connected

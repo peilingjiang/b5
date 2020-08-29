@@ -170,7 +170,7 @@ export default class CodeCanvas extends Component {
       that.blockAlphabets.style.left = that.blockHome.style.left =
         Math.min(
           Math.max(
-            mouse.homeLeft + delta.x,
+            mouse.homeLeft + delta.x / that.state.scale,
             -that.maxBlockCount * roomWidth + that.codeCanvas.offsetWidth / 2
           ),
           lineNumberWidth
@@ -178,7 +178,7 @@ export default class CodeCanvas extends Component {
       that.lineNumbers.style.top = that.blockHome.style.top =
         Math.min(
           Math.max(
-            mouse.homeTop + delta.y,
+            mouse.homeTop + delta.y / that.state.scale,
             -that.maxLineCount * lineHeight + that.codeCanvas.offsetHeight / 2
           ),
           blockAlphabetHeight
@@ -218,10 +218,10 @@ export default class CodeCanvas extends Component {
         Math.round(
           Math.min(
             Math.max(
-              this.state.scale - e.deltaY * 0.0005 /* Zoom factor */,
+              this.state.scale - e.deltaY * 0.0006 /* Zoom factor */,
               0.6
             ),
-            1.1
+            2
           ) * 1000
         ) / 1000,
     })

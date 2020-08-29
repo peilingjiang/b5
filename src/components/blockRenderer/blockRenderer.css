@@ -6,7 +6,7 @@
   width: $node-size;
   height: $node-size;
   border-radius: calc($node-size / 2);
-  border: $node-border;
+  border: $node-border-style;
   background-color: #fff;
   pointer-events: initial;
 }
@@ -109,34 +109,34 @@
 
   .nodeFill {
     .defaultNode {
-      border: $node-border $default;
+      border: $node-border-style $default;
     }
 
     .variableNode {
-      border: $node-border $variable;
+      border: $node-border-style $variable;
     }
 
     .functionNode {
-      border: $node-border $function;
+      border: $node-border-style $function;
     }
 
     .objectNode {
-      border: $node-border $object;
+      border: $node-border-style $object;
     }
 
     .drawNode {
-      border: $node-border $draw;
+      border: $node-border-style $draw;
     }
 
     .libraryNode {
-      border: $node-border $library;
+      border: $node-border-style $library;
     }
 
     .connected {
-      border: $node-border $light-grey;
+      border: $node-border-style $light-grey;
 
       &.focused {
-        border: $node-border $dark-grey;
+        border: $node-border-style $dark-grey;
       }
 
       &.selected {

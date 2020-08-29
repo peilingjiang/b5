@@ -523,7 +523,7 @@ export default class CodeBlocks extends Component {
   }
 
   render() {
-    const { data, collect } = this.props
+    const { data, collect, scale } = this.props
     const { draggingWire } = this.state
     let blocks = []
     for (let i in data) // y
@@ -539,6 +539,7 @@ export default class CodeBlocks extends Component {
             data={data[i][j]}
             y={i}
             x={j}
+            scale={scale}
             inputBlocks={inputBlocks}
             focused={this._isFocused([i, j])}
             selectedNodes={this._areSelectedNodes(i, j)}

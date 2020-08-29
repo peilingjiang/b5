@@ -17,7 +17,7 @@ $viewer-max-height: 700px;
   user-select: none;
   overflow: auto;
   background-color: $background-grey;
-  box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: $regular-shadow;
   z-index: 9999999; // Above everything
 
   .header {

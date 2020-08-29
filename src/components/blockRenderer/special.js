@@ -1,4 +1,5 @@
 import React, { Component, createRef } from 'react'
+import equal from 'react-fast-compare'
 
 import { Node, InputBox } from './frags'
 
@@ -92,7 +93,7 @@ class InputRange extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     return (
-      nextProps !== this.props ||
+      !equal(nextProps, this.props) ||
       nextState.currentValue !== this.state.currentValue
     )
   }
@@ -152,7 +153,7 @@ class InputRange extends Component {
       }
 
       const handleDrag = e => {
-        let deltaX = e.clientX - mouse.x
+        let deltaX = (e.clientX - mouse.x) / this.props.scale
 
         let value = this._getValue(
           Math.max(Math.min(deltaX + mouse.width, this.totalLength), 0),
@@ -160,10 +161,12 @@ class InputRange extends Component {
           iD[2],
           iD[3]
         )
-        this.setState({ currentValue: value })
+        if (value !== this.state.currentValue)
+          this.setState({ currentValue: value })
 
         this.rangeBelow.style.width =
           this._getLength(value, iD[1], iD[2]) + 'px'
+        this.collectRangeData()
       }
 
       this.sliderBox.classList.replace('defaultCursor', 'ewResizing')
@@ -175,7 +178,6 @@ class InputRange extends Component {
         function _listener() {
           that.sliderBox.classList.replace('ewResizing', 'defaultCursor')
           that.rangeBelow.classList.remove('ewResizing')
-          that.collectRangeData()
           document.removeEventListener('mousemove', handleDrag, true)
           document.removeEventListener('mouseup', _listener, true)
         },
@@ -278,6 +280,7 @@ export class SliderBlock extends Component {
       nodesRef,
       focused,
       selectedNodes,
+      scale,
     } = this.props
 
     return (
@@ -306,6 +309,7 @@ export class SliderBlock extends Component {
             collect={collect}
             x={x}
             y={y}
+            scale={scale}
           />
         </div>
       </div>

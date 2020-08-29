@@ -2,7 +2,6 @@ import React from 'react'
 import { render } from '@testing-library/react'
 
 import Editor from '../../../components/editor/editor'
-import defaultValue from '../../../components/editor/defaultValue'
 
 describe('Editor', () => {
   test('renders without crash', () => {
@@ -10,20 +9,11 @@ describe('Editor', () => {
     // screen.debug()
   })
 
-  test('renders with correct data', () => {
-    let data = null
-    const testBridge = d => {
-      data = d
-    }
-    render(<Editor bridge={testBridge} />)
-    expect(data).toBe(defaultValue)
-  })
-
   test('render with expected factory labels', () => {
     const { getByText } = render(<Editor bridge={function () {}} />)
 
-    getByText('variable') || getByText('var')
-    getByText('function') || getByText('fun')
-    getByText('object') || getByText('obj')
+    getByText('var')
+    getByText('fun')
+    getByText('obj')
   })
 })

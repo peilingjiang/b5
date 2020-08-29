@@ -40,7 +40,7 @@ $bold: 700;
 /* Font Size */
 $normal: 1rem; // 16px
 $small: 0.875rem; // 14px
-$large: 1.2rem;
+$large: 1.25rem; // 20px
 
 /* Icons */
 $icon-total-size: 36px;
@@ -57,5 +57,8 @@ $block-alphabet-height: 24px;
 $node-size: 8px;
 $node-border-width: 1px;
 
-$regular-border: 1px solid $hover-grey;
-$node-border: $node-border-width solid;
+$regular-border-style: 1px solid;
+$node-border-style: $node-border-width solid;
+$regular-border: $regular-border-style $hover-grey;
+
+$regular-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.12);

@@ -7,9 +7,9 @@ import './postcss/css/main.css'
 function App() {
   const [data, setData] = useState({}) // Must be {}
 
-  const bridgeData = d => {
+  const bridgeData = b5Obj => {
     // Send data from Editor to Viewer
-    setData(d)
+    setData(b5Obj)
   }
 
   return (

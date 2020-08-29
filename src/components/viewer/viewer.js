@@ -21,9 +21,10 @@ const Viewer = ({ data }) => {
   const captureCanvas = () => {
     // p5 default canvas id - defaultCanvas0
     const canvas = document.getElementById('defaultCanvas0')
-    canvas.toBlob(blob => {
-      saveAs(blob, 'myCanvas.png')
-    }, 'image/png')
+    if (canvas)
+      canvas.toBlob(blob => {
+        saveAs(blob, 'myCanvas.png')
+      }, 'image/png')
   }
 
   const _moveViewer = e => {
@@ -85,7 +86,7 @@ const Viewer = ({ data }) => {
         />
       </div>
       {loop ? (
-        <B5Wrapper data={data} />
+        <B5Wrapper b={data} />
       ) : (
         <img
           className="viewerNoLoop"
