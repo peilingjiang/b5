@@ -1,0 +1,49 @@
+@import '../../css/root.css';
+
+.header {
+  height: $head-height;
+  user-select: none;
+  width: 100%;
+
+  .toolbarIcon {
+    display: inline-flex;
+    width: $icon-total-size;
+    height: $icon-total-size;
+    background-color: #fff;
+    border-radius: 18px;
+    border: $regular-border;
+    margin: $gap 0;
+    padding: 0;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .toolbarIconDisabled {
+    background-color: $background-grey;
+    cursor: inherit;
+  }
+
+  .toolbarIcon:not(.toolbarIconDisabled):hover {
+    background-color: $hover-grey;
+  }
+
+  .toolbarIcon:not(.toolbarIconDisabled):active {
+    background-color: $light-grey;
+  }
+
+  .toolbarIcon {
+    margin-left: $gap;
+  }
+
+  .toolbarIcon img {
+    display: block;
+    width: $icon-size;
+    height: $icon-size;
+    margin: auto;
+  }
+
+  .toolbarIcon .emoji {
+    font-size: $normal;
+    margin: auto;
+  }
+}

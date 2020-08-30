@@ -11,6 +11,7 @@
   font-kerning: normal;
 
   font-family: 'Inconsolata', monospace;
+  // font-family: 'Helvetica';
   color: $black;
   // letter-spacing: -0.1px; /* For Inconsolata */
 }
@@ -28,49 +29,6 @@ body {
 
 .emoji {
   filter: grayscale(100%);
-}
-
-.header {
-  height: $head-height;
-  user-select: none;
-  width: 100%;
-
-  .toolbarIcon {
-    display: inline-flex;
-    width: $icon-total-size;
-    height: $icon-total-size;
-    background-color: #fff;
-    border-radius: 18px;
-    border: $regular-border;
-    margin: $gap 0;
-    padding: 0;
-    text-align: center;
-    cursor: pointer;
-  }
-
-  .toolbarIcon:hover {
-    background-color: $hover-grey;
-  }
-
-  .toolbarIcon:active {
-    background-color: $light-grey;
-  }
-
-  .toolbarIcon {
-    margin-left: $gap;
-  }
-
-  .toolbarIcon img {
-    display: block;
-    width: $icon-size;
-    height: $icon-size;
-    margin: auto;
-  }
-
-  .toolbarIcon .emoji {
-    font-size: $normal;
-    margin: auto;
-  }
 }
 
 // For all grab and grabbing...

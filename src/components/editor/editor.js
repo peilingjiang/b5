@@ -1,7 +1,7 @@
 import React, { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
 
-import { IconList } from '../headers'
+import { IconList } from '../headers/headers'
 
 import * as method from './editorMethod'
 import Playground from '../playground/playground'
@@ -189,7 +189,8 @@ export default class Editor extends Component {
         <div className="header">
           <IconList
             iconsName={['Settings', 'File', 'Share']}
-            onClickFunc={[null, null, null]}
+            iconsOnClickFunc={[null, null, null]}
+            iconsDisabled={[false, false, false]}
           />
           <a
             href="https://github.com/peilingjiang/b5"

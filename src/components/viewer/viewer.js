@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import { saveAs } from 'file-saver'
 
 import B5Wrapper from './b5Wrapper'
-import { IconList } from '../headers'
+import { IconList } from '../headers/headers'
 import { headerHeight } from '../constants'
 import '../../postcss/components/viewer/viewer.css'
 
@@ -10,15 +10,29 @@ import ViewerNoLoop from '../../img/icon/viewerNoLoop.svg'
 
 const Viewer = ({ data }) => {
   const [loop, setLoop] = useState(true) // Render the canvas or not
+  let toggle = useRef(true) // true if toggleLoop, false if refreshCanvas
 
   const viewer = useRef(),
     viewerHeader = useRef()
 
+  useEffect(() => {
+    if (!toggle.current) {
+      // Refresh canvas instead of toggle
+      toggle.current = true
+      setLoop(true)
+    }
+  }, [loop])
+
   const toggleLoop = () => {
+    toggle.current = true
     setLoop(!loop)
   }
 
-  const refreshCanvas = () => {}
+  const refreshCanvas = () => {
+    // Toggle twice...
+    toggle.current = false
+    setLoop(false)
+  }
 
   const captureCanvas = () => {
     // p5 default canvas id - defaultCanvas0
@@ -84,7 +98,8 @@ const Viewer = ({ data }) => {
       <div ref={viewerHeader} className="header grab">
         <IconList
           iconsName={[loop ? 'NoLoop' : 'Loop', 'Refresh', 'Capture']}
-          onClickFunc={[toggleLoop, refreshCanvas, captureCanvas]}
+          iconsOnClickFunc={[toggleLoop, refreshCanvas, captureCanvas]}
+          iconsDisabled={[false, !loop, !loop]}
         />
       </div>
       {loop ? (

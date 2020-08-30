@@ -61,4 +61,4 @@ $regular-border-style: 1px solid;
 $node-border-style: $node-border-width solid;
 $regular-border: $regular-border-style $hover-grey;
 
-$regular-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.12);
+$regular-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.12);

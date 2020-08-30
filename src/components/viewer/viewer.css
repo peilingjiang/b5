@@ -8,7 +8,7 @@ $viewer-max-height: 700px;
 #viewer {
   display: block;
   position: absolute;
-  top: 50vh;
+  top: 51vh;
   left: 60vw;
   width: auto;
   height: auto;
