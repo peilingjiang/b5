@@ -1,7 +1,6 @@
 import React, { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
 
-import { drag } from './separator'
 import { IconList } from '../headers'
 
 import * as method from './editorMethod'
@@ -49,6 +48,7 @@ export default class Editor extends Component {
     */
 
     this.b = new b5()
+    // Make sure all the previous (or default) section blocks are registered
     this.b.update(this.state.editor)
 
     this.leftElement = createRef()
@@ -57,13 +57,19 @@ export default class Editor extends Component {
   }
 
   componentDidMount() {
-    drag(this.separator, this.leftElement, this.rightElement)
+    // Add drag listener
     this.props.bridge(this.b)
+    this.separator.current.addEventListener('mousedown', this.handleDrag)
   }
 
   componentDidUpdate() {
     // Directly send b5 object to viewer to render
     this.props.bridge(this.b)
+  }
+
+  componentWillUnmount() {
+    if (this.separator.current)
+      this.separator.current.removeEventListener('mousedown', this.handleDrag)
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -152,6 +158,30 @@ export default class Editor extends Component {
     })
   }
 
+  handleDrag = e => {
+    let mouseDown = {
+      e,
+      leftWidth: this.leftElement.current.offsetWidth,
+      rightWidth: this.rightElement.current.offsetWidth,
+    }
+    const handleMoveSeparator = this.moveSeparator.bind(this, mouseDown)
+    document.addEventListener('mousemove', handleMoveSeparator)
+    document.addEventListener('mouseup', function _listener() {
+      document.removeEventListener('mousemove', handleMoveSeparator)
+      document.removeEventListener('mouseup', _listener)
+    })
+  }
+
+  moveSeparator = (mouseDown, e) => {
+    let deltaX = Math.min(
+      Math.max(e.clientX - mouseDown.e.clientX, -mouseDown.leftWidth),
+      mouseDown.rightWidth
+    )
+    const leftPercent = (mouseDown.leftWidth + deltaX) / window.innerWidth
+    this.leftElement.current.style.width = leftPercent * 100 + '%'
+    this.rightElement.current.style.width = (1 - leftPercent) * 100 + '%'
+  }
+
   render() {
     const { editor, editorCanvasStyle } = this.state
 
@@ -181,13 +211,11 @@ export default class Editor extends Component {
                 addSection={this.addSection}
                 collect={this.collectEditorData}
                 collectStyle={this.collectEditorCanvasStyle}
+                separatorRef={this.separator}
               />
               {/* <div className="shadow"></div> */}
             </div>
           </div>
-
-          {/* Separator here */}
-          <div ref={this.separator} className="separator"></div>
 
           <div ref={this.rightElement} id="editor-right">
             <Playground

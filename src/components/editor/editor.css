@@ -16,30 +16,18 @@
   left: 0;
 }
 
-.separator {
-  cursor: ew-resize;
-  background-color: $background-grey;
-  z-index: 1;
-  box-sizing: border-box;
-  background-clip: padding-box;
-  margin: 0;
-  padding: 0;
-  width: $gap;
-  user-select: none;
-}
-
 #editor-left,
 #editor-right {
   height: 100%;
 }
 
 #editor-left {
-  width: calc(50% - $gap / 2); /* Init left width */
-  min-width: calc($block-width + $gap + 4px);
+  width: 50%; /* Init left width */
+  min-width: calc($block-width + $gap + $gap + 4px);
 }
 
 #editor-right {
-  width: calc(50% - $gap / 2);
+  width: 50%;
   min-width: calc($block-width + $gap + $line-numbers-width);
 }
 
@@ -60,7 +48,7 @@
 
 #factory {
   background-color: $background-grey;
-  width: calc(100% + $gap);
+  width: 100%;
   height: 100%;
   margin: 0;
 }

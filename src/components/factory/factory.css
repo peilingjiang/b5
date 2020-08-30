@@ -87,7 +87,7 @@ $section-outline-blender: blend(#fff 30%);
   position: relative;
   width: calc(100% - $gap - $gap);
   height: calc(100% - $tabs-height);
-  margin: 0 $gap 0 $gap;
+  margin: 0 $gap;
   overflow-y: scroll;
   text-align: center;
 
@@ -210,4 +210,20 @@ $section-outline-blender: blend(#fff 30%);
 
 .objectSection {
   border: 2px solid color-mod($object $section-outline-blender);
+}
+
+.separator {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: $background-grey;
+  z-index: 1;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  width: $gap;
+  height: 100%;
+  user-select: none;
+  cursor: ew-resize;
 }
