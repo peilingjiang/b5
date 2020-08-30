@@ -49,6 +49,16 @@
     }
   }
 
+  &.preview {
+    .block {
+      user-select: none;
+    }
+
+    .node {
+      pointer-events: none;
+    }
+  }
+
   .block {
     position: absolute;
     border-radius: $tiny-radius;
@@ -362,6 +372,11 @@
 
   .nodesCount5 {
     width: 200px;
+  }
+
+  .nodesCount0 {
+    width: 100px;
+    padding: 4px 0;
   }
 }
 

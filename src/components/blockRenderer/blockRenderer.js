@@ -21,6 +21,7 @@ class BlockRenderer extends Component {
   // TODO: Using PropTypes?
   constructor(props) {
     super(props) // x, y, data, inputBlocks
+
     this.x = props.x
     this.y = props.y
 
@@ -53,11 +54,11 @@ class BlockRenderer extends Component {
 
   componentDidMount() {
     // Handle collect init positions of nodes
-    this.handleCollectNodesOffset(true)
+    if (this.props.action) this.handleCollectNodesOffset(true)
   }
 
   componentDidUpdate() {
-    this.handleCollectNodesOffset()
+    if (this.props.action) this.handleCollectNodesOffset()
   }
 
   shouldComponentUpdate(prevProps) {
@@ -95,11 +96,12 @@ class BlockRenderer extends Component {
 
   render() {
     const {
+      action,
       data: { name, source, input, inlineData, output },
       inputBlocks,
       x,
       y,
-      scale, // Mainly for SliderBlock
+      scale, // codeCanvas scale, mainly for SliderBlock
       collect,
       focused,
       selectedNodes,
@@ -111,6 +113,7 @@ class BlockRenderer extends Component {
 
     let myBlock = null
 
+    // Preview blocks can only be 'normal' kind
     switch (kind) {
       case 'input':
         myBlock = (
@@ -260,7 +263,11 @@ class BlockRenderer extends Component {
 
     return (
       <div
-        className={'blockFill' + (focused ? ' focused' : '')}
+        className={
+          'blockFill' +
+          (focused ? ' focused' : '') +
+          (action ? ' action' : ' preview')
+        }
         style={{
           top: this.y * lineHeight + 'px',
           left: this.x * roomWidth + 'px',

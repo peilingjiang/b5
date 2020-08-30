@@ -18,6 +18,8 @@ const Viewer = ({ data }) => {
     setLoop(!loop)
   }
 
+  const refreshCanvas = () => {}
+
   const captureCanvas = () => {
     // p5 default canvas id - defaultCanvas0
     const canvas = document.getElementById('defaultCanvas0')
@@ -81,8 +83,8 @@ const Viewer = ({ data }) => {
       {/* popup is the default status of the viewer window */}
       <div ref={viewerHeader} className="header grab">
         <IconList
-          iconsName={[loop ? 'NoLoop' : 'Loop', 'Capture']}
-          onClickFunc={[toggleLoop, captureCanvas]}
+          iconsName={[loop ? 'NoLoop' : 'Loop', 'Refresh', 'Capture']}
+          onClickFunc={[toggleLoop, refreshCanvas, captureCanvas]}
         />
       </div>
       {loop ? (

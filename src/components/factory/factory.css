@@ -159,7 +159,6 @@ $section-outline-blender: blend(#fff 30%);
 
   .blockHolder {
     position: relative;
-    display: inline-block;
     width: $block-width;
     height: 100%;
     z-index: 180000;

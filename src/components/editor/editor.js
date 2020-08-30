@@ -76,6 +76,7 @@ export default class Editor extends Component {
     // EDITOR
     if (!equal(nextState.editor, this.state.editor))
       // Update this.b b5 object every time editor updates
+      // BEFORE any rendering
       this.b.update(nextState.editor)
 
     // EDITOR CANVAS STYLE
@@ -122,8 +123,8 @@ export default class Editor extends Component {
         return newState
       },
       function () {
-        if (source !== 'playground')
-          console.log(this.state.editor.factory[source][index])
+        // if (source !== 'playground')
+        //   console.log(this.state.editor.factory[source][index])
       }
     )
   }
@@ -143,16 +144,14 @@ export default class Editor extends Component {
     const toAdd = JSON.parse(nativeSectionDataToAdd), // Data
       toAddStyle = JSON.parse(nativeSectionStyleToAdd) // Style
 
+    toAdd.name = `new${
+      type.slice(0, 3) + this.state.editor.factory[type].length
+    }`
     toAdd.type = type
 
     this.setState(prevState => {
       let newState = JSON.parse(JSON.stringify(prevState)) // Deep copy
       newState.editor.factory[type].push(toAdd)
-      return newState
-    })
-
-    this.setState(prevState => {
-      let newState = JSON.parse(JSON.stringify(prevState))
       newState.editorCanvasStyle.factory[type].push(toAddStyle)
       return newState
     })

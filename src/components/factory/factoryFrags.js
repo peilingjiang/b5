@@ -90,7 +90,7 @@ const TabSection = ({
           collectStyle={collectStyleWrapper}
         />
       </div>
-      <BlockPreview type={type} data={data} />
+      <BlockPreview type={type} data={data} source={'custom'} />
       {/* Bottom draggable side for resizing */}
       <div ref={sectionResizeRef} className="sectionResizeBar"></div>
     </div>

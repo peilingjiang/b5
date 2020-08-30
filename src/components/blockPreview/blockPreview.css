@@ -1,0 +1,11 @@
+@import '../../css/root.css';
+
+.blockHolder {
+  display: flex;
+  text-align: center;
+
+  .blockFill {
+    position: relative;
+    align-self: center;
+  }
+}

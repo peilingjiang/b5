@@ -534,6 +534,7 @@ export default class CodeBlocks extends Component {
           : null
         blocks.push(
           <BlockRenderer
+            action={true} // true === 'action', false === 'preview'
             key={'block ' + i + ' ' + j}
             thisBlockRef={this.blocksRef[i][j]}
             data={data[i][j]}

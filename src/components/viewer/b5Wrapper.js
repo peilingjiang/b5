@@ -15,13 +15,12 @@ export default class B5Wrapper extends Component {
     let loop = true
 
     p.setup = () => {
-      if (this.props.b.runSetup) this.props.b.runSetup(p) // Run Factory blocks
+      if (this.props.b.runSetup) this.props.b.runSetup(p)
       else loop = false
     }
 
     p.draw = () => {
-      if (loop)
-        this.props.b.runDraw(p) // Run Playground blocks
+      if (loop) this.props.b.runDraw(p) // Run Playground blocks
     }
   }
 
