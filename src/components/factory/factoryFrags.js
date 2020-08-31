@@ -19,6 +19,7 @@ const TabSection = ({
   canvasStyle,
   collect,
   collectStyle,
+  thisFactoryCodeCanvasRef,
 }) => {
   const sectionRef = useRef(),
     sectionResizeRef = useRef()
@@ -88,6 +89,7 @@ const TabSection = ({
           maxBlockCount={canvasSizes[type][1]}
           collect={collectWrapper}
           collectStyle={collectStyleWrapper}
+          thisCodeCanvasRef={thisFactoryCodeCanvasRef}
         />
       </div>
       <BlockPreview type={type} data={data} source={'custom'} />
@@ -106,6 +108,7 @@ export const TabContent = ({
   addSection,
   collect,
   collectStyle,
+  factoryCodeCanvasRef,
 }) => {
   const handleAddSection = () => {
     addSection(type)
@@ -125,6 +128,7 @@ export const TabContent = ({
             } /* data and canvasStyle items should always have the same index */
             collect={collect}
             collectStyle={collectStyle}
+            thisFactoryCodeCanvasRef={factoryCodeCanvasRef[type][ind]}
           />
         )
       })}

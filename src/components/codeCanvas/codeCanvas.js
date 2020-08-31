@@ -8,9 +8,9 @@ import {
   lineNumberWidth,
   blockAlphabetHeight,
 } from '../constants'
+import * as method from './codeCanvasMethod'
 import { LineNumberRoom, BlockAlphabetRoom, BlockRoom } from './codeCanvasFrags'
 import CodeBlocks from '../codeBlocks/codeBlocks'
-import BlockSearch from '../blockSearch/blockSearch'
 import '../../postcss/components/codeCanvas/codeCanvas.css'
 
 import DoubleClick from '../../img/icon/dclick.svg'
@@ -60,6 +60,7 @@ export default class CodeCanvas extends Component {
       /* data */
       // lineStyles: props.data.lineStyles, // Store all the rooms (with styles modified)
       // blocks: props.data.blocks, // Store all the block
+      addBlock: false, // Whether to add (searching) a block or not
     }
     /*
     this.state.lineStyles only stores lines with modified drawing styles.
@@ -91,6 +92,8 @@ export default class CodeCanvas extends Component {
   }
 
   componentDidMount() {
+    const { thisCodeCanvasRef } = this.props
+    this.codeCanvas = thisCodeCanvasRef.current
     /* Init canvasStyle */
     // Transform
     this.blockAlphabets.style.left = this.blockHome.style.left =
@@ -113,6 +116,9 @@ export default class CodeCanvas extends Component {
 
     this.codeCanvas.addEventListener('mouseenter', this.handleHover)
     this.codeCanvas.addEventListener('mouseleave', this.handleLeave)
+
+    // Add block
+    this.codeCanvas.addEventListener('dblclick', this.handleDoubleClick)
   }
 
   componentWillUnmount() {
@@ -122,6 +128,9 @@ export default class CodeCanvas extends Component {
     this.codeCanvas.removeEventListener('contextmenu', this.rightClick, true)
     this.codeCanvas.removeEventListener('mouseenter', this.handleHover)
     this.codeCanvas.removeEventListener('mouseleave', this.handleLeave)
+    this.codeCanvas.removeEventListener('dblclick', this.handleDoubleClick)
+
+    this.codeCanvas = null
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -142,6 +151,14 @@ export default class CodeCanvas extends Component {
       (({ left, top, scale }) => ({ left, top, scale }))(this.state),
       this.type
     )
+  }
+
+  handleDoubleClick = e => {
+    if (e.target.classList.contains('blockRoom')) {
+      // Clicking on an empty blockRoom
+      const ind = method.getYX(e.target, this.codeCanvas)
+      this.handleCollectEditorData(ind, 'preSearchBlock')
+    }
   }
 
   handleMouseDown = e => {
@@ -310,9 +327,13 @@ export default class CodeCanvas extends Component {
       blockHome = []
 
     const {
-      render: { lineCount, blockCount },
-      scale,
-    } = this.state
+        render: { lineCount, blockCount },
+        scale,
+      } = this.state,
+      {
+        data: { blocks },
+        thisCodeCanvasRef,
+      } = this.props
 
     for (let i = 0; i < lineCount; i++) {
       // Key - 'line 17'
@@ -331,20 +352,20 @@ export default class CodeCanvas extends Component {
     }
 
     return (
-      <div ref={e => (this.codeCanvas = e)} className="codeCanvas">
+      <div ref={thisCodeCanvasRef} className="codeCanvas">
         {/* blockHome */}
         <div ref={e => (this.blockHome = e)} className="blockHome">
           {blockHome}
 
           {/* Tips or codeBlocks */}
-          {Object.keys(this.props.data.blocks).length === 0 ? (
+          {Object.keys(blocks).length === 0 ? (
             <div className="visible">
               <img src={DoubleClick} alt="Double Click" />
               <p>Double click to add a block</p>
             </div>
           ) : (
             <CodeBlocks
-              data={this.props.data.blocks}
+              data={blocks}
               canvas={{
                 lineCount: lineCount,
                 blockCount: blockCount,
@@ -366,8 +387,6 @@ export default class CodeCanvas extends Component {
         </div>
         {/* lineJoint */}
         <div className="lineJoint"></div>
-
-        <BlockSearch type={this.props.data.type} />
       </div>
     )
   }

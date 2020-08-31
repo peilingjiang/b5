@@ -137,14 +137,17 @@ export class InputBox extends PureComponent {
   }
 
   render() {
-    const { className, thisInlineData } = this.props
+    const { action, className, thisInlineData } = this.props
     return (
       <input
         ref={this.inputRef}
-        className={'inputBox ' + className}
+        className={
+          'inputBox ' + className + (action ? '' : ' disabledComponent')
+        }
         type="text"
         defaultValue={thisInlineData}
         onChange={this.handleValueChange}
+        disabled={action ? false : true}
       ></input>
     )
   }

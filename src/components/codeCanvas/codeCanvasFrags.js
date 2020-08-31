@@ -35,7 +35,14 @@ export class BlockRoom extends PureComponent {
   }
 
   render() {
-    return <div ref={e => (this.room = e)} className="blockRoom"></div>
+    return (
+      <div
+        ref={e => (this.room = e)}
+        className="blockRoom"
+        data-x={this.x}
+        data-y={this.y}
+      ></div>
+    )
   }
 }
 

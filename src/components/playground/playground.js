@@ -1,14 +1,22 @@
 import React, { Component } from 'react'
+import equal from 'react-fast-compare'
 
 import CodeCanvas from '../codeCanvas/codeCanvas'
 
 export default class Playground extends Component {
   shouldComponentUpdate(nextProps) {
-    return nextProps !== this.props
+    return (
+      !equal(nextProps.data, this.props.data) ||
+      !equal(nextProps.canvasStyle, this.props.canvasStyle) ||
+      !equal(
+        nextProps.playgroundCodeCanvasRef,
+        this.props.playgroundCodeCanvasRef
+      )
+    )
   }
 
   render() {
-    const { collect, collectStyle } = this.props
+    const { collect, collectStyle, playgroundCodeCanvasRef } = this.props
     return (
       <div id="playground">
         <CodeCanvas
@@ -18,6 +26,7 @@ export default class Playground extends Component {
           canvasStyle={this.props.canvasStyle}
           collect={collect}
           collectStyle={collectStyle}
+          thisCodeCanvasRef={playgroundCodeCanvasRef}
         />
         <div className="shadow"></div>
       </div>

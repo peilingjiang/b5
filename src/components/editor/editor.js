@@ -2,10 +2,10 @@ import React, { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
 
 import { IconList } from '../headers/headers'
-
 import * as method from './editorMethod'
 import Playground from '../playground/playground'
 import Factory from '../factory/factory'
+import BlockSearch from '../blockSearch/blockSearch'
 import '../../postcss/components/editor/editor.css'
 
 import b5 from '../../b5.js/src/app'
@@ -25,6 +25,7 @@ export default class Editor extends Component {
     this.state = {
       editor: JSON.parse(JSON.stringify(defaultEditor)),
       editorCanvasStyle: JSON.parse(JSON.stringify(defaultEditorCanvasStyle)),
+      searching: false,
     }
 
     /*
@@ -54,6 +55,28 @@ export default class Editor extends Component {
     this.leftElement = createRef()
     this.rightElement = createRef()
     this.separator = createRef()
+
+    // Create ref for each codeCanvas
+    this.codeCanvasRef = {
+      playground: createRef(),
+      factory: {
+        variable: [],
+        function: [],
+        object: [],
+      },
+    }
+    for (let cat in this.state.editor.factory)
+      this.codeCanvasRef.factory[cat] = this.state.editor.factory[cat].map(() =>
+        createRef()
+      )
+
+    // Search data
+    this.search = {
+      source: null,
+      index: null, // Index of the codeCanvas
+      y: null, // Y of the blockRoom
+      x: null, // X of the blockRoom
+    }
   }
 
   componentDidMount() {
@@ -86,8 +109,27 @@ export default class Editor extends Component {
     return !equal(nextState, this.state)
   }
 
+  breakSearch = () => {
+    this.setState({ searching: false })
+  }
+
   collectEditorData = (data, task, source, index = 0) => {
     // Combine data from all sources: playground, variable, function, object
+
+    // pre-setState tasks
+    if (task.includes('pre')) {
+      switch (task) {
+        case 'preSearchBlock':
+          method.searchBlock(this, data, source, index)
+          break
+
+        default:
+          break
+      }
+      return
+    }
+
+    // setState tasks
     this.setState(
       prevState => {
         let newState = JSON.parse(JSON.stringify(prevState))
@@ -97,6 +139,9 @@ export default class Editor extends Component {
         else thisBlocks = newEditor.factory[source][index].blocks
 
         switch (task) {
+          case 'addBlock':
+            method.addBlock(data, thisBlocks)
+            break
           case 'addConnection':
             // [outputBlockInd, outputNodeInd, inputBlockInd, inputNodeInd]
             method.addConnection(data, thisBlocks)
@@ -140,6 +185,7 @@ export default class Editor extends Component {
     })
   }
 
+  // Section methods
   addSection = type => {
     const toAdd = JSON.parse(nativeSectionDataToAdd), // Data
       toAddStyle = JSON.parse(nativeSectionStyleToAdd) // Style
@@ -157,6 +203,7 @@ export default class Editor extends Component {
     })
   }
 
+  // Split methods
   handleDrag = e => {
     let mouseDown = {
       e,
@@ -182,7 +229,10 @@ export default class Editor extends Component {
   }
 
   render() {
-    const { editor, editorCanvasStyle } = this.state
+    const { editor, editorCanvasStyle, searching } = this.state
+    const {
+      search: { source, index, x, y },
+    } = this
 
     return (
       <div id="editor" className="editor">
@@ -212,6 +262,7 @@ export default class Editor extends Component {
                 collect={this.collectEditorData}
                 collectStyle={this.collectEditorCanvasStyle}
                 separatorRef={this.separator}
+                factoryCodeCanvasRef={this.codeCanvasRef.factory}
               />
               {/* <div className="shadow"></div> */}
             </div>
@@ -221,11 +272,24 @@ export default class Editor extends Component {
             <Playground
               data={editor.playground}
               canvasStyle={editorCanvasStyle.playground}
+              handleBlockSearch={this.handleBlockSearch}
               collect={this.collectEditorData}
               collectStyle={this.collectEditorCanvasStyle}
+              playgroundCodeCanvasRef={this.codeCanvasRef.playground}
             />
           </div>
         </div>
+
+        {searching && (
+          <BlockSearch
+            breakSearch={this.breakSearch}
+            factoryData={editor.factory}
+            codeCanvasSource={source}
+            codeCanvasIndex={index}
+            roomY={y}
+            roomX={x}
+          />
+        )}
       </div>
     )
   }

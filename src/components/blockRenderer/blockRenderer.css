@@ -249,6 +249,11 @@
     }
   }
 
+  .inputWidth {
+    // For blockList
+    width: 124px;
+  }
+
   .input {
     display: flex;
     width: 124px;
@@ -265,10 +270,16 @@
         width: 59px;
         text-align: center;
         font-size: $small;
+        background-color: #fff;
       }
 
       // .inputBox:focus {}
     }
+  }
+
+  .sliderWidth {
+    // For blockList
+    width: 195px;
   }
 
   .slider {
@@ -383,4 +394,13 @@
 .blockFill:hover .sliderInput {
   pointer-events: auto !important;
   opacity: 1 !important;
+}
+
+.disabledComponent {
+  pointer-events: none;
+}
+
+.codeCanvas .sudoBlock {
+  // For blockList in blockSearch
+  display: none;
 }

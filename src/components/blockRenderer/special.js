@@ -20,6 +20,7 @@ export class InputBlock extends Component {
 
   render() {
     const {
+      action,
       className,
       name,
       type,
@@ -53,6 +54,7 @@ export class InputBlock extends Component {
         </div>
         <div className="right">
           <InputBox
+            action={action}
             className={''}
             thisInlineData={inlineData[0]}
             inlineDataInd={0}
@@ -80,7 +82,8 @@ class InputRange extends Component {
       this.sliderBox.getBoundingClientRect().width - _inputRangeThumbWidth
     this._setPosition()
 
-    this.thumb.addEventListener('mousedown', this.handleSlide, true)
+    if (this.props.action)
+      this.thumb.addEventListener('mousedown', this.handleSlide, true)
   }
 
   componentDidUpdate() {
@@ -88,7 +91,8 @@ class InputRange extends Component {
   }
 
   componentWillUnmount() {
-    this.thumb.removeEventListener('mousedown', this.handleSlide, true)
+    if (this.props.action)
+      this.thumb.removeEventListener('mousedown', this.handleSlide, true)
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -187,13 +191,16 @@ class InputRange extends Component {
   }
 
   render() {
-    const { name, x, y, inlineData, collect } = this.props
+    const { action, name, x, y, inlineData, collect } = this.props
     const { currentValue } = this.state
 
     return (
       <div
         ref={e => (this.sliderBox = e)}
-        className="sliderBox sliderComponent defaultCursor"
+        className={
+          'sliderBox sliderComponent defaultCursor' +
+          (action ? '' : ' disabledComponent')
+        }
       >
         <div
           ref={e => (this.rangeBelow = e)}
@@ -204,6 +211,7 @@ class InputRange extends Component {
           className="thumb sliderComponent ewResizing"
         >
           <InputBox
+            action={action}
             className={'current'}
             thisInlineData={currentValue}
             inlineDataInd={0}
@@ -216,6 +224,7 @@ class InputRange extends Component {
 
         <div ref={e => (this.sliderInput = e)} className="sliderInput">
           <InputBox
+            action={action}
             className={'sliderSet min'}
             thisInlineData={inlineData[1]}
             inlineDataInd={1}
@@ -226,6 +235,7 @@ class InputRange extends Component {
           />
 
           <InputBox
+            action={action}
             className={'sliderSet step'}
             thisInlineData={inlineData[3]}
             inlineDataInd={3}
@@ -237,6 +247,7 @@ class InputRange extends Component {
           />
 
           <InputBox
+            action={action}
             className={'sliderSet max'}
             thisInlineData={inlineData[2]}
             inlineDataInd={2}
@@ -268,6 +279,7 @@ export class SliderBlock extends Component {
 
   render() {
     const {
+      action,
       className,
       name,
       type,
@@ -304,6 +316,7 @@ export class SliderBlock extends Component {
 
         <div className="right">
           <InputRange
+            action={action}
             name={name}
             inlineData={inlineData}
             collect={collect}

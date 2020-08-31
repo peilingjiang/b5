@@ -37,7 +37,12 @@ export default class Factory extends Component {
       state: { activeTab },
     } = this
 
-    const { collect, collectStyle, separatorRef } = this.props
+    const {
+      collect,
+      collectStyle,
+      separatorRef,
+      factoryCodeCanvasRef,
+    } = this.props
 
     return (
       <>
@@ -54,6 +59,7 @@ export default class Factory extends Component {
           addSection={this.addSectionWrapper.bind(this)}
           collect={collect}
           collectStyle={collectStyle}
+          factoryCodeCanvasRef={factoryCodeCanvasRef}
         />
 
         <div ref={separatorRef} className="separator"></div>

@@ -117,39 +117,47 @@ class BlockRenderer extends Component {
     switch (kind) {
       case 'input':
         myBlock = (
-          <InputBlock
-            className={'grab block ' + type + ' ' + kind}
-            name={name}
-            inlineData={inlineData}
-            output={output}
-            outputNodes={outputNodes}
-            type={type}
-            collect={collect}
-            x={x}
-            y={y}
-            nodesRef={this.nodesRef}
-            focused={focused}
-            selectedNodes={selectedNodes}
-          />
+          <>
+            {!action && <div className="sudoBlock inputWidth"></div>}
+            <InputBlock
+              action={action}
+              className={'grab block ' + type + ' ' + kind}
+              name={name}
+              inlineData={inlineData}
+              output={output}
+              outputNodes={outputNodes}
+              type={type}
+              collect={collect}
+              x={x}
+              y={y}
+              nodesRef={this.nodesRef}
+              focused={focused}
+              selectedNodes={selectedNodes}
+            />
+          </>
         )
         break
       case 'slider':
         myBlock = (
-          <SliderBlock
-            className={'grab block ' + type + ' ' + kind}
-            name={name}
-            inlineData={inlineData}
-            output={output}
-            outputNodes={outputNodes}
-            type={type}
-            collect={collect}
-            x={x}
-            y={y}
-            nodesRef={this.nodesRef}
-            focused={focused}
-            selectedNodes={selectedNodes}
-            scale={scale}
-          />
+          <>
+            {!action && <div className="sudoBlock sliderWidth"></div>}
+            <SliderBlock
+              action={action}
+              className={'grab block ' + type + ' ' + kind}
+              name={name}
+              inlineData={inlineData}
+              output={output}
+              outputNodes={outputNodes}
+              type={type}
+              collect={collect}
+              x={x}
+              y={y}
+              nodesRef={this.nodesRef}
+              focused={focused}
+              selectedNodes={selectedNodes}
+              scale={scale}
+            />
+          </>
         )
         break
       case 'inline':
@@ -229,34 +237,46 @@ class BlockRenderer extends Component {
           }
         }
         myBlock = (
-          <div
-            className={
-              'grab block ' +
-              type +
-              ' ' +
-              kind +
-              ' nodesCount' +
-              Math.max(inputNodesCount, outputNodesCount)
-            }
-          >
-            {inputNodes !== null ? (
-              <>
-                <div className="nodes inputNodes">{blockInputNodes}</div>
-                <div className="nodesText inputNodesText">{inputNodesText}</div>
-              </>
-            ) : null}
+          <>
+            {!action && (
+              <div
+                className={
+                  'sudoBlock nodesCount' +
+                  Math.max(inputNodesCount, outputNodesCount)
+                }
+              ></div>
+            )}
+            <div
+              className={
+                'grab block ' +
+                type +
+                ' ' +
+                kind +
+                ' nodesCount' +
+                Math.max(inputNodesCount, outputNodesCount)
+              }
+            >
+              {inputNodes !== null ? (
+                <>
+                  <div className="nodes inputNodes">{blockInputNodes}</div>
+                  <div className="nodesText inputNodesText">
+                    {inputNodesText}
+                  </div>
+                </>
+              ) : null}
 
-            <div className="blockName">{name}</div>
+              <div className="blockName">{name}</div>
 
-            {outputNodes !== null ? (
-              <>
-                <div className="nodesText outputNodesText">
-                  {outputNodesText}
-                </div>
-                <div className="nodes outputNodes">{blockOutputNodes}</div>
-              </>
-            ) : null}
-          </div>
+              {outputNodes !== null ? (
+                <>
+                  <div className="nodesText outputNodesText">
+                    {outputNodesText}
+                  </div>
+                  <div className="nodes outputNodes">{blockOutputNodes}</div>
+                </>
+              ) : null}
+            </div>
+          </>
         )
         break
     }

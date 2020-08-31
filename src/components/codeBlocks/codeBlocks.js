@@ -9,7 +9,7 @@ import {
   hoveringOnWire,
   operationalClick,
   helper_getInd,
-} from './method'
+} from './codeBlocksMethod'
 
 export default class CodeBlocks extends Component {
   constructor(props) {

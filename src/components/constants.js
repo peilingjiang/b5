@@ -15,3 +15,6 @@ export const dragOvalSize = 9
 export const gap = 8
 export const iconTotalSize = 36
 export const headerHeight = iconTotalSize + 2 * gap
+
+export const searchBarWidth = 654
+export const searchBarHeight = 50

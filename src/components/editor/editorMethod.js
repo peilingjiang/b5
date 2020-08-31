@@ -2,6 +2,19 @@ import equal from 'react-fast-compare'
 
 // codeCanvas methods
 
+export const searchBlock = (that, data, source, index) => {
+  const { search } = that
+  search.source = source
+  search.index = index
+  search.y = data[0]
+  search.x = data[1]
+  that.setState({ searching: true })
+}
+
+// setEditor methods
+
+export const addBlock = (data, thisBlocks) => {}
+
 export const addConnection = (data, thisBlocks) => {
   // data - output to input
   const [[outY, outX], outputNodeInd, [inY, inX], inputNodeInd] = data
