@@ -8,18 +8,17 @@
   vertical-align: baseline;
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
-  font-kerning: normal;
+  // font-kerning: normal;
 
-  font-family: 'Inconsolata', monospace;
-  // font-family: 'Helvetica';
+  font-family: 'Roboto', Helvetica, sans-serif;
   color: $black;
-  // letter-spacing: -0.1px; /* For Inconsolata */
 }
 
 *,
 *:before,
 *:after {
   box-sizing: border-box;
+  line-height: 100%;
 }
 
 body {

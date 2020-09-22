@@ -29,3 +29,26 @@ export const dragSearchBar = (props, e) => {
       window.innerHeight - searchBarHeight
     ) + 'px'
 }
+
+const _onSearchBlockCheckList = [
+  'sudoBlock',
+  'blockSearch',
+  'searchInput',
+  'blockList',
+  'blockFill',
+]
+export const hoveringOnSearchBlock = classList => {
+  for (let i of _onSearchBlockCheckList) if (classList.contains(i)) return false
+  return true
+}
+
+export const getNameFromBlockFill = target => {
+  let depth = 0
+  while (!target.classList.contains('blockFill') && depth < 6) {
+    if (target.parentElement === null) return null
+    target = target.parentElement
+    depth++
+  }
+  if (!target.classList.contains('blockFill')) return null
+  return target.attributes['data-name'].nodeValue
+}

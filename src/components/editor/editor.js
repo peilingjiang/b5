@@ -18,7 +18,9 @@ import {
 } from './defaultValue'
 import Logo from '../../img/logo/logo-original.svg'
 
-export default class Editor extends Component {
+export const _b = new b5() // b5 Object for the whole page to use
+
+export class Editor extends Component {
   constructor(props) {
     super(props)
 
@@ -48,9 +50,8 @@ export default class Editor extends Component {
 
     */
 
-    this.b = new b5()
     // Make sure all the previous (or default) section blocks are registered
-    this.b.update(this.state.editor)
+    _b.update(this.state.editor)
 
     this.leftElement = createRef()
     this.rightElement = createRef()
@@ -81,13 +82,13 @@ export default class Editor extends Component {
 
   componentDidMount() {
     // Add drag listener
-    this.props.bridge(this.b)
+    this.props.bridge(this.state.editor)
     this.separator.current.addEventListener('mousedown', this.handleDrag)
   }
 
   componentDidUpdate() {
     // Directly send b5 object to viewer to render
-    this.props.bridge(this.b)
+    this.props.bridge(this.state.editor)
   }
 
   componentWillUnmount() {
@@ -98,9 +99,9 @@ export default class Editor extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     // EDITOR
     if (!equal(nextState.editor, this.state.editor))
-      // Update this.b b5 object every time editor updates
+      // Update b b5 object every time editor updates
       // BEFORE any rendering
-      this.b.update(nextState.editor)
+      _b.update(nextState.editor)
 
     // EDITOR CANVAS STYLE
     if (!equal(nextState.editorCanvasStyle, this.state.editorCanvasStyle)) {
@@ -140,6 +141,7 @@ export default class Editor extends Component {
 
         switch (task) {
           case 'addBlock':
+            // [name, y, x]
             method.addBlock(data, thisBlocks)
             break
           case 'addConnection':
@@ -187,6 +189,9 @@ export default class Editor extends Component {
 
   // Section methods
   addSection = type => {
+    // Create new canvas ref
+    this.codeCanvasRef.factory[type].push(createRef())
+    // Add to editor data
     const toAdd = JSON.parse(nativeSectionDataToAdd), // Data
       toAddStyle = JSON.parse(nativeSectionStyleToAdd) // Style
 
@@ -283,6 +288,7 @@ export default class Editor extends Component {
         {searching && (
           <BlockSearch
             breakSearch={this.breakSearch}
+            collect={this.collectEditorData}
             factoryData={editor.factory}
             codeCanvasSource={source}
             codeCanvasIndex={index}

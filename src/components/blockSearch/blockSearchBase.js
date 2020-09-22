@@ -6,14 +6,18 @@ const options = {
   keys: [
     {
       name: 'name',
-      weight: 0.7,
+      weight: 0.5,
     },
     {
-      name: 'block.description',
+      name: 'description',
       weight: 0.2,
     },
     {
-      name: 'block.type',
+      name: 'text',
+      weight: 0.2,
+    },
+    {
+      name: 'type',
       weight: 0.1,
     },
   ],
@@ -46,11 +50,13 @@ _b5Fuse.prototype.search = function (value) {
 
 _b5Fuse.prototype._constructArray = function (obj, src) {
   return Object.keys(obj).reduce((result, key) => {
-    if (typeof obj[key] === 'object')
+    if (typeof obj[key] === 'object' && key !== 'library')
       result.push({
         name: key,
         source: src,
-        block: obj[key],
+        description: obj[key].description,
+        text: obj[key].text,
+        type: obj[key].type,
       })
     return result
   }, [])

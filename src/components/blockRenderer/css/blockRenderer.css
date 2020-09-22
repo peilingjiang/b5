@@ -1,4 +1,8 @@
-@import '../../css/root.css';
+@import '../../../css/root.css';
+@import './constants.css';
+
+@import './input.css';
+@import './slider.css';
 
 .node {
   position: relative;
@@ -68,53 +72,74 @@
 
     .blockName {
       color: #fff;
-      line-height: 100%;
-      margin: 7px auto;
+      width: 100%;
+      padding-top: 5px;
+      padding-bottom: 6px;
+      line-height: $normal;
       font-size: $normal;
       font-weight: $regular;
+      background-color: rgba(255, 255, 255, 0.12);
     }
 
     .nodesText {
-      line-height: 100%;
+      line-height: $small;
       font-size: $small;
-      font-weight: $regular;
+      font-weight: $medium;
     }
   }
 
   .default,
   .defaultConnect {
     background-color: $default;
-    color: color-mod($default blend($black 80%));
+
+    .nodeText {
+      color: color-mod($default blend($black 50%));
+    }
   }
 
   .variable,
   .variableConnect {
     background-color: $variable;
-    color: color-mod($variable blend($black 80%));
+
+    .nodeText {
+      color: color-mod($variable blend($black 50%));
+    }
   }
 
   .function,
   .functionConnect {
     background-color: $function;
-    color: color-mod($function blend($black 80%));
+
+    .nodeText {
+      color: color-mod($function blend($black 50%));
+    }
   }
 
   .object,
   .objectConnect {
     background-color: $object;
-    color: color-mod($object blend($black 80%));
+
+    .nodeText {
+      color: color-mod($object blend($black 50%));
+    }
   }
 
   .draw,
   .drawConnect {
     background-color: $draw;
-    color: color-mod($draw blend($black 80%));
+
+    .nodeText {
+      color: color-mod($draw blend($black 50%));
+    }
   }
 
   .library,
   .libraryConnect {
     background-color: $library;
-    color: color-mod($library blend($black 80%));
+
+    .nodeText {
+      color: color-mod($library blend($black 50%));
+    }
   }
 
   .nodeFill {
@@ -187,19 +212,53 @@
   }
 
   .normal {
+    text-align: center;
+
     .nodesText {
       display: flex;
       text-align: center;
       margin: 0 auto;
       width: 100%;
+
+      .nodeText {
+        text-edge: cap alphabetic;
+        leading-trim: both;
+      }
     }
 
     .inputNodesText {
-      margin-top: calc($node-size / 2 + 2px);
+      margin-top: calc($node-size / 2 + 3px);
+      margin-bottom: 3px;
     }
 
     .outputNodesText {
-      margin-bottom: calc($node-size / 2 + 2px);
+      margin-bottom: calc($node-size / 2 + 3px);
+      margin-top: 3px;
+    }
+
+    // Block nodes and nodesText widths are smaller than block widths
+    .blockCount2 {
+      width: 80px;
+
+      &.nodes {
+        margin: auto 22px;
+      }
+    }
+
+    .blockCount3 {
+      width: 120px;
+
+      &.nodes {
+        margin: auto 15px;
+      }
+    }
+
+    .blockCount4 {
+      width: 160px;
+
+      &.nodes {
+        margin: auto 8px;
+      }
     }
 
     .count1 {
@@ -211,7 +270,7 @@
     }
 
     .count3 {
-      width: 33%;
+      width: 33.33%;
     }
 
     .count4 {
@@ -220,147 +279,6 @@
 
     .count5 {
       width: 20%;
-    }
-  }
-
-  .input,
-  .slider {
-    .left {
-      display: inline-block;
-      width: 62px;
-
-      .blockName {
-        margin: 9px 0;
-        width: 100%;
-      }
-
-      .nodes {
-        width: 62px;
-
-        .count1 {
-          width: 100%;
-        }
-      }
-    }
-
-    .invalid {
-      border: $alert solid 1px !important;
-      color: $alert !important;
-    }
-  }
-
-  .inputWidth {
-    // For blockList
-    width: 124px;
-  }
-
-  .input {
-    display: flex;
-    width: 124px;
-    height: 34px;
-
-    .right {
-      display: inline-block;
-      width: 62px;
-
-      .inputBox {
-        border-radius: $tiny-tiny-radius;
-        margin: 3px 3px 3px 0;
-        height: 28px;
-        width: 59px;
-        text-align: center;
-        font-size: $small;
-        background-color: #fff;
-      }
-
-      // .inputBox:focus {}
-    }
-  }
-
-  .sliderWidth {
-    // For blockList
-    width: 195px;
-  }
-
-  .slider {
-    display: flex;
-    width: 195px;
-    height: 34px;
-
-    .right {
-      display: inline-block;
-
-      .sliderBox {
-        position: relative;
-        height: 28px;
-        width: 130px;
-        margin: 3px 3px 3px 0;
-        background-color: #fff;
-        border-radius: $tiny-tiny-radius;
-        text-align: left;
-
-        .rangeBelow {
-          display: inline-block;
-          height: 100%;
-          background-color: color-mod($object a($light-op));
-          margin: 0 auto 0 0;
-        }
-
-        .thumb {
-          position: relative;
-          display: inline-block;
-          height: 100%;
-          width: 4px;
-          border-left: $dark-grey solid 1px;
-        }
-
-        .sliderInput {
-          position: absolute;
-          width: 100%;
-          top: 28px;
-          left: 0;
-
-          pointer-events: none;
-          opacity: 0;
-          // transition: ease-in-out 0.2s;
-        }
-
-        .inputBox {
-          position: absolute;
-          border-radius: $tiny-tiny-radius;
-          height: 17px;
-          width: 36px;
-          background-color: #fff;
-          text-align: center;
-          font-size: $small;
-        }
-
-        .current {
-          top: -17px;
-          border: $dark-grey solid 1px;
-          left: calc(50% - 2px);
-          transform: translate(-50%, 0);
-        }
-
-        .min {
-          left: 0;
-        }
-
-        .step {
-          left: 50%;
-          transform: translate(-50%, 0);
-        }
-
-        .max {
-          right: 0;
-        }
-
-        .sliderSet {
-          top: 3px;
-          border: $light-grey solid 1px;
-          color: $light-grey;
-        }
-      }
     }
   }
 

@@ -18,7 +18,7 @@
   width: $search-bar-width;
   height: auto;
   background-color: color-mod($background-grey a($fill-op));
-  backdrop-filter: blur(3px); // TODO: Optimize performance
+  // backdrop-filter: blur(2px); // TODO: Optimize performance
   border-radius: $radius;
   border: $regular-border;
   box-shadow: $high-shadow;
@@ -31,7 +31,7 @@
   margin: 0 0 0 20px;
   width: calc(100% - 20px);
   height: $search-bar-height;
-  font-weight: $medium;
+  font-weight: $regular;
   font-size: $large;
   color: $dark-grey;
   box-shadow: 0 1px 0 0 $hover-grey;
@@ -46,6 +46,7 @@
   height: $block-list-height;
   overflow: hidden;
   overflow-x: scroll;
+  scroll-behavior: smooth;
   white-space: nowrap;
   padding: 0;
 
@@ -54,7 +55,7 @@
     display: inline-flex;
     width: fit-content;
     height: $block-list-height;
-    margin-left: 20px;
+    margin-left: 24px;
     white-space: nowrap;
 
     &:last-of-type {

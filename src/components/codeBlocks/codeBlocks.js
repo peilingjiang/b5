@@ -17,7 +17,9 @@ export default class CodeBlocks extends Component {
 
     // Create Refs for each block
     const { data } = props
+
     this.blocksRef = {}
+
     for (let i in data) {
       if (!this.blocksRef[i]) this.blocksRef[i] = {}
       for (let j in data[i]) this.blocksRef[i][j] = createRef()
@@ -48,6 +50,14 @@ export default class CodeBlocks extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    if (!equal(nextProps.data, this.props.data)) {
+      // Data updated, e.g. added a new block in block search
+      for (let y in nextProps.data) {
+        if (!this.blocksRef[y]) this.blocksRef[y] = {}
+        for (let x in nextProps.data[y])
+          if (!this.blocksRef[y][x]) this.blocksRef[y][x] = createRef()
+      }
+    }
     return (
       !equal(nextProps.data, this.props.data) || !equal(nextState, this.state)
     )
@@ -292,15 +302,16 @@ export default class CodeBlocks extends Component {
 
   handleKeypress = e => {
     if (e.key === 'Backspace') {
-      if (this.state.focused.length)
+      if (this.state.focused.length) {
         // Theoretically, either focused or selectedWire will be []
         // However, if both kinds of them were selected (which is a bug)
         // Delete only blocks as priority
+        e.preventDefault()
         for (let i in this.state.focused) {
           const f = this.state.focused[i]
           // Remove from data
           this.props.collect(f, 'deleteBlock')
-          // Remove ref
+          // Remove block ref
           delete this.blocksRef[f[0]][f[1]]
           if (Object.keys(this.blocksRef[f[0]]).length === 0)
             delete this.blocksRef[f[0]]
@@ -309,7 +320,7 @@ export default class CodeBlocks extends Component {
           // Remove all focused (blur all)
           this._blurAll()
         }
-      else if (this.state.selectedWire.length)
+      } else if (this.state.selectedWire.length)
         for (let i in this.state.selectedWire) {
           const w = this.state.selectedWire[i]
           // Remove from data
@@ -385,6 +396,7 @@ export default class CodeBlocks extends Component {
       depth++ // Avoid infinite search
     }
     if (!target.classList.contains('blockFill')) return false
+
     // Get the right ref
     for (let i in this.blocksRef)
       for (let j in this.blocksRef[i]) {

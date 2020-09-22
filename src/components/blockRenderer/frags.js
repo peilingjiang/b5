@@ -57,6 +57,7 @@ export class InputBox extends PureComponent {
   constructor(props) {
     super(props)
     this.valid = true // valid or not
+    this.isNumberInput = this.props.name.includes('number') // true of false
     this.inputRef = createRef()
   }
 
@@ -73,15 +74,23 @@ export class InputBox extends PureComponent {
   }
 
   _cleanValue = v => {
-    return isNaN(v) ? v : Number(v)
+    if (this.isNumberInput) return isNaN(v) ? v : Number(v)
+    else if (v === '')
+      // For empty string input, auto replace the content
+      return '^_^' // ? Are your sure?
+    return v
   }
 
   _finished = (toBlur = true) => {
     // Handle send data
     if (this.inputRef.current) {
       // TODO: Is it possible to remove this safe?
+
       const { collect, x, y, thisInlineData, inlineDataInd } = this.props
+
+      // Get the cleaned value from input
       let value = this._cleanValue(this.inputRef.current.value)
+
       if (this.valid && value !== thisInlineData) {
         collect([x, y, inlineDataInd, value], 'inlineDataChange')
       }
@@ -117,7 +126,7 @@ export class InputBox extends PureComponent {
     // Check if value is valid if it's a number input
     const r = this.props.range
     // If a range for the input is given, then the value must be within the range
-    if (this.props.name.includes('number')) {
+    if (this.isNumberInput) {
       let v = this.inputRef.current.value
       let vN = Number(v)
       if (

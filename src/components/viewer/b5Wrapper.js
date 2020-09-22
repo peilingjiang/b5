@@ -2,6 +2,8 @@ import React, { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
 import p5 from 'p5'
 
+import { _b as b } from '../editor/editor'
+
 export default class B5Wrapper extends Component {
   // props - Readily available b5 object
   constructor(props) {
@@ -15,12 +17,12 @@ export default class B5Wrapper extends Component {
     let loop = true
 
     p.setup = () => {
-      if (this.props.b.runSetup) this.props.b.runSetup(p)
+      if (b.runSetup) b.runSetup(p)
       else loop = false
     }
 
     p.draw = () => {
-      if (loop) this.props.b.runDraw(p) // Run Playground blocks
+      if (loop) b.runDraw(p) // Run Playground blocks
     }
   }
 
@@ -28,13 +30,8 @@ export default class B5Wrapper extends Component {
     if (this.myP5 === null) this._initCanvas()
   }
 
-  componentDidUpdate(prevProps) {
-    if (
-      !equal(prevProps.b.factory, this.props.b.factory) &&
-      Object.keys(prevProps.b).length !== 0 // Avoid creating two canvas at first
-    )
-      // Factory data changed, canvas needs to be re-created
-      this._initCanvas()
+  componentDidUpdate() {
+    this._initCanvas()
   }
 
   componentWillUnmount() {
@@ -44,7 +41,13 @@ export default class B5Wrapper extends Component {
 
   shouldComponentUpdate(nextProps) {
     // Only re-render when data changes
-    return !equal(nextProps.b, this.props.b)
+    if (this.props.data.factory)
+      // Only initCanvas when variable data changed
+      return !equal(
+        nextProps.data.factory.variable,
+        this.props.data.factory.variable
+      )
+    return false
   }
 
   _initCanvas = () => {
@@ -60,7 +63,7 @@ export default class B5Wrapper extends Component {
       delete this.myP5
       this.myP5 = null
       // Unplug section blocks output data
-      this.props.b.unplug()
+      b.unplug()
     }
   }
 

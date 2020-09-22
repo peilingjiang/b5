@@ -29,19 +29,18 @@ $light-op: 0.25;
 $fade-op: 0.4;
 $op: 0.5;
 $hover-op: 0.8;
-$fill-op: 0.9;
+$fill-op: 0.96;
 
 /* Font Weight */
 $light: 300;
-$regular: 400; /* Not recommended to use */
+$regular: 400;
 $medium: 500;
-$semi-bold: 600;
 $bold: 700;
 
 /* Font Size */
-$normal: 1rem; // 16px
-$small: 0.875rem; // 14px
-$large: 1.25rem; // 20px
+$normal: 0.875rem; // 14px
+$small: 0.75rem; // 12px
+$large: 1rem; // 16px
 
 /* Icons */
 $icon-total-size: 36px;

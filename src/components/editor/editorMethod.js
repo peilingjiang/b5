@@ -1,5 +1,7 @@
 import equal from 'react-fast-compare'
 
+import { makeBlock } from '../make'
+
 // codeCanvas methods
 
 export const searchBlock = (that, data, source, index) => {
@@ -13,7 +15,13 @@ export const searchBlock = (that, data, source, index) => {
 
 // setEditor methods
 
-export const addBlock = (data, thisBlocks) => {}
+export const addBlock = (data, thisBlocks) => {
+  const [name, y, x] = data
+  const newBlock = makeBlock(name)
+
+  if (!thisBlocks[y]) thisBlocks[y] = {}
+  thisBlocks[y][x] = newBlock
+}
 
 export const addConnection = (data, thisBlocks) => {
   // data - output to input

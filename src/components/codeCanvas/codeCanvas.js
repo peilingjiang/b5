@@ -358,23 +358,22 @@ export default class CodeCanvas extends Component {
           {blockHome}
 
           {/* Tips or codeBlocks */}
-          {Object.keys(blocks).length === 0 ? (
+          {Object.keys(blocks).length === 0 && (
             <div className="visible">
               <img src={DoubleClick} alt="Double Click" />
               <p>Double click to add a block</p>
             </div>
-          ) : (
-            <CodeBlocks
-              data={blocks}
-              canvas={{
-                lineCount: lineCount,
-                blockCount: blockCount,
-              }}
-              collect={this.handleCollectEditorData}
-              scale={scale}
-              hovering={this.state.render.hovering}
-            />
           )}
+          <CodeBlocks
+            data={blocks}
+            canvas={{
+              lineCount: lineCount,
+              blockCount: blockCount,
+            }}
+            collect={this.handleCollectEditorData}
+            scale={scale}
+            hovering={this.state.render.hovering}
+          />
         </div>
 
         {/* blockAlphabets */}

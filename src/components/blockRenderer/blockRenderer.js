@@ -5,7 +5,7 @@ import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper'
 import { lineHeight, roomWidth } from '../constants'
 import { Node } from './frags'
 import { InputBlock, SliderBlock } from './special'
-import '../../postcss/components/blockRenderer/blockRenderer.css'
+import '../../postcss/components/blockRenderer/css/blockRenderer.css'
 
 function _getTotalOffset(thisNode, targetClassName) {
   // [x, y]
@@ -15,6 +15,14 @@ function _getTotalOffset(thisNode, targetClassName) {
   const total = _getTotalOffset(thisNode.parentNode, targetClassName)
 
   return [thisNode.offsetLeft + total[0], thisNode.offsetTop + total[1]]
+}
+
+function _getParentBlockInBook(name) {
+  let source = null
+  for (let i in _b5BlocksObject)
+    if (_b5BlocksObject[i].hasOwnProperty(name)) source = i
+  if (!source) return false // TODO: Error handler
+  return _b5BlocksObject[source][name]
 }
 
 class BlockRenderer extends Component {
@@ -107,9 +115,9 @@ class BlockRenderer extends Component {
       selectedNodes,
     } = this.props
 
-    const { type, kind, inputNodes, outputNodes } = _b5BlocksObject[source][
-      name
-    ]
+    const { text, type, kind, inputNodes, outputNodes } = _b5BlocksObject[
+      source
+    ][name]
 
     let myBlock = null
 
@@ -187,9 +195,11 @@ class BlockRenderer extends Component {
                 type={type}
                 connectType={
                   input[i] !== null
-                    ? _b5BlocksObject[source][inputBlocks[i]].outputNodes[
-                        input[i][2]
-                      ].type[0]
+                    ? _getParentBlockInBook(inputBlocks[i])
+                      ? _getParentBlockInBook(inputBlocks[i]).outputNodes[
+                          input[i][2]
+                        ].type[0]
+                      : null
                     : null
                 }
                 // If connectType !== null, then connected
@@ -201,7 +211,7 @@ class BlockRenderer extends Component {
             inputNodesText.push(
               <p
                 key={x + y + ' inputText' + i}
-                className={'inputText count' + inputNodesCount}
+                className={'nodeText inputText count' + inputNodesCount}
               >
                 {inputNodes[i].text}
               </p>
@@ -229,50 +239,53 @@ class BlockRenderer extends Component {
             outputNodesText.push(
               <p
                 key={x + y + 'outputText ' + i}
-                className={'outputText count' + outputNodesCount}
+                className={'nodeText outputText count' + outputNodesCount}
               >
                 {outputNodes[i].text}
               </p>
             )
           }
         }
+
+        let maxCount = Math.max(inputNodesCount, outputNodesCount)
+
         myBlock = (
           <>
             {!action && (
-              <div
-                className={
-                  'sudoBlock nodesCount' +
-                  Math.max(inputNodesCount, outputNodesCount)
-                }
-              ></div>
+              <div className={'sudoBlock nodesCount' + maxCount}></div>
             )}
             <div
               className={
-                'grab block ' +
-                type +
-                ' ' +
-                kind +
-                ' nodesCount' +
-                Math.max(inputNodesCount, outputNodesCount)
+                'grab block ' + type + ' ' + kind + ' nodesCount' + maxCount
               }
             >
               {inputNodes !== null ? (
                 <>
-                  <div className="nodes inputNodes">{blockInputNodes}</div>
-                  <div className="nodesText inputNodesText">
+                  <div className={'nodes inputNodes blockCount' + maxCount}>
+                    {blockInputNodes}
+                  </div>
+                  <div
+                    className={'nodesText inputNodesText blockCount' + maxCount}
+                  >
                     {inputNodesText}
                   </div>
                 </>
               ) : null}
 
-              <div className="blockName">{name}</div>
+              <div className="blockName">{text}</div>
 
               {outputNodes !== null ? (
                 <>
-                  <div className="nodesText outputNodesText">
+                  <div
+                    className={
+                      'nodesText outputNodesText blockCount' + maxCount
+                    }
+                  >
                     {outputNodesText}
                   </div>
-                  <div className="nodes outputNodes">{blockOutputNodes}</div>
+                  <div className={'nodes outputNodes blockCount' + maxCount}>
+                    {blockOutputNodes}
+                  </div>
                 </>
               ) : null}
             </div>
@@ -293,6 +306,7 @@ class BlockRenderer extends Component {
           left: this.x * roomWidth + 'px',
         }}
         ref={this.props.thisBlockRef}
+        data-name={name}
       >
         {myBlock}
       </div>

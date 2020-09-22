@@ -1,0 +1,63 @@
+@import '../../../css/root.css';
+@import './constants.css';
+
+$input-width: 143px;
+
+.blockFill {
+  .inputWidth {
+    // For blockList
+    width: $input-width;
+  }
+
+  .input {
+    display: flex;
+    width: $input-width;
+    height: 34px;
+
+    .right {
+      display: inline-flex;
+
+      .inputBox {
+        border-radius: $tiny-tiny-radius;
+        margin: 3px 3px 3px 0;
+        padding-top: 1px; // * Vertical align
+        height: 28px;
+        width: calc($input-width - $left-width - 3px);
+        text-align: center;
+        font-size: $small;
+        background-color: #fff;
+      }
+
+      // .inputBox:focus {}
+    }
+  }
+
+  .input,
+  .slider {
+    .left {
+      display: inline-block;
+      width: $left-width;
+
+      .blockName {
+        padding-top: unset;
+        padding-bottom: unset;
+        margin: 10px 0; // line-height: 14px
+        width: 100%;
+        background: none;
+      }
+
+      .nodes {
+        width: $left-width;
+
+        .count1 {
+          width: 100%;
+        }
+      }
+    }
+
+    .invalid {
+      border: $alert solid 1px !important;
+      color: $alert !important;
+    }
+  }
+}

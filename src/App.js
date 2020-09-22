@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 
-import Editor from './components/editor/editor'
+import { Editor } from './components/editor/editor'
 import Viewer from './components/viewer/viewer'
 import './postcss/css/main.css'
 
 function App() {
   const [data, setData] = useState({}) // Must be {}
 
-  const bridgeData = b5Obj => {
+  const bridgeData = data => {
     // Send data from Editor to Viewer
-    setData(b5Obj)
+    setData(data)
   }
 
   return (

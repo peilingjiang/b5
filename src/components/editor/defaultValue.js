@@ -21,13 +21,13 @@ export const defaultEditor = {
             0: [['2', '1', '0']],
           },
         },
-        1: {
-          name: 'cnv',
-          source: 'custom',
-          output: {
-            0: [],
-          },
-        },
+        // 1: {
+        //   name: 'cnv',
+        //   source: 'custom',
+        //   output: {
+        //     0: [],
+        //   },
+        // },
       },
       2: {
         1: {
@@ -77,6 +77,7 @@ export const defaultEditor = {
               input: {
                 0: ['0', '0', '0'], // Line number, column number, index of the node
                 1: ['0', '1', '0'],
+                2: null,
               },
               output: {
                 0: [],

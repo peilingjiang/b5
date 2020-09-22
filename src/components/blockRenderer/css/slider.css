@@ -1,0 +1,93 @@
+@import '../../../css/root.css';
+@import './constants.css';
+
+$slider-width: 183px;
+
+.blockFill {
+  .sliderWidth {
+    // For blockList
+    width: $slider-width;
+  }
+
+  .slider {
+    display: flex;
+    width: $slider-width;
+    height: 34px;
+
+    .right {
+      display: inline-block;
+
+      .sliderBox {
+        position: relative;
+        height: 28px;
+        width: calc($slider-width - $left-width - 3px);
+        margin: 3px 3px 3px 0;
+        background-color: #fff;
+        border-radius: $tiny-tiny-radius;
+        text-align: left;
+
+        .rangeBelow {
+          display: inline-block;
+          height: 100%;
+          background-color: color-mod($object a($light-op));
+          margin: 0 auto 0 0;
+        }
+
+        .thumb {
+          position: relative;
+          display: inline-block;
+          height: 100%;
+          width: 4px;
+          border-left: $dark-grey solid 1px;
+        }
+
+        .sliderInput {
+          position: absolute;
+          width: 100%;
+          top: 28px;
+          left: 0;
+
+          pointer-events: none;
+          opacity: 0;
+          // transition: ease-in-out 0.2s;
+        }
+
+        .inputBox {
+          position: absolute;
+          border-radius: $tiny-tiny-radius;
+          height: 17px;
+          width: 36px;
+          background-color: #fff;
+          text-align: center;
+          font-size: $small;
+        }
+
+        .current {
+          top: -17px;
+          border: $dark-grey solid 1px;
+          left: calc(50% - 2px);
+          transform: translate(-50%, 0);
+        }
+
+        .min {
+          left: 0;
+        }
+
+        .step {
+          left: 50%;
+          transform: translate(-50%, 0);
+        }
+
+        .max {
+          right: 0;
+        }
+
+        .sliderSet {
+          top: 3px;
+          border: $light-grey solid 1px;
+          color: $light-grey;
+        }
+      }
+    }
+  }
+}

@@ -103,7 +103,7 @@ const Viewer = ({ data }) => {
         />
       </div>
       {loop ? (
-        <B5Wrapper b={data} />
+        <B5Wrapper data={data} />
       ) : (
         <img
           className="viewerNoLoop"
