@@ -22,7 +22,7 @@ export const _b = new b5() // b5 Object for the whole page to use
 
 export class Editor extends Component {
   constructor(props) {
-    super(props)
+    super()
 
     this.state = {
       editor: JSON.parse(JSON.stringify(defaultEditor)),
@@ -170,6 +170,8 @@ export class Editor extends Component {
         return newState
       },
       function () {
+        // * After update the editorData...
+        // * if changes made to factory, bump updates in playground blocks
         // if (source !== 'playground')
         //   console.log(this.state.editor.factory[source][index])
       }

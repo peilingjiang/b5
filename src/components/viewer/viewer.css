@@ -20,6 +20,10 @@ $viewer-max-height: 700px;
   box-shadow: $regular-shadow;
   z-index: 9999999; // Above everything
 
+  // * Scroll bar
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
   .header {
     user-select: none;
   }
@@ -39,8 +43,7 @@ $viewer-max-height: 700px;
     padding: 0;
   }
 
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  // * Scroll bar
   ::-webkit-scrollbar {
     // TODO: Add customized styling to indicate current position
     width: 0;
