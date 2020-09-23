@@ -41,6 +41,7 @@ $bold: 700;
 $normal: 0.875rem; // 14px
 $small: 0.75rem; // 12px
 $large: 1rem; // 16px
+$small-small: 0.65rem; // 10.72px
 
 /* Icons */
 $icon-total-size: 36px;
@@ -60,7 +61,8 @@ $node-border-width: 1px;
 /* blockSearch */
 $search-bar-width: 654px;
 $search-bar-height: 52px;
-$block-list-height: 150px;
+$block-list-height: 144px;
+$block-list-text-height: 45px;
 
 $regular-border-style: 1px solid;
 $node-border-style: $node-border-width solid;

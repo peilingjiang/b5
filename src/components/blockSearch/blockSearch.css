@@ -1,5 +1,8 @@
 @import '../../css/root.css';
 
+$s-gap: 28px;
+$h-s-gap: 14px;
+
 .blockSearchHolder {
   position: fixed;
   top: 0;
@@ -28,8 +31,8 @@
 
 .searchInput {
   background-color: transparent;
-  margin: 0 0 0 20px;
-  width: calc(100% - 20px);
+  margin: 0 0 0 calc($s-gap - 4px);
+  width: calc(100% - $s-gap + 4px);
   height: $search-bar-height;
   font-weight: $regular;
   font-size: $large;
@@ -43,24 +46,65 @@
 
 .blockList {
   width: $search-bar-width;
-  height: $block-list-height;
+  height: calc($block-list-height + $block-list-text-height);
   overflow: hidden;
   overflow-x: scroll;
   scroll-behavior: smooth;
   white-space: nowrap;
   padding: 0;
 
-  .blockFill {
-    position: relative;
+  .searchBlockWrapper {
     display: inline-flex;
-    width: fit-content;
-    height: $block-list-height;
-    margin-left: 24px;
-    white-space: nowrap;
+    text-align: center;
+
+    .wrapper {
+      display: block;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .description {
+      display: flex;
+      align-self: center;
+      color: $light-grey;
+      opacity: $fill-op;
+      margin: 0 auto;
+      padding: 0 $h-s-gap;
+
+      div {
+        flex-grow: 1;
+        width: 0;
+        color: inherit;
+        opacity: inherit;
+        font-size: $small-small;
+        white-space: pre-line;
+        line-height: 130%;
+      }
+
+      &.focused {
+        color: $grey;
+        opacity: 1;
+      }
+    }
+
+    &:first-of-type {
+      margin-left: $h-s-gap;
+    }
 
     &:last-of-type {
-      margin-right: 20px;
+      margin-right: calc($h-s-gap - 4px);
     }
+  }
+
+  .blockFill {
+    position: relative;
+    display: flex;
+    width: fit-content;
+    height: $block-list-height;
+    margin: 0 $h-s-gap;
+    white-space: nowrap;
 
     .sudoBlock {
       position: relative;

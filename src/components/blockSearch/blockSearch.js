@@ -158,13 +158,22 @@ const BlockList = ({ blocks, focus }) => {
     <div className="blockList" ref={listRef}>
       {blocks.map((b, i) => {
         return (
-          <BlockRendererLite
-            key={'blockList ' + b.item.name + i}
-            name={b.item.name}
-            source={b.item.source}
-            focus={i === focus}
-            ref={i === focus ? focusRef : null}
-          />
+          <div
+            key={'blockListBlock ' + b.item.name + i}
+            className="searchBlockWrapper"
+          >
+            <div className="wrapper">
+              <BlockRendererLite
+                name={b.item.name}
+                source={b.item.source}
+                focus={i === focus}
+                ref={i === focus ? focusRef : null}
+              />
+              <div className={'description' + (i === focus ? ' focused' : '')}>
+                <div>{b.item.description.slice(0, -1)}</div>
+              </div>
+            </div>
+          </div>
         )
       })}
     </div>
