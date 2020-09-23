@@ -212,6 +212,7 @@ export class Editor extends Component {
 
   // Split methods
   handleDrag = e => {
+    e.preventDefault()
     let mouseDown = {
       e,
       leftWidth: this.leftElement.current.offsetWidth,

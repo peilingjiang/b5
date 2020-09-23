@@ -46,7 +46,8 @@ $section-outline-blender: blend(#fff 30%);
     max-width: 124px;
     width: 33.33%;
     font-size: $normal;
-    font-weight: $regular;
+    font-weight: $medium;
+    letter-spacing: 0.03rem;
     line-height: 100%;
     padding: calc(18px - $normal / 2) 0;
     border-collapse: separate;
@@ -64,7 +65,16 @@ $section-outline-blender: blend(#fff 30%);
     }
 
     &.object {
+      pointer-events: none;
       background-color: color-mod($object a($op));
+
+      /* ! Lock object tab */
+      &::after {
+        content: ' WIP';
+        font-weight: $light;
+        font-style: italic;
+        font-size: 0.7rem;
+      }
     }
   }
 
@@ -105,7 +115,8 @@ $section-outline-blender: blend(#fff 30%);
     height: 36px;
     width: 77px;
     font-size: $normal;
-    font-weight: $regular;
+    font-weight: $medium;
+    letter-spacing: 0.03rem;
     color: #fff;
     border-radius: $radius;
     user-select: none;
@@ -127,7 +138,7 @@ $section-outline-blender: blend(#fff 30%);
   width: 100%;
   min-width: $block-width;
   height: $section-height;
-  min-height: 150px;
+  min-height: calc($line-height + $block-alphabet-height + 4px);
   max-height: 450px;
   margin: $section-gap 0 0 0;
   border-radius: $radius;

@@ -1,10 +1,10 @@
 /* codeCanvas */
-export const lineHeight = 110
+export const lineHeight = 120
 export const lineNumberWidth = 29
 export const blockAlphabetHeight = 24
 export const roomWidth = 218
 
-export const sectionHeightDefault = 256
+export const sectionHeightDefault = 276
 
 export const factoryCanvasDefaultScale = 1
 

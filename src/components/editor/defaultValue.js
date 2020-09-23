@@ -18,7 +18,7 @@ export const defaultEditor = {
           source: 'original',
           inlineData: [200, 0, 600, 10],
           output: {
-            0: [['2', '1', '0']],
+            0: [['1', '0', '0']],
           },
         },
         // 1: {
@@ -29,8 +29,8 @@ export const defaultEditor = {
         //   },
         // },
       },
-      2: {
-        1: {
+      1: {
+        0: {
           name: 'ellipse',
           source: 'original',
           input: {

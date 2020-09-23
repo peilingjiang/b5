@@ -78,7 +78,8 @@
       line-height: $normal;
       font-size: $normal;
       font-weight: $regular;
-      background-color: rgba(255, 255, 255, 0.12);
+      // background-color: rgba(255, 255, 255, 0.12);
+      background-color: rgba(0, 0, 0, 0.05);
     }
 
     .nodesText {
@@ -306,6 +307,10 @@
   .nodesCount0 {
     width: 100px;
     padding: 4px 0;
+
+    .blockName {
+      background: none;
+    }
   }
 }
 

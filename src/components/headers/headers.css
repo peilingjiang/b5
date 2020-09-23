@@ -21,6 +21,10 @@
   .toolbarIconDisabled {
     background-color: $background-grey;
     cursor: inherit;
+
+    img {
+      opacity: $fade-op;
+    }
   }
 
   .toolbarIcon:not(.toolbarIconDisabled):hover {
