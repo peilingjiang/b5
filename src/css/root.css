@@ -5,12 +5,12 @@ $tiny-radius: 4px;
 $tiny-tiny-radius: 3px;
 
 /* Color */
-$near-white: #fdfdfd;
-$background-grey: #f7f7f7;
-$dark-white: #efefef;
+$near-white: #f7f7f7;
+$background-grey: #f6f6f6;
+$dark-white: #eee;
 $hover-grey: #dbdbdb; /* Default wire grey */
 $light-grey: #aeaeae; /* Active grey */
-$grey: #777;
+$grey: #999;
 $dark-grey: #555;
 $black: #333;
 
@@ -52,8 +52,8 @@ $head-height: calc($icon-total-size + 2 * $gap);
 /* codeCanvas */
 $block-width: 218px;
 $line-height: 120px;
-$line-numbers-width: 29px;
-$block-alphabet-height: 24px;
+$line-numbers-width: 27px;
+$block-alphabet-height: 27px;
 
 $node-size: 8px;
 $node-border-width: 1px;

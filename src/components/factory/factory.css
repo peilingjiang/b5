@@ -1,11 +1,14 @@
 @import '../../css/root.css';
 
 $tabs-height: 36px;
-$section-gap: calc(2 * $gap);
+$section-gap: calc($gap);
 $section-height: 256px;
 
-$section-divider-blender: blend(#fff 70%);
-$section-outline-blender: blend(#fff 30%);
+$section-divider-blender: blend($background-grey 80%);
+$section-outline-blender: blend($background-grey 50%);
+
+$button-gap: calc(2 * $gap);
+$button-init-gap: calc(4 * $gap);
 
 #tabs {
   position: absolute;
@@ -110,7 +113,7 @@ $section-outline-blender: blend(#fff 30%);
   }
 
   button {
-    margin: $section-gap auto 54px auto;
+    margin: $button-gap auto 54px auto;
     text-align: center;
     height: 36px;
     width: 77px;
@@ -124,7 +127,7 @@ $section-outline-blender: blend(#fff 30%);
   }
 
   button:only-child {
-    margin-top: 54px;
+    margin-top: $button-init-gap;
   }
 
   button:hover {
@@ -156,13 +159,6 @@ $section-outline-blender: blend(#fff 30%);
     overflow: hidden;
 
     // Special styles compare to original codeCanvas
-
-    .lineNumbers,
-    .blockAlphabets,
-    .lineJoint {
-      background-color: $background-grey;
-    }
-
     .wireBackground {
       stroke: $background-grey;
     }
@@ -175,16 +171,17 @@ $section-outline-blender: blend(#fff 30%);
     z-index: 180000;
     border: none;
 
+    // Left and right divider in a section
     &.variableSection {
       box-shadow: -2px 0 0 0 color-mod($variable $section-divider-blender);
     }
 
     &.functionSection {
-      box-shadow: -2px 0 0 0 color-mod($function $section-outline-blender);
+      box-shadow: -2px 0 0 0 color-mod($function $section-divider-blender);
     }
 
     &.objectSection {
-      box-shadow: -2px 0 0 0 color-mod($object $section-outline-blender);
+      box-shadow: -2px 0 0 0 color-mod($object $section-divider-blender);
     }
   }
 

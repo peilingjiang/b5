@@ -1,7 +1,7 @@
 /* codeCanvas */
 export const lineHeight = 120
-export const lineNumberWidth = 29
-export const blockAlphabetHeight = 24
+export const lineNumberWidth = 27
+export const blockAlphabetHeight = 27
 export const roomWidth = 218
 
 export const sectionHeightDefault = 276

@@ -1,5 +1,75 @@
 @import '../../css/root.css';
 
+@mixin content(
+  $room-border-right,
+  $room-border-bottom,
+  $canvas-headers,
+  $headers-background,
+  $background
+) {
+  .blockRoom {
+    border-right: 1px solid $room-border-right;
+    box-shadow: 0 1px 0 0 $room-border-bottom; /* Bottom, avoid 45 degree border joint */
+  }
+
+  // TOP
+  .blockAlphabets {
+    // border-bottom: 1px solid $canvas-headers; // ALL Bottom
+    background-color: $headers-background;
+
+    .blockAlphabetRoom {
+      // border-right: 1px solid $room-border-right; // IND Right
+      border-right: 1px solid $background; // IND Right
+
+      p {
+        color: $canvas-headers;
+      }
+    }
+  }
+
+  // SIDE
+  .lineNumbers {
+    // border-right: 1px solid $canvas-headers; // ALL Right
+    background-color: $headers-background;
+
+    .lineNumberRoom {
+      // box-shadow: 0 1px 0 0 $room-border-bottom; // IND Bottom
+      box-shadow: 0 1px 0 0 $background; // IND Bottom
+
+      p {
+        color: $canvas-headers;
+      }
+    }
+  }
+
+  .lineJoint {
+    // border: 1px solid $canvas-headers;
+    box-shadow: 0 0 0 1px $background;
+    background-color: $headers-background;
+  }
+}
+
+#playground {
+  // $room-border-right, $room-border-bottom, $canvas-headers, $headers-background, $background
+  @include content(
+    $background-grey,
+    $background-grey,
+    $light-grey,
+    $near-white,
+    #fff
+  );
+}
+
+#factory {
+  @include content(
+    $dark-white,
+    $dark-white,
+    $light-grey,
+    $dark-white,
+    $background-grey
+  );
+}
+
 .codeCanvas {
   width: 100%;
   height: 100%;
@@ -15,25 +85,20 @@
   width: $line-numbers-width;
   top: $block-alphabet-height;
   left: 0;
-  border-right: 1px solid $grey;
-  background-color: $near-white;
   z-index: 100000;
 
   .lineNumberRoom {
     position: relative;
     width: $line-numbers-width;
     height: $line-height;
-    box-shadow: 0 1px 0 0 $hover-grey; // Bottom
     text-align: right;
 
     p {
       font-size: $normal;
       font-weight: $regular;
-      color: $grey;
       position: absolute;
-      bottom: 0;
-      right: 0;
-      margin: 0 4px 2px 0;
+      bottom: 4px;
+      right: 5px;
     }
   }
 }
@@ -44,8 +109,6 @@
   height: $block-alphabet-height;
   top: 0;
   left: $line-numbers-width;
-  border-bottom: 1px solid $grey;
-  background-color: $near-white;
   white-space: nowrap;
   z-index: 110000;
 
@@ -55,14 +118,14 @@
     width: $block-width;
     height: $block-alphabet-height;
     top: 0;
-    border-right: 1px solid $dark-white;
     text-align: right;
 
     p {
       font-size: $normal;
       font-weight: $regular;
-      color: $grey;
-      margin: 5px 5px auto auto;
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
     }
   }
 }
@@ -76,8 +139,6 @@
     position: absolute;
     width: $block-width;
     height: $line-height;
-    border-right: 1px solid $dark-white;
-    box-shadow: 0 1px 0 0 $hover-grey; /* Bottom, avoid 45 degree border joint */
   }
 
   .visible {
@@ -95,8 +156,9 @@
       // in .visible
       font-size: $small;
       font-weight: $regular;
+      letter-spacing: 0.01rem; // * Can we avoid?
       color: $light-grey;
-      margin-top: 7px;
+      margin-top: 9px;
     }
   }
 
@@ -109,10 +171,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  border: 1px solid $grey;
-  border-top: none;
-  border-left: none;
-  background-color: $near-white;
+  border-top: none !important;
+  border-left: none !important;
   width: $line-numbers-width;
   height: $block-alphabet-height;
   z-index: 120000;
