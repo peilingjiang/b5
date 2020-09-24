@@ -22,10 +22,6 @@ export default class Factory extends Component {
     this.setState({ activeTab: tab })
   }
 
-  addSectionWrapper() {
-    this.props.addSection(this.state.activeTab)
-  }
-
   shouldComponentUpdate(nextProps, nextState) {
     return !equal(nextProps, this.props) || !equal(nextState, this.state)
   }
@@ -56,7 +52,7 @@ export default class Factory extends Component {
           type={activeTab}
           data={this.props.data[activeTab]} // Array of objects
           canvasStyle={this.props.canvasStyle[activeTab]}
-          addSection={this.addSectionWrapper.bind(this)}
+          section={this.props.section}
           collect={collect}
           collectStyle={collectStyle}
           factoryCodeCanvasRef={factoryCodeCanvasRef}

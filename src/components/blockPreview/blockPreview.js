@@ -6,7 +6,7 @@ import '../../postcss/components/blockPreview/blockPreview.css'
 
 export default class BlockPreview extends Component {
   constructor(props) {
-    super(props)
+    super()
     this.blockPreviewRef = createRef()
   }
 
@@ -20,12 +20,11 @@ export default class BlockPreview extends Component {
   render() {
     const {
       data: { name },
-      type,
       source,
     } = this.props
 
     return (
-      <div className={'blockHolder ' + type + 'Section'}>
+      <div className="blockHolder">
         <BlockRendererLite
           name={name}
           source={source}

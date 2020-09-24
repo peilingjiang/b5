@@ -4,6 +4,12 @@
 @import './input.css';
 @import './slider.css';
 
+$node-2-width: 136px;
+$node-3-width: 150px;
+$node-4-width: 176px;
+$node-5-width: 200px;
+$node-0-1-width: 110px;
+
 .node {
   position: relative;
   z-index: 80000;
@@ -242,7 +248,7 @@
       width: 80px;
 
       &.nodes {
-        margin: auto 22px;
+        margin: auto calc($node-2-width / 2 - 40px);
       }
     }
 
@@ -250,7 +256,7 @@
       width: 120px;
 
       &.nodes {
-        margin: auto 15px;
+        margin: auto calc($node-3-width / 2 - 60px);
       }
     }
 
@@ -258,7 +264,7 @@
       width: 160px;
 
       &.nodes {
-        margin: auto 8px;
+        margin: auto calc($node-4-width / 2 - 80px);
       }
     }
 
@@ -285,27 +291,27 @@
 
   // For .normal blocks
   .nodesCount1 {
-    width: 100px;
+    width: $node-0-1-width;
   }
 
   .nodesCount2 {
-    width: 124px;
+    width: $node-2-width;
   }
 
   .nodesCount3 {
-    width: 150px;
+    width: $node-3-width;
   }
 
   .nodesCount4 {
-    width: 176px;
+    width: $node-4-width;
   }
 
   .nodesCount5 {
-    width: 200px;
+    width: $node-5-width;
   }
 
   .nodesCount0 {
-    width: 100px;
+    width: $node-0-1-width;
     padding: 4px 0;
 
     .blockName {

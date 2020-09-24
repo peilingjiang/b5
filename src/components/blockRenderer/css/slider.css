@@ -60,6 +60,8 @@ $slider-width: 183px;
           background-color: #fff;
           text-align: center;
           font-size: $small;
+          padding-left: 1px;
+          padding-right: 1px;
         }
 
         .current {

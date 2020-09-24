@@ -5,7 +5,6 @@ import del from 'del'
 import autoprefixer from 'autoprefixer'
 import cssnano from 'cssnano'
 import precss from 'precss'
-import assets from 'postcss-assets'
 import scss from 'postcss-scss'
 import postcssColorMod from 'postcss-color-mod-function'
 
@@ -24,9 +23,6 @@ task('css', function () {
       postcss(
         [
           // PostCSS plugins here
-          assets({
-            loadPaths: ['src/img/'],
-          }),
           precss(),
           postcssColorMod(),
           autoprefixer(),

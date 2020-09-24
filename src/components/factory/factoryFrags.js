@@ -1,5 +1,12 @@
-import React, { Component, PureComponent, useEffect, useRef } from 'react'
+import React, {
+  Component,
+  PureComponent,
+  useEffect,
+  useRef,
+  useCallback,
+} from 'react'
 import ResizeObserver from 'resize-observer-polyfill'
+// import { v4 as uuidv4 } from 'uuid'
 
 import BlockPreview from '../blockPreview/blockPreview'
 import CodeCanvas from '../codeCanvas/codeCanvas'
@@ -17,12 +24,14 @@ const TabSection = ({
   index,
   data,
   canvasStyle,
+  section,
   collect,
   collectStyle,
   thisFactoryCodeCanvasRef,
 }) => {
   const sectionRef = useRef(),
     sectionResizeRef = useRef()
+  const sectionDeleteRef = useRef()
 
   const handleDrag = e => {
     e.preventDefault()
@@ -79,8 +88,30 @@ const TabSection = ({
     }
   }, [sectionRef, canvasStyle])
 
+  // ! Section CONTROLS
+  const handleDeleteSelf = useCallback(
+    e => {
+      // collect and section 'data' always in array format
+      e.preventDefault()
+      section('delete', type, [index])
+    },
+    [section, type, index]
+  )
+
+  useEffect(() => {
+    const sDRefCurrent = sectionDeleteRef.current
+    sDRefCurrent.addEventListener('mouseup', handleDeleteSelf)
+    return () => {
+      sDRefCurrent.removeEventListener('mouseup', handleDeleteSelf)
+    }
+  }, [handleDeleteSelf, sectionDeleteRef])
+
   return (
-    <div ref={sectionRef} className={'section ' + type + 'Section'}>
+    <div
+      ref={sectionRef}
+      className={'section ' + type + 'Section'}
+      key={data.name + 'Section'}
+    >
       <div className="codeCanvasHolder">
         <CodeCanvas
           data={data}
@@ -95,6 +126,12 @@ const TabSection = ({
       <BlockPreview type={type} data={data} source={'custom'} />
       {/* Bottom draggable side for resizing */}
       <div ref={sectionResizeRef} className="sectionResizeBar"></div>
+
+      {/* Buttons */}
+      <div className="sectionControls">
+        {/* Using mask in CSS to form style */}
+        <div className="sectionDelete" ref={sectionDeleteRef}></div>
+      </div>
     </div>
   )
 }
@@ -105,34 +142,35 @@ export const TabContent = ({
   type,
   data,
   canvasStyle,
-  addSection,
+  section,
   collect,
   collectStyle,
   factoryCodeCanvasRef,
 }) => {
   const handleAddSection = () => {
-    addSection(type)
+    section('add', type)
   }
 
   return (
-    <div id="tabContent">
+    <div className={'tabContent ' + type + 'Content'}>
       {data.map((d, ind) => {
         return (
           <TabSection
-            key={type + ind}
+            key={d.name}
             index={ind}
             type={type}
             data={d}
             canvasStyle={
               canvasStyle[ind]
             } /* data and canvasStyle items should always have the same index */
+            section={section}
             collect={collect}
             collectStyle={collectStyle}
             thisFactoryCodeCanvasRef={factoryCodeCanvasRef[type][ind]}
           />
         )
       })}
-      <button className={'addButton ' + type} onClick={handleAddSection}>
+      <button className="addButton" onClick={handleAddSection}>
         add
       </button>
     </div>

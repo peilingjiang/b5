@@ -21,6 +21,8 @@ $input-width: 143px;
         border-radius: $tiny-tiny-radius;
         margin: 3px 3px 3px 0;
         padding-top: 1px; // * Vertical align
+        padding-left: 3px;
+        padding-right: 3px;
         height: 28px;
         width: calc($input-width - $left-width - 3px);
         text-align: center;

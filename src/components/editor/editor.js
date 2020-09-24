@@ -10,12 +10,7 @@ import '../../postcss/components/editor/editor.css'
 
 import b5 from '../../b5.js/src/app'
 
-import {
-  defaultEditor,
-  defaultEditorCanvasStyle,
-  nativeSectionDataToAdd,
-  nativeSectionStyleToAdd,
-} from './defaultValue'
+import { defaultEditor, defaultEditorCanvasStyle } from './defaultValue'
 import Logo from '../../img/logo/logo-original.svg'
 
 export const _b = new b5() // b5 Object for the whole page to use
@@ -189,28 +184,39 @@ export class Editor extends Component {
     })
   }
 
-  // Section methods
-  addSection = type => {
-    // Create new canvas ref
-    this.codeCanvasRef.factory[type].push(createRef())
-    // Add to editor data
-    const toAdd = JSON.parse(nativeSectionDataToAdd), // Data
-      toAddStyle = JSON.parse(nativeSectionStyleToAdd) // Style
-
-    toAdd.name = `new${
-      type.slice(0, 3) + this.state.editor.factory[type].length
-    }`
-    toAdd.type = type
-
+  // ! Section methods
+  section = (task, type, data = null) => {
     this.setState(prevState => {
       let newState = JSON.parse(JSON.stringify(prevState)) // Deep copy
-      newState.editor.factory[type].push(toAdd)
-      newState.editorCanvasStyle.factory[type].push(toAddStyle)
+      const f = newState.editor.factory
+      const fStyle = newState.editorCanvasStyle.factory
+
+      switch (task) {
+        case 'add':
+          // No data
+          this.codeCanvasRef.factory[type].push(createRef()) // Create new canvas ref
+          method.addSection(type, f, fStyle)
+          break
+        case 'delete':
+          // [index]
+          method.deleteSection(
+            type,
+            data[0],
+            this.codeCanvasRef.factory,
+            f,
+            fStyle
+          )
+          break
+
+        default:
+          break
+      }
+
       return newState
     })
   }
 
-  // Split methods
+  // ! Split methods
   handleDrag = e => {
     e.preventDefault()
     let mouseDown = {
@@ -266,7 +272,7 @@ export class Editor extends Component {
               <Factory
                 data={editor.factory}
                 canvasStyle={editorCanvasStyle.factory}
-                addSection={this.addSection}
+                section={this.section}
                 collect={this.collectEditorData}
                 collectStyle={this.collectEditorCanvasStyle}
                 separatorRef={this.separator}

@@ -10,6 +10,30 @@ $section-outline-blender: blend($background-grey 50%);
 $button-gap: calc(2 * $gap);
 $button-init-gap: calc(4 * $gap);
 
+// Images
+$cross: '../../../img/icon/cross.svg';
+
+@mixin section-color($color) {
+  .section {
+    border: 2px solid color-mod($color $section-outline-blender);
+
+    .blockHolder {
+      // Left and right divider in a section
+      box-shadow: -2px 0 0 0 color-mod($color $section-divider-blender);
+    }
+
+    .sectionControls {
+      div {
+        background-color: $color;
+      }
+    }
+  }
+
+  .addButton {
+    background-color: $color;
+  }
+}
+
 #tabs {
   position: absolute;
   top: 0;
@@ -96,7 +120,7 @@ $button-init-gap: calc(4 * $gap);
   }
 }
 
-#tabContent {
+.tabContent {
   position: relative;
   width: calc(100% - $gap - $gap);
   height: calc(100% - $tabs-height);
@@ -107,12 +131,24 @@ $button-init-gap: calc(4 * $gap);
   -ms-overflow-style: none;
   scrollbar-width: none;
 
+  &.variableContent {
+    @include section-color($variable);
+  }
+
+  &.functionContent {
+    @include section-color($function);
+  }
+
+  &.objectContent {
+    @include section-color($object);
+  }
+
   &::-webkit-scrollbar {
     // TODO: Add customized styling to indicate current position
     width: 0;
   }
 
-  button {
+  .addButton {
     margin: $button-gap auto 54px auto;
     text-align: center;
     height: 36px;
@@ -126,11 +162,11 @@ $button-init-gap: calc(4 * $gap);
     cursor: pointer;
   }
 
-  button:only-child {
+  .addButton:only-child {
     margin-top: $button-init-gap;
   }
 
-  button:hover {
+  .addButton:hover {
     opacity: $hover-op;
   }
 }
@@ -170,19 +206,6 @@ $button-init-gap: calc(4 * $gap);
     height: 100%;
     z-index: 180000;
     border: none;
-
-    // Left and right divider in a section
-    &.variableSection {
-      box-shadow: -2px 0 0 0 color-mod($variable $section-divider-blender);
-    }
-
-    &.functionSection {
-      box-shadow: -2px 0 0 0 color-mod($function $section-divider-blender);
-    }
-
-    &.objectSection {
-      box-shadow: -2px 0 0 0 color-mod($object $section-divider-blender);
-    }
   }
 
   .sectionResizeBar {
@@ -192,6 +215,35 @@ $button-init-gap: calc(4 * $gap);
     height: 3px;
     cursor: ns-resize;
     z-index: 190000;
+  }
+
+  // Buttons
+  .sectionControls {
+    position: absolute;
+    display: inline-flex;
+    top: 0;
+    right: 0;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 180001;
+
+    div {
+      cursor: pointer;
+    }
+
+    .sectionDelete {
+      position: relative;
+      float: right;
+      width: $icon-size;
+      height: $icon-size;
+      margin: 1rem;
+      mask: url($cross) no-repeat center;
+    }
+  }
+
+  &:hover .sectionControls {
+    pointer-events: auto;
+    opacity: 1;
   }
 }
 
@@ -205,18 +257,6 @@ $button-init-gap: calc(4 * $gap);
 
 .object {
   background-color: $object;
-}
-
-.variableSection {
-  border: 2px solid color-mod($variable $section-outline-blender);
-}
-
-.functionSection {
-  border: 2px solid color-mod($function $section-outline-blender);
-}
-
-.objectSection {
-  border: 2px solid color-mod($object $section-outline-blender);
 }
 
 .separator {

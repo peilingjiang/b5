@@ -1,6 +1,6 @@
 @import '../../css/root.css';
 
-@mixin content(
+@mixin canvas-colors(
   $room-border-right,
   $room-border-bottom,
   $canvas-headers,
@@ -51,7 +51,7 @@
 
 #playground {
   // $room-border-right, $room-border-bottom, $canvas-headers, $headers-background, $background
-  @include content(
+  @include canvas-colors(
     $background-grey,
     $background-grey,
     $light-grey,
@@ -61,7 +61,7 @@
 }
 
 #factory {
-  @include content(
+  @include canvas-colors(
     $dark-white,
     $dark-white,
     $light-grey,

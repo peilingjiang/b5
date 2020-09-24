@@ -1,5 +1,6 @@
 {
   "files.associations": {
     "*.css": "scss"
-  }
+  },
+  "cSpell.words": ["precss", "uuidv"]
 }
