@@ -5,13 +5,11 @@ $viewer-min-height: 150px;
 $viewer-max-width: 700px;
 $viewer-max-height: 700px;
 
+$mini-size: 22px; // Size of minimize icon
+$expand-size: 22px;
+
 #viewer {
-  display: block;
   position: absolute;
-  top: 51vh;
-  left: 60vw;
-  width: auto;
-  height: auto;
   border-radius: $radius;
   border: $regular-border;
   user-select: none;
@@ -26,21 +24,26 @@ $viewer-max-height: 700px;
 
   .header {
     user-select: none;
-  }
 
-  #viewerCanvas {
-    display: flex;
-    top: $head-height;
-    left: 0;
-    justify-content: center;
-    align-items: center;
-    min-width: $viewer-min-width;
-    min-height: $viewer-min-height;
-    max-width: $viewer-max-width;
-    max-height: $viewer-max-height;
-    overflow: scroll;
-    margin: 0;
-    padding: 0;
+    .mini {
+      background-color: $hover-grey;
+      width: $mini-size;
+      height: $mini-size;
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: calc($head-height / 2 - $mini-size / 2);
+      mask: url('../../../img/icon/mini.svg') no-repeat center;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $light-grey;
+      }
+
+      &:active {
+        background-color: $grey;
+      }
+    }
   }
 
   // * Scroll bar
@@ -61,9 +64,84 @@ $viewer-max-height: 700px;
     width: 400px;
     height: 150px;
   }
+
+  .expand,
+  .expandBackground {
+    pointer-events: none;
+    display: none;
+  }
 }
 
 .popup {
+  display: block;
   min-width: $viewer-min-width;
   min-height: calc($head-height + $viewer-min-height);
+  top: 51vh;
+  left: 60vw;
+  min-width: $viewer-min-width;
+  min-height: $viewer-min-height;
+  max-width: $viewer-max-width;
+  max-height: $viewer-max-height;
+
+  .viewerCanvas {
+    display: flex;
+    top: $head-height;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+    overflow: scroll;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.miniDown {
+  display: flex;
+  top: unset !important;
+  left: unset !important;
+  bottom: calc(2 * $gap);
+  right: calc(2 * $gap);
+  opacity: $hover-op;
+
+  // TODO: Min sizes for normal and mini view
+  // max-width: $target-size;
+  // max-height: $target-size;
+
+  .header {
+    display: none;
+  }
+
+  .viewerCanvas {
+    transform-origin: top left;
+    display: flex;
+  }
+
+  .expand {
+    position: absolute;
+    background-color: $dark-grey;
+    pointer-events: auto;
+    width: $expand-size;
+    height: $expand-size;
+    margin: $gap;
+    mask: url('../../../img/icon/expand.svg') no-repeat center;
+    cursor: pointer;
+  }
+
+  .expandBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: color-mod($black a($light-op));
+  }
+
+  &:hover .expandBackground {
+    display: block !important;
+  }
+
+  &:hover .expand {
+    display: block !important;
+    pointer-events: auto !important;
+  }
 }

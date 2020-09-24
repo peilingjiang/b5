@@ -69,7 +69,7 @@ export default class B5Wrapper extends Component {
 
   render() {
     return (
-      <div id="viewerCanvas" ref={this.viewerCanvas}>
+      <div id="viewerCanvas" className="viewerCanvas" ref={this.viewerCanvas}>
         {/* ... id="defaultCanvas0" class="p5Canvas" */}
       </div>
     )

@@ -8,7 +8,7 @@ $tiny-tiny-radius: 3px;
 $near-white: #f7f7f7;
 $background-grey: #f6f6f6;
 $dark-white: #eee;
-$hover-grey: #dbdbdb; /* Default wire grey */
+$hover-grey: #d9d9d9; /* Default wire grey */
 $light-grey: #aeaeae; /* Active grey */
 $grey: #999;
 $dark-grey: #555;
@@ -70,3 +70,5 @@ $regular-border: $regular-border-style $hover-grey;
 
 $regular-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.12);
 $high-shadow: 0 9px 17px -2px color-mod($black a($light-op));
+
+$target-size: 200px;

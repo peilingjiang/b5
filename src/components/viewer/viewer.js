@@ -3,7 +3,7 @@ import { saveAs } from 'file-saver'
 
 import B5Wrapper from './b5Wrapper'
 import { IconList } from '../headers/headers'
-import { headerHeight } from '../constants'
+import { headerHeight, targetSize } from '../constants'
 import '../../postcss/components/viewer/viewer.css'
 
 import ViewerNoLoop from '../../img/icon/viewerNoLoop.svg'
@@ -14,6 +14,9 @@ const Viewer = ({ data }) => {
 
   const viewer = useRef(),
     viewerHeader = useRef()
+
+  const miniRef = useRef(),
+    expandRef = useRef()
 
   useEffect(() => {
     if (!toggle.current) {
@@ -92,6 +95,52 @@ const Viewer = ({ data }) => {
     }
   }, [viewerHeader])
 
+  const handleMinimize = e => {
+    viewer.current.classList.replace('popup', 'miniDown')
+
+    const canvas = document.getElementById('defaultCanvas0')
+    const viewerCanvas = document.getElementById('viewerCanvas')
+
+    // TODO: ResizeObserver
+    const targetScale = Math.min(
+      targetSize / canvas.offsetHeight,
+      targetSize / canvas.offsetWidth
+    )
+
+    viewerCanvas.style = `
+      transform: scale(${targetScale})
+    `
+
+    viewer.current.style = `
+      width: ${viewerCanvas.offsetWidth * targetScale}px;
+      height: ${viewerCanvas.offsetHeight * targetScale}px;
+    `
+  }
+
+  const handleExpand = e => {
+    viewer.current.classList.replace('miniDown', 'popup')
+
+    const viewerCanvas = document.getElementById('viewerCanvas')
+    viewerCanvas.style = `
+      transform: unset
+    `
+    viewer.current.style = `
+      width: auto;
+      height: auto;
+    `
+  }
+
+  useEffect(() => {
+    const mRC = miniRef.current
+    const eRC = expandRef.current
+    mRC.addEventListener('click', handleMinimize)
+    eRC.addEventListener('click', handleExpand)
+    return () => {
+      mRC.removeEventListener('click', handleMinimize)
+      eRC.removeEventListener('click', handleExpand)
+    }
+  }, [miniRef, expandRef])
+
   return (
     <div ref={viewer} id="viewer" className="viewer popup">
       {/* popup is the default status of the viewer window */}
@@ -101,6 +150,9 @@ const Viewer = ({ data }) => {
           iconsOnClickFunc={[toggleLoop, refreshCanvas, captureCanvas]}
           iconsDisabled={[false, !loop, !loop]}
         />
+
+        {/* Minimize */}
+        <div ref={miniRef} className="mini"></div>
       </div>
       {loop ? (
         <B5Wrapper data={data} />
@@ -111,6 +163,10 @@ const Viewer = ({ data }) => {
           alt="The canvas is paused."
         />
       )}
+
+      {/* Expander */}
+      <div className="expandBackground"></div>
+      <div ref={expandRef} className="expand"></div>
     </div>
   )
 }

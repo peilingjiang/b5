@@ -18,3 +18,6 @@ export const headerHeight = iconTotalSize + 2 * gap
 
 export const searchBarWidth = 654
 export const searchBarHeight = 50
+
+// Mini Viewer
+export const targetSize = 200
