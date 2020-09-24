@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useCallback } from 'react'
 import { saveAs } from 'file-saver'
 
 import B5Wrapper from './b5Wrapper'
@@ -95,51 +95,66 @@ const Viewer = ({ data }) => {
     }
   }, [viewerHeader])
 
-  const handleMinimize = e => {
-    viewer.current.classList.replace('popup', 'miniDown')
+  const handleMinimize = useCallback(
+    e => {
+      viewer.current.classList.replace('popup', 'miniDown')
 
-    const canvas = document.getElementById('defaultCanvas0')
-    const viewerCanvas = document.getElementById('viewerCanvas')
+      if (loop) {
+        const canvas = document.getElementById('defaultCanvas0')
+        const viewerCanvas = document.getElementById('viewerCanvas')
 
-    // TODO: ResizeObserver
-    const targetScale = Math.min(
-      targetSize / canvas.offsetHeight,
-      targetSize / canvas.offsetWidth
-    )
+        // TODO: ResizeObserver
+        const targetScale = Math.min(
+          targetSize / canvas.offsetHeight,
+          targetSize / canvas.offsetWidth
+        )
 
-    viewerCanvas.style = `
-      transform: scale(${targetScale})
-    `
+        viewerCanvas.style = `
+          transform: scale(${targetScale})
+        `
 
-    viewer.current.style = `
-      width: ${viewerCanvas.offsetWidth * targetScale}px;
-      height: ${viewerCanvas.offsetHeight * targetScale}px;
-    `
-  }
+        viewer.current.style = `
+          width: ${viewerCanvas.offsetWidth * targetScale}px;
+          height: ${viewerCanvas.offsetHeight * targetScale}px;
+        `
+      }
+    },
+    [loop]
+  )
 
-  const handleExpand = e => {
-    viewer.current.classList.replace('miniDown', 'popup')
+  const handleExpand = useCallback(
+    e => {
+      viewer.current.classList.replace('miniDown', 'popup')
 
-    const viewerCanvas = document.getElementById('viewerCanvas')
-    viewerCanvas.style = `
-      transform: unset
-    `
-    viewer.current.style = `
-      width: auto;
-      height: auto;
-    `
-  }
+      if (loop) {
+        const viewerCanvas = document.getElementById('viewerCanvas')
+        viewerCanvas.style = `
+          transform: unset
+        `
+        viewer.current.style = `
+          width: auto;
+          height: auto;
+        `
+      }
+    },
+    [loop]
+  )
 
   useEffect(() => {
     const mRC = miniRef.current
-    const eRC = expandRef.current
     mRC.addEventListener('click', handleMinimize)
-    eRC.addEventListener('click', handleExpand)
     return () => {
       mRC.removeEventListener('click', handleMinimize)
+    }
+  }, [handleMinimize, miniRef])
+
+  useEffect(() => {
+    const eRC = expandRef.current
+    eRC.addEventListener('click', handleExpand)
+    return () => {
       eRC.removeEventListener('click', handleExpand)
     }
-  }, [miniRef, expandRef])
+  }, [handleExpand, expandRef])
 
   return (
     <div ref={viewer} id="viewer" className="viewer popup">
@@ -158,6 +173,7 @@ const Viewer = ({ data }) => {
         <B5Wrapper data={data} />
       ) : (
         <img
+          id="viewerNoLoop"
           className="viewerNoLoop"
           src={ViewerNoLoop}
           alt="The canvas is paused."

@@ -10,12 +10,11 @@ $expand-size: 22px;
 
 #viewer {
   position: absolute;
-  border-radius: $radius;
-  border: $regular-border;
   user-select: none;
-  overflow: auto;
   background-color: $background-grey;
   box-shadow: $regular-shadow;
+  border-radius: $radius;
+  border: $regular-border;
   z-index: 9999999; // Above everything
 
   // * Scroll bar
@@ -59,12 +58,6 @@ $expand-size: 22px;
     padding: 0;
   }
 
-  .viewerNoLoop {
-    display: block;
-    width: 400px;
-    height: 150px;
-  }
-
   .expand,
   .expandBackground {
     pointer-events: none;
@@ -78,10 +71,7 @@ $expand-size: 22px;
   min-height: calc($head-height + $viewer-min-height);
   top: 51vh;
   left: 60vw;
-  min-width: $viewer-min-width;
-  min-height: $viewer-min-height;
-  max-width: $viewer-max-width;
-  max-height: $viewer-max-height;
+  overflow: auto;
 
   .viewerCanvas {
     display: flex;
@@ -89,9 +79,19 @@ $expand-size: 22px;
     left: 0;
     justify-content: center;
     align-items: center;
+    min-width: $viewer-min-width;
+    min-height: $viewer-min-height;
+    max-width: $viewer-max-width;
+    max-height: $viewer-max-height;
     overflow: scroll;
     margin: 0;
     padding: 0;
+  }
+
+  .viewerNoLoop {
+    display: block;
+    width: 400px;
+    height: 150px;
   }
 }
 
@@ -102,10 +102,11 @@ $expand-size: 22px;
   bottom: calc(2 * $gap);
   right: calc(2 * $gap);
   opacity: $hover-op;
+  overflow: hidden;
 
   // TODO: Min sizes for normal and mini view
-  // max-width: $target-size;
-  // max-height: $target-size;
+  min-width: calc($expand-size + 2 * $gap) !important;
+  min-height: calc($expand-size + 2 * $gap) !important;
 
   .header {
     display: none;
@@ -114,6 +115,13 @@ $expand-size: 22px;
   .viewerCanvas {
     transform-origin: top left;
     display: flex;
+  }
+
+  .viewerNoLoop {
+    display: block;
+    opacity: 0;
+    width: 100px;
+    height: 100px;
   }
 
   .expand {
@@ -125,6 +133,10 @@ $expand-size: 22px;
     margin: $gap;
     mask: url('../../../img/icon/expand.svg') no-repeat center;
     cursor: pointer;
+
+    &:active {
+      background-color: $black;
+    }
   }
 
   .expandBackground {
