@@ -22,7 +22,6 @@ export const addSection = (type, factory, factoryStyle) => {
   const toAdd = JSON.parse(nativeSectionDataToAdd), // Data
     toAddStyle = JSON.parse(nativeSectionStyleToAdd) // Style
 
-  console.log(_b5BlocksObject)
   let nameInd = -1 // Index starts from 0
   let newName = ''
   do {

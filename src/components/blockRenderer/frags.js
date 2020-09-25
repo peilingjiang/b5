@@ -55,9 +55,10 @@ export const Node = memo(
 
 export class InputBox extends PureComponent {
   constructor(props) {
-    super(props)
+    super()
     this.valid = true // valid or not
-    this.isNumberInput = this.props.name.includes('number') // true of false
+
+    this.isNumberInput = props.thisDataType === 'number' ? true : false // true of false
     this.inputRef = createRef()
   }
 

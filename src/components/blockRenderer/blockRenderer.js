@@ -131,6 +131,7 @@ class BlockRenderer extends Component {
               action={action}
               className={'grab block ' + type + ' ' + kind}
               name={name}
+              text={text}
               inlineData={inlineData}
               output={output}
               outputNodes={outputNodes}
@@ -153,6 +154,7 @@ class BlockRenderer extends Component {
               action={action}
               className={'grab block ' + type + ' ' + kind}
               name={name}
+              text={text}
               inlineData={inlineData}
               output={output}
               outputNodes={outputNodes}

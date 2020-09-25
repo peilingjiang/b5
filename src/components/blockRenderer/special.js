@@ -1,6 +1,7 @@
 import React, { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
 
+import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper'
 import { Node, InputBox } from './frags'
 
 function constrain(v, a, b) {
@@ -23,6 +24,7 @@ export class InputBlock extends Component {
       action,
       className,
       name,
+      text,
       type,
       x,
       y,
@@ -37,26 +39,29 @@ export class InputBlock extends Component {
     return (
       <div className={className}>
         <div className="left">
-          <div className="blockName">{name}</div>
-          <div className="nodes outputNodes">
-            <Node
-              nodeClass="output"
-              count={1}
-              type={type}
-              connectType={
-                output[0].length !== 0 ? outputNodes[0].type[0] : null
-              }
-              ref={nodesRef.output[0]}
-              focused={focused}
-              selected={selectedNodes.output.includes('0')}
-            />
-          </div>
+          <div className="blockName">{text}</div>
+          {output && (
+            <div className="nodes outputNodes">
+              <Node
+                nodeClass="output"
+                count={1}
+                type={type}
+                connectType={
+                  output[0].length !== 0 ? outputNodes[0].type[0] : null
+                }
+                ref={nodesRef.output[0]}
+                focused={focused}
+                selected={selectedNodes.output.includes('0')}
+              />
+            </div>
+          )}
         </div>
         <div className="right">
           <InputBox
             action={action}
             className={''}
             thisInlineData={inlineData[0]}
+            thisDataType={_b5BlocksObject.original[name].inlineData[0].type[1]}
             inlineDataInd={0}
             name={name}
             x={x}
@@ -214,6 +219,7 @@ class InputRange extends Component {
             action={action}
             className={'current'}
             thisInlineData={currentValue}
+            thisDataType={'number'}
             inlineDataInd={0}
             name={name}
             x={x}
@@ -227,6 +233,7 @@ class InputRange extends Component {
             action={action}
             className={'sliderSet min'}
             thisInlineData={inlineData[1]}
+            thisDataType={'number'}
             inlineDataInd={1}
             name={name}
             x={x}
@@ -238,6 +245,7 @@ class InputRange extends Component {
             action={action}
             className={'sliderSet step'}
             thisInlineData={inlineData[3]}
+            thisDataType={'number'}
             inlineDataInd={3}
             range={[0, Infinity]}
             name={name}
@@ -250,6 +258,7 @@ class InputRange extends Component {
             action={action}
             className={'sliderSet max'}
             thisInlineData={inlineData[2]}
+            thisDataType={'number'}
             inlineDataInd={2}
             name={name}
             x={x}
@@ -282,6 +291,7 @@ export class SliderBlock extends Component {
       action,
       className,
       name,
+      text,
       type,
       x,
       y,
@@ -298,7 +308,7 @@ export class SliderBlock extends Component {
     return (
       <div className={className}>
         <div className="left">
-          <div className="blockName">{name.replace('Slider', '')}</div>
+          <div className="blockName">{text}</div>
           <div className="nodes outputNodes">
             <Node
               nodeClass="output"
