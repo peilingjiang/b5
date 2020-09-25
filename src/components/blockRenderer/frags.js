@@ -104,7 +104,7 @@ export class InputBox extends PureComponent {
           this._keyFinished,
           true
         )
-        document.removeEventListener('click', this._clickFinished, true)
+        document.removeEventListener('mousedown', this._clickFinished, true)
       }
     }
   }

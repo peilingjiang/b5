@@ -14,7 +14,7 @@ import '../../postcss/components/editor/editor.css'
 import b5 from '../../b5.js/src/app'
 
 import { defaultEditor, defaultEditorCanvasStyle } from './defaultValue'
-import Logo from '../../img/logo/logo-original.svg'
+import Logo from '../../img/logo/logo.svg'
 
 export const _b = new b5() // b5 Object for the whole page to use
 
