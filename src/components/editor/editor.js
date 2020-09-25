@@ -2,7 +2,10 @@ import React, { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
 
 import { IconList } from '../headers/headers'
+
 import * as method from './editorMethod'
+import * as secMethod from './sectionMethod'
+
 import Playground from '../playground/playground'
 import Factory from '../factory/factory'
 import BlockSearch from '../blockSearch/blockSearch'
@@ -195,11 +198,11 @@ export class Editor extends Component {
         case 'add':
           // No data
           this.codeCanvasRef.factory[type].push(createRef()) // Create new canvas ref
-          method.addSection(type, f, fStyle)
+          secMethod.addSection(type, f, fStyle)
           break
         case 'delete':
           // [index]
-          method.deleteSection(
+          secMethod.deleteSection(
             type,
             data[0],
             this.codeCanvasRef.factory,

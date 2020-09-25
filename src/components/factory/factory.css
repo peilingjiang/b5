@@ -92,10 +92,10 @@ $cross: '../../../img/icon/cross.svg';
     }
 
     &.object {
-      pointer-events: none;
       background-color: color-mod($object a($op));
 
       /* ! Lock object tab */
+      cursor: not-allowed;
       &::after {
         content: ' WIP';
         font-weight: $light;

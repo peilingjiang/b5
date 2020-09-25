@@ -2,7 +2,7 @@ import { searchBarWidth, searchBarHeight } from '../constants'
 
 export const hoveringOnSearchBar = target => {
   let depth = 0
-  while (!target.classList.contains('blockSearch') && depth < 6) {
+  while (!target.classList.contains('blockSearch') && depth < 8) {
     if (target.parentElement === null) return false
     target = target.parentElement
     depth++

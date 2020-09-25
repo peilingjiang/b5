@@ -1,6 +1,6 @@
 @import '../../css/root.css';
 
-$viewer-min-width: 150px;
+$viewer-min-width: 200px;
 $viewer-min-height: 150px;
 $viewer-max-width: 700px;
 $viewer-max-height: 700px;

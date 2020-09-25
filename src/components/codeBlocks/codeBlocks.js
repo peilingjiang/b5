@@ -109,21 +109,14 @@ export default class CodeBlocks extends Component {
                 bX: thisBlockInd[1],
                 bY: thisBlockInd[0],
               })
-              const codeBlocksCurrent = this.codeBlocks.current
-              // Add listener to codeCanvas
-              codeBlocksCurrent.parentElement.addEventListener(
-                'mousemove',
-                handleMove,
-                true
-              )
+
+              // const codeBlocksCurrent = this.codeBlocks.current
+              // Add listener to document instead of codeCanvas
+              document.addEventListener('mousemove', handleMove, true)
               document.addEventListener(
                 'mouseup',
                 function _listener() {
-                  codeBlocksCurrent.parentElement.removeEventListener(
-                    'mousemove',
-                    handleMove,
-                    true
-                  )
+                  document.removeEventListener('mousemove', handleMove, true)
                   thisBlock.current.childNodes[0].className = thisBlock.current.childNodes[0].className.replace(
                     'grabbing',
                     'grab'

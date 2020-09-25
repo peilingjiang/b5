@@ -19,7 +19,8 @@ export default class Factory extends Component {
   }
 
   onClickTab = tab => {
-    this.setState({ activeTab: tab })
+    // ! Lock object tab
+    if (tab !== 'object') this.setState({ activeTab: tab })
   }
 
   shouldComponentUpdate(nextProps, nextState) {

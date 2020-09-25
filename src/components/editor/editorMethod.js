@@ -2,8 +2,6 @@ import equal from 'react-fast-compare'
 
 import { makeBlock } from '../make'
 
-import { nativeSectionDataToAdd, nativeSectionStyleToAdd } from './defaultValue'
-
 // codeCanvas methods
 
 export const searchBlock = (that, data, source, index) => {
@@ -121,33 +119,4 @@ export const inlineDataChange = (data, thisBlocks) => {
   // data - x, y, position, value
   const [x, y, ind, value] = data
   thisBlocks[y][x].inlineData[ind] = value
-}
-
-// ! Section methods
-
-export const addSection = (type, factory, factoryStyle) => {
-  // Add to editor data
-  const toAdd = JSON.parse(nativeSectionDataToAdd), // Data
-    toAddStyle = JSON.parse(nativeSectionStyleToAdd) // Style
-
-  toAdd.name = `new${type.slice(0, 3) + factory[type].length}`
-  toAdd.type = type
-
-  factory[type].push(toAdd)
-  factoryStyle[type].push(toAddStyle)
-}
-
-export const deleteSection = (
-  t,
-  i,
-  factoryCanvasRef,
-  factory,
-  factoryStyle
-) => {
-  delete factory[t][i]
-  delete factoryStyle[t][i]
-  delete factoryCanvasRef[t][i]
-  factory[t].splice(i, 1)
-  factoryStyle[t].splice(i, 1)
-  factoryCanvasRef[t].splice(i, 1)
 }
