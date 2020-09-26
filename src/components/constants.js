@@ -1,14 +1,14 @@
 /* codeCanvas */
-export const lineHeight = 120
+export const lineHeight = 130
 export const lineNumberWidth = 27
 export const blockAlphabetHeight = 27
-export const roomWidth = 218
+export const roomWidth = 210
 
-export const sectionHeightDefault = 276
+export const sectionHeightDefault = lineHeight * 2 + blockAlphabetHeight + 4
 
 export const factoryCanvasDefaultScale = 1
 
-export const nodeSize = 8 // Size of the node
+export const nodeSize = 14 // Size of the node
 export const sizeOffset = nodeSize / 2
 export const dragOvalSize = 9
 

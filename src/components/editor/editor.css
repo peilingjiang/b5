@@ -22,12 +22,12 @@
 }
 
 #editor-left {
-  width: 50%; /* Init left width */
+  width: 48%; /* Init left width */
   min-width: calc($block-width + $gap + $gap + 4px);
 }
 
 #editor-right {
-  width: 50%;
+  width: 52%;
   min-width: calc($block-width + $gap + $line-numbers-width);
 }
 

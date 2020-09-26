@@ -92,6 +92,7 @@ $expand-size: 22px;
     display: block;
     width: 400px;
     height: 150px;
+    pointer-events: none;
   }
 }
 

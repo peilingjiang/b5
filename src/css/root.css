@@ -50,8 +50,8 @@ $icon-size: 18px;
 $head-height: calc($icon-total-size + 2 * $gap);
 
 /* codeCanvas */
-$block-width: 218px;
-$line-height: 120px;
+$block-width: 210px;
+$line-height: 130px;
 $line-numbers-width: 27px;
 $block-alphabet-height: 27px;
 

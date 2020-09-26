@@ -58,12 +58,12 @@ export default class B5Wrapper extends Component {
 
   _clearCanvas = () => {
     if (this.myP5 !== null) {
+      // Unplug section blocks output data
+      b.unplug()
       // Remove canvas
       this.myP5.remove()
       delete this.myP5
       this.myP5 = null
-      // Unplug section blocks output data
-      b.unplug()
     }
   }
 

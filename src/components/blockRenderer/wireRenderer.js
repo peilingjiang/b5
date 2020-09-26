@@ -25,14 +25,14 @@ class Wire extends PureComponent {
         }
       : null
 
-    const midY = (y2 - y1) * 0.55 // To get the mid point, divide by 2
+    const midY = (y2 - y1) * 0.5 // To get the mid point, divide by 2
     const canvasLeft = Math.min(x1, x2) - sizeOffset - dragOvalSize
     const canvasTop = Math.min(y1, y2) - dragOvalSize
 
     const d = `
       M ${x1 - canvasLeft} ${y1 + sizeOffset - canvasTop}
       C ${x1 - canvasLeft} ${y1 + midY - canvasTop},
-        ${x2 - canvasLeft} ${y2 - midY - canvasTop},
+        ${x2 - canvasLeft} ${y2 - midY - canvasTop + nodeSize},
         ${x2 - canvasLeft} ${y2 + sizeOffset - canvasTop}
     `
     // sizeOffset is half of the nodeSize
