@@ -76,12 +76,24 @@ export class Editor extends Component {
       y: null, // Y of the blockRoom
       x: null, // X of the blockRoom
     }
+
+    // * KEYS
+    this.keys = {
+      Shift: false,
+      Meta: false, // command or win
+      Alt: false,
+      Control: false,
+    }
   }
 
   componentDidMount() {
     // Add drag listener
     this.props.bridge(this.state.editor)
     this.separator.current.addEventListener('mousedown', this.handleDrag)
+
+    // TODO
+    // document.addEventListener('keydown', this.handleKeydown, true)
+    // document.addEventListener('keyup', this.handleKeyup, true)
   }
 
   componentDidUpdate() {
@@ -92,6 +104,9 @@ export class Editor extends Component {
   componentWillUnmount() {
     if (this.separator.current)
       this.separator.current.removeEventListener('mousedown', this.handleDrag)
+
+    // document.removeEventListener('keydown', this.handleKeydown, true)
+    // document.removeEventListener('keyup', this.handleKeyup, true)
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -245,6 +260,16 @@ export class Editor extends Component {
     this.rightElement.current.style.width = (1 - leftPercent) * 100 + '%'
   }
 
+  // ! KEYS
+  handleKeydown = e => {
+    // e.preventDefault()
+    this.keys[e.key] = true
+  }
+
+  handleKeyup = e => {
+    this.keys[e.key] = false
+  }
+
   render() {
     const { editor, editorCanvasStyle, searching } = this.state
     const {
@@ -259,6 +284,18 @@ export class Editor extends Component {
             iconsOnClickFunc={[null, null, null]}
             iconsDisabled={[false, false, false]}
           />
+
+          <p className="dev issueTag">
+            v{process.env.REACT_APP_VERSION} alpha -{' '}
+            <a
+              href="https://github.com/peilingjiang/b5/issues/new"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              report issue
+            </a>
+          </p>
+
           <a
             href="https://github.com/peilingjiang/b5"
             rel="noopener noreferrer"

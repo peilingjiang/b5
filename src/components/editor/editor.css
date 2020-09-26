@@ -71,3 +71,28 @@
   top: calc(($head-height - 32px) / 2);
   right: $gap;
 }
+
+.issueTag {
+  display: inline-block;
+  position: relative;
+  color: $hover-grey;
+  font-size: $small;
+  margin: 0;
+  padding: calc($head-height / 2 - $small / 2) 1rem;
+  white-space: nowrap;
+  vertical-align: top;
+
+  a {
+    color: $hover-grey;
+    text-emphasis: none;
+    text-decoration: none;
+
+    &:hover {
+      color: $light-grey;
+    }
+
+    &:active {
+      color: $grey;
+    }
+  }
+}

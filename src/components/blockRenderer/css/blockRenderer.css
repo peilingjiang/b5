@@ -15,10 +15,19 @@ $node-0-1-width: 110px;
   z-index: 80000;
   width: $node-size;
   height: $node-size;
-  border-radius: calc($node-size / 2);
-  border: $node-border-style;
-  background-color: #fff;
   pointer-events: initial;
+  padding: $node-padding;
+
+  .nodeDisplay {
+    width: 100%;
+    height: 100%;
+    border-radius: calc($node-size / 2);
+    border: $node-border-style;
+    background-color: #fff;
+    padding: 0;
+    margin: 0;
+    pointer-events: none;
+  }
 }
 
 .blockFill {

@@ -109,7 +109,7 @@ export default class CodeCanvas extends Component {
     this._getSeclusionInd()
     this._refreshCodeCanvasCounts()
     this.codeCanvas.addEventListener('mousedown', this.handleMouseDown, true)
-    this.codeCanvas.addEventListener('wheel', this.handleZoom, true)
+    this.codeCanvas.addEventListener('wheel', this.handleWheel, true)
     this.resizeObserver.observe(this.codeCanvas)
 
     this.codeCanvas.addEventListener('contextmenu', this.rightClick, true)
@@ -123,7 +123,7 @@ export default class CodeCanvas extends Component {
 
   componentWillUnmount() {
     this.codeCanvas.removeEventListener('mousedown', this.handleMouseDown, true)
-    this.codeCanvas.removeEventListener('wheel', this.handleZoom, true)
+    this.codeCanvas.removeEventListener('wheel', this.handleWheel, true)
     this.resizeObserver.unobserve(this.codeCanvas)
     this.codeCanvas.removeEventListener('contextmenu', this.rightClick, true)
     this.codeCanvas.removeEventListener('mouseenter', this.handleHover)
@@ -184,22 +184,7 @@ export default class CodeCanvas extends Component {
         x: e.clientX - mouse.x,
         y: e.clientY - mouse.y,
       }
-      that.blockAlphabets.style.left = that.blockHome.style.left =
-        Math.min(
-          Math.max(
-            mouse.homeLeft + delta.x / that.state.scale,
-            -that.maxBlockCount * roomWidth + that.codeCanvas.offsetWidth / 2
-          ),
-          lineNumberWidth
-        ) + 'px'
-      that.lineNumbers.style.top = that.blockHome.style.top =
-        Math.min(
-          Math.max(
-            mouse.homeTop + delta.y / that.state.scale,
-            -that.maxLineCount * lineHeight + that.codeCanvas.offsetHeight / 2
-          ),
-          blockAlphabetHeight
-        ) + 'px'
+      that._moveCanvas(mouse.homeLeft, mouse.homeTop, delta.x, delta.y)
     }
 
     this.codeCanvas.addEventListener('mousemove', grabCanvas, true)
@@ -210,16 +195,7 @@ export default class CodeCanvas extends Component {
         that.codeCanvas.className = 'codeCanvas'
         that.codeCanvas.removeEventListener('mousemove', grabCanvas, true)
 
-        that.setState(
-          {
-            left: that.blockHome.offsetLeft,
-            top: that.blockHome.offsetTop,
-          },
-          () => {
-            that._refreshCodeCanvasCounts()
-            that._handleCollectEditorCanvasStyle()
-          }
-        )
+        that._setCanvasLeftTop()
 
         document.removeEventListener('mouseup', _listener, true)
       },
@@ -227,18 +203,77 @@ export default class CodeCanvas extends Component {
     )
   }
 
-  handleZoom = e => {
+  _setCanvasLeftTop = () => {
+    this.setState(
+      {
+        left: this.blockHome.offsetLeft,
+        top: this.blockHome.offsetTop,
+      },
+      () => {
+        this._refreshCodeCanvasCounts()
+        this._handleCollectEditorCanvasStyle()
+      }
+    )
+  }
+
+  _moveCanvas = (startLeft, startTop, deltaX, deltaY) => {
+    this.blockAlphabets.style.left = this.blockHome.style.left =
+      Math.min(
+        Math.max(
+          startLeft + deltaX / this.state.scale,
+          -this.maxBlockCount * roomWidth + this.codeCanvas.offsetWidth / 2
+        ),
+        lineNumberWidth
+      ) + 'px'
+    this.lineNumbers.style.top = this.blockHome.style.top =
+      Math.min(
+        Math.max(
+          startTop + deltaY / this.state.scale,
+          -this.maxLineCount * lineHeight + this.codeCanvas.offsetHeight / 2
+        ),
+        blockAlphabetHeight
+      ) + 'px'
+  }
+
+  handleWheel = e => {
     e.preventDefault()
 
+    if (e.metaKey) {
+      // command or win key pressed
+      // Scroll UP and DOWN
+      this._moveCanvas(
+        this.blockHome.offsetLeft,
+        this.blockHome.offsetTop,
+        -e.deltaX,
+        -e.deltaY
+      )
+      this._setCanvasLeftTop()
+      return
+    }
+
+    if (e.shiftKey) {
+      // shift pressed
+      // Scroll LEFT and RIGHT
+      this._moveCanvas(
+        this.blockHome.offsetLeft,
+        this.blockHome.offsetTop,
+        -e.deltaX,
+        -e.deltaY
+      )
+      this._setCanvasLeftTop()
+      return
+    }
+
+    // * SCALE
     this.setState({
       scale:
         Math.round(
           Math.min(
             Math.max(
               this.state.scale - e.deltaY * 0.0006 /* Zoom factor */,
-              0.6
+              0.6 // MIN
             ),
-            2
+            2 // MAX
           ) * 1000
         ) / 1000,
     })

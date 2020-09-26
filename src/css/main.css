@@ -30,6 +30,11 @@ body {
   filter: grayscale(100%);
 }
 
+// ! dev
+// .dev {
+//   display: none;
+// }
+
 // For all grab and grabbing...
 .defaultCursor {
   cursor: default;

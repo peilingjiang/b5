@@ -11,6 +11,7 @@ A visual programming environment for graphics, interaction, and fun. Based on [p
 For development setup:
 
 ```
+git clone --recurse-submodules https://github.com/peilingjiang/b5.git
 npm install
 npm run dev
 ```

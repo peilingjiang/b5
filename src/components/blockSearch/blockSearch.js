@@ -82,6 +82,8 @@ export default class BlockSearch extends Component {
         else if (e.key === 'ArrowRight')
           this.setState({ focus: Math.min(focus + 1, rL - 1) })
       }
+    } else if (e.key === 'Escape') {
+      this.props.breakSearch()
     }
   }
 

@@ -11,7 +11,7 @@ const _nodeBorderClassSelector = (
   // connectType can be null or string type of the connected node
   // focused, selected, alerted - Boolean
 
-  // alerted > focused === selected > connected
+  // * alerted > focused === selected > connected
 
   let r = ''
 
@@ -38,13 +38,22 @@ const NodeRef = ({
 }) => {
   return (
     <div className={'nodeFill count' + count}>
-      <div
-        className={
-          'nodeAdd node ' +
-          _nodeBorderClassSelector(type, connectType, focused, selected, false)
-        }
-        ref={thisNodeRef}
-      ></div>
+      {/* Interaction layer */}
+      <div className="nodeAdd node" ref={thisNodeRef}>
+        {/* Display layer */}
+        <div
+          className={
+            'nodeDisplay ' +
+            _nodeBorderClassSelector(
+              type,
+              connectType,
+              focused,
+              selected,
+              false
+            )
+          }
+        ></div>
+      </div>
     </div>
   )
 }
