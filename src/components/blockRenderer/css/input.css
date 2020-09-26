@@ -27,7 +27,7 @@ $input-width: 143px;
         width: calc($input-width - $left-width - 3px);
         text-align: center;
         font-size: $small;
-        background-color: #fff;
+        background-color: #fff !important;
       }
 
       // .inputBox:focus {}

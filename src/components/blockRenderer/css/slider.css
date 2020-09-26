@@ -57,7 +57,7 @@ $slider-width: 183px;
           border-radius: $tiny-tiny-radius;
           height: 17px;
           width: 36px;
-          background-color: #fff;
+          background-color: #fff !important;
           text-align: center;
           font-size: $small;
           padding-left: 1px;

@@ -41,6 +41,7 @@ const TabSection = ({
     }
 
     const handleSectionResize = e => {
+      e.preventDefault()
       let deltaY = e.clientY - mouseDown.e.clientY // Min and Max height set in CSS
       sectionRef.current.style.height = mouseDown.sectionHeight + deltaY + 'px'
     }

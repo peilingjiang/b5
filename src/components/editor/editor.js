@@ -249,6 +249,7 @@ export default class Editor extends Component {
   }
 
   moveSeparator = (mouseDown, e) => {
+    e.preventDefault()
     let deltaX = Math.min(
       Math.max(e.clientX - mouseDown.e.clientX, -mouseDown.leftWidth),
       mouseDown.rightWidth
