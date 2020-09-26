@@ -9,6 +9,8 @@ import {
   hoveringOnWire,
   operationalClick,
   helper_getInd,
+  _addClassNameByClass,
+  _removeClassNameByClass,
 } from './codeBlocksMethod'
 
 export default class CodeBlocks extends Component {
@@ -112,10 +114,12 @@ export default class CodeBlocks extends Component {
 
               // const codeBlocksCurrent = this.codeBlocks.current
               // Add listener to document instead of codeCanvas
+              _addClassNameByClass(thisBlock, 'node', 'no-events')
               document.addEventListener('mousemove', handleMove, true)
               document.addEventListener(
                 'mouseup',
                 function _listener() {
+                  _removeClassNameByClass(thisBlock, 'node', 'no-events')
                   document.removeEventListener('mousemove', handleMove, true)
                   thisBlock.current.childNodes[0].className = thisBlock.current.childNodes[0].className.replace(
                     'grabbing',

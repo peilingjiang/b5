@@ -59,3 +59,7 @@ body {
 .nodeAdd {
   cursor: copy;
 }
+
+.no-events {
+  pointer-events: none;
+}

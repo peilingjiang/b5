@@ -243,12 +243,12 @@ $node-0-1-width: 110px;
     }
 
     .inputNodesText {
-      margin-top: calc($node-size / 2 + 3px);
+      margin-top: calc($node-size / 2);
       margin-bottom: 3px;
     }
 
     .outputNodesText {
-      margin-bottom: calc($node-size / 2 + 3px);
+      margin-bottom: calc($node-size / 2);
       margin-top: 3px;
     }
 

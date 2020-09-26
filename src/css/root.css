@@ -55,9 +55,9 @@ $line-height: 120px;
 $line-numbers-width: 27px;
 $block-alphabet-height: 27px;
 
-$node-size: 14px;
+$node-size: 16px;
 $node-border-width: 1px;
-$node-padding: 3px;
+$node-padding: 4px;
 
 /* blockSearch */
 $search-bar-width: 654px;

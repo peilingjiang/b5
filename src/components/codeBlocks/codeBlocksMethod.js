@@ -50,3 +50,15 @@ export const helper_getInd = (stateArray, subset) => {
   for (let i in stateArray) if (equal(stateArray[i], subset)) return i
   return -1
 }
+
+export const _addClassNameByClass = (block, targetClass, className) => {
+  for (let i of block.current.getElementsByClassName(targetClass)) {
+    i.classList.add(className)
+  }
+}
+
+export const _removeClassNameByClass = (block, targetClass, className) => {
+  for (let i of block.current.getElementsByClassName(targetClass)) {
+    i.classList.remove(className)
+  }
+}
