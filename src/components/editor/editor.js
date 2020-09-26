@@ -11,14 +11,12 @@ import Factory from '../factory/factory'
 import BlockSearch from '../blockSearch/blockSearch'
 import '../../postcss/components/editor/editor.css'
 
-import b5 from '../../b5.js/src/app'
+import _b from './b5ObjectWrapper'
 
 import { defaultEditor, defaultEditorCanvasStyle } from './defaultValue'
 import Logo from '../../img/logo/logo.svg'
 
-export const _b = new b5() // b5 Object for the whole page to use
-
-export class Editor extends Component {
+export default class Editor extends Component {
   constructor(props) {
     super()
 

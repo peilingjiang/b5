@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react'
 import { saveAs } from 'file-saver'
 
-import B5Wrapper from './b5Wrapper'
+import B5Wrapper from './b5ViewerWrapper'
 import { IconList } from '../headers/headers'
 import { headerHeight, targetSize } from '../constants'
 import '../../postcss/components/viewer/viewer.css'

@@ -2,7 +2,7 @@ import React, { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
 import p5 from 'p5'
 
-import { _b as b } from '../editor/editor'
+import _b from '../editor/b5ObjectWrapper'
 
 export default class B5Wrapper extends Component {
   // props - Readily available b5 object
@@ -17,12 +17,12 @@ export default class B5Wrapper extends Component {
     let loop = true
 
     p.setup = () => {
-      if (b.runSetup) b.runSetup(p)
+      if (_b.runSetup) _b.runSetup(p)
       else loop = false
     }
 
     p.draw = () => {
-      if (loop) b.runDraw(p) // Run Playground blocks
+      if (loop) _b.runDraw(p) // Run Playground blocks
     }
   }
 
@@ -59,7 +59,7 @@ export default class B5Wrapper extends Component {
   _clearCanvas = () => {
     if (this.myP5 !== null) {
       // Unplug section blocks output data
-      b.unplug()
+      _b.unplug()
       // Remove canvas
       this.myP5.remove()
       delete this.myP5
