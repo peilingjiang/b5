@@ -21,9 +21,9 @@ $h-s-gap: 14px;
   width: $search-bar-width;
   height: auto;
   background-color: color-mod(
-    $background-grey a(0.9)
+    $background-grey a(0.96)
   ); // Search window background
-  backdrop-filter: blur(3px); // TODO: Optimize performance
+  // backdrop-filter: blur(3px); // TODO: Optimize performance
   border-radius: $radius;
   border: $regular-border;
   box-shadow: $high-shadow;
