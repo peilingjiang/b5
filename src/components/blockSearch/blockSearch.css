@@ -20,8 +20,10 @@ $h-s-gap: 14px;
   left: calc(50vw - $search-bar-width / 2);
   width: $search-bar-width;
   height: auto;
-  background-color: color-mod($background-grey a($fill-op));
-  // backdrop-filter: blur(2px); // TODO: Optimize performance
+  background-color: color-mod(
+    $background-grey a(0.9)
+  ); // Search window background
+  backdrop-filter: blur(3px); // TODO: Optimize performance
   border-radius: $radius;
   border: $regular-border;
   box-shadow: $high-shadow;
@@ -69,7 +71,6 @@ $h-s-gap: 14px;
       display: flex;
       align-self: center;
       color: $light-grey;
-      opacity: $fill-op;
       margin: 0 auto;
       padding: 0 $h-s-gap;
 
@@ -84,8 +85,8 @@ $h-s-gap: 14px;
       }
 
       &.focused {
-        color: $grey;
-        opacity: 1;
+        // color: $grey;
+        color: #888;
       }
     }
 

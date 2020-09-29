@@ -49,8 +49,8 @@ export default class CodeCanvas extends Component {
       render: {
         lineCount: 0, // # of lines
         blockCount: 0, // # of block rooms for each line
-        maxIndX: 0, // Max index (with block in the room) on x-axis (horizontally)
-        maxIndY: 0, // Max index (with block in the room) on y-axis (vertically)
+        // maxIndX: 0, // Max index (with block in the room) on x-axis (horizontally)
+        // maxIndY: 0, // Max index (with block in the room) on y-axis (vertically)
         hovering: false,
       },
       /* canvasStyle */
@@ -89,6 +89,11 @@ export default class CodeCanvas extends Component {
 
     // Collect function
     this.handleCollectEditorData = this.handleCollectEditorData.bind(this)
+
+    this.seclusionInd = {
+      x: 0,
+      y: 0,
+    }
   }
 
   componentDidMount() {
@@ -106,7 +111,8 @@ export default class CodeCanvas extends Component {
     this.codeCanvas.style.height = 100 / this.state.scale + '%'
 
     // Calc target counts and add listeners
-    this._refreshCodeCanvasCounts(this._getSeclusionInd())
+    this._getSeclusionInd()
+    this._refreshCodeCanvasCounts()
     this.codeCanvas.addEventListener('mousedown', this.handleMouseDown, true)
     this.codeCanvas.addEventListener('wheel', this.handleWheel, true)
     this.resizeObserver.observe(this.codeCanvas)
@@ -133,10 +139,11 @@ export default class CodeCanvas extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return (
-      !equal(this.props.data, nextProps.data) ||
-      !equal(this.state.render, nextState.render)
-    )
+    if (!equal(this.props.data, nextProps.data)) {
+      this._getSeclusionInd(nextProps.data.blocks)
+      return true
+    }
+    return !equal(this.state.render, nextState.render)
   }
 
   // setEditor functions...
@@ -209,7 +216,7 @@ export default class CodeCanvas extends Component {
         top: this.blockHome.offsetTop,
       },
       () => {
-        this._refreshCodeCanvasCounts(this._getSeclusionInd())
+        this._refreshCodeCanvasCounts()
         this._handleCollectEditorCanvasStyle()
       }
     )
@@ -290,7 +297,7 @@ export default class CodeCanvas extends Component {
   handleResize = e => {
     clearTimeout(this.resizeTimer)
     this.resizeTimer = setTimeout(() => {
-      this._refreshCodeCanvasCounts(this._getSeclusionInd())
+      this._refreshCodeCanvasCounts()
       // Upload sectionHeight
       if (this.type !== 'playground') this._handleCollectEditorCanvasStyle()
     }, 50)
@@ -312,47 +319,44 @@ export default class CodeCanvas extends Component {
     this.setState({ render })
   }
 
-  _getSeclusionInd() {
+  _getSeclusionInd(dataBlocks = null) {
     // Get the indices for furthest blocks in codeCanvas
     // Update only on block changes
-    const blocks = this.props.data.blocks
+    const blocks = dataBlocks || this.props.data.blocks
 
-    if (Object.entries(blocks).length === 0)
+    if (Object.entries(blocks).length === 0) {
       // No block in codeCanvas
-      return [0, 0]
+      this.seclusionInd.y = 0
+      this.seclusionInd.x = 0
+      return
+    }
 
-    let mX = 0,
-      mY = 0
-    mX = Math.max.apply(null, Object.keys(blocks)) // Max line number
-    mY = Math.max.apply(
+    this.seclusionInd.y = Math.max.apply(null, Object.keys(blocks)) // Max line number
+    this.seclusionInd.x = Math.max.apply(
       null,
       Object.keys(blocks).map(lk =>
         Math.max.apply(null, Object.keys(blocks[lk]))
       )
     ) // Max column number
-
-    // this.setState({ render })
-    return [mX, mY]
   }
 
-  _refreshCodeCanvasCounts([maxX, maxY] = [0, 0]) {
+  _refreshCodeCanvasCounts() {
     // Get target room counts for lines and blocks per line
     // and update this.state.lineCount and this.state.blockCount
     let render = { ...this.state.render }
-    render.maxIndX = maxX
-    render.maxIndY = maxY
+    console.log(this.seclusionInd)
 
     render.lineCount = Math.min(
       Math.max(
         Math.ceil((this.codeCanvas.clientHeight - this.state.top) / lineHeight),
-        render.maxIndY + 2 // Always one more block room to the most seclusive block
+        this.seclusionInd.y + 2 // Always one more block room to the most seclusive block
       ),
       this.maxLineCount
     )
     render.blockCount = Math.min(
       Math.max(
         Math.ceil((this.codeCanvas.clientWidth - this.state.left) / roomWidth),
-        render.maxIndX + 2
+        this.seclusionInd.x + 2
       ),
       this.maxBlockCount
     )
