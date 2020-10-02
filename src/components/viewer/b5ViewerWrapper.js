@@ -22,7 +22,9 @@ export default class B5Wrapper extends Component {
     }
 
     p.draw = () => {
+      p.push()
       if (loop) _b.runDraw(p) // Run Playground blocks
+      p.pop()
     }
   }
 

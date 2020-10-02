@@ -1,6 +1,7 @@
 import equal from 'react-fast-compare'
 
-const _onBlockCheckList = [
+/*
+const _onBlockCheckList_Re = [
   'blockFill',
   'blockRoom',
   'node',
@@ -9,11 +10,15 @@ const _onBlockCheckList = [
   'wireHolder',
   'wire',
   'wireBackground',
+  'pickerEntry',
+  'entryText',
+  'pickerName'
 ]
+*/
+const _onBlockCheckList = ['blockName', 'block', 'left', 'right', 'nodeText']
 export const hoveringOnBlock = classList => {
-  for (let i in _onBlockCheckList)
-    if (classList.contains(_onBlockCheckList[i])) return false
-  return true
+  for (let i of _onBlockCheckList) if (classList.contains(i)) return true
+  return false
 }
 
 const _onWireCheckList = ['wire', 'wireBackground']

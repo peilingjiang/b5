@@ -1,4 +1,11 @@
-import React, { PureComponent, createRef, forwardRef, memo } from 'react'
+import React, {
+  PureComponent,
+  createRef,
+  forwardRef,
+  memo,
+  Component,
+} from 'react'
+import { SketchPicker } from 'react-color'
 
 const _nodeBorderClassSelector = (
   type,
@@ -63,6 +70,7 @@ export const Node = memo(
 )
 
 export class InputBox extends PureComponent {
+  // For both number and string input
   constructor(props) {
     super()
     this.valid = true // valid or not
@@ -72,11 +80,13 @@ export class InputBox extends PureComponent {
   }
 
   componentDidMount() {
-    this.inputRef.current.addEventListener('click', this.handleClick, true)
+    if (this.props.action)
+      this.inputRef.current.addEventListener('click', this.handleClick, true)
   }
 
   componentWillUnmount() {
-    this.inputRef.current.removeEventListener('click', this.handleClick, true)
+    if (this.props.action)
+      this.inputRef.current.removeEventListener('click', this.handleClick, true)
   }
 
   componentDidUpdate() {
@@ -161,13 +171,81 @@ export class InputBox extends PureComponent {
       <input
         ref={this.inputRef}
         className={
-          'inputBox ' + className + (action ? '' : ' disabledComponent')
+          'inputBox' + className + (action ? '' : ' disabledComponent')
         }
         type="text"
         defaultValue={thisInlineData}
         onChange={this.handleValueChange}
         disabled={action ? false : true}
       ></input>
+    )
+  }
+}
+
+export class ColorPickerEntry extends Component {
+  constructor(props) {
+    super()
+    this.entryRef = createRef()
+    this.state = {
+      picking: false,
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.action)
+      this.entryRef.current.addEventListener('click', this.handleClick, true)
+  }
+
+  componentWillUnmount() {
+    if (this.props.action)
+      this.entryRef.current.removeEventListener('click', this.handleClick, true)
+  }
+
+  handleClick = e => {
+    this.setState({ picking: true }, function () {
+      this.state.picking
+        ? this.entryRef.current.parentElement.parentElement.classList.add(
+            'interacting'
+          )
+        : this.entryRef.current.parentElement.parentElement.classList.remove(
+            'interacting'
+          )
+    })
+  }
+
+  handleClose = e => {
+    this.setState({ picking: false })
+  }
+
+  handleChange = (color, event) => {
+    const { collect, x, y } = this.props
+    collect(
+      [x, y, 0, color.hex + Math.floor(color.rgb.a * 255).toString(16)],
+      'inlineDataChange'
+    )
+  }
+
+  render() {
+    const { action, text, thisInlineData } = this.props
+    return (
+      <>
+        <div
+          ref={this.entryRef}
+          className={'pickerEntry' + (action ? '' : ' disabledComponent')}
+        >
+          <p className="entryText">
+            <span className="pickerName">{text}</span>
+            {thisInlineData.slice(0, -2)}
+          </p>
+        </div>
+        {/* Picker */}
+        {this.state.picking && (
+          <div className="sketchPicker">
+            <div className="pickerCover" onClick={this.handleClose} />
+            <SketchPicker color={thisInlineData} onChange={this.handleChange} />
+          </div>
+        )}
+      </>
     )
   }
 }

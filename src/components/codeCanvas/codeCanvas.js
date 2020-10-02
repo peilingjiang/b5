@@ -344,7 +344,6 @@ export default class CodeCanvas extends Component {
     // Get target room counts for lines and blocks per line
     // and update this.state.lineCount and this.state.blockCount
     let render = { ...this.state.render }
-    console.log(this.seclusionInd)
 
     render.lineCount = Math.min(
       Math.max(

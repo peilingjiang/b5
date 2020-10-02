@@ -1,0 +1,100 @@
+@import '../../../css/root.css';
+@import './constants.css';
+
+$picker-size: 110px;
+$picker-gap: 3px;
+
+.blockFill {
+  &.interacting {
+    z-index: 90007 !important;
+  }
+
+  .colorPickerWidth {
+    width: $picker-size;
+  }
+
+  .colorPicker {
+    display: flex;
+    width: $picker-size;
+    height: 71px;
+    text-align: center;
+
+    .strokeMaskDiv {
+      width: calc($picker-size - 2 * $picker-gap);
+      // height: calc(71px - 2 * $picker-gap);
+      height: 57px;
+      background-color: #fff;
+      border-radius: $tiny-tiny-radius;
+      z-index: -1;
+      position: absolute;
+      top: $picker-gap;
+      left: $picker-gap;
+      pointer-events: none;
+    }
+
+    .nodes {
+      width: 100%;
+
+      .count1 {
+        width: 100%;
+      }
+    }
+
+    .pickerEntry {
+      background-color: color-mod(#fff a($hover-op));
+      height: fit-content;
+      width: calc($picker-size - 2 * $picker-gap);
+      border-radius: $tiny-tiny-radius;
+      margin: $picker-gap $picker-gap 0 $picker-gap;
+
+      .entryText {
+        line-height: 150%;
+        font-size: $small;
+        font-weight: $light;
+        color: $dark-grey;
+        padding: 4px 0 3px;
+
+        .pickerName {
+          color: $black;
+          font-weight: $medium;
+          padding-right: 3px;
+        }
+      }
+
+      &:hover {
+        cursor: pointer;
+        background-color: color-mod($dark-white a($hover-op));
+      }
+
+      &:active {
+        background-color: color-mod($grey a($hover-op));
+      }
+    }
+
+    .pickerCover {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+
+    .sketchPicker {
+      position: absolute;
+      left: calc($picker-size + 5px);
+      cursor: auto;
+      scale: 1 !important;
+
+      .sketch-picker {
+        // box-sizing: border-box !important;
+        border-radius: $tiny-radius !important;
+        // border: $regular-border !important;
+        box-shadow: 0 0 0 1px $hover-grey, $high-shadow !important;
+      }
+
+      input {
+        width: 100% !important; // * ?
+      }
+    }
+  }
+}

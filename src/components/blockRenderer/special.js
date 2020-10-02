@@ -2,7 +2,7 @@ import React, { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
 
 import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper'
-import { Node, InputBox } from './frags'
+import { Node, InputBox, ColorPickerEntry } from './frags'
 
 function constrain(v, a, b) {
   // Constrain v within a and b without
@@ -14,11 +14,6 @@ function constrain(v, a, b) {
 }
 
 export class InputBlock extends Component {
-  constructor(props) {
-    super(props)
-    this.inputBox = createRef()
-  }
-
   render() {
     const {
       action,
@@ -36,6 +31,7 @@ export class InputBlock extends Component {
       focused,
       selectedNodes,
     } = this.props
+
     return (
       <div className={className}>
         <div className="left">
@@ -69,6 +65,65 @@ export class InputBlock extends Component {
             collect={collect}
           />
         </div>
+      </div>
+    )
+  }
+}
+
+export class ColorPickerBlock extends Component {
+  render() {
+    const {
+      action,
+      className,
+      name,
+      text,
+      type,
+      x,
+      y,
+      inlineData,
+      output,
+      outputNodes,
+      collect,
+      nodesRef,
+      focused,
+      selectedNodes,
+    } = this.props
+
+    return (
+      <div
+        className={className}
+        style={{
+          backgroundColor: inlineData[0],
+        }}
+      >
+        {name === 'strokePicker' && <div className="strokeMaskDiv"></div>}
+        {output && (
+          <div className="nodes outputNodes">
+            <Node
+              nodeClass="output"
+              count={1}
+              type={type}
+              connectType={
+                output[0].length !== 0 ? outputNodes[0].type[0] : null
+              }
+              ref={nodesRef.output[0]}
+              focused={focused}
+              selected={selectedNodes.output.includes('0')}
+            />
+          </div>
+        )}
+
+        <ColorPickerEntry
+          action={action}
+          thisInlineData={inlineData[0]}
+          thisDataType={_b5BlocksObject.original[name].inlineData[0].type[1]}
+          inlineDataInd={0}
+          name={name}
+          text={text} // Difference from InputBox
+          x={x}
+          y={y}
+          collect={collect}
+        />
       </div>
     )
   }
@@ -217,7 +272,7 @@ class InputRange extends Component {
         >
           <InputBox
             action={action}
-            className={'current'}
+            className={' current'}
             thisInlineData={currentValue}
             thisDataType={'number'}
             inlineDataInd={0}
@@ -231,7 +286,7 @@ class InputRange extends Component {
         <div ref={e => (this.sliderInput = e)} className="sliderInput">
           <InputBox
             action={action}
-            className={'sliderSet min'}
+            className={' sliderSet min'}
             thisInlineData={inlineData[1]}
             thisDataType={'number'}
             inlineDataInd={1}
@@ -243,7 +298,7 @@ class InputRange extends Component {
 
           <InputBox
             action={action}
-            className={'sliderSet step'}
+            className={' sliderSet step'}
             thisInlineData={inlineData[3]}
             thisDataType={'number'}
             inlineDataInd={3}
@@ -256,7 +311,7 @@ class InputRange extends Component {
 
           <InputBox
             action={action}
-            className={'sliderSet max'}
+            className={' sliderSet max'}
             thisInlineData={inlineData[2]}
             thisDataType={'number'}
             inlineDataInd={2}

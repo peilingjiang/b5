@@ -3,6 +3,18 @@
 
 $input-width: 143px;
 
+@mixin boxStyle {
+  border-radius: $tiny-tiny-radius;
+  margin: 3px 3px 3px 0;
+  padding-top: 1px; // * Vertical align
+  padding-left: 3px;
+  padding-right: 3px;
+  height: 28px;
+  width: calc($input-width - $left-width - 3px);
+  text-align: center;
+  font-size: $small;
+}
+
 .blockFill {
   .inputWidth {
     // For blockList
@@ -18,15 +30,7 @@ $input-width: 143px;
       display: inline-flex;
 
       .inputBox {
-        border-radius: $tiny-tiny-radius;
-        margin: 3px 3px 3px 0;
-        padding-top: 1px; // * Vertical align
-        padding-left: 3px;
-        padding-right: 3px;
-        height: 28px;
-        width: calc($input-width - $left-width - 3px);
-        text-align: center;
-        font-size: $small;
+        @include boxStyle;
         background-color: #fff !important;
       }
 

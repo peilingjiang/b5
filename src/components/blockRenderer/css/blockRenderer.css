@@ -3,6 +3,7 @@
 
 @import './input.css';
 @import './slider.css';
+@import './colorPicker.css';
 
 $node-2-width: 136px;
 $node-3-width: 150px;
@@ -43,8 +44,10 @@ $node-0-1-width: 110px;
       z-index: 90000;
     }
 
-    .default {
-      box-shadow: 0 2px 11px -2px color-mod($default a($hover-op));
+    .default,
+    .colorPicker {
+      // * colorPicker is not a type, just a block kind
+      box-shadow: 0 2px 11px -2px color-mod($default a($hover-op)) !important;
     }
 
     .variable {

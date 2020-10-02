@@ -4,7 +4,7 @@ import equal from 'react-fast-compare'
 import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper'
 import { lineHeight, roomWidth } from '../constants'
 import { Node } from './frags'
-import { InputBlock, SliderBlock } from './special'
+import { InputBlock, SliderBlock, ColorPickerBlock } from './special'
 import '../../postcss/components/blockRenderer/css/blockRenderer.css'
 
 function _getTotalOffset(thisNode, targetClassName) {
@@ -166,6 +166,29 @@ class BlockRenderer extends Component {
               focused={focused}
               selectedNodes={selectedNodes}
               scale={scale}
+            />
+          </>
+        )
+        break
+      case 'colorPicker':
+        myBlock = (
+          <>
+            {!action && <div className="sudoBlock colorPickerWidth"></div>}
+            <ColorPickerBlock
+              action={action}
+              className={'grab block ' + type + ' ' + kind}
+              name={name}
+              text={text}
+              inlineData={inlineData}
+              output={output}
+              outputNodes={outputNodes}
+              type={type}
+              collect={collect}
+              x={x}
+              y={y}
+              nodesRef={this.nodesRef}
+              focused={focused}
+              selectedNodes={selectedNodes}
             />
           </>
         )
