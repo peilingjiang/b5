@@ -31,40 +31,37 @@ export class InputBlock extends Component {
       focused,
       selectedNodes,
     } = this.props
-
     return (
-      <div className={className}>
-        <div className="left">
-          <div className="blockName">{text}</div>
-          {output && (
-            <div className="nodes outputNodes">
-              <Node
-                nodeClass="output"
-                count={1}
-                type={type}
-                connectType={
-                  output[0].length !== 0 ? outputNodes[0].type[0] : null
-                }
-                ref={nodesRef.output[0]}
-                focused={focused}
-                selected={selectedNodes.output.includes('0')}
-              />
-            </div>
-          )}
-        </div>
-        <div className="right">
-          <InputBox
-            action={action}
-            className={''}
-            thisInlineData={inlineData[0]}
-            thisDataType={_b5BlocksObject.original[name].inlineData[0].type[1]}
-            inlineDataInd={0}
-            name={name}
-            x={x}
-            y={y}
-            collect={collect}
-          />
-        </div>
+      // * string input block is specially long...
+      <div className={className + (text === 'str' ? ' longInputWidth' : '')}>
+        {/* <div className="blockName">{text}</div> */}
+        <InputBox
+          action={action}
+          className={''}
+          thisInlineData={inlineData[0]}
+          thisDataType={_b5BlocksObject.original[name].inlineData[0].type[1]}
+          inlineDataInd={0}
+          name={name}
+          x={x}
+          y={y}
+          collect={collect}
+        />
+        <p className="nodeText bottomText">{text}</p>
+        {output && (
+          <div className="nodes outputNodes">
+            <Node
+              nodeClass="output"
+              count={1}
+              type={type}
+              connectType={
+                output[0].length !== 0 ? outputNodes[0].type[0] : null
+              }
+              ref={nodesRef.output[0]}
+              focused={focused}
+              selected={selectedNodes.output.includes('0')}
+            />
+          </div>
+        )}
       </div>
     )
   }
@@ -296,6 +293,7 @@ class InputRange extends Component {
             collect={collect}
           />
 
+          <p className="nodeText bottomText stepText">step</p>
           <InputBox
             action={action}
             className={' sliderSet step'}
@@ -362,32 +360,27 @@ export class SliderBlock extends Component {
 
     return (
       <div className={className}>
-        <div className="left">
-          <div className="blockName">{text}</div>
-          <div className="nodes outputNodes">
-            <Node
-              nodeClass="output"
-              count={1}
-              type={type}
-              connectType={
-                output[0].length !== 0 ? outputNodes[0].type[0] : null
-              }
-              ref={nodesRef.output[0]}
-              focused={focused}
-              selected={selectedNodes.output.includes('0')}
-            />
-          </div>
-        </div>
+        {/* <div className="blockName">{text}</div> */}
+        <InputRange
+          action={action}
+          name={name}
+          inlineData={inlineData}
+          collect={collect}
+          x={x}
+          y={y}
+          scale={scale}
+        />
 
-        <div className="right">
-          <InputRange
-            action={action}
-            name={name}
-            inlineData={inlineData}
-            collect={collect}
-            x={x}
-            y={y}
-            scale={scale}
+        <p className="nodeText bottomText">{text}</p>
+        <div className="nodes outputNodes">
+          <Node
+            nodeClass="output"
+            count={1}
+            type={type}
+            connectType={output[0].length !== 0 ? outputNodes[0].type[0] : null}
+            ref={nodesRef.output[0]}
+            focused={focused}
+            selected={selectedNodes.output.includes('0')}
           />
         </div>
       </div>

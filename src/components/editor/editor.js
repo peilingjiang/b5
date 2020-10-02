@@ -105,6 +105,8 @@ export default class Editor extends Component {
 
     // document.removeEventListener('keydown', this.handleKeydown, true)
     // document.removeEventListener('keyup', this.handleKeyup, true)
+
+    window.sessionStorage.removeItem('color')
   }
 
   shouldComponentUpdate(nextProps, nextState) {

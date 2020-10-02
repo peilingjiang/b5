@@ -126,7 +126,14 @@ class BlockRenderer extends Component {
       case 'input':
         myBlock = (
           <>
-            {!action && <div className="sudoBlock inputWidth"></div>}
+            {!action && (
+              <div
+                className={
+                  'sudoBlock' +
+                  (text === 'str' ? ' longInputWidth' : ' inputWidth')
+                }
+              ></div>
+            )}
             <InputBlock
               action={action}
               className={'grab block ' + type + ' ' + kind}

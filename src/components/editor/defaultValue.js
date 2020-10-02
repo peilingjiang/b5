@@ -18,7 +18,7 @@ export const defaultEditor = {
           source: 'original',
           inlineData: [200, 0, 600, 10],
           output: {
-            0: [['1', '0', '0']],
+            0: [['1', '0', '1']],
           },
         },
         // 1: {
@@ -31,13 +31,12 @@ export const defaultEditor = {
       },
       1: {
         0: {
-          name: 'ellipse',
+          name: 'circle',
           source: 'original',
           input: {
-            0: ['0', '0', '0'],
-            1: null,
+            0: null,
+            1: ['0', '0', '0'],
             2: null,
-            3: null,
           },
         },
       },
@@ -61,17 +60,17 @@ export const defaultEditor = {
               name: 'number',
               source: 'original',
               inlineData: [500],
-              output: { 0: [['1', '0', '0']] }, // For block rendering
+              output: { 0: [['1', '1', '0']] }, // For block rendering
             },
             1: {
               name: 'numberSlider',
               source: 'original',
               inlineData: [300, 0, 1000, 50],
-              output: { 0: [['1', '0', '1']] }, // One output node may be connected to multiple input nodes
+              output: { 0: [['1', '1', '1']] }, // One output node may be connected to multiple input nodes
             },
           },
           1: {
-            0: {
+            1: {
               name: 'createCanvas',
               source: 'original',
               input: {

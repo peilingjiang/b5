@@ -52,3 +52,7 @@ export const getNameFromBlockFill = target => {
   if (!target.classList.contains('blockFill')) return null
   return target.attributes['data-name'].nodeValue
 }
+
+export const randomColor = () => {
+  return '#' + Math.floor(Math.random() * 16777215).toString(16) + 'ff'
+}

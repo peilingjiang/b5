@@ -135,6 +135,7 @@ export default class WireRenderer extends Component {
     if (draggingWire)
       wires.push(
         <Wire
+          debug={'drag'}
           key={'tempWire'}
           start={draggingWire.start}
           end={draggingWire.end}

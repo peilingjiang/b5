@@ -1,7 +1,7 @@
 @import '../../../css/root.css';
 @import './constants.css';
 
-$slider-width: 183px;
+$slider-width: 176px;
 
 .blockFill {
   .sliderWidth {
@@ -10,85 +10,95 @@ $slider-width: 183px;
   }
 
   .slider {
-    display: flex;
+    display: block;
     width: $slider-width;
-    height: 34px;
+    height: 48px;
 
-    .right {
-      display: inline-block;
+    .sliderBox {
+      position: relative;
+      height: calc(48px - $bottom-height - 3px);
+      width: calc(100% - 6px);
+      margin: 3px 3px 0 3px;
+      background-color: #fff;
+      opacity: 1;
+      border-radius: $tiny-tiny-radius;
+      text-align: left;
 
-      .sliderBox {
+      .rangeBelow {
+        display: inline-block;
+        height: 100%;
+        background-color: color-mod($object a($light-op));
+        margin: 0 auto 0 0;
+      }
+
+      .thumb {
         position: relative;
-        height: 28px;
-        width: calc($slider-width - $left-width - 3px);
-        margin: 3px 3px 3px 0;
-        background-color: #fff;
+        display: inline-block;
+        height: 100%;
+        width: 4px;
+        border-left: $dark-grey solid 1px;
+      }
+
+      .sliderInput {
+        position: absolute;
+        width: 100%;
+        top: 27px;
+        left: 0;
+        pointer-events: none;
+        opacity: 0;
+        // transition: ease-in-out 0.2s;
+      }
+
+      .inputBox {
+        position: absolute;
         border-radius: $tiny-tiny-radius;
-        text-align: left;
+        height: 18px;
+        width: 39px;
+        background-color: #fff !important;
+        text-align: center;
+        font-size: $small;
+        padding-top: 1px;
+        padding-left: 1px;
+        padding-right: 1px;
+      }
 
-        .rangeBelow {
-          display: inline-block;
-          height: 100%;
-          background-color: color-mod($object a($light-op));
-          margin: 0 auto 0 0;
-        }
+      .current {
+        top: -18px;
+        border: $dark-grey solid 1px;
+        left: calc(50% - 2px);
+        transform: translate(-50%, 0);
+      }
 
-        .thumb {
-          position: relative;
-          display: inline-block;
-          height: 100%;
-          width: 4px;
-          border-left: $dark-grey solid 1px;
-        }
+      .min {
+        left: 0;
+        border-radius: $tiny-tiny-radius 0 0 $tiny-tiny-radius;
+      }
 
-        .sliderInput {
-          position: absolute;
-          width: 100%;
-          top: 28px;
-          left: 0;
+      .step {
+        right: 0;
+      }
 
-          pointer-events: none;
-          opacity: 0;
-          // transition: ease-in-out 0.2s;
-        }
+      .stepText {
+        position: absolute !important;
+        font-size: $small-small;
+        text-align: right;
+        padding: 4px 0;
+        right: calc(39px + 3px);
+      }
 
-        .inputBox {
-          position: absolute;
-          border-radius: $tiny-tiny-radius;
-          height: 17px;
-          width: 36px;
-          background-color: #fff !important;
-          text-align: center;
-          font-size: $small;
-          padding-left: 1px;
-          padding-right: 1px;
-        }
+      .max {
+        left: calc(39px + 1px);
+        border-radius: 0 $tiny-tiny-radius $tiny-tiny-radius 0;
+      }
 
-        .current {
-          top: -17px;
-          border: $dark-grey solid 1px;
-          left: calc(50% - 2px);
-          transform: translate(-50%, 0);
-        }
-
-        .min {
-          left: 0;
-        }
-
-        .step {
-          left: 50%;
-          transform: translate(-50%, 0);
-        }
-
-        .max {
-          right: 0;
-        }
-
-        .sliderSet {
-          top: 3px;
-          border: $light-grey solid 1px;
-          color: $light-grey;
-        }
+      .sliderSet {
+        height: 16px;
+        font-size: $small-small;
+        margin: 0;
+        top: 1px;
+        // border: $light-grey solid 0.5px;
+        background-color: color-mod($object blend($black 25%)) !important;
+        color: #fff;
       }
     }
   }

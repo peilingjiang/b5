@@ -20,11 +20,15 @@ export default class BlockSearch extends Component {
     document.addEventListener('mousedown', this.searchingMouseDown)
     document.addEventListener('keydown', this.handleKeydown)
     this.inputRef.focus()
+
+    window.sessionStorage.setItem('color', method.randomColor())
   }
 
   componentWillUnmount() {
     document.removeEventListener('mousedown', this.searchingMouseDown)
     document.removeEventListener('keydown', this.handleKeydown)
+
+    window.sessionStorage.removeItem('color')
   }
 
   shouldComponentUpdate(nextProps, nextState) {

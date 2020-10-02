@@ -1,16 +1,17 @@
 @import '../../../css/root.css';
 @import './constants.css';
 
-$input-width: 143px;
+$input-width: 110px;
+$long-input-width: 150px;
 
 @mixin boxStyle {
   border-radius: $tiny-tiny-radius;
-  margin: 3px 3px 3px 0;
+  margin: 3px 3px 0 3px;
   padding-top: 1px; // * Vertical align
   padding-left: 3px;
   padding-right: 3px;
-  height: 28px;
-  width: calc($input-width - $left-width - 3px);
+  height: calc(48px - $bottom-height - 3px);
+  width: calc(100% - 6px);
   text-align: center;
   font-size: $small;
 }
@@ -21,43 +22,31 @@ $input-width: 143px;
     width: $input-width;
   }
 
+  .longInputWidth {
+    width: $long-input-width !important;
+  }
+
   .input {
-    display: flex;
+    display: block;
     width: $input-width;
-    height: 34px;
+    height: 48px;
 
-    .right {
-      display: inline-flex;
-
-      .inputBox {
-        @include boxStyle;
-        background-color: #fff !important;
-      }
-
-      // .inputBox:focus {}
+    .inputBox {
+      @include boxStyle;
+      background-color: #fff !important;
+      opacity: 1;
     }
+
+    // .inputBox:focus {}
   }
 
   .input,
   .slider {
-    .left {
-      display: inline-block;
-      width: $left-width;
+    .nodes {
+      width: 100%;
 
-      .blockName {
-        padding-top: unset;
-        padding-bottom: unset;
-        margin: 10px 0; // line-height: 14px
+      .count1 {
         width: 100%;
-        background: none;
-      }
-
-      .nodes {
-        width: $left-width;
-
-        .count1 {
-          width: 100%;
-        }
       }
     }
 
@@ -65,5 +54,9 @@ $input-width: 143px;
       border: $alert solid 1px !important;
       color: $alert !important;
     }
+  }
+
+  .bottomText {
+    @include bottom-text;
   }
 }

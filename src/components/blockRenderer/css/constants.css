@@ -1,1 +1,11 @@
 $left-width: 62px;
+$bottom-height: 18px;
+
+@mixin bottom-text {
+  font-size: $small;
+  height: $bottom-height;
+  width: 50%;
+  text-align: left;
+  // padding: calc($bottom-height / 2 - $small / 2) 3px;
+  padding: 3px 4px;
+}
