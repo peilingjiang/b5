@@ -13,6 +13,8 @@ import { LineNumberRoom, BlockAlphabetRoom, BlockRoom } from './codeCanvasFrags'
 import CodeBlocks from '../codeBlocks/codeBlocks'
 import '../../postcss/components/codeCanvas/codeCanvas.css'
 
+import { _colorEffectIndex } from '../magicalIndex'
+
 import DoubleClick from '../../img/icon/dclick.svg'
 
 export default class CodeCanvas extends Component {
@@ -52,6 +54,7 @@ export default class CodeCanvas extends Component {
         // maxIndX: 0, // Max index (with block in the room) on x-axis (horizontally)
         // maxIndY: 0, // Max index (with block in the room) on y-axis (vertically)
         hovering: false,
+        colorEffectActivated: [], // Location of activated color effect block
       },
       /* canvasStyle */
       left: props.canvasStyle.left, // Left offset (codeCanvas) after dragging
@@ -94,6 +97,8 @@ export default class CodeCanvas extends Component {
       x: 0,
       y: 0,
     }
+
+    this.colorEffectInd = []
   }
 
   componentDidMount() {
@@ -112,6 +117,7 @@ export default class CodeCanvas extends Component {
 
     // Calc target counts and add listeners
     this._getSeclusionInd()
+    this._getColorEffectInd()
     this._refreshCodeCanvasCounts()
     this.codeCanvas.addEventListener('mousedown', this.handleMouseDown, true)
     this.codeCanvas.addEventListener('wheel', this.handleWheel, true)
@@ -141,6 +147,7 @@ export default class CodeCanvas extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     if (!equal(this.props.data, nextProps.data)) {
       this._getSeclusionInd(nextProps.data.blocks)
+      this._getColorEffectInd(nextProps.data.blocks)
       return true
     }
     return !equal(this.state.render, nextState.render)
@@ -193,13 +200,13 @@ export default class CodeCanvas extends Component {
       that._moveCanvas(mouse.homeLeft, mouse.homeTop, delta.x, delta.y)
     }
 
-    this.codeCanvas.addEventListener('mousemove', grabCanvas, true)
+    document.addEventListener('mousemove', grabCanvas, true)
 
     document.addEventListener(
       'mouseup',
       function _listener() {
         that.codeCanvas.className = 'codeCanvas'
-        that.codeCanvas.removeEventListener('mousemove', grabCanvas, true)
+        document.removeEventListener('mousemove', grabCanvas, true)
 
         that._setCanvasLeftTop()
 
@@ -244,8 +251,8 @@ export default class CodeCanvas extends Component {
   handleWheel = e => {
     e.preventDefault()
 
-    if (e.metaKey) {
-      // command or win key pressed
+    if (e.metaKey || e.ctrlKey) {
+      // command or win / control key pressed
       // Scroll UP and DOWN
       this._moveCanvas(
         this.blockHome.offsetLeft,
@@ -340,6 +347,22 @@ export default class CodeCanvas extends Component {
     ) // Max column number
   }
 
+  _getColorEffectInd(dataBlocks = null) {
+    // Get the location of all color effect blocks
+    const blocks = dataBlocks || this.props.data.blocks
+
+    this.colorEffectInd = []
+    for (let i in blocks)
+      for (let j in blocks[i])
+        if (_colorEffectIndex.includes(blocks[i][j].name))
+          // ! Color of affected background
+          this.colorEffectInd.push([
+            i,
+            j,
+            blocks[i][j].inlineData[0].slice(0, 7) + '12',
+          ])
+  }
+
   _refreshCodeCanvasCounts() {
     // Get target room counts for lines and blocks per line
     // and update this.state.lineCount and this.state.blockCount
@@ -362,6 +385,49 @@ export default class CodeCanvas extends Component {
     this.setState({ render })
   }
 
+  handleFocused = focused => {
+    let render = { ...this.state.render }
+    render.colorEffectActivated = []
+    if (focused && focused.length) {
+      // fill or stroke
+      for (let i of focused) // [[y, x], [2, 9], [1, 0], ...]
+        for (let j of this.colorEffectInd)
+          if (i[0] === j[0] && i[1] === j[1])
+            render.colorEffectActivated.push(i)
+    }
+    this.setState({ render })
+  }
+
+  _getRoomBackground = (y, x) => {
+    const { colorEffectActivated } = this.state.render
+
+    if (!colorEffectActivated.length) return null
+
+    let lastCompare = [-1, -1, null]
+    let color = null
+    for (let c of this.colorEffectInd) {
+      if (
+        method.hasGreaterEqualPosition(y, x, c[0], c[1]) &&
+        method.hasGreaterEqualPosition(
+          c[0],
+          c[1],
+          lastCompare[0],
+          lastCompare[1]
+        )
+      ) {
+        if (method.isColorActivated(colorEffectActivated, c)) {
+          color = c[2]
+        } else {
+          color = null
+        }
+
+        lastCompare = c
+      }
+    }
+
+    return color
+  }
+
   render() {
     let lineNumbers = [],
       blockAlphabets = [],
@@ -382,7 +448,12 @@ export default class CodeCanvas extends Component {
       for (let j = 0; j < blockCount; j++) {
         // Key - 'block 2 17' (line 2, column 17)
         blockHome.push(
-          <BlockRoom key={'blockRoom ' + i + ' ' + j} y={i} x={j} />
+          <BlockRoom
+            key={'blockRoom ' + i + ' ' + j}
+            y={i}
+            x={j}
+            bg={this._getRoomBackground(i, j)}
+          />
         )
       }
     }
@@ -400,7 +471,7 @@ export default class CodeCanvas extends Component {
 
           {/* Tips or codeBlocks */}
           {Object.keys(blocks).length === 0 && (
-            <div className="visible">
+            <div className="addBlockHint">
               <img src={DoubleClick} alt="Double Click" />
               <p>Double click to add a block</p>
             </div>
@@ -414,6 +485,7 @@ export default class CodeCanvas extends Component {
             collect={this.handleCollectEditorData}
             scale={scale}
             hovering={this.state.render.hovering}
+            canvasCollectFocused={this.handleFocused}
           />
         </div>
 

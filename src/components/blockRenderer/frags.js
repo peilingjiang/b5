@@ -220,7 +220,15 @@ export class ColorPickerEntry extends Component {
   handleChange = (color, event) => {
     const { collect, x, y } = this.props
     collect(
-      [x, y, 0, color.hex + Math.floor(color.rgb.a * 255).toString(16)],
+      [
+        x,
+        y,
+        0,
+        color.hex +
+          Math.floor(color.rgb.a * 255)
+            .toString(16)
+            .padStart(2, '0'),
+      ],
       'inlineDataChange'
     )
   }

@@ -9,7 +9,7 @@ import { lineHeight, roomWidth } from '../constants'
 
 export class LineNumberRoom extends PureComponent {
   constructor(props) {
-    super(props)
+    super()
     this.y = props.num // Start from 0
   }
 
@@ -22,33 +22,9 @@ export class LineNumberRoom extends PureComponent {
   }
 }
 
-export class BlockRoom extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.x = props.x // Column of the room, from 0
-    this.y = props.y // Line (row) of the room, from 0
-  }
-
-  componentDidMount() {
-    this.room.style.top = this.y * lineHeight + 'px'
-    this.room.style.left = this.x * roomWidth + 'px'
-  }
-
-  render() {
-    return (
-      <div
-        ref={e => (this.room = e)}
-        className="blockRoom"
-        data-x={this.x}
-        data-y={this.y}
-      ></div>
-    )
-  }
-}
-
 export class BlockAlphabetRoom extends PureComponent {
   constructor(props) {
-    super(props)
+    super()
     this.x = this._convert(props.num + 1) // num starts from 0
   }
 
@@ -68,6 +44,37 @@ export class BlockAlphabetRoom extends PureComponent {
       <div className="blockAlphabetRoom">
         <p>{this.x}</p>
       </div>
+    )
+  }
+}
+
+export class BlockRoom extends PureComponent {
+  constructor(props) {
+    super()
+    this.x = props.x // Column of the room, from 0
+    this.y = props.y // Line (row) of the room, from 0
+  }
+
+  componentDidMount() {
+    this.room.style.top = this.y * lineHeight + 'px'
+    this.room.style.left = this.x * roomWidth + 'px'
+  }
+
+  render() {
+    return (
+      <div
+        ref={e => (this.room = e)}
+        className="blockRoom"
+        data-x={this.x}
+        data-y={this.y}
+        style={
+          this.props.bg === null
+            ? null
+            : {
+                background: this.props.bg,
+              }
+        }
+      ></div>
     )
   }
 }

@@ -15,7 +15,7 @@ import {
 
 export default class CodeBlocks extends Component {
   constructor(props) {
-    super(props) // data, canvas, collect, scale (for moving)
+    super() // data, canvas, collect, scale (for moving)
 
     // Create Refs for each block
     const { data } = props
@@ -90,6 +90,8 @@ export default class CodeBlocks extends Component {
             if (thisBlock) {
               // FOCUS CURRENT
               this._focus(thisBlockInd) // [2, 0] - [y, x]
+              this.props.canvasCollectFocused(this.state.focused) // Send focused to codeCanvas
+
               this._deselectWireAll()
               thisBlock.current.childNodes[0].className = thisBlock.current.childNodes[0].className.replace(
                 'grab',
@@ -382,6 +384,7 @@ export default class CodeBlocks extends Component {
       // Replace Focus
       this._blur(bInd)
       this._focus([y.toString(), x.toString()])
+      this.props.canvasCollectFocused(this.state.focused) // Send focused to codeCanvas
     }
   }
 
@@ -435,7 +438,10 @@ export default class CodeBlocks extends Component {
   }
 
   _blurAll = () => {
-    if (this.state.focused.length) this.setState({ focused: [] })
+    if (this.state.focused.length)
+      this.setState({ focused: [] }, function () {
+        this.props.canvasCollectFocused()
+      })
   }
 
   _isFocused = bInd => {
