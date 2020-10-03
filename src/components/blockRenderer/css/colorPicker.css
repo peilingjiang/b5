@@ -4,6 +4,32 @@
 $picker-size: 110px;
 $picker-gap: 3px;
 
+$entry-hover-color: color-mod($dark-white a($hover-op));
+$entry-active-color: color-mod($grey a($hover-op));
+
+@mixin mask-placement {
+  width: calc($picker-size - 2 * $picker-gap);
+  // height: calc(71px - 2 * $picker-gap);
+  height: 57px;
+  position: absolute;
+  top: $picker-gap;
+  left: $picker-gap;
+  pointer-events: none;
+}
+
+@mixin too-light-outline($this-radius, $this-color) {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: $this-radius;
+  border: 1px solid $this-color;
+  pointer-events: none;
+}
+
 .blockFill {
   &.interacting {
     z-index: 90007 !important;
@@ -20,16 +46,16 @@ $picker-gap: 3px;
     text-align: center;
 
     .strokeMaskDiv {
-      width: calc($picker-size - 2 * $picker-gap);
-      // height: calc(71px - 2 * $picker-gap);
-      height: 57px;
+      @include mask-placement();
       background-color: #fff;
       border-radius: $tiny-tiny-radius;
       z-index: -1;
-      position: absolute;
-      top: $picker-gap;
-      left: $picker-gap;
-      pointer-events: none;
+    }
+
+    .strokeMaskDivTooLight {
+      @include mask-placement();
+      border-radius: $tiny-tiny-radius;
+      border: 1px solid $hover-grey;
     }
 
     .nodes {
@@ -63,11 +89,11 @@ $picker-gap: 3px;
 
       &:hover {
         cursor: pointer;
-        background-color: color-mod($dark-white a($hover-op));
+        background-color: $entry-hover-color;
       }
 
       &:active {
-        background-color: color-mod($grey a($hover-op));
+        background-color: $entry-active-color;
       }
     }
 
@@ -94,6 +120,12 @@ $picker-gap: 3px;
 
       input {
         width: 100% !important; // * ?
+      }
+    }
+
+    &.blockTooLight {
+      &:after {
+        @include too-light-outline($tiny-radius, $hover-grey);
       }
     }
   }

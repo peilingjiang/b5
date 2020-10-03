@@ -3,6 +3,7 @@ import equal from 'react-fast-compare'
 
 import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper'
 import { Node, InputBox, ColorPickerEntry } from './frags'
+import { isLight } from './blockRendererMethod'
 
 function constrain(v, a, b) {
   // Constrain v within a and b without
@@ -88,7 +89,7 @@ export class ColorPickerBlock extends Component {
 
     return (
       <div
-        className={className}
+        className={className + (isLight(inlineData[0]) ? ' blockTooLight' : '')}
         style={{
           backgroundColor: inlineData[0],
         }}
@@ -121,6 +122,9 @@ export class ColorPickerBlock extends Component {
           y={y}
           collect={collect}
         />
+        {name === 'strokePicker' && isLight(inlineData[0]) && (
+          <div className="strokeMaskDivTooLight"></div>
+        )}
       </div>
     )
   }
