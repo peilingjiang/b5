@@ -360,6 +360,7 @@ export default class CodeCanvas extends Component {
             i,
             j,
             blocks[i][j].inlineData[0].slice(0, 7) + '12',
+            method.getEffectName(blocks[i][j].name),
           ])
   }
 
@@ -399,11 +400,12 @@ export default class CodeCanvas extends Component {
   }
 
   _getRoomBackground = (y, x) => {
+    // Get the background color for the block
     const { colorEffectActivated } = this.state.render
 
     if (!colorEffectActivated.length) return null
 
-    let lastCompare = [-1, -1, null]
+    let lastCompare = [-1, -1, null, null]
     let color = null
     for (let c of this.colorEffectInd) {
       if (
@@ -417,11 +419,10 @@ export default class CodeCanvas extends Component {
       ) {
         if (method.isColorActivated(colorEffectActivated, c)) {
           color = c[2]
-        } else {
+          lastCompare = c
+        } else if (c[3] === lastCompare[3] || lastCompare[3] === null) {
           color = null
         }
-
-        lastCompare = c
       }
     }
 

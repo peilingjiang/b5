@@ -48,7 +48,7 @@
   }
 
   .unfocused {
-    stroke: $light-grey;
+    stroke: #d6d6d6; // $hover-grey
   }
 
   .focused {
