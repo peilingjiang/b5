@@ -60,17 +60,17 @@ export const defaultEditor = {
               name: 'number',
               source: 'original',
               inlineData: [500],
-              output: { 0: [['1', '1', '0']] }, // For block rendering
+              output: { 0: [['1', '0', '0']] }, // For block rendering
             },
             1: {
               name: 'numberSlider',
               source: 'original',
-              inlineData: [300, 0, 1000, 50],
-              output: { 0: [['1', '1', '1']] }, // One output node may be connected to multiple input nodes
+              inlineData: [300, 0, 600, 50],
+              output: { 0: [['1', '0', '1']] }, // One output node may be connected to multiple input nodes
             },
           },
           1: {
-            1: {
+            0: {
               name: 'createCanvas',
               source: 'original',
               input: {

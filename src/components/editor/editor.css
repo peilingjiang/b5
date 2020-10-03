@@ -21,13 +21,41 @@
   height: 100%;
 }
 
+@media only screen and (min-width: 1441px) {
+  #editor-left {
+    width: 678px; /* Init left width */
+  }
+
+  #editor-right {
+    width: calc(100% - 678px);
+  }
+}
+
+@media only screen and (max-width: 1441px) and (min-width: 961px) {
+  #editor-left {
+    width: 468px; /* Init left width */
+  }
+
+  #editor-right {
+    width: calc(100% - 468px);
+  }
+}
+
+@media only screen and (max-width: 961px) {
+  #editor-left {
+    width: 230px;
+  }
+
+  #editor-right {
+    width: calc(100% - 230px);
+  }
+}
+
 #editor-left {
-  width: 48%; /* Init left width */
   min-width: calc($block-width + $gap + $gap + 4px);
 }
 
 #editor-right {
-  width: 52%;
   min-width: calc($block-width + $gap + $line-numbers-width);
 }
 

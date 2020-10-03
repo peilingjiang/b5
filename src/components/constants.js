@@ -8,9 +8,9 @@ export const sectionHeightDefault = lineHeight * 2 + blockAlphabetHeight + 4
 
 export const factoryCanvasDefaultScale = 1
 
-export const nodeSize = 14 // Size of the node
+export const nodeSize = 16 // Size of the node
 export const sizeOffset = nodeSize / 2
-export const dragOvalSize = 9
+export const dragOvalSize = 10
 
 export const gap = 8
 export const iconTotalSize = 36

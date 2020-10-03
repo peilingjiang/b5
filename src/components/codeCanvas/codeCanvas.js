@@ -82,6 +82,9 @@ export default class CodeCanvas extends Component {
 
     this.maxLineCount = props.maxLineCount
     this.maxBlockCount = props.maxBlockCount
+    // >>
+    this.maxAllBlockHeight = this.maxLineCount * lineHeight
+    this.maxAllBlockWidth = this.maxBlockCount * roomWidth
 
     // (Different from the type of blocks - object, variable...)
     this.type = props.data.type // 'playground', 'variable'...
@@ -193,11 +196,12 @@ export default class CodeCanvas extends Component {
     }
 
     function grabCanvas(e) {
-      let delta = {
-        x: e.clientX - mouse.x,
-        y: e.clientY - mouse.y,
-      }
-      that._moveCanvas(mouse.homeLeft, mouse.homeTop, delta.x, delta.y)
+      that._moveCanvas(
+        mouse.homeLeft,
+        mouse.homeTop,
+        e.clientX - mouse.x,
+        e.clientY - mouse.y
+      )
     }
 
     document.addEventListener('mousemove', grabCanvas, true)
@@ -234,7 +238,7 @@ export default class CodeCanvas extends Component {
       Math.min(
         Math.max(
           startLeft + deltaX / this.state.scale,
-          -this.maxBlockCount * roomWidth + this.codeCanvas.offsetWidth / 2
+          -this.maxAllBlockWidth + this.codeCanvas.offsetWidth / 2
         ),
         lineNumberWidth
       ) + 'px'
@@ -242,7 +246,7 @@ export default class CodeCanvas extends Component {
       Math.min(
         Math.max(
           startTop + deltaY / this.state.scale,
-          -this.maxLineCount * lineHeight + this.codeCanvas.offsetHeight / 2
+          -this.maxAllBlockHeight + this.codeCanvas.offsetHeight / 2
         ),
         blockAlphabetHeight
       ) + 'px'
@@ -251,20 +255,10 @@ export default class CodeCanvas extends Component {
   handleWheel = e => {
     e.preventDefault()
 
-    if (e.metaKey || e.ctrlKey) {
+    if (e.metaKey || e.ctrlKey || e.shiftKey) {
       // command or win / control key pressed
       // Scroll UP and DOWN
-      this._moveCanvas(
-        this.blockHome.offsetLeft,
-        this.blockHome.offsetTop,
-        -e.deltaX,
-        -e.deltaY
-      )
-      this._setCanvasLeftTop()
-      return
-    }
-
-    if (e.shiftKey) {
+      //
       // shift pressed
       // Scroll LEFT and RIGHT
       this._moveCanvas(
