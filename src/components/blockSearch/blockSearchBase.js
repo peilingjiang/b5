@@ -6,7 +6,7 @@ const options = {
   keys: [
     {
       name: 'name',
-      weight: 0.5,
+      weight: 0.3,
     },
     {
       name: 'description',
@@ -14,7 +14,7 @@ const options = {
     },
     {
       name: 'text',
-      weight: 0.2,
+      weight: 0.4,
     },
     {
       name: 'type',

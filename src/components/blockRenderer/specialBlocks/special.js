@@ -1,9 +1,9 @@
 import React, { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
 
-import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper'
-import { Node, InputBox, ColorPickerEntry } from './frags'
-import { isLight } from './blockRendererMethod'
+import _b5BlocksObject from '../../../b5.js/src/blocks/blocksObjectWrapper'
+import { Node, InputBox, ColorPickerEntry } from '../frags'
+import { isLight } from '../blockRendererMethod'
 
 function constrain(v, a, b) {
   // Constrain v within a and b without

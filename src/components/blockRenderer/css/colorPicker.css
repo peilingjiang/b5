@@ -10,7 +10,7 @@ $entry-active-color: color-mod($grey a($hover-op));
 @mixin mask-placement {
   width: calc($picker-size - 2 * $picker-gap);
   // height: calc(71px - 2 * $picker-gap);
-  height: 57px;
+  height: calc(71px - 3px - $bottom-tiny-height);
   position: absolute;
   top: $picker-gap;
   left: $picker-gap;

@@ -1,0 +1,62 @@
+@import '../../../css/root.css';
+@import './constants.css';
+
+$comment-width: 176px;
+$note-line-height: 150%;
+
+.blockFill {
+  .commentWidth {
+    // For sudoBlock
+    width: $comment-width;
+  }
+
+  &.focused {
+    .comment {
+      box-shadow: $block-shadow-style color-mod($comment a($hover-op));
+    }
+  }
+
+  .comment {
+    background-color: $comment;
+    display: flex;
+    width: $comment-width;
+    height: fit-content;
+    border-radius: 0 !important;
+
+    .writingArea {
+      outline: none;
+      resize: none;
+      display: flex;
+      margin: 3px 3px $bottom-tiny-height;
+      padding: 3px 7px 3px;
+      // border-radius: $tiny-tiny-radius;
+      background-color: color-mod($comment blend(#fff 87%));
+      width: calc($comment-width - 6px);
+      height: fit-content;
+      min-height: 27px;
+      max-height: 96px;
+      // overflow: hidden;
+      overflow-y: scroll;
+      text-align: left;
+      font-size: $small;
+      color: $dark-grey;
+      font-weight: $regular;
+      line-height: $note-line-height;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      // clip-path: polygon(
+      //   0 0,
+      //   100% 0,
+      //   100% calc(100% - 6px),
+      //   calc(100% - 6px) 100%,
+      //   0 100%
+      // );
+    }
+  }
+
+  .grabbing {
+    .writingArea {
+      pointer-events: none;
+    }
+  }
+}

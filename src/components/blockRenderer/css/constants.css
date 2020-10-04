@@ -1,5 +1,7 @@
 $left-width: 62px;
+
 $bottom-height: 18px;
+$bottom-tiny-height: 11px;
 
 @mixin bottom-text {
   font-size: $small;

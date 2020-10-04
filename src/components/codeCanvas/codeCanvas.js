@@ -253,6 +253,7 @@ export default class CodeCanvas extends Component {
   }
 
   handleWheel = e => {
+    if (method.scrollOnComponent(e.toElement.classList)) return
     e.preventDefault()
 
     if (e.metaKey || e.ctrlKey || e.shiftKey) {

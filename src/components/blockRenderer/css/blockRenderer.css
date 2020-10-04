@@ -4,6 +4,7 @@
 @import './input.css';
 @import './slider.css';
 @import './colorPicker.css';
+@import './comment.css';
 
 $node-2-width: 136px;
 $node-3-width: 150px;
@@ -47,27 +48,27 @@ $node-0-1-width: 110px;
     .default,
     .colorPicker {
       // * colorPicker is not a type, just a block kind
-      box-shadow: 0 2px 11px -2px color-mod($default a($hover-op)) !important;
+      box-shadow: $block-shadow-style color-mod($default a($hover-op)) !important;
     }
 
     .variable {
-      box-shadow: 0 2px 11px -2px color-mod($variable a($hover-op));
+      box-shadow: $block-shadow-style color-mod($variable a($hover-op));
     }
 
     .function {
-      box-shadow: 0 2px 11px -2px color-mod($function a($hover-op));
+      box-shadow: $block-shadow-style color-mod($function a($hover-op));
     }
 
     .object {
-      box-shadow: 0 2px 11px -2px color-mod($object a($hover-op));
+      box-shadow: $block-shadow-style color-mod($object a($hover-op));
     }
 
     .draw {
-      box-shadow: 0 2px 11px -2px color-mod($draw a($hover-op));
+      box-shadow: $block-shadow-style color-mod($draw a($hover-op));
     }
 
     .library {
-      box-shadow: 0 2px 11px -2px color-mod($library a($hover-op));
+      box-shadow: $block-shadow-style color-mod($library a($hover-op));
     }
   }
 

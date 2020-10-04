@@ -4,7 +4,12 @@ import equal from 'react-fast-compare'
 import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper'
 import { lineHeight, roomWidth } from '../constants'
 import { Node } from './frags'
-import { InputBlock, SliderBlock, ColorPickerBlock } from './special'
+import {
+  InputBlock,
+  SliderBlock,
+  ColorPickerBlock,
+} from './specialBlocks/special'
+import CommentBlock from './specialBlocks/comment'
 import '../../postcss/components/blockRenderer/css/blockRenderer.css'
 
 function _getTotalOffset(thisNode, targetClassName) {
@@ -205,6 +210,27 @@ class BlockRenderer extends Component {
       case 'method':
         break
       case 'display':
+        break
+      case 'comment':
+        // Very very special...
+        myBlock = (
+          <>
+            {!action && <div className="sudoBlock commentWidth"></div>}
+            <CommentBlock
+              action={action}
+              className="grab block comment"
+              name={name}
+              text={text}
+              inlineData={inlineData}
+              collect={collect}
+              x={x}
+              y={y}
+              nodesRef={this.nodesRef}
+              focused={focused}
+              selectedNodes={selectedNodes}
+            />
+          </>
+        )
         break
       default:
         /* kind === 'normal' */

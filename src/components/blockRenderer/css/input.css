@@ -38,6 +38,12 @@ $long-input-width: 150px;
     }
 
     // .inputBox:focus {}
+
+    .stringInput {
+      padding-top: 0 !important;
+      font-weight: $regular;
+      font-family: 'Roboto Mono', monospace;
+    }
   }
 
   .input,

@@ -21,6 +21,8 @@ $object: #44d7b6;
 $draw: #f35c87;
 $library: #b55bcd;
 
+$comment: #ffebb7;
+
 $alert: #cf1b1b;
 $selected: #07689f;
 
@@ -68,6 +70,7 @@ $regular-border-style: 1px solid;
 $node-border-style: $node-border-width solid;
 $regular-border: $regular-border-style $hover-grey;
 
+$block-shadow-style: 0 2px 11px -2px;
 $regular-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.12);
 $high-shadow: 0 9px 17px -2px color-mod($black a($light-op));
 

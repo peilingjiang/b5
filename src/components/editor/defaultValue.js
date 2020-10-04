@@ -14,11 +14,18 @@ export const defaultEditor = {
     blocks: {
       0: {
         0: {
+          name: 'comment',
+          source: 'original',
+          inlineData: [
+            '🌈Welcome to b5!\nThis is still a work-in-progress project. Right now, please feel free to explore it!\n- WEAR MASK & STAY SAFE -',
+          ],
+        },
+        1: {
           name: 'numberSlider',
           source: 'original',
           inlineData: [200, 0, 600, 10],
           output: {
-            0: [['1', '0', '1']],
+            0: [['1', '1', '1']],
           },
         },
         // 1: {
@@ -30,12 +37,12 @@ export const defaultEditor = {
         // },
       },
       1: {
-        0: {
+        1: {
           name: 'circle',
           source: 'original',
           input: {
             0: null,
-            1: ['0', '0', '0'],
+            1: ['0', '1', '0'],
             2: null,
           },
         },

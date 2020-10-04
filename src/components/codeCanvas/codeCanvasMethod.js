@@ -25,3 +25,10 @@ export const isColorActivated = (allActive, c) => {
 export const getEffectName = name => {
   return _b5BlocksObject[name].effectName
 }
+
+const _scrollComponentClassName = ['writingArea']
+export const scrollOnComponent = classList => {
+  for (let i of _scrollComponentClassName)
+    if (classList.contains(i)) return true
+  return false
+}
