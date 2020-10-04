@@ -1,6 +1,7 @@
 @import '../../../css/root.css';
 @import './constants.css';
 
+@import './inline.css';
 @import './input.css';
 @import './slider.css';
 @import './colorPicker.css';
@@ -325,7 +326,8 @@ $node-0-1-width: 110px;
 
   .nodesCount0 {
     width: $node-0-1-width;
-    padding: 4px 0;
+    // height: 39px;
+    padding: 7px 0; // Make the height 39px
 
     .blockName {
       background: none;

@@ -17,7 +17,7 @@ export const defaultEditor = {
           name: 'comment',
           source: 'original',
           inlineData: [
-            '🌈Welcome to b5!\nThis is still a work-in-progress project. Right now, please feel free to explore it!\n- WEAR MASK & STAY SAFE -',
+            '🌈 Welcome to b5!\nThis is still a work-in-progress project. Right now, please feel free to explore it!\n- WEAR MASK & STAY SAFE -',
           ],
         },
         1: {
@@ -50,7 +50,7 @@ export const defaultEditor = {
           name: 'comment',
           source: 'original',
           inlineData: [
-            '😎By the way, you can double click on the code canvas to add a block~',
+            '😎 By the way, you can double click on the code canvas to add a new block~',
           ],
         },
       },

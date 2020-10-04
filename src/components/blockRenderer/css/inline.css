@@ -1,0 +1,95 @@
+@import '../../../css/root.css';
+
+$inline-short-width: 110px;
+$inline-width: 110px;
+
+$inline-height: 39px;
+
+.blockFill {
+  .inlineCount0,
+  .inlineCount1 {
+    width: $inline-short-width;
+  }
+
+  .inlineCount2 {
+    width: $inline-width;
+  }
+
+  .inline {
+    display: inline-flex;
+    height: 39px;
+
+    .blockName {
+      margin: 7px auto;
+      background: none !important;
+      text-align: center;
+      padding-left: auto;
+      padding-right: auto;
+    }
+
+    // TEXT
+    .inlineText {
+      position: absolute;
+      display: inline-flex;
+      height: 100%;
+      width: 100%;
+      pointer-events: none;
+
+      .inlineTextLeft,
+      .inlineTextRight {
+        position: absolute;
+        width: 38px;
+        display: inline-block;
+        align-self: center;
+      }
+
+      .inlineTextLeft {
+        left: 0;
+        text-align: right;
+      }
+
+      .inlineTextRight {
+        right: 0;
+        text-align: left;
+      }
+    }
+
+    // NODE
+    .inlineInputCount1 {
+      width: 100%;
+
+      .count1 {
+        width: 100%;
+      }
+    }
+
+    .inlineInputCount2 {
+      width: 100%;
+
+      .count2 {
+        width: 50%;
+
+        &:first-of-type {
+          .node {
+            left: unset;
+            right: calc(20px - $node-size);
+          }
+        }
+
+        &:last-of-type {
+          .node {
+            left: 20px;
+          }
+        }
+      }
+    }
+
+    .inlineOutputCount1 {
+      width: 100%;
+
+      .count1 {
+        width: 100%;
+      }
+    }
+  }
+}

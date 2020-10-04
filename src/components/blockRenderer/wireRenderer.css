@@ -25,6 +25,7 @@
 
       &.selected {
         // For selected wire
+        z-index: 40700;
         filter: drop-shadow(0 0 5px color-mod($selected a($fade-op)));
       }
     }

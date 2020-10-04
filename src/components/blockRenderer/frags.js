@@ -7,6 +7,16 @@ import React, {
 } from 'react'
 import { SketchPicker } from 'react-color'
 
+import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper'
+
+export function _getParentBlockInBook(name) {
+  let source = null
+  for (let i in _b5BlocksObject)
+    if (_b5BlocksObject[i].hasOwnProperty(name)) source = i
+  if (!source) return false // TODO: Error handler
+  return _b5BlocksObject[source][name]
+}
+
 const _nodeBorderClassSelector = (
   type,
   connectType,

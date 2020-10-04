@@ -2,13 +2,15 @@ import React, { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
 
 import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper'
+
 import { lineHeight, roomWidth } from '../constants'
-import { Node } from './frags'
+import { _getParentBlockInBook, Node } from './frags'
 import {
   InputBlock,
   SliderBlock,
   ColorPickerBlock,
 } from './specialBlocks/special'
+import InlineBlock from './specialBlocks/inline'
 import CommentBlock from './specialBlocks/comment'
 import '../../postcss/components/blockRenderer/css/blockRenderer.css'
 
@@ -20,14 +22,6 @@ function _getTotalOffset(thisNode, targetClassName) {
   const total = _getTotalOffset(thisNode.parentNode, targetClassName)
 
   return [thisNode.offsetLeft + total[0], thisNode.offsetTop + total[1]]
-}
-
-function _getParentBlockInBook(name) {
-  let source = null
-  for (let i in _b5BlocksObject)
-    if (_b5BlocksObject[i].hasOwnProperty(name)) source = i
-  if (!source) return false // TODO: Error handler
-  return _b5BlocksObject[source][name]
 }
 
 class BlockRenderer extends Component {
@@ -110,6 +104,7 @@ class BlockRenderer extends Component {
   render() {
     const {
       action,
+      // input, output - undefined or object, inlineData - undefined or array
       data: { name, source, input, inlineData, output },
       inputBlocks,
       x,
@@ -123,6 +118,8 @@ class BlockRenderer extends Component {
     const { text, type, kind, inputNodes, outputNodes } = _b5BlocksObject[
       source
     ][name]
+    let inputNodesCount = inputNodes === null ? 0 : inputNodes.length,
+      outputNodesCount = outputNodes === null ? 0 : outputNodes.length
 
     let myBlock = null
 
@@ -206,6 +203,32 @@ class BlockRenderer extends Component {
         )
         break
       case 'inline':
+        // A InlineBlock has at most 2 inputs and 1 output
+        const inlineCount = Math.max(inputNodesCount, outputNodesCount)
+        myBlock = (
+          <>
+            {!action && (
+              <div className={'sudoBlock inlineCount' + inlineCount}></div>
+            )}
+            <InlineBlock
+              className={
+                'grab block ' + type + ' ' + kind + ' inlineCount' + inlineCount
+              }
+              text={text}
+              input={input}
+              output={output}
+              inputNodes={inputNodes}
+              outputNodes={outputNodes}
+              inputBlocks={inputBlocks}
+              type={type}
+              x={x}
+              y={y}
+              nodesRef={this.nodesRef}
+              focused={focused}
+              selectedNodes={selectedNodes}
+            />
+          </>
+        )
         break
       case 'method':
         break
@@ -239,11 +262,7 @@ class BlockRenderer extends Component {
           inputNodesText = [],
           outputNodesText = []
 
-        let inputNodesCount = 0,
-          outputNodesCount = 0
-
         if (inputNodes !== null) {
-          inputNodesCount = inputNodes.length
           for (let i in inputNodes) {
             blockInputNodes.push(
               <Node
@@ -278,7 +297,6 @@ class BlockRenderer extends Component {
         }
 
         if (outputNodes !== null) {
-          outputNodesCount = outputNodes.length
           for (let i in outputNodes) {
             blockOutputNodes.push(
               <Node
