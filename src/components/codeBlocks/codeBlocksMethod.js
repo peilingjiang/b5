@@ -15,7 +15,15 @@ const _onBlockCheckList_Re = [
   'pickerName'
 ]
 */
-const _onBlockCheckList = ['blockName', 'block', 'left', 'right', 'nodeText']
+const _onBlockCheckList = [
+  'blockName',
+  'block',
+  'left',
+  'right',
+  'nodeText',
+  'sliderBox',
+  'rangeBelow',
+]
 export const hoveringOnBlock = classList => {
   for (let i of _onBlockCheckList) if (classList.contains(i)) return true
   return false
