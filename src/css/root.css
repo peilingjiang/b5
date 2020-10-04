@@ -22,6 +22,7 @@ $draw: #f35c87;
 $library: #b55bcd;
 
 $comment: #ffebb7;
+$comment-corner: color-mod($comment blend($black 7%));
 
 $alert: #cf1b1b;
 $selected: #07689f;

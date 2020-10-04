@@ -4,6 +4,8 @@
 $comment-width: 176px;
 $note-line-height: 150%;
 
+$corner-size: 13px;
+
 .blockFill {
   .commentWidth {
     // For sudoBlock
@@ -22,6 +24,14 @@ $note-line-height: 150%;
     width: $comment-width;
     height: fit-content;
     border-radius: 0 !important;
+    overflow: hidden;
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% calc(100% - $corner-size),
+      calc(100% - $corner-size) 100%,
+      0 100%
+    );
 
     .writingArea {
       outline: none;
@@ -30,7 +40,7 @@ $note-line-height: 150%;
       margin: 3px 3px $bottom-tiny-height;
       padding: 3px 7px 3px;
       // border-radius: $tiny-tiny-radius;
-      background-color: color-mod($comment blend(#fff 87%));
+      background-color: color-mod($comment blend(#fff 70%));
       width: calc($comment-width - 6px);
       height: fit-content;
       min-height: 27px;
@@ -44,13 +54,16 @@ $note-line-height: 150%;
       line-height: $note-line-height;
       white-space: pre-wrap;
       word-wrap: break-word;
-      // clip-path: polygon(
-      //   0 0,
-      //   100% 0,
-      //   100% calc(100% - 6px),
-      //   calc(100% - 6px) 100%,
-      //   0 100%
-      // );
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: $corner-size;
+      height: $corner-size;
+      background-color: $comment-corner;
     }
   }
 

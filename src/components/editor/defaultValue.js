@@ -46,6 +46,13 @@ export const defaultEditor = {
             2: null,
           },
         },
+        2: {
+          name: 'comment',
+          source: 'original',
+          inlineData: [
+            '😎By the way, you can double click on the code canvas to add a block~',
+          ],
+        },
       },
     },
   },
