@@ -2,7 +2,7 @@
 @import './constants.css';
 
 $comment-width: 176px;
-$note-line-height: 150%;
+$note-line-height: 140%;
 
 $corner-size: 13px;
 
@@ -44,12 +44,12 @@ $corner-size: 13px;
       width: calc($comment-width - 6px);
       height: fit-content;
       min-height: 27px;
-      max-height: 96px;
+      max-height: 92px;
       overflow: hidden;
       overflow-y: scroll;
       text-align: left;
       font-size: $small;
-      color: $dark-grey;
+      color: color-mod($dark-grey blend($comment 20%));
       font-weight: $regular;
       line-height: $note-line-height;
       white-space: pre-wrap;
@@ -64,6 +64,7 @@ $corner-size: 13px;
       width: $corner-size;
       height: $corner-size;
       background-color: $comment-corner;
+      z-index: 1;
     }
   }
 
