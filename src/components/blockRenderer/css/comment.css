@@ -35,7 +35,7 @@ $note-line-height: 150%;
       height: fit-content;
       min-height: 27px;
       max-height: 96px;
-      // overflow: hidden;
+      overflow: hidden;
       overflow-y: scroll;
       text-align: left;
       font-size: $small;
