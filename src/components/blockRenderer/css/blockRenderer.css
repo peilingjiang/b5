@@ -78,7 +78,9 @@ $node-0-1-width: 110px;
       user-select: none;
     }
 
-    .node {
+    .node,
+    textArea,
+    input {
       pointer-events: none;
     }
   }
