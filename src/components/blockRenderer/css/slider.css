@@ -29,6 +29,7 @@ $slider-width: 176px;
         height: 100%;
         background-color: color-mod($object a($light-op));
         margin: 0 auto 0 0;
+        pointer-events: none;
       }
 
       .thumb {

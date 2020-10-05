@@ -22,7 +22,6 @@ const _onBlockCheckList = [
   'right',
   'nodeText',
   'sliderBox',
-  'rangeBelow',
 ]
 export const hoveringOnBlock = classList => {
   for (let i of _onBlockCheckList) if (classList.contains(i)) return true

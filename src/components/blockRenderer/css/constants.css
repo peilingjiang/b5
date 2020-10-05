@@ -5,6 +5,7 @@ $bottom-tiny-height: 11px;
 
 @mixin bottom-text {
   font-size: $small;
+  // font-weight: $medium;
   height: $bottom-height;
   width: 50%;
   text-align: left;
