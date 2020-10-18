@@ -34,23 +34,42 @@ class _b5Fuse {
   }
 }
 
-_b5Fuse.prototype.update = function () {
+_b5Fuse.prototype.update = function (source) {
   // Reconstruct Fuse search database
   delete this.base
   this.base = []
-  this.base.push(...this.originalBase)
-  this.base.push(...this._constructArray(this.b5Blocks.custom, 'custom'))
-  this.base.push(...this._constructArray(this.b5Blocks.library, 'library'))
+  this._constructOriginal(this.base, this.originalBase, source)
+
+  if (source === 'playground')
+    this._constructBase(this.base, this.b5Blocks.custom, 'custom')
+
+  this._constructBase(this.base, this.b5Blocks.library, 'library')
   this.fuse.setCollection(this.base)
+  console.log(this.base)
 }
 
 _b5Fuse.prototype.search = function (value) {
   return this.fuse.search(value)
 }
 
+_b5Fuse.prototype._constructOriginal = function (base, original, s) {
+  if (s === 'playground')
+    original.forEach(element => {
+      if (this._filterForPlayground(element)) base.push(element)
+    })
+  else if (s === 'function')
+    original.forEach(element => {
+      if (this._filterForFunction(element)) base.push(element)
+    })
+  else if (s === 'variable')
+    original.forEach(element => {
+      if (this._filterForVariable(element)) base.push(element)
+    })
+}
+
 _b5Fuse.prototype._constructArray = function (obj, src) {
   return Object.keys(obj).reduce((result, key) => {
-    if (typeof obj[key] === 'object' && key !== 'library')
+    if (typeof obj[key] === 'object' && key !== 'library') {
       result.push({
         name: key,
         source: src,
@@ -58,8 +77,36 @@ _b5Fuse.prototype._constructArray = function (obj, src) {
         text: obj[key].text,
         type: obj[key].type,
       })
+    }
     return result
   }, [])
+}
+
+_b5Fuse.prototype._constructBase = function (base, addon, src) {
+  Object.keys(addon).reduce((result, key) => {
+    if (typeof addon[key] === 'object' && key !== 'library') {
+      base.push({
+        name: key,
+        source: src,
+        description: addon[key].description,
+        text: addon[key].text,
+        type: addon[key].type,
+      })
+    }
+    return result
+  }, [])
+}
+
+_b5Fuse.prototype._filterForPlayground = function (element) {
+  return element.name !== 'createCanvas'
+}
+
+_b5Fuse.prototype._filterForFunction = function (element) {
+  return element.name !== 'createCanvas'
+}
+
+_b5Fuse.prototype._filterForVariable = function (element) {
+  return true
 }
 
 const _b5Search = new _b5Fuse(_b5BlocksObject, options)

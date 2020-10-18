@@ -16,7 +16,7 @@ export default class BlockSearch extends Component {
     }
   }
   componentDidMount() {
-    _b5Search.update()
+    _b5Search.update(this.props.codeCanvasSource)
     document.addEventListener('mousedown', this.searchingMouseDown)
     document.addEventListener('keydown', this.handleKeydown)
     this.inputRef.focus()
