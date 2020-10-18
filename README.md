@@ -5,6 +5,8 @@
 # b5
 
 [![Build Status](https://travis-ci.com/peilingjiang/b5.svg?branch=master)](https://travis-ci.com/peilingjiang/b5)
+[![DeepScan grade](https://deepscan.io/api/teams/11376/projects/14279/branches/261607/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=11376&pid=14279&bid=261607)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/d043b1d3-5e60-474a-9a34-a929fba58375/deploy-status)](https://app.netlify.com/sites/b5-dev/deploys)
 
 A visual programming environment for graphics, interaction, and fun. Based on [p5.js](https://p5js.org/) library.
 
