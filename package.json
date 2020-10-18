@@ -14,7 +14,7 @@
     "p5": "^1.1.9",
     "react": "^16.14.0",
     "react-color": "^2.18.1",
-    "react-dom": "^16.13.1",
+    "react-dom": "^16.14.0",
     "react-fast-compare": "^3.2.0",
     "react-ga": "^3.2.0",
     "react-scripts": "^3.4.3",
