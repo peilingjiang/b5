@@ -374,7 +374,7 @@ export default class CodeBlocks extends Component {
       this.blocksRef[y][x] = createRef()
       // Remove old
       delete this.blocksRef[bInd[0]][bInd[1]]
-      if (this.blocksRef[bInd[0]] === {}) delete this.blocksRef[bInd[0]]
+      if (equal(this.blocksRef[bInd[0]], {})) delete this.blocksRef[bInd[0]]
 
       this.props.collect(
         [bInd[1], bInd[0], x.toString(), y.toString()],

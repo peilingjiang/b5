@@ -30,8 +30,7 @@ export const hoveringOnBlock = classList => {
 
 const _onWireCheckList = ['wire', 'wireBackground']
 export const hoveringOnWire = classList => {
-  for (let i in _onWireCheckList)
-    if (classList.contains(_onWireCheckList[i])) return true
+  for (let i of _onWireCheckList) if (classList.contains(i)) return true
   return false
 }
 
@@ -50,8 +49,8 @@ export const operationalClick = target => {
   let depth = 0
   while (target.parentElement !== null && depth < 2) {
     if (target.classList.length)
-      for (let i in operationalClassNames)
-        if (target.classList.contains(operationalClassNames[i])) return true
+      for (let i of operationalClassNames)
+        if (target.classList.contains(i)) return true
     target = target.parentElement
     depth++
   }
