@@ -131,6 +131,7 @@ export class ColorPickerBlock extends Component {
 }
 
 const _inputRangeThumbWidth = 1
+const _stepRange = [0, Infinity]
 
 class InputRange extends Component {
   constructor(props) {
@@ -304,7 +305,7 @@ class InputRange extends Component {
             thisInlineData={inlineData[3]}
             thisDataType={'number'}
             inlineDataInd={3}
-            range={[0, Infinity]}
+            range={_stepRange}
             name={name}
             x={x}
             y={y}

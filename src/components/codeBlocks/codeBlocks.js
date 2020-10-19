@@ -13,6 +13,11 @@ import {
   _removeClassNameByClass,
 } from './codeBlocksMethod'
 
+const _emptyR = {
+  input: [],
+  output: [],
+}
+
 export default class CodeBlocks extends Component {
   constructor(props) {
     super() // data, canvas, collect, scale (for moving)
@@ -486,6 +491,7 @@ export default class CodeBlocks extends Component {
 
   _areSelectedNodes = (y, x) => {
     const selectedInNodes = this.state.selectedWire
+
     const { data } = this.props
     const r = {
       input: [],
@@ -575,7 +581,11 @@ export default class CodeBlocks extends Component {
             scale={scale}
             inputBlocks={inputBlocks}
             focused={this._isFocused([i, j])}
-            selectedNodes={this._areSelectedNodes(i, j)}
+            selectedNodes={
+              this.state.selectedWire.length
+                ? this._areSelectedNodes(i, j)
+                : _emptyR
+            }
             collect={collect}
             collectNodesOffset={this.collectNodesOffset}
           />

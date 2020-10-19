@@ -10,35 +10,34 @@ class Wire extends PureComponent {
   render() {
     const { focused, selected, dragged, inputNode } = this.props
 
-    let {
-      start: [x1, y1],
-      end: [x2, y2],
-    } = this.props
+    let { startX, startY, endX, endY } = this.props
 
-    const inputNodeData = inputNode
+    let inputNodeArray = inputNode ? inputNode.split(' ') : null
+
+    const inputNodeData = inputNodeArray
       ? {
-          'data-y': inputNode[0],
-          'data-x': inputNode[1],
-          'data-node': inputNode[2],
+          'data-y': inputNodeArray[0],
+          'data-x': inputNodeArray[1],
+          'data-node': inputNodeArray[2],
         }
       : null
 
-    const canvasLeft = Math.min(x1, x2) - sizeOffset - _dragOvalR
-    const canvasTop = Math.min(y1, y2) - _dragOvalR
+    const canvasLeft = Math.min(startX, endX) - sizeOffset - _dragOvalR
+    const canvasTop = Math.min(startY, endY) - _dragOvalR
 
-    x1 = x1 - canvasLeft
-    x2 = x2 - canvasLeft
-    y1 = y1 - canvasTop + sizeOffset
-    y2 = y2 - canvasTop + sizeOffset
+    startX = startX - canvasLeft
+    endX = endX - canvasLeft
+    startY = startY - canvasTop + sizeOffset
+    endY = endY - canvasTop + sizeOffset
     // To get the mid point, divide by 2
-    const factor = Math.abs(x1 - x2) > 50 ? 2 : 2.5
-    const yOffset = (y2 - y1) / factor
+    const factor = Math.abs(startX - endX) > 50 ? 2 : 2.5
+    const yOffset = (endY - startY) / factor
 
     const d = `
-      M ${x1} ${y1}
-      C ${x1} ${y1 + yOffset},
-        ${x2} ${y2 - yOffset},
-        ${x2} ${y2}
+      M ${startX} ${startY}
+      C ${startX} ${startY + yOffset},
+        ${endX} ${endY - yOffset},
+        ${endX} ${endY}
     `
 
     // sizeOffset is half of the nodeSize
@@ -48,8 +47,8 @@ class Wire extends PureComponent {
         style={{ left: canvasLeft + 'px', top: canvasTop + 'px' }}
       >
         <svg
-          width={`${Math.abs(x1 - x2) + nodeSize + dragOvalSize}px`}
-          height={`${Math.abs(y1 - y2) + nodeSize + dragOvalSize}px`}
+          width={`${Math.abs(startX - endX) + nodeSize + dragOvalSize}px`}
+          height={`${Math.abs(startY - endY) + nodeSize + dragOvalSize}px`}
           className={'wireHolder' + (selected ? ' selected' : '')}
         >
           {/* Only show background when not selected */}
@@ -72,7 +71,7 @@ class Wire extends PureComponent {
         {/* Dragging point oval, only when dragged */}
         {dragged && (
           <svg width="100%" height="100%" className="dragOvalHolder">
-            <circle cx={x2} cy={y2} r={_dragOvalR} className="dragOval" />
+            <circle cx={endX} cy={endY} r={_dragOvalR} className="dragOval" />
           </svg>
         )}
       </div>
@@ -85,21 +84,18 @@ export default class WireRenderer extends Component {
     return !equal(nextProps, this.props)
   }
 
-  _isFocused = (y1, x1, y2, x2) => {
+  _isFocused = (node1, node2) => {
+    // node1 === [y1, x1]
+    // node2 === [y2, x2]
     const f = this.props.focused
 
-    for (let i in f)
-      if (
-        (f[i][0] === y1 && f[i][1] === x1) ||
-        (f[i][0] === y2 && f[i][1] === x2)
-      )
-        return true
+    for (let i in f) if (equal(node1, f[i]) || equal(node2, f[i])) return true
     return false
   }
 
-  _isSelected = (y, x, node) => {
+  _isSelected = thisNode => {
     const s = this.props.selectedWire
-    const thisNode = [y, x, node]
+    // const thisNode = [y, x, node]
 
     for (let i in s) if (equal(s[i], thisNode)) return true
     return false
@@ -117,18 +113,23 @@ export default class WireRenderer extends Component {
           if (data[i] && data[i][j] && data[i][j].input[node]) {
             // TODO: How can we remove the safe check (data[i] && data[i][j])? (mainly for deleteBlock task)
             const c = data[i][j].input[node] // Connected output node, [1, 2, 1]
-            if (nodesOffset[c[0]] && nodesOffset[c[0]][c[1]])
+            if (nodesOffset[c[0]] && nodesOffset[c[0]][c[1]]) {
+              const s = nodesOffset[i][j].input[node]
+              const e = nodesOffset[c[0]][c[1]].output[c[2]]
               wires.push(
                 <Wire
                   key={'wire ' + i + j + node + c[0] + c[1] + c[2]}
-                  start={nodesOffset[i][j].input[node]} // [141, 195]
-                  end={nodesOffset[c[0]][c[1]].output[c[2]]}
-                  focused={this._isFocused(i, j, c[0], c[1])}
-                  selected={this._isSelected(i, j, node)}
+                  startX={s[0]} // [141, 195]
+                  startY={s[1]}
+                  endX={e[0]}
+                  endY={e[1]}
+                  focused={this._isFocused([i, j], [c[0], c[1]])}
+                  selected={this._isSelected([i, j, node])}
                   dragged={false}
-                  inputNode={[i, j, node]} // For wire selection
+                  inputNode={i + ' ' + j + ' ' + node} // For wire selection
                 />
               )
+            }
           }
 
     // Render temp wire if trying to add new connection
@@ -136,8 +137,10 @@ export default class WireRenderer extends Component {
       wires.push(
         <Wire
           key={'tempWire'}
-          start={draggingWire.start}
-          end={draggingWire.end}
+          startX={draggingWire.start[0]}
+          startY={draggingWire.start[1]}
+          endX={draggingWire.end[0]}
+          endY={draggingWire.end[1]}
           focused={true}
           selected={false}
           dragged={true} // Draw a highlight circle at the dragging point
