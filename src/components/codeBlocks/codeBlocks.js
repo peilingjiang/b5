@@ -73,12 +73,9 @@ export default class CodeBlocks extends Component {
       } else {
         for (let x in prevData[y]) {
           if (!data[y][x]) {
+            // x not in data
             delete this.blocksRef[y][x]
             --x
-            if (equal(this.blocksRef[y], {})) {
-              delete this.blocksRef[y]
-              --y
-            }
           }
         }
       }

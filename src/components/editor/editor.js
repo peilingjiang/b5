@@ -379,6 +379,7 @@ export default class Editor extends Component {
           },
           function () {
             that._resolveLoadB5File()
+            that._storeEditor()
           }
         )
       }
