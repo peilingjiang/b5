@@ -9,9 +9,9 @@
     display: inline-flex;
     width: $icon-total-size;
     height: $icon-total-size;
-    background-color: #fff;
+    // background-color: #fff;
+    // border: $regular-border;
     border-radius: 18px;
-    border: $regular-border;
     margin: $gap 0;
     padding: 0;
     text-align: center;

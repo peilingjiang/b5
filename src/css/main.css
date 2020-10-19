@@ -61,5 +61,11 @@ body {
 }
 
 .no-events {
+  pointer-events: none !important;
+}
+
+.no-opacity {
+  // display: none;
   pointer-events: none;
+  opacity: 0;
 }

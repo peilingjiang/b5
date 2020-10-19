@@ -85,6 +85,7 @@ $slider-width: 176px;
         text-align: right;
         padding: 4px 0;
         right: calc(39px + 3px);
+        pointer-events: none;
       }
 
       .max {

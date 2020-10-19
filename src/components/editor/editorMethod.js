@@ -120,3 +120,9 @@ export const inlineDataChange = (data, thisBlocks) => {
   const [x, y, ind, value] = data
   thisBlocks[y][x].inlineData[ind] = value
 }
+
+export function getFormattedTime() {
+  let today = new Date()
+  let tS = today.toString().split(' ')
+  return tS[1] + ' ' + tS[2] + '-' + tS[4].replace(':', '').replace(':', '-')
+}

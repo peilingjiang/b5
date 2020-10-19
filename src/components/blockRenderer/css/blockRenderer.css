@@ -102,12 +102,14 @@ $node-0-1-width: 110px;
       font-weight: $regular;
       // background-color: rgba(255, 255, 255, 0.12);
       background-color: rgba(0, 0, 0, 0.05);
+      pointer-events: none;
     }
 
     .nodesText {
       line-height: $small;
       font-size: $small;
       font-weight: $medium;
+      pointer-events: none;
     }
   }
 

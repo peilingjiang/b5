@@ -21,11 +21,7 @@ export default class CodeBlocks extends Component {
     const { data } = props
 
     this.blocksRef = {}
-
-    for (let i in data) {
-      if (!this.blocksRef[i]) this.blocksRef[i] = {}
-      for (let j in data[i]) this.blocksRef[i][j] = createRef()
-    }
+    this._updateBlocksRef(data)
 
     this.codeBlocks = createRef()
     this.blocksNodesRef = {}
@@ -54,18 +50,40 @@ export default class CodeBlocks extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     if (!equal(nextProps.data, this.props.data)) {
       // Data updated, e.g. added a new block in block search
-      for (let y in nextProps.data) {
-        if (!this.blocksRef[y]) this.blocksRef[y] = {}
-        for (let x in nextProps.data[y])
-          if (!this.blocksRef[y][x]) this.blocksRef[y][x] = createRef()
-      }
+      this._updateBlocksRef(nextProps.data, this.props.data)
     }
+
     return (
       !equal(nextProps.data, this.props.data) || !equal(nextState, this.state)
     )
   }
 
-  handleClick = e => {}
+  _updateBlocksRef = (data, prevData = {}) => {
+    for (let y in data) {
+      if (!this.blocksRef[y]) this.blocksRef[y] = {}
+      for (let x in data[y])
+        if (!this.blocksRef[y][x]) this.blocksRef[y][x] = createRef()
+    }
+
+    for (let y in prevData) {
+      if (!data[y]) {
+        // y not in data
+        delete this.blocksRef[y]
+        --y
+      } else {
+        for (let x in prevData[y]) {
+          if (!data[y][x]) {
+            delete this.blocksRef[y][x]
+            --x
+            if (equal(this.blocksRef[y], {})) {
+              delete this.blocksRef[y]
+              --y
+            }
+          }
+        }
+      }
+    }
+  }
 
   handleMouseDown = e => {
     if (e.which === 1) {
@@ -401,6 +419,7 @@ export default class CodeBlocks extends Component {
     for (let i in this.blocksRef)
       for (let j in this.blocksRef[i]) {
         if (
+          this.blocksRef[i][j].current && // ? Remove this safe
           this.blocksRef[i][j].current.offsetLeft === target.offsetLeft &&
           this.blocksRef[i][j].current.offsetTop === target.offsetTop
         )
@@ -547,10 +566,11 @@ export default class CodeBlocks extends Component {
         let inputBlocks = data[i][j].input
           ? this._getInputNodes(data[i][j].input)
           : null
+
         blocks.push(
           <BlockRenderer
             action={true} // true === 'action', false === 'preview'
-            key={'block ' + i + ' ' + j}
+            key={i + ' ' + j + ' ' + data[i][j].name}
             thisBlockRef={this.blocksRef[i][j]}
             data={data[i][j]}
             y={i}

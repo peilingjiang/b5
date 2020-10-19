@@ -82,6 +82,7 @@ class BlockRenderer extends Component {
       input: [],
       output: [],
     }
+
     for (let i = 0; i < this.inputNum; i++)
       data.input.push(
         _getTotalOffset(this.nodesRef.input[i].current, 'blockFill')

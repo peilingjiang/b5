@@ -89,15 +89,9 @@ export class InputBox extends PureComponent {
     this.inputRef = createRef()
   }
 
-  componentDidMount() {
-    if (this.props.action)
-      this.inputRef.current.addEventListener('click', this.handleClick, true)
-  }
+  // componentDidMount() {}
 
-  componentWillUnmount() {
-    if (this.props.action)
-      this.inputRef.current.removeEventListener('click', this.handleClick, true)
-  }
+  // componentWillUnmount() {}
 
   componentDidUpdate() {
     this.inputRef.current.value = this.props.thisInlineData
@@ -129,12 +123,7 @@ export class InputBox extends PureComponent {
         this.inputRef.current.blur()
 
         // Remove listeners
-        this.inputRef.current.removeEventListener(
-          'keypress',
-          this._keyFinished,
-          true
-        )
-        document.removeEventListener('mousedown', this._clickFinished, true)
+        this.inputRef.current.removeEventListener('keypress', this._keyFinished)
       }
     }
   }
@@ -143,13 +132,8 @@ export class InputBox extends PureComponent {
     if (e.key === 'Enter') this._finished(false) // Keep editing after pressing return...
   }
 
-  _clickFinished = e => {
-    if (e.target !== this.inputRef.current) this._finished(true)
-  }
-
-  handleClick = e => {
-    this.inputRef.current.addEventListener('keypress', this._keyFinished, true)
-    document.addEventListener('mousedown', this._clickFinished, true)
+  handleFocus = e => {
+    this.inputRef.current.addEventListener('keypress', this._keyFinished)
   }
 
   handleValueChange = () => {
@@ -175,6 +159,10 @@ export class InputBox extends PureComponent {
     }
   }
 
+  handleBlur = e => {
+    this._finished(true)
+  }
+
   render() {
     const { action, className, thisInlineData, name } = this.props
     return (
@@ -189,6 +177,8 @@ export class InputBox extends PureComponent {
         type="text"
         defaultValue={thisInlineData}
         onChange={this.handleValueChange}
+        onFocus={this.handleFocus}
+        onBlur={this.handleBlur}
         disabled={action ? false : true}
       ></input>
     )

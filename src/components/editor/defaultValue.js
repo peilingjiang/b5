@@ -135,9 +135,9 @@ const nativeSectionData = {
     removable: true,
     type: '' /* Modify before adding... */,
     /*
-type should always be 'variable', 'function', and 'object'
-(w/out 's'!) in the data object and passed along the functions
-*/
+     type should always be 'variable', 'function', and 'object'
+     (w/out 's'!) in the data object and passed along the functions
+     */
     lineStyles: {},
     blocks: {},
   },

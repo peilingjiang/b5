@@ -45,7 +45,6 @@ _b5Fuse.prototype.update = function (source) {
 
   this._constructBase(this.base, this.b5Blocks.library, 'library')
   this.fuse.setCollection(this.base)
-  console.log(this.base)
 }
 
 _b5Fuse.prototype.search = function (value) {
@@ -84,7 +83,7 @@ _b5Fuse.prototype._constructArray = function (obj, src) {
 
 _b5Fuse.prototype._constructBase = function (base, addon, src) {
   Object.keys(addon).reduce((result, key) => {
-    if (typeof addon[key] === 'object' && key !== 'library') {
+    if (typeof addon[key] === 'object') {
       base.push({
         name: key,
         source: src,

@@ -1,5 +1,7 @@
 import React, { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
+import { Blob } from 'blob-polyfill'
+import { saveAs } from 'file-saver'
 
 import { IconList } from '../headers/headers'
 
@@ -9,21 +11,39 @@ import * as secMethod from './sectionMethod'
 import Playground from '../playground/playground'
 import Factory from '../factory/factory'
 import BlockSearch from '../blockSearch/blockSearch'
+import FileUpload from './fileUpload'
 import '../../postcss/components/editor/editor.css'
 
 import _b from './b5ObjectWrapper'
 
-import { defaultEditor, defaultEditorCanvasStyle } from './defaultValue'
+import { lineNumberWidth, blockAlphabetHeight } from '../constants'
+import {
+  defaultEditor,
+  defaultEditorCanvasStyle,
+  nativeSectionStyleToAdd,
+} from './defaultValue'
 import Logo from '../../img/logo/logo.svg'
 
 export default class Editor extends Component {
   constructor(props) {
     super()
 
+    let hasEditorInSession = false
+    let sessionEditor
+    if (sessionStorage.getItem('editor') !== null) {
+      hasEditorInSession = true
+      sessionEditor = JSON.parse(sessionStorage.getItem('editor'))
+    }
+
     this.state = {
-      editor: JSON.parse(JSON.stringify(defaultEditor)),
-      editorCanvasStyle: JSON.parse(JSON.stringify(defaultEditorCanvasStyle)),
+      editor: hasEditorInSession
+        ? sessionEditor
+        : JSON.parse(JSON.stringify(defaultEditor)),
+      editorCanvasStyle: hasEditorInSession
+        ? this._resolveLoadBr5FileStyle(sessionEditor)
+        : JSON.parse(JSON.stringify(defaultEditorCanvasStyle)),
       searching: false,
+      dragging: false,
     }
 
     /*
@@ -49,23 +69,17 @@ export default class Editor extends Component {
     // Make sure all the previous (or default) section blocks are registered
     _b.update(this.state.editor)
 
+    this.editorRef = createRef()
+    this.headerRef = createRef()
+    this.splitRef = createRef()
+    this.fileUploadRef = createRef()
+
     this.leftElement = createRef()
     this.rightElement = createRef()
     this.separator = createRef()
 
     // Create ref for each codeCanvas
-    this.codeCanvasRef = {
-      playground: createRef(),
-      factory: {
-        variable: [],
-        function: [],
-        object: [],
-      },
-    }
-    for (let cat in this.state.editor.factory)
-      this.codeCanvasRef.factory[cat] = this.state.editor.factory[cat].map(() =>
-        createRef()
-      )
+    this._createCodeCanvasRef(this.state.editor)
 
     // Search data
     this.search = {
@@ -74,14 +88,20 @@ export default class Editor extends Component {
       y: null, // Y of the blockRoom
       x: null, // X of the blockRoom
     }
+  }
 
-    // * KEYS
-    this.keys = {
-      Shift: false,
-      Meta: false, // command or win
-      Alt: false,
-      Control: false,
+  _createCodeCanvasRef = data => {
+    delete this.codeCanvasRef
+    this.codeCanvasRef = {
+      playground: createRef(),
+      factory: {
+        variable: [],
+        function: [],
+        object: [],
+      },
     }
+    for (let cat in data.factory)
+      this.codeCanvasRef.factory[cat] = data.factory[cat].map(() => createRef())
   }
 
   componentDidMount() {
@@ -89,9 +109,16 @@ export default class Editor extends Component {
     this.props.bridge(this.state.editor)
     this.separator.current.addEventListener('mousedown', this.handleDrag)
 
-    // TODO
-    // document.addEventListener('keydown', this.handleKeydown, true)
-    // document.addEventListener('keyup', this.handleKeyup, true)
+    document.addEventListener('keydown', this.handleKeydown)
+
+    this.editorRef.current.addEventListener('dragenter', this.handleDragenter)
+    this.editorRef.current.addEventListener('dragleave', this.handleDragleave)
+    this.editorRef.current.addEventListener(
+      'dragover',
+      this.handleDragover,
+      false
+    )
+    this.editorRef.current.addEventListener('drop', this.handleDrop, false)
   }
 
   componentDidUpdate() {
@@ -103,8 +130,21 @@ export default class Editor extends Component {
     if (this.separator.current)
       this.separator.current.removeEventListener('mousedown', this.handleDrag)
 
-    // document.removeEventListener('keydown', this.handleKeydown, true)
-    // document.removeEventListener('keyup', this.handleKeyup, true)
+    document.removeEventListener('keydown', this.handleKeydown)
+    this.editorRef.current.removeEventListener(
+      'dragenter',
+      this.handleDragenter
+    )
+    this.editorRef.current.removeEventListener(
+      'dragleave',
+      this.handleDragleave
+    )
+    this.editorRef.current.removeEventListener(
+      'dragover',
+      this.handleDragover,
+      false
+    )
+    this.editorRef.current.removeEventListener('drop', this.handleDrop, false)
 
     window.sessionStorage.removeItem('color')
   }
@@ -187,8 +227,15 @@ export default class Editor extends Component {
         // * if changes made to factory, bump updates in playground blocks
         // if (source !== 'playground')
         //   console.log(this.state.editor.factory[source][index])
+
+        this._storeEditor()
       }
     )
+  }
+
+  _storeEditor = () => {
+    // Store to sessionStorage
+    sessionStorage.setItem('editor', JSON.stringify(this.state.editor))
   }
 
   collectEditorCanvasStyle = (data, source, index = 0) => {
@@ -204,34 +251,39 @@ export default class Editor extends Component {
 
   // ! Section methods
   section = (task, type, data = null) => {
-    this.setState(prevState => {
-      let newState = JSON.parse(JSON.stringify(prevState)) // Deep copy
-      const f = newState.editor.factory
-      const fStyle = newState.editorCanvasStyle.factory
+    this.setState(
+      prevState => {
+        let newState = JSON.parse(JSON.stringify(prevState)) // Deep copy
+        const f = newState.editor.factory
+        const fStyle = newState.editorCanvasStyle.factory
 
-      switch (task) {
-        case 'add':
-          // No data
-          this.codeCanvasRef.factory[type].push(createRef()) // Create new canvas ref
-          secMethod.addSection(type, f, fStyle)
-          break
-        case 'delete':
-          // [index]
-          secMethod.deleteSection(
-            type,
-            data[0],
-            this.codeCanvasRef.factory,
-            f,
-            fStyle
-          )
-          break
+        switch (task) {
+          case 'add':
+            // No data
+            this.codeCanvasRef.factory[type].push(createRef()) // Create new canvas ref
+            secMethod.addSection(type, f, fStyle)
+            break
+          case 'delete':
+            // [index]
+            secMethod.deleteSection(
+              type,
+              data[0],
+              this.codeCanvasRef.factory,
+              f,
+              fStyle
+            )
+            break
 
-        default:
-          break
+          default:
+            break
+        }
+
+        return newState
+      },
+      function () {
+        this._storeEditor()
       }
-
-      return newState
-    })
+    )
   }
 
   // ! Split methods
@@ -263,23 +315,122 @@ export default class Editor extends Component {
 
   // ! KEYS
   handleKeydown = e => {
-    // e.preventDefault()
-    this.keys[e.key] = true
+    if (e.key === 's' && e.metaKey) {
+      // ! SAVE
+      e.preventDefault()
+      this.save()
+    }
   }
 
-  handleKeyup = e => {
-    this.keys[e.key] = false
+  save = () => {
+    let b = new Blob([JSON.stringify(this.state.editor)], {
+      type: 'application/json',
+    })
+    saveAs(b, method.getFormattedTime() + '.b5.json')
+  }
+
+  // ! Drag and Drop
+  handleDragenter = e => {
+    e.preventDefault()
+    e.stopPropagation()
+    // this.headerRef.current.classList.add('no-events')
+    // this.splitRef.current.classList.add('no-events')
+    this.setState({ dragging: true })
+  }
+
+  handleDragleave = e => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    if (e.target.className.includes('fileUpload'))
+      this.setState({ dragging: false })
+  }
+
+  handleDragover = e => {
+    e.preventDefault()
+  }
+
+  handleDrop = e => {
+    e.preventDefault()
+    e.stopPropagation()
+    let file = e.dataTransfer.files[0]
+    this.readFile(file)
+
+    if (e.target.className.includes('fileUpload'))
+      this.setState({ dragging: false })
+  }
+
+  readFile = file => {
+    if (file.type.match('application/json') && file.name.includes('.b5')) {
+      let reader = new FileReader()
+      let that = this
+
+      reader.onload = e => {
+        let result = JSON.parse(e.target.result)
+        let s = this._resolveLoadBr5FileStyle(result)
+        that.setState(
+          prevState => {
+            const newState = JSON.parse(JSON.stringify(prevState))
+            newState.editorCanvasStyle = s
+            newState.editor = result
+            this._createCodeCanvasRef(result)
+
+            return newState
+          },
+          function () {
+            that._resolveLoadB5File()
+          }
+        )
+      }
+
+      reader.readAsText(file)
+    }
+
+    return false
+  }
+
+  _resolveLoadB5File = () => {
+    _b.update(this.state.editor)
+    this.props.bridge(this.state.editor)
+  }
+
+  _resolveLoadBr5FileStyle = r => {
+    // r - result / editor data
+    const style = {
+      playground: {
+        left: lineNumberWidth,
+        top: blockAlphabetHeight,
+        scale: 1,
+      },
+      factory: {
+        variable: [],
+        function: [],
+        object: [],
+      },
+    }
+
+    r.factory.variable.forEach(i => {
+      style.factory.variable.push(JSON.parse(nativeSectionStyleToAdd))
+    })
+
+    r.factory.function.forEach(i => {
+      style.factory.function.push(JSON.parse(nativeSectionStyleToAdd))
+    })
+
+    // object...
+
+    return style
   }
 
   render() {
-    const { editor, editorCanvasStyle, searching } = this.state
+    const { editor, editorCanvasStyle, searching, dragging } = this.state
     const {
       search: { source, index, x, y },
     } = this
 
     return (
-      <div id="editor" className="editor">
-        <div className="header">
+      <div id="editor" className="editor" ref={this.editorRef}>
+        <div className="header" ref={this.headerRef}>
           <IconList
             iconsName={['Settings', 'File', 'Share']}
             iconsOnClickFunc={[null, null, null]}
@@ -306,7 +457,7 @@ export default class Editor extends Component {
           </a>
         </div>
 
-        <div className="split">
+        <div className="split" ref={this.splitRef}>
           <div ref={this.leftElement} id="editor-left">
             <div id="factory">
               {/* Variables Functions Objects */}
@@ -346,6 +497,8 @@ export default class Editor extends Component {
             roomX={x}
           />
         )}
+
+        <FileUpload display={dragging} ref={this.fileUploadRef} />
       </div>
     )
   }
