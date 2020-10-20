@@ -1,4 +1,5 @@
 import { searchBarWidth, searchBarHeight } from '../constants'
+import tinycolor from 'tinycolor2'
 
 export const hoveringOnSearchBar = target => {
   let depth = 0
@@ -54,5 +55,13 @@ export const getNameFromBlockFill = target => {
 }
 
 export const randomColor = () => {
-  return '#' + Math.floor(Math.random() * 16777215).toString(16) + 'ff'
+  let c
+
+  do {
+    c = tinycolor(
+      '#' + Math.floor(Math.random() * 16777215).toString(16) + 'ff'
+    )
+  } while (!c.isValid())
+
+  return c.toHex8String()
 }

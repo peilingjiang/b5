@@ -69,3 +69,8 @@ body {
   pointer-events: none;
   opacity: 0;
 }
+
+.disabledText {
+  color: $light-grey !important;
+  pointer-events: none !important;
+}

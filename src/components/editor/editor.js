@@ -1,7 +1,5 @@
 import React, { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
-import { Blob } from 'blob-polyfill'
-import { saveAs } from 'file-saver'
 
 import { IconList } from '../headers/headers'
 
@@ -323,10 +321,7 @@ export default class Editor extends Component {
   }
 
   save = () => {
-    let b = new Blob([JSON.stringify(this.state.editor)], {
-      type: 'application/json',
-    })
-    saveAs(b, method.getFormattedTime() + '.b5.json')
+    method._saveEditor(this.state.editor)
   }
 
   // ! Drag and Drop
@@ -423,11 +418,35 @@ export default class Editor extends Component {
     return style
   }
 
+  initEditor = () => {
+    this.setState(
+      prevState => {
+        const newState = JSON.parse(JSON.stringify(prevState))
+        newState.editor = JSON.parse(JSON.stringify(defaultEditor))
+        newState.editorCanvasStyle = this._resolveLoadBr5FileStyle(
+          newState.editor
+        )
+        this._createCodeCanvasRef(newState.editor)
+
+        return newState
+      },
+      function () {
+        this._resolveLoadB5File()
+        this._storeEditor()
+      }
+    )
+  }
+
   render() {
     const { editor, editorCanvasStyle, searching, dragging } = this.state
     const {
       search: { source, index, x, y },
     } = this
+
+    const functions = {
+      save: this.save,
+      new: this.initEditor,
+    }
 
     return (
       <div id="editor" className="editor" ref={this.editorRef}>
@@ -435,11 +454,14 @@ export default class Editor extends Component {
           <IconList
             iconsName={['Settings', 'File', 'Share']}
             iconsOnClickFunc={[null, null, null]}
-            iconsDisabled={[false, false, false]}
+            iconsDisabled={_allFalse}
+            enableDropdown={true}
+            // Functions
+            functions={functions}
           />
 
           <p className="dev issueTag">
-            v{process.env.REACT_APP_VERSION} alpha -{' '}
+            {/* Take env! */}v{process.env.REACT_APP_VERSION} alpha -{' '}
             <a
               href="https://github.com/peilingjiang/b5/issues/new"
               rel="noopener noreferrer"
@@ -504,3 +526,5 @@ export default class Editor extends Component {
     )
   }
 }
+
+const _allFalse = [false, false, false]

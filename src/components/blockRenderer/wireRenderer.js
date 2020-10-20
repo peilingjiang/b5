@@ -110,10 +110,19 @@ export default class WireRenderer extends Component {
     for (let i in nodesOffset) // y from input node
       for (let j in nodesOffset[i]) // x from input node
         for (let node in nodesOffset[i][j].input)
-          if (data[i] && data[i][j] && data[i][j].input[node]) {
+          if (
+            data[i] &&
+            data[i][j] &&
+            data[i][j].input &&
+            data[i][j].input[node]
+          ) {
             // TODO: How can we remove the safe check (data[i] && data[i][j])? (mainly for deleteBlock task)
             const c = data[i][j].input[node] // Connected output node, [1, 2, 1]
-            if (nodesOffset[c[0]] && nodesOffset[c[0]][c[1]]) {
+            if (
+              nodesOffset[c[0]] &&
+              nodesOffset[c[0]][c[1]] &&
+              nodesOffset[c[0]][c[1]].output[c[2]]
+            ) {
               const s = nodesOffset[i][j].input[node]
               const e = nodesOffset[c[0]][c[1]].output[c[2]]
               wires.push(

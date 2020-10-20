@@ -1,4 +1,6 @@
 import equal from 'react-fast-compare'
+import { Blob } from 'blob-polyfill'
+import { saveAs } from 'file-saver'
 
 import { makeBlock } from '../make'
 
@@ -125,4 +127,12 @@ export function getFormattedTime() {
   let today = new Date()
   let tS = today.toString().split(' ')
   return tS[1] + ' ' + tS[2] + '-' + tS[4].replace(':', '').replace(':', '-')
+}
+
+// ! SAVE
+export function _saveEditor(editor) {
+  let b = new Blob([JSON.stringify(editor)], {
+    type: 'application/json',
+  })
+  saveAs(b, getFormattedTime() + '.b5.json')
 }

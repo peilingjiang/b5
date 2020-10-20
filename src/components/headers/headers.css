@@ -11,16 +11,16 @@
     height: $icon-total-size;
     // background-color: #fff;
     // border: $regular-border;
-    border-radius: 18px;
     margin: $gap 0;
     padding: 0;
     text-align: center;
     cursor: pointer;
+    background: none;
+    z-index: 200017;
   }
 
   .toolbarIconDisabled {
-    background-color: $background-grey;
-    cursor: inherit;
+    pointer-events: none;
 
     img {
       opacity: $fade-op;
@@ -28,26 +28,103 @@
   }
 
   .toolbarIcon:not(.toolbarIconDisabled):hover {
-    background-color: $hover-grey;
+    .toolbarIconBg {
+      background-color: $hover-grey;
+    }
+
+    .iconMenuHolder {
+      display: block;
+    }
   }
 
   .toolbarIcon:not(.toolbarIconDisabled):active {
-    background-color: $light-grey;
+    .toolbarIconBg:active {
+      background-color: $light-grey;
+    }
   }
 
   .toolbarIcon {
+    position: relative;
     margin-left: $gap;
+
+    .toolbarIconBg {
+      display: inline-flex;
+      background-color: $background-grey; // Default background color
+      border-radius: 18px;
+      width: 100%;
+      height: 100%;
+    }
   }
 
-  .toolbarIcon img {
+  .toolbarIconBg img {
     display: block;
     width: $icon-size;
     height: $icon-size;
     margin: auto;
+    pointer-events: none;
   }
 
-  .toolbarIcon .emoji {
-    font-size: $normal;
-    margin: auto;
+  // .toolbarIconBg .emoji {
+  //   font-size: $normal;
+  //   margin: auto;
+  // }
+
+  .toolbarIcon .iconMenuHolder {
+    position: absolute;
+    display: none;
+    top: calc($icon-total-size / 2);
+    left: 0;
+    height: fit-content;
+    width: $block-width;
+    z-index: -1;
+
+    .iconMenu {
+      text-align: left;
+      margin-top: calc($gap / 2 + $icon-total-size / 2);
+      padding: $tiny-gap;
+      background-color: #fff;
+      box-shadow: $regular-shadow;
+      border-radius: $radius;
+      // backdrop-filter: blur(3px);
+      cursor: default;
+    }
+
+    li {
+      display: flex;
+      text-decoration: none;
+      list-style: none;
+      font-size: $normal;
+      color: $dark-grey;
+      padding: $gap;
+      border-radius: $tiny-tiny-radius;
+      cursor: pointer;
+      white-space: nowrap;
+      justify-content: space-between;
+
+      &:hover {
+        background-color: $hover-grey;
+        color: $black;
+
+        .emoji {
+          filter: none;
+        }
+
+        .shortcutHint {
+          color: $near-white;
+        }
+      }
+
+      &:active {
+        background-color: $light-grey;
+        color: $black;
+      }
+
+      .shortcutHint {
+        align-self: center;
+        color: $hover-grey;
+        font-size: $small;
+        // padding-top: 1px;
+      }
+    }
   }
 }

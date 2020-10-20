@@ -1,5 +1,6 @@
 import React, { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
+// import { v4 as uuidv4 } from 'uuid'
 
 import BlockRenderer from '../blockRenderer/blockRenderer'
 import { roomWidth, lineHeight } from '../constants'

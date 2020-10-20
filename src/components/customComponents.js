@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Emoji = props => {
+export const Emoji = ({ emoji, label }) => {
   /*
   Takes two props:
   emoji="😊"
@@ -10,10 +10,10 @@ export const Emoji = props => {
     <span
       className="emoji"
       role="img"
-      aria-label={props.label ? props.label : ''}
-      aria-hidden={props.label ? 'false' : 'true'}
+      aria-label={label ? label : ''}
+      aria-hidden={label ? 'false' : 'true'}
     >
-      {props.emoji}
+      {emoji}
     </span>
   )
 }

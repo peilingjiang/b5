@@ -164,6 +164,7 @@ const Viewer = ({ data }) => {
           iconsName={[loop ? 'NoLoop' : 'Loop', 'Refresh', 'Capture']}
           iconsOnClickFunc={[toggleLoop, refreshCanvas, captureCanvas]}
           iconsDisabled={[false, !loop, !loop]}
+          functions={null}
         />
 
         {/* Minimize */}
