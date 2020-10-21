@@ -34,7 +34,7 @@ export default class Playground extends Component {
           thisCodeCanvasRef={playgroundCodeCanvasRef}
           hardRefresh={hardRefresh}
         />
-        <div className="shadow"></div>
+        {/* <div className="shadow"></div> */}
       </div>
     )
   }

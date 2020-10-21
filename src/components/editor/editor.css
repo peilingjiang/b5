@@ -72,6 +72,7 @@
   width: calc(100% - $gap);
   height: calc(100% - $gap);
   margin: 0 $gap $gap 0;
+  overflow: hidden;
 }
 
 #factory {

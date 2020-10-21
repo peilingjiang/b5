@@ -483,6 +483,8 @@ export default class Editor extends Component {
     this.setState({ folded: !this.state.folded })
   }
 
+  addBlock = () => {}
+
   render() {
     const {
       editor,
@@ -496,6 +498,11 @@ export default class Editor extends Component {
       search: { source, index, x, y },
     } = this
 
+    // const iconNames = ['Settings', 'File', 'Share', 'add']
+    const iconNames = ['Settings', 'File', 'Share']
+    // const iconFunctions = [null, null, null, this.addBlock]
+    const iconFunctions = [null, null, null]
+    const allFalse = [false, false, false]
     const functions = {
       save: this.save,
       new: this.initEditor,
@@ -505,10 +512,9 @@ export default class Editor extends Component {
       <div id="editor" className="editor" ref={this.editorRef}>
         <div className="header" ref={this.headerRef}>
           <IconList
-            iconsName={['Settings', 'File', 'Share']}
-            iconsOnClickFunc={[null, null, null]}
-            iconsDisabled={_allFalse}
-            enableDropdown={true}
+            iconsName={iconNames}
+            iconsOnClickFunc={iconFunctions}
+            iconsDisabled={allFalse}
             // Functions
             functions={functions}
           />
@@ -567,7 +573,6 @@ export default class Editor extends Component {
             <Playground
               data={editor.playground}
               canvasStyle={editorCanvasStyle.playground}
-              handleBlockSearch={this.handleBlockSearch}
               collect={this.collectEditorData}
               collectStyle={this.collectEditorCanvasStyle}
               playgroundCodeCanvasRef={this.codeCanvasRef.playground}
@@ -593,5 +598,3 @@ export default class Editor extends Component {
     )
   }
 }
-
-const _allFalse = [false, false, false]
