@@ -37,7 +37,6 @@ export default class Factory extends Component {
     const {
       collect,
       collectStyle,
-      separatorRef,
       factoryCodeCanvasRef,
       hardRefresh,
     } = this.props
@@ -60,8 +59,6 @@ export default class Factory extends Component {
           factoryCodeCanvasRef={factoryCodeCanvasRef}
           hardRefresh={hardRefresh}
         />
-
-        <div ref={separatorRef} className="separator"></div>
       </>
     )
   }

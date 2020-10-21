@@ -19,13 +19,13 @@
   },
   "scripts": {
     "css": "gulp",
-    "start": "REACT_APP_VERSION=0.0.7 react-scripts start",
     "build": "react-scripts build",
     "run-test": "react-scripts test",
     "test": "npm-run-all css run-test",
     "eject": "react-scripts eject",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,html,css}\"",
     "dev": "NODE_ENV=development npm-run-all format css",
+    "start": "REACT_APP_VERSION=0.0.8 react-scripts start",
     "deploy": "NODE_ENV=production REACT_APP_VERSION=0.0.8 npm-run-all css build"
   },
   "eslintConfig": {

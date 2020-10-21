@@ -51,7 +51,7 @@
   }
 }
 
-#editor-left {
+.editor-left-min-width {
   min-width: calc($block-width + $gap + $gap + 4px);
 }
 
@@ -63,7 +63,7 @@
 #factory {
   position: relative;
   border-radius: $radius;
-  overflow: hidden;
+  // overflow: hidden;
 }
 
 #playground {

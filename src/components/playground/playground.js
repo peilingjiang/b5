@@ -26,7 +26,7 @@ export default class Playground extends Component {
       <div id="playground">
         <CodeCanvas
           maxLineCount={199}
-          maxBlockCount={9}
+          maxBlockCount={12}
           data={this.props.data}
           canvasStyle={this.props.canvasStyle}
           collect={collect}

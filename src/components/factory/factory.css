@@ -48,7 +48,6 @@ $cross: '../../../img/icon/cross.svg';
   width: 100%;
   list-style: none;
   white-space: nowrap;
-  background-color: $background-grey;
   box-sizing: border-box;
   overflow: hidden;
   z-index: 200000;
@@ -285,4 +284,66 @@ $cross: '../../../img/icon/cross.svg';
   height: 100%;
   user-select: none;
   cursor: ew-resize;
+}
+
+.foldIcon {
+  position: absolute;
+  bottom: $gap;
+  left: 100%;
+  height: calc($gap * 2 + $icon-total-size);
+  width: calc($gap * 2 + $icon-total-size);
+  background-color: none;
+  z-index: 1;
+
+  .fold-svg-holder {
+    visibility: hidden;
+    opacity: 0;
+    display: inline-flex;
+    position: relative;
+    width: $icon-total-size;
+    height: $icon-total-size;
+    background-color: $background-grey;
+    margin: $gap;
+    padding: 0;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 18px;
+    box-shadow: $regular-shadow;
+    transition: visibility 0.2s linear, opacity 0.2s linear;
+
+    img {
+      display: block;
+      width: $icon-size;
+      height: $icon-size;
+      margin: auto;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    &:hover {
+      background-color: $hover-grey;
+    }
+
+    &:active {
+      background-color: $light-grey;
+    }
+
+    &.folded {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.separator:hover {
+  & + .foldIcon .fold-svg-holder {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.foldIcon:hover {
+  .fold-svg-holder {
+    visibility: visible;
+    opacity: 1;
+  }
 }

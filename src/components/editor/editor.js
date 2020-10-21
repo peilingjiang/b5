@@ -2,6 +2,7 @@ import React, { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
 
 import { IconList } from '../headers/headers'
+import FoldIcon from '../playground/foldIcon'
 
 import * as method from './editorMethod'
 import * as secMethod from './sectionMethod'
@@ -14,7 +15,7 @@ import '../../postcss/components/editor/editor.css'
 
 import _b from './b5ObjectWrapper'
 
-import { lineNumberWidth, blockAlphabetHeight } from '../constants'
+import { lineNumberWidth, blockAlphabetHeight, gap } from '../constants'
 import {
   defaultEditor,
   defaultEditorCanvasStyle,
@@ -44,6 +45,7 @@ export default class Editor extends Component {
       searching: false,
       dragging: false,
       hardRefresh: false,
+      folded: false, // Fold Factory or not
     }
 
     /*
@@ -457,6 +459,30 @@ export default class Editor extends Component {
     )
   }
 
+  foldFactory = () => {
+    if (!this.state.folded) {
+      sessionStorage.setItem(
+        'separatorPosition',
+        JSON.stringify({
+          left: this.leftElement.current.offsetWidth / window.innerWidth,
+          right: this.rightElement.current.offsetWidth / window.innerWidth,
+        })
+      )
+      this.leftElement.current.classList.remove('editor-left-min-width')
+      this.leftElement.current.style.width = gap + 'px'
+      this.rightElement.current.style.width = 100 + '%'
+    } else {
+      this.leftElement.current.classList.add('editor-left-min-width')
+      const separatorPosition = JSON.parse(
+        sessionStorage.getItem('separatorPosition')
+      )
+      this.leftElement.current.style.width = separatorPosition.left * 100 + '%'
+      this.rightElement.current.style.width =
+        separatorPosition.right * 100 + '%'
+    }
+    this.setState({ folded: !this.state.folded })
+  }
+
   render() {
     const {
       editor,
@@ -464,6 +490,7 @@ export default class Editor extends Component {
       searching,
       dragging,
       hardRefresh,
+      folded,
     } = this.state
     const {
       search: { source, index, x, y },
@@ -507,20 +534,32 @@ export default class Editor extends Component {
         </div>
 
         <div className="split" ref={this.splitRef}>
-          <div ref={this.leftElement} id="editor-left">
+          <div
+            ref={this.leftElement}
+            id="editor-left"
+            className="editor-left-min-width"
+          >
             <div id="factory">
               {/* Variables Functions Objects */}
-              <Factory
-                data={editor.factory}
-                canvasStyle={editorCanvasStyle.factory}
-                section={this.section}
-                collect={this.collectEditorData}
-                collectStyle={this.collectEditorCanvasStyle}
-                separatorRef={this.separator}
-                factoryCodeCanvasRef={this.codeCanvasRef.factory}
-                hardRefresh={hardRefresh}
-              />
+              {!folded && (
+                <Factory
+                  data={editor.factory}
+                  canvasStyle={editorCanvasStyle.factory}
+                  section={this.section}
+                  collect={this.collectEditorData}
+                  collectStyle={this.collectEditorCanvasStyle}
+                  factoryCodeCanvasRef={this.codeCanvasRef.factory}
+                  hardRefresh={hardRefresh}
+                />
+              )}
               {/* <div className="shadow"></div> */}
+
+              <div
+                ref={this.separator}
+                className={'separator' + (folded ? ' no-events' : '')}
+              ></div>
+
+              <FoldIcon folded={folded} foldFunction={this.foldFactory} />
             </div>
           </div>
 

@@ -37,7 +37,7 @@
     }
   }
 
-  .toolbarIcon:not(.toolbarIconDisabled):active {
+  .toolbarIcon:not(.toolbarIconDisabled, .hasDropdown):active {
     .toolbarIconBg:active {
       background-color: $light-grey;
     }
