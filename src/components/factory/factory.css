@@ -73,7 +73,7 @@ $cross: '../../../img/icon/cross.svg';
     max-width: 124px;
     width: calc(33.33% - 2px);
     font-size: $normal;
-    font-weight: $medium;
+    font-weight: $regular;
     letter-spacing: 0.03rem;
     line-height: 100%;
     padding: calc(18px - $normal / 2) 0;
@@ -89,16 +89,16 @@ $cross: '../../../img/icon/cross.svg';
     }
 
     &.variable {
-      background-color: color-mod($variable a($op));
+      background-color: color-mod($variable a($fade-op));
       // border-radius: $radius 0 0 $radius;
     }
 
     &.function {
-      background-color: color-mod($function a($op));
+      background-color: color-mod($function a($fade-op));
     }
 
     &.object {
-      background-color: color-mod($object a($op));
+      background-color: color-mod($object a($fade-op));
       // border-radius: 0 $radius $radius 0;
 
       /* ! Lock object tab */
@@ -113,6 +113,8 @@ $cross: '../../../img/icon/cross.svg';
   }
 
   .activeTab {
+    font-weight: $medium;
+
     &.variable {
       background-color: $variable;
     }
