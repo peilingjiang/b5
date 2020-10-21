@@ -21,6 +21,7 @@ import {
   nativeSectionStyleToAdd,
 } from './defaultValue'
 import Logo from '../../img/logo/logo.svg'
+import { isMacOs, isWindows } from 'react-device-detect'
 
 export default class Editor extends Component {
   constructor(props) {
@@ -42,6 +43,7 @@ export default class Editor extends Component {
         : JSON.parse(JSON.stringify(defaultEditorCanvasStyle)),
       searching: false,
       dragging: false,
+      hardRefresh: false,
     }
 
     /*
@@ -218,6 +220,8 @@ export default class Editor extends Component {
             break
         }
 
+        newState.hardRefresh = false
+
         return newState
       },
       function () {
@@ -276,6 +280,8 @@ export default class Editor extends Component {
             break
         }
 
+        newState.hardRefresh = false
+
         return newState
       },
       function () {
@@ -317,6 +323,17 @@ export default class Editor extends Component {
       // ! SAVE
       e.preventDefault()
       this.save()
+      return
+    }
+
+    if (
+      e.keyCode === 192 &&
+      ((e.metaKey && isMacOs) || (e.ctrlKey && isWindows)) &&
+      e.altKey
+    ) {
+      e.preventDefault()
+      this.initEditor()
+      return
     }
   }
 
@@ -367,6 +384,8 @@ export default class Editor extends Component {
           prevState => {
             const newState = JSON.parse(JSON.stringify(prevState))
             newState.editorCanvasStyle = s
+
+            newState.hardRefresh = true
             newState.editor = result
             this._createCodeCanvasRef(result)
 
@@ -422,6 +441,7 @@ export default class Editor extends Component {
     this.setState(
       prevState => {
         const newState = JSON.parse(JSON.stringify(prevState))
+        newState.hardRefresh = true
         newState.editor = JSON.parse(JSON.stringify(defaultEditor))
         newState.editorCanvasStyle = this._resolveLoadBr5FileStyle(
           newState.editor
@@ -438,7 +458,13 @@ export default class Editor extends Component {
   }
 
   render() {
-    const { editor, editorCanvasStyle, searching, dragging } = this.state
+    const {
+      editor,
+      editorCanvasStyle,
+      searching,
+      dragging,
+      hardRefresh,
+    } = this.state
     const {
       search: { source, index, x, y },
     } = this
@@ -492,6 +518,7 @@ export default class Editor extends Component {
                 collectStyle={this.collectEditorCanvasStyle}
                 separatorRef={this.separator}
                 factoryCodeCanvasRef={this.codeCanvasRef.factory}
+                hardRefresh={hardRefresh}
               />
               {/* <div className="shadow"></div> */}
             </div>
@@ -505,6 +532,7 @@ export default class Editor extends Component {
               collect={this.collectEditorData}
               collectStyle={this.collectEditorCanvasStyle}
               playgroundCodeCanvasRef={this.codeCanvasRef.playground}
+              hardRefresh={hardRefresh}
             />
           </div>
         </div>

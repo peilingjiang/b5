@@ -44,7 +44,7 @@ $cross: '../../../img/icon/cross.svg';
 
 #tabList {
   position: relative;
-  height: $tabs-height;
+  height: calc($tabs-height + $gap);
   width: 100%;
   list-style: none;
   white-space: nowrap;
@@ -53,38 +53,45 @@ $cross: '../../../img/icon/cross.svg';
   overflow: hidden;
   z-index: 200000;
   padding: 0 $gap;
+  pointer-events: none;
 
-  &.activeVariable {
-    border-bottom: 2px solid $variable;
-  }
+  // &.activeVariable {
+  //   border-bottom: 2px solid $variable;
+  // }
 
-  &.activeFunction {
-    border-bottom: 2px solid $function;
-  }
+  // &.activeFunction {
+  //   border-bottom: 2px solid $function;
+  // }
 
-  &.activeObject {
-    border-bottom: 2px solid $object;
-  }
+  // &.activeObject {
+  //   border-bottom: 2px solid $object;
+  // }
 
   .tab {
     display: inline-block;
     text-align: center;
-    margin: 0 auto 0 0;
+    margin: 0 auto auto 0;
     max-width: 124px;
-    width: 33.33%;
+    width: calc(33.33% - 2px);
     font-size: $normal;
     font-weight: $medium;
     letter-spacing: 0.03rem;
     line-height: 100%;
     padding: calc(18px - $normal / 2) 0;
     border-collapse: separate;
-    border-radius: $radius $radius 0 0;
+    border-radius: $radius;
     color: #fff;
     user-select: none;
     cursor: pointer;
+    pointer-events: initial;
+
+    &:not(:first-of-type) {
+      margin-left: $tiny-gap;
+    }
 
     &.variable {
       background-color: color-mod($variable a($op));
+      // border-radius: $radius 0 0 $radius;
     }
 
     &.function {
@@ -93,6 +100,7 @@ $cross: '../../../img/icon/cross.svg';
 
     &.object {
       background-color: color-mod($object a($op));
+      // border-radius: 0 $radius $radius 0;
 
       /* ! Lock object tab */
       cursor: not-allowed;
@@ -151,7 +159,7 @@ $cross: '../../../img/icon/cross.svg';
   .addButton {
     margin: $button-gap auto 54px auto;
     text-align: center;
-    height: 36px;
+    height: $tabs-height;
     width: 77px;
     font-size: $normal;
     font-weight: $medium;
@@ -177,14 +185,18 @@ $cross: '../../../img/icon/cross.svg';
   width: 100%;
   min-width: $block-width;
   height: $section-height;
-  min-height: calc($line-height + $block-alphabet-height + 4px);
+  min-height: calc($line-height + $block-alphabet-height + $small-gap);
   max-height: 450px;
-  margin: $section-gap 0 0 0;
+  margin: 0;
   border-radius: $radius;
   white-space: nowrap;
   margin-right: 0;
   background-color: $background-grey;
   overflow: hidden;
+
+  &:not(:first-of-type) {
+    margin-top: $section-gap;
+  }
 
   .codeCanvasHolder {
     position: relative;

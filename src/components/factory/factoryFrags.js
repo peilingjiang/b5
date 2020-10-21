@@ -28,6 +28,7 @@ const TabSection = ({
   collect,
   collectStyle,
   thisFactoryCodeCanvasRef,
+  hardRefresh,
 }) => {
   const sectionRef = useRef(),
     sectionResizeRef = useRef()
@@ -122,6 +123,7 @@ const TabSection = ({
           collect={collectWrapper}
           collectStyle={collectStyleWrapper}
           thisCodeCanvasRef={thisFactoryCodeCanvasRef}
+          hardRefresh={hardRefresh}
         />
       </div>
       <BlockPreview type={type} data={data} source={'custom'} />
@@ -147,6 +149,7 @@ export const TabContent = ({
   collect,
   collectStyle,
   factoryCodeCanvasRef,
+  hardRefresh,
 }) => {
   const handleAddSection = () => {
     section('add', type)
@@ -168,6 +171,7 @@ export const TabContent = ({
             collect={collect}
             collectStyle={collectStyle}
             thisFactoryCodeCanvasRef={factoryCodeCanvasRef[type][ind]}
+            hardRefresh={hardRefresh}
           />
         )
       })}

@@ -1,6 +1,6 @@
 {
   "name": "b5",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "private": true,
   "dependencies": {
     "blob-polyfill": "^4.0.20200601",
@@ -26,7 +26,7 @@
     "eject": "react-scripts eject",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,html,css}\"",
     "dev": "NODE_ENV=development npm-run-all format css",
-    "deploy": "NODE_ENV=production REACT_APP_VERSION=0.0.7 npm-run-all css build"
+    "deploy": "NODE_ENV=production REACT_APP_VERSION=0.0.8 npm-run-all css build"
   },
   "eslintConfig": {
     "extends": "react-app"

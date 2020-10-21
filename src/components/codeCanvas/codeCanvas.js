@@ -436,6 +436,7 @@ export default class CodeCanvas extends Component {
       {
         data: { blocks },
         thisCodeCanvasRef,
+        hardRefresh,
       } = this.props
 
     for (let i = 0; i < lineCount; i++) {
@@ -482,6 +483,7 @@ export default class CodeCanvas extends Component {
             scale={scale}
             hovering={this.state.render.hovering}
             canvasCollectFocused={this.handleFocused}
+            hardRefresh={hardRefresh}
           />
         </div>
 

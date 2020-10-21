@@ -12,6 +12,7 @@ function _hasMenu(name) {
 
 const MenuMemo = ({ name, functions }) => {
   const sign = isWindows ? 'ctrl' : isMacOs ? '⌘' : 'ctrl'
+  const altName = isMacOs ? 'option' : 'alt'
 
   const li = []
   switch (name) {
@@ -29,14 +30,14 @@ const MenuMemo = ({ name, functions }) => {
           <p>
             <Emoji emoji="🌱" label="Seedling" /> start new
           </p>
-          <p className="shortcutHint">{sign + ' + ⇧ + n'}</p>
+          <p className="shortcutHint">{sign + ' + ' + altName + ' + n'}</p>
         </li>
       )
       break
 
     case 'Share':
       li.push(
-        <li key="icon-share-comingSoon">
+        <li key="icon-share-comingSoon" className="disabledText">
           <p className="disabledText">
             <Emoji emoji="📨" label="Incoming Envelope" /> coming soon
           </p>

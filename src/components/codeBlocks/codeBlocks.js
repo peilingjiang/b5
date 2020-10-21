@@ -56,7 +56,9 @@ export default class CodeBlocks extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     if (!equal(nextProps.data, this.props.data)) {
       // Data updated, e.g. added a new block in block search
-      this._updateBlocksRef(nextProps.data, this.props.data)
+      this._updateBlocksRef(nextProps.data)
+      if (nextProps.hardRefresh)
+        this._hardUpdateBlocksRef(nextProps.data, this.props.data)
     }
 
     return (
@@ -64,13 +66,16 @@ export default class CodeBlocks extends Component {
     )
   }
 
-  _updateBlocksRef = (data, prevData = {}) => {
+  _updateBlocksRef = data => {
     for (let y in data) {
       if (!this.blocksRef[y]) this.blocksRef[y] = {}
       for (let x in data[y])
         if (!this.blocksRef[y][x]) this.blocksRef[y][x] = createRef()
     }
+  }
 
+  _hardUpdateBlocksRef = (data, prevData) => {
+    // Do additional following works...
     for (let y in prevData) {
       if (!data[y]) {
         // y not in data
