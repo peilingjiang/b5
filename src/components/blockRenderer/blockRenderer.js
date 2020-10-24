@@ -5,6 +5,7 @@ import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper'
 
 import { lineHeight, roomWidth } from '../constants'
 import { _getParentBlockInBook, Node } from './frags'
+import { checkSectionNameNotValid } from '../factory/factoryMethod'
 import {
   InputBlock,
   SliderBlock,
@@ -62,18 +63,34 @@ class BlockRenderer extends Component {
   componentDidMount() {
     // Handle collect init positions of nodes
     if (this.props.action) this.handleCollectNodesOffset(true)
+
+    // * Section rendered block only
+    const nR = this.props.thisNameRef
+    if (nR) {
+      nR.current.addEventListener('input', this.handleBlockNameChange)
+      nR.current.addEventListener('blur', this.handleBlockNameBlur)
+    }
   }
 
   componentDidUpdate() {
     if (this.props.action) this.handleCollectNodesOffset()
   }
 
-  shouldComponentUpdate(prevProps) {
+  shouldComponentUpdate(nextProps) {
     return (
-      !equal(prevProps.data, this.props.data) ||
-      prevProps.focused !== this.props.focused ||
-      !equal(prevProps.selectedNodes, this.props.selectedNodes)
+      !equal(nextProps.data, this.props.data) ||
+      nextProps.focused !== this.props.focused ||
+      !equal(nextProps.selectedNodes, this.props.selectedNodes) ||
+      !equal(nextProps.isRenaming, this.props.isRenaming)
     )
+  }
+
+  componentWillUnmount() {
+    const nR = this.props.thisNameRef
+    if (nR) {
+      nR.current.removeEventListener('input', this.handleBlockNameChange)
+      nR.current.removeEventListener('blur', this.handleBlockNameBlur)
+    }
   }
 
   handleCollectNodesOffset = (collectRef = false) => {
@@ -102,6 +119,22 @@ class BlockRenderer extends Component {
       : this.props.collectNodesOffset(this.props.x, this.props.y, data)
   }
 
+  // * Section rendered block only
+
+  // Edit section block name
+  handleBlockNameChange = e => {
+    if (checkSectionNameNotValid(e.target.innerText, this.props.data.name))
+      this.props.thisNameRef.current.classList.add('invalid-block-name')
+    else {
+      this.props.thisNameRef.current.classList.remove('invalid-block-name')
+    }
+  }
+
+  handleBlockNameBlur = e => {
+    if (checkSectionNameNotValid(e.target.innerText, this.props.data.name))
+      this.props.thisNameRef.current.innerText = this.props.data.name
+  }
+
   render() {
     const {
       action,
@@ -114,6 +147,9 @@ class BlockRenderer extends Component {
       collect,
       focused,
       selectedNodes,
+      thisBlockRef,
+      thisNameRef,
+      isRenaming,
     } = this.props
 
     const { text, type, kind, inputNodes, outputNodes } = _b5BlocksObject[
@@ -349,7 +385,18 @@ class BlockRenderer extends Component {
                 </>
               ) : null}
 
-              <div className="blockName">{text}</div>
+              {/* No need to split... while looks better */}
+              {thisNameRef && (
+                <div
+                  className={'blockName' + (isRenaming ? ' textEditing' : '')}
+                  ref={thisNameRef}
+                  contentEditable={isRenaming ? true : false}
+                  suppressContentEditableWarning="true"
+                >
+                  {text}
+                </div>
+              )}
+              {!thisNameRef && <div className="blockName">{text}</div>}
 
               {outputNodes !== null ? (
                 <>
@@ -382,7 +429,7 @@ class BlockRenderer extends Component {
           top: this.y * lineHeight + 'px',
           left: this.x * roomWidth + 'px',
         }}
-        ref={this.props.thisBlockRef}
+        ref={thisBlockRef}
         data-name={name}
       >
         {myBlock}

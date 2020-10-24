@@ -13,7 +13,8 @@ export default class BlockPreview extends Component {
   shouldComponentUpdate(nextProps) {
     return (
       !equal(nextProps.data.blocks, this.props.data.blocks) ||
-      nextProps.name !== this.props.name
+      nextProps.name !== this.props.name ||
+      nextProps.isRenaming !== this.props.isRenaming
     )
   }
 
@@ -21,14 +22,23 @@ export default class BlockPreview extends Component {
     const {
       data: { name },
       source,
+      blockNameRef,
+      isRenaming,
     } = this.props
+
+    const ref = {
+      block: this.blockPreviewRef,
+      name: blockNameRef,
+    }
 
     return (
       <div className="blockHolder">
         <BlockRendererLite
           name={name}
+          blockNameRef={blockNameRef}
+          isRenaming={isRenaming}
           source={source}
-          ref={this.blockPreviewRef}
+          ref={ref}
         />
       </div>
     )

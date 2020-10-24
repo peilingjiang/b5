@@ -12,6 +12,7 @@ $button-init-gap: calc(4 * $gap);
 
 // Images
 $cross: '../../../img/icon/cross.svg';
+$rename: '../../../img/icon/rename.svg';
 
 @mixin section-color($color) {
   .section {
@@ -219,6 +220,16 @@ $cross: '../../../img/icon/cross.svg';
     height: 100%;
     z-index: 180000;
     border: none;
+
+    .blockName {
+      border-radius: $radius $radius 0 0;
+      pointer-events: auto;
+    }
+
+    .invalid-block-name {
+      // background-color: color-mod($alert a($hover-op)) !important;
+      color: $alert;
+    }
   }
 
   .sectionResizeBar {
@@ -244,13 +255,20 @@ $cross: '../../../img/icon/cross.svg';
       cursor: pointer;
     }
 
-    .sectionDelete {
+    .sectionIcon {
       position: relative;
       float: right;
       width: $icon-size;
       height: $icon-size;
-      margin: 1rem;
+      margin: 18px 18px auto 0;
+    }
+
+    .sectionDelete {
       mask: url($cross) no-repeat center;
+    }
+
+    .sectionRename {
+      mask: url($rename) no-repeat center;
     }
   }
 
@@ -310,6 +328,7 @@ $cross: '../../../img/icon/cross.svg';
     text-align: center;
     cursor: pointer;
     border-radius: 18px;
+    border: $regular-border;
     box-shadow: $regular-shadow;
     transition: visibility 0.2s linear, opacity 0.2s linear;
 

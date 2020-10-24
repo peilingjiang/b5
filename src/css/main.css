@@ -21,6 +21,11 @@
   line-height: 100%;
 }
 
+[contenteditable] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
 body {
   background-color: $background-grey;
   overflow: hidden;
@@ -58,6 +63,10 @@ body {
 
 .nodeAdd {
   cursor: copy;
+}
+
+.textEditing {
+  cursor: text;
 }
 
 .no-events {

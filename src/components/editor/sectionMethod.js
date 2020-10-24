@@ -52,3 +52,7 @@ export const deleteSection = (
 
   _b5BlocksObject.deleteCustom(name)
 }
+
+export const renameSection = (type, index, newName, factory) => {
+  factory[type][index].name = newName
+}

@@ -4,10 +4,12 @@ import React, {
   useEffect,
   useRef,
   useCallback,
+  useState,
 } from 'react'
 import ResizeObserver from 'resize-observer-polyfill'
 // import { v4 as uuidv4 } from 'uuid'
 
+import { checkSectionNameNotValid } from './factoryMethod'
 import BlockPreview from '../blockPreview/blockPreview'
 import CodeCanvas from '../codeCanvas/codeCanvas'
 
@@ -32,7 +34,10 @@ const TabSection = ({
 }) => {
   const sectionRef = useRef(),
     sectionResizeRef = useRef()
-  const sectionDeleteRef = useRef()
+  const sectionControlsRef = useRef()
+  const [renaming, setRenaming] = useState(false)
+
+  const blockNameRef = useRef()
 
   const handleDrag = e => {
     e.preventDefault()
@@ -91,22 +96,44 @@ const TabSection = ({
   }, [sectionRef, canvasStyle])
 
   // ! Section CONTROLS
-  const handleDeleteSelf = useCallback(
+  const handleRename = useCallback(() => {
+    setRenaming(true)
+    blockNameRef.current.focus()
+    document.addEventListener('mousedown', function _finishRenaming(e) {
+      if (blockNameRef.current !== e.target) {
+        setRenaming(false)
+        document.removeEventListener('mousedown', _finishRenaming)
+        // Upload rename
+        if (
+          !checkSectionNameNotValid(blockNameRef.current.innerText, data.name)
+        ) {
+          // innerText is valid
+          section('rename', type, [index, blockNameRef.current.innerText])
+        }
+      }
+    })
+  }, [data.name, index, section, type])
+
+  const handleSectionControls = useCallback(
     e => {
       // collect and section 'data' always in array format
       e.preventDefault()
-      section('delete', type, [index])
+      const l = e.target.classList
+      if (l.contains('sectionDelete')) section('delete', type, [index])
+      else if (l.contains('sectionRename')) {
+        handleRename()
+      }
     },
-    [section, type, index]
+    [index, section, type, handleRename]
   )
 
   useEffect(() => {
-    const sDRefCurrent = sectionDeleteRef.current
-    sDRefCurrent.addEventListener('mouseup', handleDeleteSelf)
+    const sCRefCurrent = sectionControlsRef.current
+    sCRefCurrent.addEventListener('mouseup', handleSectionControls)
     return () => {
-      sDRefCurrent.removeEventListener('mouseup', handleDeleteSelf)
+      sCRefCurrent.removeEventListener('mouseup', handleSectionControls)
     }
-  }, [handleDeleteSelf, sectionDeleteRef])
+  }, [handleSectionControls, sectionControlsRef])
 
   return (
     <div
@@ -126,14 +153,24 @@ const TabSection = ({
           hardRefresh={hardRefresh}
         />
       </div>
-      <BlockPreview type={type} data={data} source={'custom'} />
+      <BlockPreview
+        type={type}
+        data={data}
+        source={'custom'}
+        isRenaming={renaming}
+        blockNameRef={blockNameRef}
+      />
       {/* Bottom draggable side for resizing */}
       <div ref={sectionResizeRef} className="sectionResizeBar"></div>
 
       {/* Buttons */}
-      <div className="sectionControls">
+      <div className="sectionControls" ref={sectionControlsRef}>
         {/* Using mask in CSS to form style */}
-        <div className="sectionDelete" ref={sectionDeleteRef}></div>
+        <div
+          className="sectionRename sectionIcon"
+          title="edit block name"
+        ></div>
+        <div className="sectionDelete sectionIcon" title="delete block"></div>
       </div>
     </div>
   )

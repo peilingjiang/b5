@@ -278,6 +278,10 @@ export default class Editor extends Component {
             )
             break
 
+          case 'rename':
+            secMethod.renameSection(type, data[0], data[1], f)
+            break
+
           default:
             break
         }

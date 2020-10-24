@@ -173,7 +173,10 @@ const BlockList = ({ blocks, focus }) => {
                 name={b.item.name}
                 source={b.item.source}
                 focus={i === focus}
-                ref={i === focus ? focusRef : null}
+                isRenaming={false}
+                ref={{
+                  block: i === focus ? focusRef : null,
+                }}
               />
               <div className={'description' + (i === focus ? ' focused' : '')}>
                 <div>{b.item.description.slice(0, -1)}</div>
