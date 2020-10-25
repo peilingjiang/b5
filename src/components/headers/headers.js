@@ -71,7 +71,9 @@ const IconMemo = ({ name, onClickFunc, disabled, hasDropdown, functions }) => {
     >
       <div className="toolbarIconBg" title={name.toLowerCase()}>
         <img
-          src={require(`../../img/toolbar-icon/${name.toLowerCase()}.svg`)}
+          src={
+            require(`../../img/toolbar-icon/${name.toLowerCase()}.svg`).default
+          }
           alt={name}
         />
       </div>
