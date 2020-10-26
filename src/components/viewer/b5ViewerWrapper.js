@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react'
+import React, { Component } from 'react'
 import equal from 'react-fast-compare'
 import p5 from 'p5'
 
@@ -8,8 +8,6 @@ export default class B5Wrapper extends Component {
   // props - Readily available b5 object
   constructor(props) {
     super(props)
-    this.viewerCanvas = createRef()
-
     this.myP5 = null
   }
 
@@ -55,7 +53,7 @@ export default class B5Wrapper extends Component {
   _initCanvas = () => {
     // Init canvas
     this._clearCanvas() // Always clear the old one first
-    this.myP5 = new p5(this.Sketch, this.viewerCanvas.current)
+    this.myP5 = new p5(this.Sketch, this.props.canvasRef.current)
   }
 
   _clearCanvas = () => {
@@ -71,7 +69,11 @@ export default class B5Wrapper extends Component {
 
   render() {
     return (
-      <div id="viewerCanvas" className="viewerCanvas" ref={this.viewerCanvas}>
+      <div
+        id="viewerCanvas"
+        className="viewerCanvas"
+        ref={this.props.canvasRef}
+      >
         {/* ... id="defaultCanvas0" class="p5Canvas" */}
       </div>
     )

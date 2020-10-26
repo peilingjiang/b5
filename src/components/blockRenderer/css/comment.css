@@ -54,6 +54,13 @@ $corner-size: 13px;
       line-height: $note-line-height;
       white-space: pre-wrap;
       word-wrap: break-word;
+
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        width: 0;
+      }
     }
 
     &::after {
