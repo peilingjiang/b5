@@ -5,7 +5,7 @@
   "dependencies": {
     "blob-polyfill": "^4.0.20200601",
     "file-saver": "^2.0.2",
-    "fuse.js": "^6.4.2",
+    "fuse.js": "^6.4.3",
     "p5": "^1.1.9",
     "react": "^16.14.0",
     "react-color": "^2.18.1",
