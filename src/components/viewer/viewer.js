@@ -18,9 +18,7 @@ const Viewer = ({ data }) => {
 
   const canvasRef = useRef() // Going to viewerCanvas
 
-  const miniRef = useRef(),
-    expandRef = useRef(),
-    miniStateRef = useRef(false)
+  const miniStateRef = useRef(false)
 
   const prevData = usePrevious(data)
   useEffect(() => {
@@ -64,6 +62,7 @@ const Viewer = ({ data }) => {
 
   const _moveViewer = e => {
     e.preventDefault()
+
     const viewerCurrent = viewer.current,
       winWidth = window.innerWidth,
       winHeight = window.innerHeight
@@ -96,7 +95,8 @@ const Viewer = ({ data }) => {
 
     document.addEventListener('mousemove', _dragViewer, true)
     document.addEventListener('mouseup', function _listener() {
-      viewerHeader.current.classList.replace('grabbing', 'grab')
+      if (viewerHeader.current)
+        viewerHeader.current.classList.replace('grabbing', 'grab')
       document.removeEventListener('mousemove', _dragViewer, true)
       document.removeEventListener('mouseup', _listener, true)
     })
@@ -111,18 +111,6 @@ const Viewer = ({ data }) => {
     }
   }, [viewerHeader])
 
-  const handleMinimize = useCallback(
-    e => {
-      viewer.current.classList.replace('popup', 'miniDown')
-
-      if (loop) {
-        _handleResize()
-        miniStateRef.current = true
-      }
-    },
-    [loop]
-  )
-
   const _handleResize = () => {
     const canvas = document.getElementById('defaultCanvas0')
 
@@ -132,13 +120,27 @@ const Viewer = ({ data }) => {
     )
 
     canvasRef.current.style = `transform: scale(${targetScale})`
-    viewer.current.style = `
-      width: ${(canvas.width / 2) * targetScale}px;
-      height: ${(canvas.height / 2) * targetScale}px;
-    `
+    viewer.current.style = `width: ${
+      (canvas.width / 2) * targetScale
+    }px; height: ${(canvas.height / 2) * targetScale}px;`
   }
 
-  const handleExpand = useCallback(
+  // ! Mini
+  const _handleMinimize = useCallback(
+    e => {
+      e.preventDefault()
+      viewer.current.classList.replace('popup', 'miniDown')
+      viewerHeader.current.classList.add('expandHeader')
+
+      if (loop) {
+        _handleResize()
+        miniStateRef.current = true
+      }
+    },
+    [loop]
+  )
+
+  const _handleExpand = useCallback(
     e => {
       viewer.current.classList.replace('miniDown', 'popup')
       miniStateRef.current = false
@@ -148,25 +150,12 @@ const Viewer = ({ data }) => {
         viewerCanvas.style = `transform: unset`
         viewer.current.style = `width: auto; height: auto;`
       }
+
+      if (viewerHeader.current)
+        viewerHeader.current.classList.replace('grabbing', 'grab')
     },
     [loop]
   )
-
-  useEffect(() => {
-    const mRC = miniRef.current
-    mRC.addEventListener('click', handleMinimize)
-    return () => {
-      mRC.removeEventListener('click', handleMinimize)
-    }
-  }, [handleMinimize, miniRef])
-
-  useEffect(() => {
-    const eRC = expandRef.current
-    eRC.addEventListener('click', handleExpand)
-    return () => {
-      eRC.removeEventListener('click', handleExpand)
-    }
-  }, [handleExpand, expandRef])
 
   return (
     <div ref={viewer} id="viewer" className="viewer popup">
@@ -180,8 +169,11 @@ const Viewer = ({ data }) => {
         />
 
         {/* Minimize */}
-        <div ref={miniRef} className="mini"></div>
+        <div onClick={_handleMinimize} className="mini"></div>
+        {/* Expander */}
+        <div onClick={_handleExpand} className="expand"></div>
       </div>
+
       {loop ? (
         <B5Wrapper data={data} canvasRef={canvasRef} />
       ) : (
@@ -189,13 +181,9 @@ const Viewer = ({ data }) => {
           id="viewerNoLoop"
           className="viewerNoLoop"
           src={ViewerNoLoop}
-          alt="The canvas is paused."
+          alt="PAUSED"
         />
       )}
-
-      {/* Expander */}
-      <div className="expandBackground"></div>
-      <div ref={expandRef} className="expand"></div>
     </div>
   )
 }

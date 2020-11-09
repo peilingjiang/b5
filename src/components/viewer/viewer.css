@@ -6,7 +6,8 @@ $viewer-max-width: 700px;
 $viewer-max-height: 700px;
 
 $mini-size: 22px; // Size of minimize icon
-$expand-size: 22px;
+$mini-margin: calc($head-height / 2 - $mini-size / 2);
+// $expand-size: 22px;
 
 #viewer {
   position: absolute;
@@ -24,24 +25,33 @@ $expand-size: 22px;
   .header {
     user-select: none;
 
-    .mini {
-      background-color: $hover-grey;
+    .mini,
+    .expand {
+      background-color: $light-grey;
       width: $mini-size;
       height: $mini-size;
       position: absolute;
       top: 0;
       right: 0;
-      margin: calc($head-height / 2 - $mini-size / 2);
-      mask: url('../../../img/icon/mini.svg') no-repeat center;
+      margin: $mini-margin;
       cursor: pointer;
 
       &:hover {
-        background-color: $light-grey;
+        background-color: $grey;
       }
 
       &:active {
-        background-color: $grey;
+        background-color: $dark-grey;
       }
+    }
+
+    .mini {
+      mask: url('../../../img/icon/mini.svg') no-repeat center;
+    }
+
+    .expand {
+      display: none;
+      mask: url('../../../img/icon/expand.svg') no-repeat center;
     }
   }
 
@@ -56,12 +66,6 @@ $expand-size: 22px;
   .p5Canvas {
     margin: 0;
     padding: 0;
-  }
-
-  .expand,
-  .expandBackground {
-    pointer-events: none;
-    display: none;
   }
 }
 
@@ -106,16 +110,35 @@ $expand-size: 22px;
   overflow: hidden;
 
   // TODO: Min sizes for normal and mini view
-  min-width: calc($expand-size + 2 * $gap) !important;
-  min-height: calc($expand-size + 2 * $gap) !important;
+  min-width: calc($mini-size + 2 * $mini-margin + $gap) !important;
+  min-height: calc($head-height + $gap) !important;
 
   .header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: color-mod($background-grey a($hover-op));
+    z-index: 1;
+    margin: $tiny-gap;
+    width: calc(100% - 2 * $tiny-gap);
+    border-radius: $tiny-tiny-radius;
+    display: none;
+    cursor: initial;
+  }
+
+  &:hover .header {
+    display: block;
+  }
+
+  .toolbarIcon,
+  .mini {
     display: none;
   }
 
   .viewerCanvas {
     transform-origin: top left;
     display: flex;
+    height: fit-content;
   }
 
   .viewerNoLoop {
@@ -126,35 +149,6 @@ $expand-size: 22px;
   }
 
   .expand {
-    position: absolute;
-    background-color: $dark-grey;
-    pointer-events: auto;
-    width: $expand-size;
-    height: $expand-size;
-    margin: $gap;
-    mask: url('../../../img/icon/expand.svg') no-repeat center;
-    cursor: pointer;
-
-    &:active {
-      background-color: $black;
-    }
-  }
-
-  .expandBackground {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: color-mod($black a($light-op));
-  }
-
-  &:hover .expandBackground {
     display: block !important;
-  }
-
-  &:hover .expand {
-    display: block !important;
-    pointer-events: auto !important;
   }
 }

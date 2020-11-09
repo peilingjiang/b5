@@ -17,7 +17,7 @@ export const defaultEditor = {
           name: 'comment',
           source: 'original',
           inlineData: [
-            '🌈 Welcome to b5!\nThis is still a work-in-progress project. Right now, please feel free to explore it!\n- WEAR MASK & STAY SAFE -',
+            '🌈 Welcome to b5!\nThis is still a work-in-progress project. Right now, please feel free to explore it!',
           ],
         },
         1: {
