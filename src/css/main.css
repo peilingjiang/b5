@@ -66,6 +66,8 @@ body {
 }
 
 .textEditing {
+  pointer-events: auto !important;
+  user-select: initial;
   cursor: text;
 }
 

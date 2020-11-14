@@ -51,7 +51,7 @@ export const getNameFromBlockFill = target => {
     depth++
   }
   if (!target.classList.contains('blockFill')) return null
-  return target.attributes['data-name'].nodeValue
+  return target.dataset.name
 }
 
 export const randomColor = () => {

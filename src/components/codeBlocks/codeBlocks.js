@@ -213,12 +213,8 @@ export default class CodeBlocks extends Component {
           }
         } else if (hoveringOnWire(e.target.classList)) {
           // WIRE
-          const wireAttr = e.target.attributes
-          this._selectWire(
-            wireAttr['data-y'].nodeValue,
-            wireAttr['data-x'].nodeValue,
-            wireAttr['data-node'].nodeValue
-          )
+          const wireAttr = e.target.dataset
+          this._selectWire(wireAttr.y, wireAttr.x, wireAttr.node)
         }
       }
     }
@@ -594,6 +590,8 @@ export default class CodeBlocks extends Component {
             }
             collect={collect}
             collectNodesOffset={this.collectNodesOffset}
+            // ? Can we use default dragging?
+            draggable={false}
           />
         )
       }

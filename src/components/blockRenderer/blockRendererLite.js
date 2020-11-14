@@ -9,6 +9,7 @@ const BlockRendererLiteRef = ({
   focus,
   isRenaming,
   thisBlockRef,
+  draggable,
 }) => {
   const thisRef = useRef()
 
@@ -25,6 +26,7 @@ const BlockRendererLiteRef = ({
         input: [],
         output: [],
       }}
+      draggable={draggable}
     />
   )
 }

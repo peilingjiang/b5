@@ -150,6 +150,7 @@ class BlockRenderer extends Component {
       thisBlockRef,
       thisNameRef,
       isRenaming,
+      draggable,
     } = this.props
 
     const { text, type, kind, inputNodes, outputNodes } = _b5BlocksObject[
@@ -369,8 +370,14 @@ class BlockRenderer extends Component {
             )}
             <div
               className={
-                'grab block ' + type + ' ' + kind + ' nodesCount' + maxCount
+                type +
+                ' grab block ' +
+                kind +
+                ' nodesCount' +
+                maxCount +
+                (draggable ? ' draggable' : '')
               }
+              data-name={name}
             >
               {inputNodes !== null ? (
                 <>

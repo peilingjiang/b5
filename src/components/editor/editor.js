@@ -349,19 +349,23 @@ export default class Editor extends Component {
 
   // ! Drag and Drop
   handleDragenter = e => {
-    e.preventDefault()
-    e.stopPropagation()
-    // this.headerRef.current.classList.add('no-events')
-    // this.splitRef.current.classList.add('no-events')
-    this.setState({ dragging: true })
+    if (e.dataTransfer.types.length) {
+      e.preventDefault()
+      e.stopPropagation()
+      // this.headerRef.current.classList.add('no-events')
+      // this.splitRef.current.classList.add('no-events')
+      this.setState({ dragging: true })
+    }
   }
 
   handleDragleave = e => {
-    e.preventDefault()
-    e.stopPropagation()
+    if (e.dataTransfer.types.length) {
+      e.preventDefault()
+      e.stopPropagation()
 
-    if (e.target.className.includes('fileUpload'))
-      this.setState({ dragging: false })
+      if (e.target.className.includes('fileUpload'))
+        this.setState({ dragging: false })
+    }
   }
 
   handleDragover = e => {
@@ -369,13 +373,14 @@ export default class Editor extends Component {
   }
 
   handleDrop = e => {
-    e.preventDefault()
-    e.stopPropagation()
-    let file = e.dataTransfer.files[0]
-    this.readFile(file)
+    if (e.dataTransfer.types.length) {
+      e.preventDefault()
+      e.stopPropagation()
+      this.readFile(e.dataTransfer.files[0])
 
-    if (e.target.className.includes('fileUpload'))
-      this.setState({ dragging: false })
+      if (e.target.className.includes('fileUpload'))
+        this.setState({ dragging: false })
+    }
   }
 
   readFile = file => {

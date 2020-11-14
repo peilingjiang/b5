@@ -9,7 +9,10 @@ import React, {
 import ResizeObserver from 'resize-observer-polyfill'
 // import { v4 as uuidv4 } from 'uuid'
 
-import { checkSectionNameNotValid } from './factoryMethod'
+import {
+  checkSectionNameNotValid,
+  handleMoveAnonymousBlock,
+} from './factoryMethod'
 import BlockPreview from '../blockPreview/blockPreview'
 import CodeCanvas from '../codeCanvas/codeCanvas'
 
@@ -191,9 +194,27 @@ export const TabContent = ({
   const handleAddSection = () => {
     section('add', type)
   }
+  let contentRef = useRef()
+
+  const handleContentDragStart = useCallback(
+    e => {
+      if (e.target.classList.contains('draggable')) {
+        handleMoveAnonymousBlock(e.target, e, collect)
+      }
+    },
+    [collect]
+  )
+
+  useEffect(() => {
+    const cRC = contentRef.current
+    cRC.addEventListener('mousedown', handleContentDragStart)
+    return () => {
+      cRC.removeEventListener('mousedown', handleContentDragStart)
+    }
+  }, [handleContentDragStart])
 
   return (
-    <div className={'tabContent ' + type + 'Content'}>
+    <div className={'tabContent ' + type + 'Content'} ref={contentRef}>
       {data.map((d, ind) => {
         return (
           <TabSection

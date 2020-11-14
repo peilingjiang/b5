@@ -69,7 +69,10 @@ const IconMemo = ({ name, onClickFunc, disabled, hasDropdown, functions }) => {
       }
       onClick={disabled ? null : onClickFunc}
     >
-      <div className="toolbarIconBg" title={name.toLowerCase()}>
+      <div
+        className="toolbarIconBg"
+        title={iconTitleMapping[name] || name.toLowerCase()}
+      >
         <img
           src={
             require(`../../img/toolbar-icon/${name.toLowerCase()}.svg`).default
@@ -82,6 +85,11 @@ const IconMemo = ({ name, onClickFunc, disabled, hasDropdown, functions }) => {
       {hasDropdown && <Menu name={name} functions={functions} />}
     </div>
   )
+}
+
+const iconTitleMapping = {
+  NoLoop: 'stop',
+  Loop: 'start',
 }
 
 const Icon = memo(IconMemo)

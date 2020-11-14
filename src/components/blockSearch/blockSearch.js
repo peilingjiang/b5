@@ -177,6 +177,7 @@ const BlockList = ({ blocks, focus }) => {
                 ref={{
                   block: i === focus ? focusRef : null,
                 }}
+                draggable={false} // ! Should be enabled
               />
               <div className={'description' + (i === focus ? ' focused' : '')}>
                 <div>{b.item.description.slice(0, -1)}</div>

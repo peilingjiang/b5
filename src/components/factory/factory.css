@@ -223,7 +223,12 @@ $rename: '../../../img/icon/rename.svg';
 
     .blockName {
       border-radius: $radius $radius 0 0;
-      pointer-events: auto;
+    }
+
+    .blockName,
+    .sudoBlock,
+    .node {
+      pointer-events: none;
     }
 
     .invalid-block-name {

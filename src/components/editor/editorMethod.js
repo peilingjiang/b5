@@ -22,7 +22,7 @@ export const addBlock = (data, thisBlocks) => {
   const newBlock = makeBlock(name)
 
   if (!thisBlocks[y]) thisBlocks[y] = {}
-  thisBlocks[y][x] = newBlock
+  if (!thisBlocks[y][x]) thisBlocks[y][x] = newBlock
 }
 
 export const addConnection = (data, thisBlocks) => {

@@ -73,6 +73,12 @@
   height: calc(100% - $gap);
   margin: 0 $gap $gap 0;
   overflow: hidden;
+  // For .dim-others-all
+  z-index: 9999990;
+}
+
+.dim-others-all {
+  box-shadow: 0 0 0 100vmax color-mod($black a($op));
 }
 
 #factory {
@@ -163,4 +169,8 @@
 
 .smaller {
   width: 50px;
+}
+
+.opaque {
+  opacity: $light-op;
 }
