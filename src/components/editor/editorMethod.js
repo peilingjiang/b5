@@ -2,8 +2,6 @@ import equal from 'react-fast-compare'
 import { Blob } from 'blob-polyfill'
 import { saveAs } from 'file-saver'
 
-import { makeBlock } from '../make'
-
 // codeCanvas methods
 
 export const searchBlock = (that, data, source, index) => {
@@ -17,9 +15,8 @@ export const searchBlock = (that, data, source, index) => {
 
 // setEditor methods
 
-export const addBlock = (data, thisBlocks) => {
-  const [name, y, x] = data
-  const newBlock = makeBlock(name)
+export const addBlock = (data, newBlock, thisBlocks) => {
+  const [, y, x] = data
 
   if (!thisBlocks[y]) thisBlocks[y] = {}
   if (!thisBlocks[y][x]) thisBlocks[y][x] = newBlock
@@ -37,7 +34,11 @@ export const addConnection = (data, thisBlocks) => {
   if (thisBlocks[inY][inX].input[inputNodeInd] !== null)
     removeConnection([inY, inX, inputNodeInd], thisBlocks)
 
-  thisBlocks[inY][inX].input[inputNodeInd] = [outY, outX, outputNodeInd]
+  return (thisBlocks[inY][inX].input[inputNodeInd] = [
+    outY,
+    outX,
+    outputNodeInd,
+  ])
 }
 
 export const removeConnection = (data, thisBlocks) => {
@@ -69,6 +70,7 @@ export const relocateBlock = (data, thisBlocks) => {
         const childBlock = thisBlocks[thisOutput[0]][thisOutput[1]]
         childBlock.input[thisOutput[2]] = [y2, x2, i]
       }
+
   if (thisBlocks[y2][x2].input)
     for (let i in thisBlocks[y2][x2].input)
       if (thisBlocks[y2][x2].input[i] !== null) {
@@ -90,6 +92,8 @@ export const relocateBlock = (data, thisBlocks) => {
 
 export const deleteBlock = (data, thisBlocks) => {
   const [y, x] = data
+  let returner = []
+
   // Delete input blocks' outputs
   if (thisBlocks[y][x].input) {
     const ins = thisBlocks[y][x].input
@@ -107,14 +111,17 @@ export const deleteBlock = (data, thisBlocks) => {
     for (let i in thisBlocks[y][x].output)
       if (thisBlocks[y][x].output[i].length !== 0) {
         const thisOutput = thisBlocks[y][x].output[i]
-        for (let j in thisOutput)
-          thisBlocks[thisOutput[j][0]][thisOutput[j][1]].input[
-            thisOutput[j][2]
-          ] = null
+        returner.push(...thisOutput)
+
+        for (let j of thisOutput) {
+          thisBlocks[j[0]][j[1]].input[j[2]] = null
+        }
       }
   // Delete the block
   delete thisBlocks[y][x]
   if (Object.keys(thisBlocks[y]).length === 0) delete thisBlocks[y]
+
+  return returner
 }
 
 export const inlineDataChange = (data, thisBlocks) => {

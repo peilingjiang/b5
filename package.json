@@ -26,8 +26,8 @@
     "eject": "react-scripts eject",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,html,css}\"",
     "dev": "NODE_ENV=development npm-run-all format css",
-    "start": "REACT_APP_VERSION=0.0.8 react-scripts start",
-    "deploy": "NODE_ENV=production REACT_APP_VERSION=0.0.8 npm-run-all css build"
+    "start": "react-scripts start",
+    "deploy": "NODE_ENV=production npm-run-all css build"
   },
   "eslintConfig": {
     "extends": "react-app"

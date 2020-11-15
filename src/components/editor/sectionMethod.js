@@ -24,14 +24,18 @@ export const addSection = (type, factory, factoryStyle) => {
 
   let nameInd = -1 // Index starts from 0
   let newName = ''
+
   do {
     newName = `new${type.slice(0, 3) + ++nameInd}`
   } while (findName(newName))
+
   toAdd.name = newName
   toAdd.type = type
 
   factory[type].push(toAdd)
   factoryStyle[type].push(toAddStyle)
+
+  return newName
 }
 
 export const deleteSection = (
@@ -51,8 +55,12 @@ export const deleteSection = (
   factoryCanvasRef[t].splice(i, 1)
 
   _b5BlocksObject.deleteCustom(name)
+
+  return name
 }
 
 export const renameSection = (type, index, newName, factory) => {
+  _b5BlocksObject.deleteCustom(factory[type][index].name)
+
   factory[type][index].name = newName
 }

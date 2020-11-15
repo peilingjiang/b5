@@ -69,7 +69,9 @@ export const _addClassNameByClass = (block, targetClass, className) => {
 }
 
 export const _removeClassNameByClass = (block, targetClass, className) => {
-  for (let i of block.current.getElementsByClassName(targetClass)) {
-    i.classList.remove(className)
+  if (block.current !== null) {
+    for (let i of block.current.getElementsByClassName(targetClass)) {
+      i.classList.remove(className)
+    }
   }
 }

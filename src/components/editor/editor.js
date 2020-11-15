@@ -14,6 +14,7 @@ import FileUpload from './fileUpload'
 import '../../postcss/components/editor/editor.css'
 
 import _b from './b5ObjectWrapper'
+import { makeBlock } from '../make'
 
 import { lineNumberWidth, blockAlphabetHeight, gap } from '../constants'
 import {
@@ -153,14 +154,14 @@ export default class Editor extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     // EDITOR
-    if (!equal(nextState.editor, this.state.editor))
-      // Update b b5 object every time editor updates
-      // BEFORE any rendering
-      _b.update(nextState.editor)
+
+    // Update b b5 object every time editor updates
+    // BEFORE any rendering
+    // if (!equal(nextState.editor, this.state.editor))
+    //   _b.update(nextState.editor)
 
     // EDITOR CANVAS STYLE
-    if (!equal(nextState.editorCanvasStyle, this.state.editorCanvasStyle)) {
-    }
+    // if (!equal(nextState.editorCanvasStyle, this.state.editorCanvasStyle)) {}
 
     return !equal(nextState, this.state)
   }
@@ -190,32 +191,86 @@ export default class Editor extends Component {
       prevState => {
         let newState = JSON.parse(JSON.stringify(prevState))
         const newEditor = newState.editor
-        let thisBlocks
-        if (source === 'playground') thisBlocks = newEditor.playground.blocks
-        else thisBlocks = newEditor.factory[source][index].blocks
+
+        let thisBlocks, sectionName
+        if (source === 'playground') {
+          thisBlocks = newEditor.playground.blocks
+          sectionName = 'playground'
+        } else {
+          thisBlocks = newEditor.factory[source][index].blocks
+          sectionName = newEditor.factory[source][index].name
+        }
 
         switch (task) {
           case 'addBlock':
             // [name, y, x]
-            method.addBlock(data, thisBlocks)
+            const [name, y, x] = data
+            const newBlock = makeBlock(name)
+
+            if (!thisBlocks[y] || !thisBlocks[y][x]) {
+              method.addBlock(data, newBlock, thisBlocks)
+              _b.handleBlock(
+                [newBlock, y, x],
+                thisBlocks,
+                task,
+                source,
+                sectionName
+              )
+            }
             break
+
           case 'addConnection':
             // [outputBlockInd, outputNodeInd, inputBlockInd, inputNodeInd]
-            method.addConnection(data, thisBlocks)
+            let result = method.addConnection(data, thisBlocks)
+            /**
+             * result: outputNodeOutputs, inputNodeInput
+             */
+            const [, , inputBlockInd, inputNodeInd] = data
+            _b.handleBlock(
+              [inputBlockInd, inputNodeInd, result],
+              thisBlocks,
+              task,
+              source,
+              sectionName
+            )
             break
+
           case 'removeConnection':
             // [inputBlockIndY, inputBlockIndX, inputNodeInd]
             method.removeConnection(data, thisBlocks)
+            _b.handleBlock(data, thisBlocks, task, source, sectionName)
             break
+
           case 'relocateBlock':
             // [x1, y1, x2, y2]
-            method.relocateBlock(data, thisBlocks)
+            const [x1, y1, x2, y2] = data
+            if (!thisBlocks[y2] || !thisBlocks[y2][x2]) {
+              // Only when the target location is empty
+              method.relocateBlock(data, thisBlocks)
+              _b.handleBlock(
+                [x1, y1, x2, y2, thisBlocks[y2][x2].name],
+                thisBlocks,
+                task,
+                source,
+                sectionName
+              )
+            }
             break
+
           case 'deleteBlock':
-            method.deleteBlock(data, thisBlocks)
+            let outputsToDelete = method.deleteBlock(data, thisBlocks)
+            _b.handleBlock(
+              [...data, outputsToDelete],
+              thisBlocks,
+              task,
+              source,
+              sectionName
+            )
             break
+
           case 'inlineDataChange':
             method.inlineDataChange(data, thisBlocks)
+            _b.handleBlock(data, thisBlocks, task, source, sectionName)
             break
 
           default:
@@ -265,21 +320,32 @@ export default class Editor extends Component {
           case 'add':
             // No data
             this.codeCanvasRef.factory[type].push(createRef()) // Create new canvas ref
-            secMethod.addSection(type, f, fStyle)
+            let nameAdd = secMethod.addSection(type, f, fStyle)
+            _b.handleSection(task, type, [nameAdd])
             break
           case 'delete':
             // [index]
-            secMethod.deleteSection(
+            let nameDelete = secMethod.deleteSection(
               type,
               data[0],
               this.codeCanvasRef.factory,
               f,
               fStyle
             )
+            _b.handleSection(task, type, [nameDelete])
             break
 
           case 'rename':
-            secMethod.renameSection(type, data[0], data[1], f)
+            const oldBlock = f[type][data[0]],
+              newName = data[1]
+
+            _b.handleSection(task, type, [
+              oldBlock.name,
+              newName,
+              oldBlock.lineStyles,
+              oldBlock.blocks,
+            ])
+            secMethod.renameSection(type, data[0], newName, f)
             break
 
           default:

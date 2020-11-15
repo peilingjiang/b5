@@ -28,11 +28,11 @@ export const defaultEditor = {
             0: [['1', '1', '1']],
           },
         },
-        // 1: {
+        // '1': {
         //   name: 'cnv',
         //   source: 'custom',
         //   output: {
-        //     0: [],
+        //     '0': [],
         //   },
         // },
       },
@@ -62,7 +62,6 @@ export const defaultEditor = {
       {
         /* --- data --- */
         name: 'cnv' /* For the section/constructed block */,
-        removable: false /* Can we delete the section? */,
         type: 'variable' /* What is the type of the customized block? */,
         lineStyles: {} /* lineStyles */,
         blocks: {
@@ -131,8 +130,7 @@ export const defaultEditorCanvasStyle = {
 
 // A section template to add to each tab
 const nativeSectionData = {
-    name: '',
-    removable: true,
+    name: '' /* Modify before adding... */,
     type: '' /* Modify before adding... */,
     /*
      type should always be 'variable', 'function', and 'object'
