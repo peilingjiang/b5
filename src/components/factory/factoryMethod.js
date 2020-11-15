@@ -35,18 +35,16 @@ const checkAddAnonymousBlock = (newElement, collect) => {
   )
     return
 
-  if (playground) {
-    for (let r of playground.getElementsByClassName('blockRoom')) {
-      let b = r.getBoundingClientRect()
-      if (
-        b.x <= mid.x &&
-        b.x + roomWidth > mid.x &&
-        b.y <= mid.y &&
-        b.y + lineHeight > mid.y
-      ) {
-        collect([blockName, r.dataset.y, r.dataset.x], 'addBlock', 'playground')
-        break
-      }
+  for (let r of playground.getElementsByClassName('blockRoom')) {
+    let b = r.getBoundingClientRect()
+    if (
+      b.x <= mid.x &&
+      b.x + roomWidth > mid.x &&
+      b.y <= mid.y &&
+      b.y + lineHeight > mid.y
+    ) {
+      collect([blockName, r.dataset.y, r.dataset.x], 'addBlock', 'playground')
+      break
     }
   }
 }
