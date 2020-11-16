@@ -12,13 +12,13 @@ export const checkSectionNameNotValid = (name, propsName) => {
   )
 }
 
-const checkAddAnonymousBlock = (newElement, collect) => {
+const checkAddAnonymousBlock = (newElement, scale, collect) => {
   const nEBounding = newElement.getBoundingClientRect()
   const blockName = newElement.getElementsByClassName('block')[0].dataset.name
 
   const mid = {
-    x: nEBounding.x + (nEBounding.width >> 1),
-    y: nEBounding.y + (nEBounding.height >> 1),
+    x: nEBounding.left + nEBounding.width * 0.5,
+    y: nEBounding.top + nEBounding.height * 0.5,
   }
 
   newElement.remove()
@@ -39,9 +39,9 @@ const checkAddAnonymousBlock = (newElement, collect) => {
     let b = r.getBoundingClientRect()
     if (
       b.x <= mid.x &&
-      b.x + roomWidth > mid.x &&
+      b.x + roomWidth * scale > mid.x &&
       b.y <= mid.y &&
-      b.y + lineHeight > mid.y
+      b.y + lineHeight * scale > mid.y
     ) {
       collect([blockName, r.dataset.y, r.dataset.x], 'addBlock', 'playground')
       break
@@ -50,20 +50,41 @@ const checkAddAnonymousBlock = (newElement, collect) => {
 }
 
 const handleDragAnonymousBlock = (mousedown, newElement, e) => {
-  newElement.style.top = mousedown.top + e.clientY - mousedown.y + 'px'
-  newElement.style.left = mousedown.left + e.clientX - mousedown.x + 'px'
+  newElement.style.top =
+    mousedown.top + e.clientY - mousedown.y + mousedown.offsetY + 'px' // top + delta
+  newElement.style.left =
+    mousedown.left + e.clientX - mousedown.x + mousedown.offsetX + 'px'
 }
 
 export const handleMoveAnonymousBlock = (element, mousedownEvent, collect) => {
-  const parent = element.parentNode
+  const parent = element.parentNode // blockFill element
   const newElement = parent.cloneNode(true)
   const pBounding = parent.getBoundingClientRect()
+  const eBounding = element.getBoundingClientRect()
 
-  newElement.style.top = pBounding.top + 'px'
-  newElement.style.left = pBounding.left + 'px'
+  const playgroundCanvas = document.getElementById('playgroundCodeCanvas')
+  const scale =
+    Math.round(
+      (playgroundCanvas.getBoundingClientRect().width /
+        playgroundCanvas.offsetWidth) *
+        1000
+    ) * 0.001
+
+  const offsetX =
+    (mousedownEvent.clientX - eBounding.left - (eBounding.width >> 1)) *
+    (1 - scale)
+  const offsetY =
+    (mousedownEvent.clientY - eBounding.top - (eBounding.height >> 1)) *
+    (1 - scale)
+
+  newElement.style.top = pBounding.top + offsetY + 'px'
+  newElement.style.left = pBounding.left + offsetX + 'px'
   newElement.style.zIndex = 9999995 // z-index
 
+  newElement.style.transform = `scale(${scale})`
+
   newElement.classList.add('focused')
+  newElement.classList.add('grabbing')
   newElement
     .getElementsByClassName('block')[0]
     .classList.replace('grab', 'grabbing')
@@ -80,12 +101,14 @@ export const handleMoveAnonymousBlock = (element, mousedownEvent, collect) => {
       left: pBounding.left,
       x: mousedownEvent.clientX,
       y: mousedownEvent.clientY,
+      offsetX: offsetX,
+      offsetY: offsetY,
     },
     newElement
   )
   document.addEventListener('mousemove', hDAB)
   document.addEventListener('mouseup', function _listener() {
-    checkAddAnonymousBlock(newElement, collect)
+    checkAddAnonymousBlock(newElement, scale, collect)
     element.classList.remove('opaque')
 
     document.removeEventListener('mousemove', hDAB)

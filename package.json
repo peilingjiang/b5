@@ -1,6 +1,6 @@
 {
   "name": "b5",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "private": true,
   "dependencies": {
     "blob-polyfill": "^4.0.20200601",

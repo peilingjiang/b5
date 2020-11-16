@@ -43,12 +43,19 @@ export default class CodeCanvas extends Component {
 
       collect, // (Required)
       collectStyle, // (Required)
+
+      thisCodeCanvasRef, // (Required)
+      hardRefresh, // (Required)
+
+      canvasId, // Currently for playground canvas
     }
 
     */
     super(props)
     this.state = {
       render: {
+        lineStartCount: 0, // Start # of lines rendering (New for 0.0.9)
+        blockStartCount: 0, // Start # of blocks rendering (New for 0.0.9)
         lineCount: 0, // # of lines
         blockCount: 0, // # of block rooms for each line
         // maxIndX: 0, // Max index (with block in the room) on x-axis (horizontally)
@@ -102,6 +109,7 @@ export default class CodeCanvas extends Component {
     }
 
     this.colorEffectInd = []
+    this.mouseIsDown = false
   }
 
   componentDidMount() {
@@ -178,16 +186,23 @@ export default class CodeCanvas extends Component {
   }
 
   handleMouseDown = e => {
+    const that = this
+    that.mouseIsDown = true
     if (e.which === 3)
       // Right click
       this.handlePan(e)
+    else
+      document.addEventListener('mouseup', function _listener() {
+        that.mouseIsDown = false
+        document.removeEventListener('mouseup', _listener)
+      })
   }
 
   handlePan = e => {
     e.preventDefault()
     this.codeCanvas.className = 'codeCanvas grabbing'
 
-    let that = this
+    const that = this
     let mouse = {
       x: e.clientX,
       y: e.clientY,
@@ -209,6 +224,7 @@ export default class CodeCanvas extends Component {
     document.addEventListener(
       'mouseup',
       function _listener() {
+        that.mouseIsDown = false
         that.codeCanvas.className = 'codeCanvas'
         document.removeEventListener('mousemove', grabCanvas, true)
 
@@ -273,27 +289,29 @@ export default class CodeCanvas extends Component {
     }
 
     // * SCALE
-    this.setState({
-      scale:
-        Math.round(
-          Math.min(
-            Math.max(
-              this.state.scale - e.deltaY * 0.0006 /* Zoom factor */,
-              0.6 // MIN
-            ),
-            2 // MAX
-          ) * 1000
-        ) / 1000,
-    })
-    this.codeCanvas.style.transform = 'scale(' + this.state.scale + ')'
-    this.codeCanvas.style.width = 100 / this.state.scale + '%'
-    this.codeCanvas.style.height = 100 / this.state.scale + '%'
+    if (!this.mouseIsDown) {
+      this.setState({
+        scale:
+          Math.round(
+            Math.min(
+              Math.max(
+                this.state.scale - e.deltaY * 0.0006 /* Zoom factor */,
+                0.5 // MIN
+              ),
+              1.7 // MAX
+            ) * 1000
+          ) / 1000,
+      })
+      this.codeCanvas.style.transform = 'scale(' + this.state.scale + ')'
+      this.codeCanvas.style.width = 100 / this.state.scale + '%'
+      this.codeCanvas.style.height = 100 / this.state.scale + '%'
 
-    clearTimeout(this.zoomTimer)
-    this.zoomTimer = setTimeout(() => {
-      this._refreshCodeCanvasCounts()
-      this._handleCollectEditorCanvasStyle()
-    }, 100)
+      clearTimeout(this.zoomTimer)
+      this.zoomTimer = setTimeout(() => {
+        this._refreshCodeCanvasCounts()
+        this._handleCollectEditorCanvasStyle()
+      }, 100)
+    }
   }
 
   handleResize = e => {
@@ -364,6 +382,15 @@ export default class CodeCanvas extends Component {
     // and update this.state.lineCount and this.state.blockCount
     let render = { ...this.state.render }
 
+    render.lineStartCount = Math.max(
+      Math.floor(-this.state.top / lineHeight),
+      0
+    )
+    render.blockStartCount = Math.max(
+      Math.floor(-this.state.left / roomWidth),
+      0
+    )
+
     render.lineCount = Math.min(
       Math.max(
         Math.ceil((this.codeCanvas.clientHeight - this.state.top) / lineHeight),
@@ -378,6 +405,7 @@ export default class CodeCanvas extends Component {
       ),
       this.maxBlockCount
     )
+
     this.setState({ render })
   }
 
@@ -430,29 +458,31 @@ export default class CodeCanvas extends Component {
       blockHome = []
 
     const {
-        render: { lineCount, blockCount },
+        render: { lineStartCount, blockStartCount, lineCount, blockCount },
         scale,
       } = this.state,
       {
         data: { blocks },
         thisCodeCanvasRef,
         hardRefresh,
+        canvasId,
       } = this.props
 
     for (let i = 0; i < lineCount; i++) {
       // Key - 'line 17'
       lineNumbers.push(<LineNumberRoom key={'lineNumber ' + i} num={i} />)
-      for (let j = 0; j < blockCount; j++) {
-        // Key - 'block 2 17' (line 2, column 17)
-        blockHome.push(
-          <BlockRoom
-            key={'blockRoom ' + i + ' ' + j}
-            y={i}
-            x={j}
-            bg={this._getRoomBackground(i, j)}
-          />
-        )
-      }
+      if (i >= lineStartCount)
+        for (let j = blockStartCount; j < blockCount; j++) {
+          // Key - 'block 2 17' (line 2, column 17)
+          blockHome.push(
+            <BlockRoom
+              key={'blockRoom ' + i + ' ' + j}
+              y={i}
+              x={j}
+              bg={this._getRoomBackground(i, j)}
+            />
+          )
+        }
     }
     for (let j = 0; j < blockCount; j++) {
       blockAlphabets.push(
@@ -461,7 +491,11 @@ export default class CodeCanvas extends Component {
     }
 
     return (
-      <div ref={thisCodeCanvasRef} className="codeCanvas">
+      <div
+        ref={thisCodeCanvasRef}
+        className="codeCanvas"
+        id={canvasId ? canvasId : null}
+      >
         {/* blockHome */}
         <div ref={e => (this.blockHome = e)} className="blockHome">
           {blockHome}

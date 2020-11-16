@@ -33,6 +33,7 @@ export default class Playground extends Component {
           collectStyle={collectStyle}
           thisCodeCanvasRef={playgroundCodeCanvasRef}
           hardRefresh={hardRefresh}
+          canvasId={'playgroundCodeCanvas'}
         />
         {/* <div className="shadow"></div> */}
       </div>

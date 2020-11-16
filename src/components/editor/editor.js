@@ -243,21 +243,17 @@ export default class Editor extends Component {
 
           case 'relocateBlock':
             // [x1, y1, x2, y2]
-            const [x1, y1, x2, y2] = data
+            const [, , x2, y2] = data
             if (!thisBlocks[y2] || !thisBlocks[y2][x2]) {
               // Only when the target location is empty
               method.relocateBlock(data, thisBlocks)
-              _b.handleBlock(
-                [x1, y1, x2, y2, thisBlocks[y2][x2].name],
-                thisBlocks,
-                task,
-                source,
-                sectionName
-              )
+              if (!_b.ignores(thisBlocks[y2][x2].name))
+                _b.handleBlock(data, thisBlocks, task, source, sectionName)
             }
             break
 
           case 'deleteBlock':
+            // [y, x]
             let outputsToDelete = method.deleteBlock(data, thisBlocks)
             _b.handleBlock(
               [...data, outputsToDelete],
@@ -269,8 +265,10 @@ export default class Editor extends Component {
             break
 
           case 'inlineDataChange':
+            // [x, y, dataIndex, thisInlineData]
             method.inlineDataChange(data, thisBlocks)
-            _b.handleBlock(data, thisBlocks, task, source, sectionName)
+            if (!_b.ignores(thisBlocks[data[1]][data[0]].name))
+              _b.handleBlock(data, thisBlocks, task, source, sectionName)
             break
 
           default:
