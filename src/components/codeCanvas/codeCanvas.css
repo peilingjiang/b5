@@ -143,23 +143,27 @@
   }
 
   .addBlockHint {
-    margin: auto;
-    margin-top: 14px;
-    padding: auto;
+    margin-left: calc(($block-width - 176px) / 2);
+    margin-top: calc(($line-height - 71px) / 2);
+    width: 170px;
+    height: 70px;
+    padding: 0;
+    text-align: center;
+    background-color: $hover-grey;
+    border-radius: $radius;
 
     img {
-      display: block;
+      display: inline-block;
+      margin: 16px auto 9px;
       width: $icon-size;
       height: $icon-size;
     }
 
     p {
-      // in .visible
       font-size: $small;
       font-weight: $regular;
       letter-spacing: 0.01rem; // * Can we avoid?
-      color: $grey;
-      margin-top: 9px;
+      color: #fff;
     }
   }
 
