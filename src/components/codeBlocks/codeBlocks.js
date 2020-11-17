@@ -222,9 +222,10 @@ export default class CodeBlocks extends Component {
 
   handleDragWire = (props, e) => {
     const { startBlockInd, startNodeType, startNodeInd, m } = props
+    const s = this.props.scale
     let delta = {
-      x: (e.clientX - m.x) / this.props.scale,
-      y: (e.clientY - m.y) / this.props.scale,
+      x: (e.clientX - m.x) / s,
+      y: (e.clientY - m.y) / s,
     }
 
     const wireStart = this.state.nodesOffset[startBlockInd[0]][
@@ -287,18 +288,19 @@ export default class CodeBlocks extends Component {
     const {
       canvas: { lineCount, blockCount },
     } = this.props
+    const s = this.props.scale
 
     let delta = {
       x: Math.max(
         Math.min(
-          (e.clientX - m.x) / this.props.scale,
+          (e.clientX - m.x) / s,
           (blockCount - 1) * roomWidth - m.blockLeft
         ),
         -m.blockLeft
       ),
       y: Math.max(
         Math.min(
-          (e.clientY - m.y) / this.props.scale,
+          (e.clientY - m.y) / s,
           (lineCount - 1) * lineHeight - m.blockTop
         ),
         -m.blockTop

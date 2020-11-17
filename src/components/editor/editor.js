@@ -92,7 +92,8 @@ export default class Editor extends Component {
       x: null, // X of the blockRoom
     }
 
-    this.currentEntities = createRef([]) // For section method
+    this.currentEntities = createRef() // For section method
+    this.currentEntities.current = []
   }
 
   _createCodeCanvasRef = data => {

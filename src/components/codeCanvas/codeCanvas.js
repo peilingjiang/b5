@@ -161,7 +161,10 @@ export default class CodeCanvas extends Component {
       this._getColorEffectInd(nextProps.data.blocks)
       return true
     }
-    return !equal(this.state.render, nextState.render)
+    return (
+      !equal(this.state.render, nextState.render) ||
+      !equal(this.state.scale, nextState.scale)
+    )
   }
 
   // setEditor functions...
@@ -290,27 +293,28 @@ export default class CodeCanvas extends Component {
 
     // * SCALE
     if (!this.mouseIsDown) {
+      const s =
+        Math.round(
+          Math.min(
+            Math.max(
+              this.state.scale - e.deltaY * 0.0006 /* Zoom factor */,
+              0.5 // MIN
+            ),
+            1.7 // MAX
+          ) * 1000
+        ) / 1000
       this.setState({
-        scale:
-          Math.round(
-            Math.min(
-              Math.max(
-                this.state.scale - e.deltaY * 0.0006 /* Zoom factor */,
-                0.5 // MIN
-              ),
-              1.7 // MAX
-            ) * 1000
-          ) / 1000,
+        scale: s,
       })
-      this.codeCanvas.style.transform = 'scale(' + this.state.scale + ')'
-      this.codeCanvas.style.width = 100 / this.state.scale + '%'
-      this.codeCanvas.style.height = 100 / this.state.scale + '%'
+      this.codeCanvas.style.transform = 'scale(' + s + ')'
+      this.codeCanvas.style.width = 100 / s + '%'
+      this.codeCanvas.style.height = 100 / s + '%'
 
       clearTimeout(this.zoomTimer)
       this.zoomTimer = setTimeout(() => {
         this._refreshCodeCanvasCounts()
         this._handleCollectEditorCanvasStyle()
-      }, 100)
+      }, 50)
     }
   }
 
@@ -504,7 +508,7 @@ export default class CodeCanvas extends Component {
           {Object.keys(blocks).length === 0 && (
             <div className="addBlockHint">
               <img src={DoubleClick} alt="Double Click" />
-              <p>Double click to add a block</p>
+              <p>double click to add a block</p>
             </div>
           )}
           <CodeBlocks
