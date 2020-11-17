@@ -14,7 +14,7 @@ import FileUpload from './fileUpload'
 import '../../postcss/components/editor/editor.css'
 
 import _b from './b5ObjectWrapper'
-import { makeBlock } from '../make'
+import { makeBlock } from '../../b5.js/src/core/make'
 
 import { lineNumberWidth, blockAlphabetHeight, gap } from '../constants'
 import {
@@ -91,6 +91,8 @@ export default class Editor extends Component {
       y: null, // Y of the blockRoom
       x: null, // X of the blockRoom
     }
+
+    this.currentEntities = createRef([]) // For section method
   }
 
   _createCodeCanvasRef = data => {
@@ -244,24 +246,39 @@ export default class Editor extends Component {
           case 'relocateBlock':
             // [x1, y1, x2, y2]
             const [, , x2, y2] = data
+
             if (!thisBlocks[y2] || !thisBlocks[y2][x2]) {
               // Only when the target location is empty
+              // - Modify data first
               method.relocateBlock(data, thisBlocks)
+              // - Then modify b5
               if (!_b.ignores(thisBlocks[y2][x2].name))
-                _b.handleBlock(data, thisBlocks, task, source, sectionName)
+                _b.handleBlock(
+                  [...data, thisBlocks[y2][x2]],
+                  thisBlocks,
+                  task,
+                  source,
+                  sectionName
+                )
             }
             break
 
           case 'deleteBlock':
             // [y, x]
-            let outputsToDelete = method.deleteBlock(data, thisBlocks)
-            _b.handleBlock(
-              [...data, outputsToDelete],
-              thisBlocks,
-              task,
-              source,
-              sectionName
-            )
+            if (thisBlocks[data[0]] && thisBlocks[data[0]][data[1]]) {
+              const deleteBlockData = Object.assign(
+                {},
+                thisBlocks[data[0]][data[1]]
+              )
+              let outputsToDelete = method.deleteBlock(data, thisBlocks)
+              _b.handleBlock(
+                [...data, outputsToDelete, deleteBlockData],
+                thisBlocks,
+                task,
+                source,
+                sectionName
+              )
+            }
             break
 
           case 'inlineDataChange':
@@ -277,14 +294,19 @@ export default class Editor extends Component {
 
         newState.hardRefresh = false
 
+        // * Promote to playground for changes in sections
+        if (source !== 'playground')
+          _b.handleBumpSectionUpdate(
+            source,
+            sectionName,
+            newEditor.playground.blocks,
+            task
+          )
+
         return newState
       },
       function () {
         // * After update the editorData...
-        // * if changes made to factory, bump updates in playground blocks
-        // if (source !== 'playground')
-        //   console.log(this.state.editor.factory[source][index])
-
         this._storeEditor()
       }
     )
@@ -314,13 +336,23 @@ export default class Editor extends Component {
         const f = newState.editor.factory
         const fStyle = newState.editorCanvasStyle.factory
 
+        const playground = newState.editor.playground.blocks
+
         switch (task) {
           case 'add':
             // No data
             this.codeCanvasRef.factory[type].push(createRef()) // Create new canvas ref
             let nameAdd = secMethod.addSection(type, f, fStyle)
-            _b.handleSection(task, type, [nameAdd])
+
+            // No need to bump update for add tasks
+            _b.handleSection(
+              task,
+              type,
+              [nameAdd, method.getSectionNames(f[type])],
+              playground
+            )
             break
+
           case 'delete':
             // [index]
             let nameDelete = secMethod.deleteSection(
@@ -330,19 +362,39 @@ export default class Editor extends Component {
               f,
               fStyle
             )
-            _b.handleSection(task, type, [nameDelete])
+
+            if (_b.factory[type][nameDelete])
+              this.currentEntities.current = _b.factory[type][
+                nameDelete
+              ].entities.getEntities()
+            _b.handleSection(
+              task,
+              type,
+              [nameDelete, this.currentEntities.current],
+              playground
+            )
             break
 
           case 'rename':
             const oldBlock = f[type][data[0]],
               newName = data[1]
 
-            _b.handleSection(task, type, [
-              oldBlock.name,
-              newName,
-              oldBlock.lineStyles,
-              oldBlock.blocks,
-            ])
+            if (_b.factory[type][oldBlock.name])
+              this.currentEntities.current = _b.factory[type][
+                oldBlock.name
+              ].entities.getEntities()
+            _b.handleSection(
+              task,
+              type,
+              [
+                oldBlock.name,
+                newName,
+                oldBlock.lineStyles,
+                oldBlock.blocks,
+                this.currentEntities.current,
+              ],
+              playground
+            )
             secMethod.renameSection(type, data[0], newName, f)
             break
 
@@ -593,7 +645,7 @@ export default class Editor extends Component {
           />
 
           <p className="dev issueTag">
-            {/* Take env! */}v{process.env.REACT_APP_VERSION} alpha -{' '}
+            {/* Take env! */}v{process.env.REACT_APP_VERSION} -{' '}
             <a
               href="https://github.com/peilingjiang/b5/issues/new"
               rel="noopener noreferrer"

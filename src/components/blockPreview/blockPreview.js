@@ -10,10 +10,6 @@ export default class BlockPreview extends Component {
     this.blockPreviewRef = createRef()
   }
 
-  // componentDidMount() {
-  //   let thisPreviewBlock = this.blockPreviewRef.current.getElementsByClassName('block')[0]
-  // }
-
   shouldComponentUpdate(nextProps) {
     return (
       !equal(nextProps.data.blocks, this.props.data.blocks) ||

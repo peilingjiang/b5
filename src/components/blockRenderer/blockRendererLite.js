@@ -1,8 +1,14 @@
 import React, { useRef, forwardRef } from 'react'
 
 import BlockRenderer from './blockRenderer'
-import { makeBlock } from '../make'
+import { makeBlock } from '../../b5.js/src/core/make'
 
+const _selectedNodes = {
+  input: [],
+  output: [],
+}
+
+// Render a sudo block
 const BlockRendererLiteRef = ({
   name,
   source,
@@ -22,11 +28,9 @@ const BlockRendererLiteRef = ({
       data={makeBlock(name, source)}
       inputBlocks={null}
       focused={focus || false}
-      selectedNodes={{
-        input: [],
-        output: [],
-      }}
+      selectedNodes={_selectedNodes}
       draggable={draggable}
+      liteRenderer={true} // Always re-render for lite renderers
     />
   )
 }

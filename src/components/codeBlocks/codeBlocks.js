@@ -592,6 +592,7 @@ export default class CodeBlocks extends Component {
             collectNodesOffset={this.collectNodesOffset}
             // ? Can we use default dragging?
             draggable={false}
+            liteRenderer={false}
           />
         )
       }

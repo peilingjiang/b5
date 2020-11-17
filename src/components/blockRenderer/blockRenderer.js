@@ -17,12 +17,14 @@ import '../../postcss/components/blockRenderer/css/blockRenderer.css'
 
 function _getTotalOffset(thisNode, targetClassName) {
   // [x, y]
-  if (thisNode.classList.contains(targetClassName))
-    return [thisNode.offsetLeft, thisNode.offsetTop]
+  if (thisNode) {
+    if (thisNode.classList.contains(targetClassName))
+      return [thisNode.offsetLeft, thisNode.offsetTop]
 
-  const total = _getTotalOffset(thisNode.parentNode, targetClassName)
+    const total = _getTotalOffset(thisNode.parentNode, targetClassName)
 
-  return [thisNode.offsetLeft + total[0], thisNode.offsetTop + total[1]]
+    return [thisNode.offsetLeft + total[0], thisNode.offsetTop + total[1]]
+  } else return [0, 0]
 }
 
 class BlockRenderer extends Component {
@@ -46,18 +48,14 @@ class BlockRenderer extends Component {
     const {
       data: { input, output },
     } = this.props
-    this.inputNum = input ? Object.keys(input).length : 0
-    this.outputNum = output ? Object.keys(output).length : 0
 
     this.nodesRef = {
       input: [],
       output: [],
     }
 
-    for (let i = 0; i < this.inputNum; i++)
-      this.nodesRef.input.push(createRef())
-    for (let i = 0; i < this.outputNum; i++)
-      this.nodesRef.output.push(createRef())
+    this._refreshInputNodesRef(input)
+    this._refreshOutputNodesRef(output)
   }
 
   componentDidMount() {
@@ -73,11 +71,17 @@ class BlockRenderer extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.action) this.handleCollectNodesOffset()
+    if (this.props.action) this.handleCollectNodesOffset(true)
   }
 
   shouldComponentUpdate(nextProps) {
+    if (!equal(nextProps.data.input, this.props.data.input))
+      this._refreshInputNodesRef(nextProps.data.input)
+    if (!equal(nextProps.data.output, this.props.data.output))
+      this._refreshOutputNodesRef(nextProps.data.output)
+
     return (
+      nextProps.liteRenderer || // Always re-render lite blocks
       !equal(nextProps.data, this.props.data) ||
       nextProps.focused !== this.props.focused ||
       !equal(nextProps.selectedNodes, this.props.selectedNodes) ||
@@ -91,6 +95,18 @@ class BlockRenderer extends Component {
       nR.current.removeEventListener('input', this.handleBlockNameChange)
       nR.current.removeEventListener('blur', this.handleBlockNameBlur)
     }
+  }
+
+  _refreshInputNodesRef = input => {
+    this.inputNum = input ? Object.keys(input).length : 0
+    for (let i = 0; i < this.inputNum; i++)
+      this.nodesRef.input.push(createRef())
+  }
+
+  _refreshOutputNodesRef = output => {
+    this.outputNum = output ? Object.keys(output).length : 0
+    for (let i = 0; i < this.outputNum; i++)
+      this.nodesRef.output.push(createRef())
   }
 
   handleCollectNodesOffset = (collectRef = false) => {

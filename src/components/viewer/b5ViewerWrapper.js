@@ -58,6 +58,7 @@ export default class B5Wrapper extends Component {
 
   _clearCanvas = () => {
     if (this.myP5 !== null) {
+      this.myP5.noLoop()
       // Unplug section blocks output data
       _b.unplug()
       // Remove canvas

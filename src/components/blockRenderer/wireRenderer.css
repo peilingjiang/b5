@@ -55,4 +55,9 @@
   .focused {
     stroke: $dark-grey;
   }
+
+  .wire-arrowhead {
+    stroke: $dark-grey;
+    fill: $dark-grey;
+  }
 }

@@ -43,6 +43,7 @@ const checkAddAnonymousBlock = (newElement, scale, collect) => {
       b.y <= mid.y &&
       b.y + lineHeight * scale > mid.y
     ) {
+      // ! Add to the playground codeCanvas!
       collect([blockName, r.dataset.y, r.dataset.x], 'addBlock', 'playground')
       break
     }

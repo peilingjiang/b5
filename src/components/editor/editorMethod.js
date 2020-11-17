@@ -113,9 +113,7 @@ export const deleteBlock = (data, thisBlocks) => {
         const thisOutput = thisBlocks[y][x].output[i]
         returner.push(...thisOutput)
 
-        for (let j of thisOutput) {
-          thisBlocks[j[0]][j[1]].input[j[2]] = null
-        }
+        for (let j of thisOutput) thisBlocks[j[0]][j[1]].input[j[2]] = null
       }
   // Delete the block
   delete thisBlocks[y][x]
@@ -133,7 +131,7 @@ export const inlineDataChange = (data, thisBlocks) => {
 export function getFormattedTime() {
   let today = new Date()
   let tS = today.toString().split(' ')
-  return tS[1] + ' ' + tS[2] + '-' + tS[4].replace(':', '').replace(':', '-')
+  return tS[1] + ' ' + tS[2] + '-' + tS[4].replace(':', '-').replace(':', '-')
 }
 
 // ! SAVE
@@ -142,4 +140,13 @@ export function _saveEditor(editor) {
     type: 'application/json',
   })
   saveAs(b, getFormattedTime() + '.b5.json')
+}
+
+/* --------------------------------- Helpers -------------------------------- */
+
+export const getSectionNames = factoryType => {
+  // factoryType - array of objects
+  const names = []
+  for (let f of factoryType) names.push(f.name)
+  return names
 }

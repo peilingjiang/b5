@@ -98,9 +98,12 @@ $slider-width: 176px;
         font-size: $small-small;
         margin: 0;
         top: 1px;
-        // border: $light-grey solid 0.5px;
         background-color: color-mod($object blend($black 25%)) !important;
         color: #fff;
+
+        &::selection {
+          background-color: color-mod($selected a(0.99));
+        }
       }
     }
   }

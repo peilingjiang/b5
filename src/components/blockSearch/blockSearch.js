@@ -111,7 +111,7 @@ export default class BlockSearch extends Component {
         roomX,
       } = this.props
       collect(
-        [name, roomY, roomX],
+        [name, roomY.toString(), roomX.toString()],
         'addBlock',
         codeCanvasSource,
         codeCanvasIndex
