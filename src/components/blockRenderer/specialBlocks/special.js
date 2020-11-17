@@ -183,7 +183,11 @@ class InputRange extends Component {
 
   _getLength = (current, min, max) => {
     // Get length from current slider value
-    return (this.totalLength * (current - min)) / (max - min)
+    return current === min
+      ? 0
+      : current === max
+      ? this.totalLength
+      : this.totalLength * ((current - min) / (max - min))
   }
 
   _getValue = (length, min, max, step) => {
