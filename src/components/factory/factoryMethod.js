@@ -1,6 +1,6 @@
 import isAlphanumeric from 'validator/lib/isAlphanumeric'
 
-import { lineHeight, roomWidth } from '../constants'
+import { lineHeight, longestBlockName, roomWidth } from '../constants'
 import _b from '../editor/b5ObjectWrapper'
 
 export const checkSectionNameNotValid = (name, propsName) => {
@@ -8,9 +8,12 @@ export const checkSectionNameNotValid = (name, propsName) => {
   return (
     !isAlphanumeric(name) ||
     name.length <= 0 ||
+    name.length > longestBlockName ||
     (name !== propsName && _b.unavailableNames.includes(name))
   )
 }
+
+/* ------------------ Drag block from factory to playground ----------------- */
 
 const checkAddAnonymousBlock = (newElement, scale, collect) => {
   const nEBounding = newElement.getBoundingClientRect()
@@ -85,7 +88,7 @@ export const handleMoveAnonymousBlock = (element, mousedownEvent, collect) => {
   newElement.style.transform = `scale(${scale})`
 
   newElement.classList.add('focused')
-  newElement.classList.add('grabbing')
+  newElement.classList.add('node-disabled')
   newElement
     .getElementsByClassName('block')[0]
     .classList.replace('grab', 'grabbing')
@@ -116,3 +119,5 @@ export const handleMoveAnonymousBlock = (element, mousedownEvent, collect) => {
     document.removeEventListener('mouseup', _listener)
   })
 }
+
+/* -------------------------------------------------------------------------- */

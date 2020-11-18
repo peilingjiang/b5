@@ -221,6 +221,11 @@ $rename: '../../../img/icon/rename.svg';
     z-index: 180000;
     border: none;
 
+    // When in factory preview, the cursor should be grab instead of pointer
+    .block {
+      cursor: grab !important;
+    }
+
     .blockName {
       border-radius: $radius $radius 0 0;
     }

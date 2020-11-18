@@ -351,6 +351,7 @@ $node-0-1-width: 110px;
 }
 
 .disabledComponent {
+  user-select: none;
   // pointer-events: none;
 }
 

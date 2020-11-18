@@ -1,7 +1,7 @@
 import React, { PureComponent, createRef } from 'react'
 import ReactDOM from 'react-dom'
 
-import { colorPalette } from '../constants'
+import { colorPalette, hintWait } from '../constants'
 import '../../postcss/components/hint/hint.css'
 
 export const _preDescription = d => {
@@ -130,7 +130,7 @@ export default class Hint extends PureComponent {
       const that = this
       this.moveTimeout = setTimeout(function () {
         that.addHint(e)
-      }, 350)
+      }, hintWait)
     }
   }
 

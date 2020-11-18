@@ -54,7 +54,7 @@ body {
 }
 
 .grabbing {
-  cursor: grabbing;
+  cursor: grabbing !important;
 }
 
 .ewResizing {
@@ -84,4 +84,10 @@ body {
 .disabledText {
   color: $light-grey !important;
   pointer-events: none !important;
+}
+
+.node-disabled {
+  .node {
+    pointer-events: none !important;
+  }
 }

@@ -34,3 +34,9 @@ export const searchBarHeight = 50
 
 // Mini Viewer
 export const targetSize = 200
+
+// Block
+export const longestBlockName = 13
+
+// Hint
+export const hintWait = 400
