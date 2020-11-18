@@ -1,6 +1,7 @@
 import React, { memo } from 'react'
 
-import { _getParentBlockInBook, Node } from '../frags'
+import Node from '../node'
+import { _getParentBlockInBook } from '../frags'
 
 const InlineBlock = memo(
   ({
@@ -17,6 +18,8 @@ const InlineBlock = memo(
     nodesRef,
     focused,
     selectedNodes,
+    name,
+    description,
   }) => {
     let inlineInputNodes = []
     if (inputNodes)
@@ -40,10 +43,20 @@ const InlineBlock = memo(
             ref={nodesRef.input[i]}
             focused={focused}
             selected={selectedNodes.input.includes(i)}
+            hintName={inputNodes[i].name}
+            hintDescription={inputNodes[i].description}
+            hintType={inputNodes[i].type[0]}
           />
         )
     return (
-      <div className={className}>
+      <div
+        className={className}
+        data-hint={true}
+        data-hint-name={name}
+        data-hint-description={description}
+        data-hint-type={type}
+        data-hint-category={'block'}
+      >
         {inputNodes && (
           <>
             <div
@@ -78,6 +91,10 @@ const InlineBlock = memo(
               ref={nodesRef.output[0]}
               focused={focused}
               selected={selectedNodes.output.includes('0')}
+              hintName={outputNodes[0].name}
+              hintDescription={outputNodes[0].description}
+              hintType={outputNodes[0].type[0]}
+              hintSide={'down'}
             />
           </div>
         )}

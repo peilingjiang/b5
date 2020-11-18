@@ -103,6 +103,7 @@ $node-0-1-width: 110px;
       background-color: rgba(0, 0, 0, 0.05);
       pointer-events: none;
       user-select: none;
+      overflow: hidden;
     }
 
     .nodesText {

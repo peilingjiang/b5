@@ -32,7 +32,7 @@ $h-s-gap: 14px;
 }
 
 .searchInput {
-  background-color: transparent;
+  background: none;
   margin: 0 0 0 calc($s-gap - 4px);
   width: calc(100% - $s-gap + 4px);
   height: $search-bar-height;
@@ -54,6 +54,7 @@ $h-s-gap: 14px;
   scroll-behavior: smooth;
   white-space: nowrap;
   padding: 0;
+  z-index: -1;
 
   .searchBlockWrapper {
     display: inline-flex;

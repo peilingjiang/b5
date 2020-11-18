@@ -1,0 +1,87 @@
+@import '../../css/root.css';
+
+#hintHolder {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000007;
+}
+
+.hint {
+  position: absolute;
+  display: block;
+  background-color: color-mod(#fdfdfd a($high-op)) !important;
+  backdrop-filter: blur(2px) !important;
+  border-radius: $tiny-radius;
+  box-shadow: $light-shadow;
+  margin: 0;
+  padding: 0;
+  width: fit-content;
+  height: fit-content;
+
+  p {
+    align-self: center;
+    font-size: $small;
+  }
+
+  .hint-info {
+    display: inline-flex;
+    width: max-content;
+    max-width: calc($block-width - 2 * $gap);
+    padding: calc($gap * 2);
+
+    .hint-name {
+      color: #fff;
+      display: flex;
+      font-weight: $medium;
+      padding: $gap;
+      border-radius: $tiny-tiny-radius;
+      white-space: nowrap;
+    }
+
+    .hint-description {
+      padding: 0;
+      padding-left: $large-gap;
+      color: $dark-grey;
+      font-weight: $regular;
+      word-wrap: break-word;
+      hyphens: auto;
+      font-size: $small-small;
+      line-height: 150%;
+    }
+
+    .hint-no-available {
+      color: $light-grey;
+      font-style: italic;
+    }
+  }
+
+  .hint-category {
+    margin: 0 auto $gap;
+    text-align: center;
+    width: calc(100% - $gap * 4);
+    padding-top: calc(1px + $gap); // ? How to do it more elegantly?
+    padding-bottom: 0;
+    font-size: $small-small;
+    color: $light-grey;
+    border-top: 1px solid $dark-white;
+  }
+
+  // hintSide
+
+  &.up {
+    transform: translate(-50%, calc(-100% - $large-gap));
+  }
+
+  &.down {
+    transform: translate(-50%, $large-gap);
+  }
+
+  &.right {
+    transform: translate($gap, -50%);
+  }
+
+  &.left {
+    transform: translate(calc(-100% - $large-gap), -50%);
+  }
+}

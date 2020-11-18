@@ -4,7 +4,8 @@ import equal from 'react-fast-compare'
 import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper'
 
 import { lineHeight, roomWidth } from '../constants'
-import { _getParentBlockInBook, Node } from './frags'
+import Node from './node'
+import { _getParentBlockInBook } from './frags'
 import { checkSectionNameNotValid } from '../factory/factoryMethod'
 import {
   InputBlock,
@@ -169,9 +170,14 @@ class BlockRenderer extends Component {
       draggable,
     } = this.props
 
-    const { text, type, kind, inputNodes, outputNodes } = _b5BlocksObject[
-      source
-    ][name]
+    const {
+      text,
+      type,
+      kind,
+      inputNodes,
+      outputNodes,
+      description,
+    } = _b5BlocksObject[source][name]
     let inputNodesCount = inputNodes === null ? 0 : inputNodes.length,
       outputNodesCount = outputNodes === null ? 0 : outputNodes.length
 
@@ -205,6 +211,7 @@ class BlockRenderer extends Component {
               nodesRef={this.nodesRef}
               focused={focused}
               selectedNodes={selectedNodes}
+              description={description}
             />
           </>
         )
@@ -229,6 +236,8 @@ class BlockRenderer extends Component {
               focused={focused}
               selectedNodes={selectedNodes}
               scale={scale}
+              source={source}
+              description={description}
             />
           </>
         )
@@ -252,6 +261,7 @@ class BlockRenderer extends Component {
               nodesRef={this.nodesRef}
               focused={focused}
               selectedNodes={selectedNodes}
+              description={description}
             />
           </>
         )
@@ -280,6 +290,8 @@ class BlockRenderer extends Component {
               nodesRef={this.nodesRef}
               focused={focused}
               selectedNodes={selectedNodes}
+              name={name}
+              description={description}
             />
           </>
         )
@@ -337,6 +349,9 @@ class BlockRenderer extends Component {
                 ref={this.nodesRef.input[i]}
                 focused={focused}
                 selected={selectedNodes.input.includes(i)}
+                hintName={inputNodes[i].name}
+                hintDescription={inputNodes[i].description}
+                hintType={inputNodes[i].type[0]}
               />
             )
             inputNodesText.push(
@@ -364,6 +379,10 @@ class BlockRenderer extends Component {
                 ref={this.nodesRef.output[i]}
                 focused={focused}
                 selected={selectedNodes.output.includes(i)}
+                hintName={outputNodes[i].name}
+                hintDescription={outputNodes[i].description}
+                hintType={outputNodes[i].type[0]}
+                hintSide={'down'}
               />
             )
             outputNodesText.push(
@@ -394,6 +413,11 @@ class BlockRenderer extends Component {
                 (draggable ? ' draggable' : '')
               }
               data-name={name}
+              data-hint={true}
+              data-hint-name={name}
+              data-hint-description={description}
+              data-hint-type={type}
+              data-hint-category={'block'}
             >
               {inputNodes !== null ? (
                 <>

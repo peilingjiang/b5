@@ -1,10 +1,4 @@
-import React, {
-  PureComponent,
-  createRef,
-  forwardRef,
-  memo,
-  Component,
-} from 'react'
+import React, { PureComponent, createRef, Component } from 'react'
 import { SketchPicker } from 'react-color'
 
 import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper'
@@ -17,68 +11,6 @@ export function _getParentBlockInBook(name) {
   return _b5BlocksObject[source][name]
 }
 
-const _nodeBorderClassSelector = (
-  type,
-  connectType,
-  focused,
-  selected,
-  alerted
-) => {
-  // type is the type of the block itself
-  // connectType can be null or string type of the connected node
-  // focused, selected, alerted - Boolean
-
-  // * alerted > focused === selected > connected
-
-  let r = ''
-
-  if (connectType !== null) {
-    // CONNECTED
-    r += connectType + 'Connect connected' // All other classes are based on 'connected'
-    if (alerted) r += ' alert'
-    else if (focused) r += ' focused'
-    else if (selected) r += ' selected'
-  }
-  // NOT CONNECTED
-  else r += type + 'Node'
-
-  return r
-}
-
-const NodeRef = ({
-  count,
-  type,
-  connectType,
-  thisNodeRef,
-  focused,
-  selected,
-}) => {
-  return (
-    <div className={'nodeFill count' + count}>
-      {/* Interaction layer */}
-      <div className="nodeAdd node" ref={thisNodeRef}>
-        {/* Display layer */}
-        <div
-          className={
-            'nodeDisplay ' +
-            _nodeBorderClassSelector(
-              type,
-              connectType,
-              focused,
-              selected,
-              false
-            )
-          }
-        ></div>
-      </div>
-    </div>
-  )
-}
-
-export const Node = memo(
-  forwardRef((props, ref) => <NodeRef thisNodeRef={ref} {...props} />)
-)
-
 export class InputBox extends PureComponent {
   // For both number and string input
   constructor(props) {
@@ -88,10 +20,6 @@ export class InputBox extends PureComponent {
     this.isNumberInput = props.thisDataType === 'number' ? true : false // true of false
     this.inputRef = createRef()
   }
-
-  // componentDidMount() {}
-
-  // componentWillUnmount() {}
 
   componentDidUpdate() {
     this.inputRef.current.value = this.props.thisInlineData
@@ -164,7 +92,16 @@ export class InputBox extends PureComponent {
   }
 
   render() {
-    const { action, className, thisInlineData, name } = this.props
+    const {
+      action,
+      className,
+      thisInlineData,
+      name,
+      hintName,
+      hintDescription,
+      hintType,
+      hintSide,
+    } = this.props
     return (
       <input
         ref={this.inputRef}
@@ -180,6 +117,12 @@ export class InputBox extends PureComponent {
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         disabled={action ? false : true}
+        data-hint={true}
+        data-hint-name={hintName}
+        data-hint-description={hintDescription}
+        data-hint-type={hintType}
+        data-hint-category={'input'}
+        data-hint-side={hintSide}
       ></input>
     )
   }

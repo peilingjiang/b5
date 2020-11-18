@@ -24,6 +24,7 @@ import {
 } from './defaultValue'
 import Logo from '../../img/logo/logo.svg'
 import { isMacOs, isWindows } from 'react-device-detect'
+import Hint from '../hint/hint'
 
 export default class Editor extends Component {
   constructor(props) {
@@ -719,6 +720,7 @@ export default class Editor extends Component {
           />
         )}
 
+        <Hint />
         <FileUpload display={dragging} ref={this.fileUploadRef} />
       </div>
     )

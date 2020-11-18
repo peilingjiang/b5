@@ -23,6 +23,7 @@ $slider-width: 176px;
       opacity: 1;
       border-radius: $tiny-tiny-radius;
       text-align: left;
+      pointer-events: none;
 
       .rangeBelow {
         display: inline-block;
@@ -38,6 +39,7 @@ $slider-width: 176px;
         height: 100%;
         width: 4px;
         border-left: $dark-grey solid 1px;
+        pointer-events: initial;
       }
 
       .sliderInput {
@@ -47,6 +49,7 @@ $slider-width: 176px;
         left: 0;
         pointer-events: none;
         opacity: 0;
+        pointer-events: initial;
         // transition: ease-in-out 0.2s;
       }
 

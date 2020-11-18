@@ -1,5 +1,6 @@
 /* Space */
 $gap: 8px;
+$large-gap: 10px;
 $small-gap: 4px;
 $tiny-gap: 3px;
 $radius: 5px;
@@ -26,6 +27,7 @@ $library: #b55bcd;
 $comment: #ffebb7;
 $comment-corner: color-mod($comment blend($black 7%));
 
+$tip: #ffd31d;
 $alert: #cf1b1b;
 $selected: #07689f;
 
@@ -34,6 +36,7 @@ $light-op: 0.25;
 $fade-op: 0.4;
 $op: 0.5;
 $hover-op: 0.8;
+$high-op: 0.9;
 
 /* Font Weight */
 $light: 300;
@@ -67,7 +70,7 @@ $node-padding: 4px;
 $search-bar-width: 654px;
 $search-bar-height: 52px;
 $block-list-height: 144px;
-$block-list-text-height: 45px;
+$block-list-text-height: 50px;
 
 $regular-border-style: 1px solid;
 $node-border-style: $node-border-width solid;
@@ -75,6 +78,7 @@ $regular-border: $regular-border-style $hover-grey;
 
 $block-shadow-style: 0 2px 11px -2px;
 $regular-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.12);
+$light-shadow: 0 3px 10px 1px rgba(0, 0, 0, 0.1);
 $high-shadow: 0 9px 17px -2px color-mod($black a($light-op));
 
 $target-size: 200px;

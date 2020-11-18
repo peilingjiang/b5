@@ -6,6 +6,7 @@ import * as method from './blockSearchMethod'
 import '../../postcss/components/blockSearch/blockSearch.css'
 import BlockRendererLite from '../blockRenderer/blockRendererLite'
 import { searchBarWidth } from '../constants'
+import { _preDescription } from '../hint/hint'
 
 export default class BlockSearch extends Component {
   constructor(props) {
@@ -180,7 +181,7 @@ const BlockList = ({ blocks, focus }) => {
                 draggable={false} // ! Should be enabled
               />
               <div className={'description' + (i === focus ? ' focused' : '')}>
-                <div>{b.item.description.slice(0, -1)}</div>
+                <div>{_preDescription(b.item.description)}</div>
               </div>
             </div>
           </div>
