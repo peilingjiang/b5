@@ -4,6 +4,12 @@
 $slider-width: 176px;
 
 .blockFill {
+  &.preview {
+    .thumb {
+      pointer-events: none !important;
+    }
+  }
+
   .sliderWidth {
     // For blockList
     width: $slider-width;
@@ -47,10 +53,8 @@ $slider-width: 176px;
         width: 100%;
         top: 27px;
         left: 0;
-        pointer-events: none;
         opacity: 0;
         pointer-events: initial;
-        // transition: ease-in-out 0.2s;
       }
 
       .inputBox {
@@ -71,6 +75,7 @@ $slider-width: 176px;
         border: $dark-grey solid 1px;
         left: calc(50% - 2px);
         transform: translate(-50%, 0);
+        pointer-events: initial !important;
       }
 
       .min {

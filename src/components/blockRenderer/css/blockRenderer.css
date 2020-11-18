@@ -76,11 +76,16 @@ $node-0-1-width: 110px;
   &.preview {
     .block {
       user-select: none;
+      cursor: pointer;
     }
 
     .node,
-    textArea,
     input {
+      user-select: none;
+      cursor: help;
+    }
+
+    textArea {
       pointer-events: none;
     }
   }
@@ -246,10 +251,10 @@ $node-0-1-width: 110px;
       margin: 0 auto;
       width: 100%;
 
-      .nodeText {
-        text-edge: cap alphabetic;
-        leading-trim: both;
-      }
+      // .nodeText {
+      //   text-edge: cap alphabetic;
+      //   leading-trim: both;
+      // }
     }
 
     .inputNodesText {
@@ -346,7 +351,7 @@ $node-0-1-width: 110px;
 }
 
 .disabledComponent {
-  pointer-events: none;
+  // pointer-events: none;
 }
 
 .codeCanvas .sudoBlock {

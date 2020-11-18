@@ -11,4 +11,5 @@ $bottom-tiny-height: 11px;
   text-align: left;
   // padding: calc($bottom-height / 2 - $small / 2) 3px;
   padding: 3px 4px;
+  pointer-events: none;
 }

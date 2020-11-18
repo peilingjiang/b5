@@ -226,9 +226,12 @@ $rename: '../../../img/icon/rename.svg';
     }
 
     .blockName,
-    .sudoBlock,
-    .node {
+    .sudoBlock {
       pointer-events: none;
+    }
+
+    .node {
+      user-select: none;
     }
 
     .invalid-block-name {
