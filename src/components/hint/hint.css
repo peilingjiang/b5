@@ -27,7 +27,7 @@
   .hint-info {
     display: inline-flex;
     width: max-content;
-    max-width: calc($block-width - 2 * $gap);
+    max-width: calc($block-width + $gap);
     padding: calc($gap * 2);
 
     .hint-name {
