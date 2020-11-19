@@ -108,9 +108,7 @@ export default class Hint extends PureComponent {
         ReactDOM.render(newElement, this.hintHolder.current)
         this.hint = true
         this.target = e.target
-      } catch (e) {
-        console.error(e)
-      }
+      } catch (error) {}
     }
   }
 

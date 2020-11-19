@@ -10,7 +10,7 @@
 
 ![Demo](media/demo.png)
 
-A visual programming environment for graphics, interaction, and fun. Based on [p5.js](https://p5js.org/) library.
+A visual programming environment for graphics, interaction, and fun. Based on [p5.js](https://p5js.org/) library. More information will be updated soon.
 
 For development setup:
 
