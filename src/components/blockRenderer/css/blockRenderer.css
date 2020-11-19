@@ -82,7 +82,7 @@ $node-0-1-width: 110px;
     .node,
     input {
       user-select: none;
-      cursor: help;
+      cursor: default;
     }
 
     textArea {
