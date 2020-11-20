@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import equal from 'react-fast-compare'
 import ResizeObserver from 'resize-observer-polyfill'
 
+import _b from '../editor/b5ObjectWrapper'
+
 import {
   lineHeight,
   roomWidth,
@@ -368,6 +370,12 @@ export default class CodeCanvas extends Component {
     // Get the location of all color effect blocks
     const blocks = dataBlocks || this.props.data.blocks
 
+    const this_bBlocks =
+      this.props.data.type === 'playground'
+        ? _b.playground.blocks
+        : _b.factory[this.props.data.type][this.props.data.name].blocks
+
+    console.log(_b)
     this.colorEffectInd = []
     for (let i in blocks)
       for (let j in blocks[i])
@@ -376,7 +384,7 @@ export default class CodeCanvas extends Component {
           this.colorEffectInd.push([
             i,
             j,
-            blocks[i][j].inlineData[0].slice(0, 7) + '12',
+            this_bBlocks[i][j].blockColorEffect(),
             method.getEffectName(blocks[i][j].name),
           ])
   }

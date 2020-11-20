@@ -3,6 +3,9 @@
 export const _colorEffectIndex = [
   'fillPicker',
   'strokePicker',
-  'fill',
-  'stroke',
+  'fillRGBA',
+  'strokeRGBA',
+
+  'stopDraw',
+  'startDraw',
 ]

@@ -106,7 +106,7 @@ $mini-margin: calc($head-height / 2 - $mini-size / 2);
   left: unset !important;
   bottom: calc(2 * $gap);
   right: calc(2 * $gap);
-  opacity: $hover-op;
+  // opacity: $hover-op;
   overflow: hidden;
 
   // TODO: Min sizes for normal and mini view
@@ -117,7 +117,7 @@ $mini-margin: calc($head-height / 2 - $mini-size / 2);
     position: absolute;
     top: 0;
     left: 0;
-    background-color: color-mod($background-grey a($hover-op));
+    background-color: color-mod($background-grey a($high-op));
     z-index: 1;
     margin: $tiny-gap;
     width: calc(100% - 2 * $tiny-gap);
