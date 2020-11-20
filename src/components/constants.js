@@ -40,7 +40,3 @@ export const longestBlockName = 13
 
 // Hint
 export const hintWait = 400
-
-/* -------------------------------------------------------------------------- */
-
-export const exampleCount = 1

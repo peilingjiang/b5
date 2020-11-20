@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid'
+
 import {
   lineNumberWidth,
   blockAlphabetHeight,
@@ -5,9 +7,9 @@ import {
   sectionHeightDefault,
 } from '../constants'
 
-// Default value
+/* ------------------------------ Intro Editor ------------------------------ */
 
-export const defaultEditor = {
+export const introEditor = {
   playground: {
     type: 'playground',
     lineStyles: {},
@@ -16,32 +18,48 @@ export const defaultEditor = {
         0: {
           name: 'comment',
           source: 'original',
-          uuid: '89885483-c57c-4ea4-8588-abe67ef7dc71',
+          uuid: uuidv4(),
           inlineData: [
-            '🌈 Welcome to b5!\nThis is still a work-in-progress project. Right now, please feel free to explore it!',
+            '🌈Welcome to b5!\nThis is still a work-in-progress project. Right now, please feel free to explore it!',
           ],
         },
         1: {
           name: 'numberSlider',
           source: 'original',
-          uuid: 'fdbab34e-f083-4d38-b06c-0e7bf584a662',
+          uuid: uuidv4(),
           inlineData: [70, 0, 100, 5],
           output: { 0: [['1', '1', '1']] },
         },
       },
       1: {
+        0: {
+          name: 'fillPicker',
+          source: 'original',
+          uuid: uuidv4(),
+          inlineData: ['#bd10e0ff'],
+        },
         1: {
           name: 'circle',
           source: 'original',
-          uuid: 'daddd1b9-9ee0-4fd2-976f-5c250af895d9',
+          uuid: uuidv4(),
           input: { 0: null, 1: ['0', '1', '0'], 2: null },
         },
         2: {
           name: 'comment',
           source: 'original',
-          uuid: 'c190ed73-ed0b-40c2-b330-6cbd0581f538',
+          uuid: uuidv4(),
           inlineData: [
-            '😎 By the way, you can double click on the code canvas to add a new block~',
+            '🆕Double click to add block\n🖱️Right click to pan around\n🔍Scroll to zoom in and out',
+          ],
+        },
+      },
+      3: {
+        0: {
+          name: 'comment',
+          source: 'original',
+          uuid: uuidv4(),
+          inlineData: [
+            '📄Go to the file tab on the top left and you can 🌱 start a new code canvas or ⭐ load a random example!',
           ],
         },
       },
@@ -58,14 +76,14 @@ export const defaultEditor = {
             0: {
               name: 'number',
               source: 'original',
-              uuid: '363fd6b1-1b3b-4149-945a-cd79b17e492a',
+              uuid: uuidv4(),
               inlineData: [500],
               output: { 0: [['1', '0', '0']] },
             },
             1: {
               name: 'numberSlider',
               source: 'original',
-              uuid: '1c1ad91c-468a-45c0-9798-4185dc71ee77',
+              uuid: uuidv4(),
               inlineData: [300, 0, 600, 100],
               output: { 0: [['1', '0', '1']] },
             },
@@ -74,7 +92,137 @@ export const defaultEditor = {
             0: {
               name: 'createCanvas',
               source: 'original',
-              uuid: '53d3acfc-f9c2-469d-bc83-73e2f16ab8d3',
+              uuid: uuidv4(),
+              input: {
+                0: ['0', '0', '0'],
+                1: ['0', '1', '0'],
+                2: null,
+              },
+              output: { 0: [] },
+            },
+          },
+        },
+      },
+      {
+        name: 'newvar1',
+        type: 'variable',
+        lineStyles: {},
+        blocks: {
+          0: {
+            0: {
+              name: 'comment',
+              source: 'original',
+              uuid: uuidv4(),
+              inlineData: [
+                '➡️The definition of each variable will run for once at the beginning (just like setup in p5.js)',
+              ],
+            },
+          },
+          1: {
+            0: {
+              name: 'comment',
+              source: 'original',
+              uuid: uuidv4(),
+              inlineData: [
+                '⬇️Drag the bottom line to adjust the height of each section',
+              ],
+            },
+          },
+        },
+      },
+    ],
+    function: [],
+    object: [],
+  },
+}
+
+export const introEditorCanvasStyle = {
+  playground: {
+    left: lineNumberWidth,
+    top: blockAlphabetHeight,
+    scale: 1,
+  },
+  factory: {
+    variable: [
+      /* --- canvasStyle --- */
+      {
+        left: lineNumberWidth,
+        top: blockAlphabetHeight,
+        scale: factoryCanvasDefaultScale,
+        sectionHeight: sectionHeightDefault,
+      },
+      {
+        left: lineNumberWidth,
+        top: blockAlphabetHeight,
+        scale: factoryCanvasDefaultScale,
+        sectionHeight: sectionHeightDefault,
+      },
+    ],
+    function: [],
+    object: [],
+  },
+}
+
+/* ----------------------------- Default Editor ----------------------------- */
+
+export const defaultEditor = {
+  playground: {
+    type: 'playground',
+    lineStyles: {},
+    blocks: {
+      0: {
+        1: {
+          name: 'numberSlider',
+          source: 'original',
+          uuid: uuidv4(),
+          inlineData: [70, 0, 100, 5],
+          output: { 0: [['1', '1', '1']] },
+        },
+      },
+      1: {
+        0: {
+          name: 'fillPicker',
+          source: 'original',
+          uuid: uuidv4(),
+          inlineData: ['#bd10e0ff'],
+        },
+        1: {
+          name: 'circle',
+          source: 'original',
+          uuid: uuidv4(),
+          input: { 0: null, 1: ['0', '1', '0'], 2: null },
+        },
+      },
+    },
+  },
+  factory: {
+    variable: [
+      {
+        name: 'cnv',
+        type: 'variable',
+        lineStyles: {},
+        blocks: {
+          0: {
+            0: {
+              name: 'number',
+              source: 'original',
+              uuid: uuidv4(),
+              inlineData: [500],
+              output: { 0: [['1', '0', '0']] },
+            },
+            1: {
+              name: 'numberSlider',
+              source: 'original',
+              uuid: uuidv4(),
+              inlineData: [300, 0, 600, 100],
+              output: { 0: [['1', '0', '1']] },
+            },
+          },
+          1: {
+            0: {
+              name: 'createCanvas',
+              source: 'original',
+              uuid: uuidv4(),
               input: {
                 0: ['0', '0', '0'],
                 1: ['0', '1', '0'],

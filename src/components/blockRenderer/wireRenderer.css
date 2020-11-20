@@ -49,7 +49,7 @@
   }
 
   .unfocused {
-    stroke: $hover-grey;
+    stroke: #e7e7e7; // Between $dark-white and $hover-grey
   }
 
   .focused {

@@ -79,5 +79,5 @@ export const _removeClassNameByClass = (block, targetClass, className) => {
 /* -------------------------------------------------------------------------- */
 
 export const blockKeyBuilder = (data, i, j) => {
-  return data.uuid ? data.uuid : `${i} ${j} ${data.name}`
+  return data.uuid ? data.uuid + i + ' ' + j : `${i} ${j} ${data.name}`
 }

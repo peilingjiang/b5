@@ -33,12 +33,9 @@ class Wire extends PureComponent {
     const factor = Math.abs(startX - endX) > 50 ? 2 : 2.5
     const yOffset = (endY - startY) / factor
 
-    const d = `
-      M ${startX} ${startY}
-      C ${startX} ${startY + yOffset},
-        ${endX} ${endY - yOffset},
-        ${endX} ${endY}
-    `
+    const d = `M${startX} ${startY} C${startX} ${startY + yOffset}, ${endX} ${
+      endY - yOffset
+    }, ${endX} ${endY}`
 
     // sizeOffset is half of the nodeSize
     return (

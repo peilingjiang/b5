@@ -36,7 +36,7 @@ const MenuMemo = ({ name, functions }) => {
       li.push(
         <li key="icon-file-randomExample" onClick={functions.random}>
           <p>
-            <Emoji emoji="🎲" label="Random" /> random example
+            <Emoji emoji="⭐" label="Star" /> random example
           </p>
           {/* <p className="shortcutHint">{sign + ' + ' + altName + ' + n'}</p> */}
         </li>

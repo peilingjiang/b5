@@ -16,24 +16,27 @@ import '../../postcss/components/editor/editor.css'
 import _b from './b5ObjectWrapper'
 import { makeBlock } from '../../b5.js/src/core/make'
 
-import {
-  lineNumberWidth,
-  blockAlphabetHeight,
-  gap,
-  exampleCount,
-} from '../constants'
+import { lineNumberWidth, blockAlphabetHeight, gap } from '../constants'
 import {
   defaultEditor,
-  defaultEditorCanvasStyle,
+  // defaultEditorCanvasStyle,
+  introEditor,
+  introEditorCanvasStyle,
   nativeSectionStyleToAdd,
 } from './defaultValue'
 import Logo from '../../img/logo/logo.svg'
 import { isMacOs, isWindows } from 'react-device-detect'
 import Hint from '../hint/hint'
 
+/* -------------------------------- Examples -------------------------------- */
+
+const exampleCount = 3
+
+/* -------------------------------------------------------------------------- */
+
 export default class Editor extends Component {
   constructor(props) {
-    super()
+    super(props)
 
     let hasEditorInSession = false
     let sessionEditor
@@ -45,10 +48,10 @@ export default class Editor extends Component {
     this.state = {
       editor: hasEditorInSession
         ? sessionEditor
-        : JSON.parse(JSON.stringify(defaultEditor)),
+        : JSON.parse(JSON.stringify(introEditor)),
       editorCanvasStyle: hasEditorInSession
         ? this._resolveLoadB5FileStyle(sessionEditor)
-        : JSON.parse(JSON.stringify(defaultEditorCanvasStyle)),
+        : JSON.parse(JSON.stringify(introEditorCanvasStyle)),
       searching: false,
       dragging: false,
       hardRefresh: false,
@@ -102,6 +105,7 @@ export default class Editor extends Component {
     this.currentEntities.current = []
 
     this.randomExampleCounter = createRef()
+    this.randomExampleCounter.current = 1
   }
 
   _createCodeCanvasRef = data => {
@@ -610,12 +614,20 @@ export default class Editor extends Component {
     this.setState({ folded: !this.state.folded })
   }
 
+  /* ----------------------------- Random Example ----------------------------- */
+
   randomExample = () => {
-    const fileEditor = require(`../../examples/example${
-      Math.floor(Math.random() * exampleCount) + 1
-    }.b5.json`)
+    const fileEditor = require(`../../examples/example${this.randomExampleCounter.current}.b5.json`)
     this.loadNewEditor(fileEditor)
+
+    this.randomExampleCounter.current++
+    if (this.randomExampleCounter.current > exampleCount)
+      this.randomExampleCounter.current = 1
   }
+
+  /* -------------------------------------------------------------------------- */
+  /*                                   Render                                   */
+  /* -------------------------------------------------------------------------- */
 
   render() {
     const {
