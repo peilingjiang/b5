@@ -16,7 +16,12 @@ import '../../postcss/components/editor/editor.css'
 import _b from './b5ObjectWrapper'
 import { makeBlock } from '../../b5.js/src/core/make'
 
-import { lineNumberWidth, blockAlphabetHeight, gap } from '../constants'
+import {
+  lineNumberWidth,
+  blockAlphabetHeight,
+  gap,
+  exampleCount,
+} from '../constants'
 import {
   defaultEditor,
   defaultEditorCanvasStyle,
@@ -42,7 +47,7 @@ export default class Editor extends Component {
         ? sessionEditor
         : JSON.parse(JSON.stringify(defaultEditor)),
       editorCanvasStyle: hasEditorInSession
-        ? this._resolveLoadBr5FileStyle(sessionEditor)
+        ? this._resolveLoadB5FileStyle(sessionEditor)
         : JSON.parse(JSON.stringify(defaultEditorCanvasStyle)),
       searching: false,
       dragging: false,
@@ -95,6 +100,8 @@ export default class Editor extends Component {
 
     this.currentEntities = createRef() // For section method
     this.currentEntities.current = []
+
+    this.randomExampleCounter = createRef()
   }
 
   _createCodeCanvasRef = data => {
@@ -456,7 +463,8 @@ export default class Editor extends Component {
       e.altKey
     ) {
       e.preventDefault()
-      this.initEditor()
+      // TODO: Add warning!
+      this.loadNewEditor(defaultEditor)
       return
     }
   }
@@ -507,24 +515,7 @@ export default class Editor extends Component {
       let that = this
 
       reader.onload = e => {
-        let result = JSON.parse(e.target.result)
-        let s = this._resolveLoadBr5FileStyle(result)
-        that.setState(
-          prevState => {
-            const newState = JSON.parse(JSON.stringify(prevState))
-            newState.editorCanvasStyle = s
-
-            newState.hardRefresh = true
-            newState.editor = result
-            this._createCodeCanvasRef(result)
-
-            return newState
-          },
-          function () {
-            that._resolveLoadB5File()
-            that._storeEditor()
-          }
-        )
+        that.loadNewEditor(JSON.parse(e.target.result))
       }
 
       reader.readAsText(file)
@@ -533,12 +524,36 @@ export default class Editor extends Component {
     return false
   }
 
-  _resolveLoadB5File = () => {
-    _b.update(this.state.editor)
-    this.props.bridge(this.state.editor)
+  /* ----------------------------- Load New Editor ---------------------------- */
+
+  loadNewEditor = newEditor => {
+    this.setState(
+      prevState => {
+        const newState = JSON.parse(JSON.stringify(prevState))
+
+        newState.hardRefresh = true
+
+        newState.editor = newEditor
+        newState.editorCanvasStyle = this._resolveLoadB5FileStyle(newEditor)
+        this._createCodeCanvasRef(newEditor)
+        this._resolveLoadB5File(newEditor)
+
+        return newState
+      },
+      function () {
+        this._storeEditor()
+      }
+    )
   }
 
-  _resolveLoadBr5FileStyle = r => {
+  /* -------------------------------------------------------------------------- */
+
+  _resolveLoadB5File = (e = this.state.editor) => {
+    _b.update(e)
+    this.props.bridge(e)
+  }
+
+  _resolveLoadB5FileStyle = r => {
     // r - result / editor data
     const style = {
       playground: {
@@ -567,23 +582,8 @@ export default class Editor extends Component {
   }
 
   initEditor = () => {
-    this.setState(
-      prevState => {
-        const newState = JSON.parse(JSON.stringify(prevState))
-        newState.hardRefresh = true
-        newState.editor = JSON.parse(JSON.stringify(defaultEditor))
-        newState.editorCanvasStyle = this._resolveLoadBr5FileStyle(
-          newState.editor
-        )
-        this._createCodeCanvasRef(newState.editor)
-
-        return newState
-      },
-      function () {
-        this._resolveLoadB5File()
-        this._storeEditor()
-      }
-    )
+    // TODO: Remove this function
+    this.loadNewEditor(defaultEditor)
   }
 
   foldFactory = () => {
@@ -610,7 +610,12 @@ export default class Editor extends Component {
     this.setState({ folded: !this.state.folded })
   }
 
-  addBlock = () => {}
+  randomExample = () => {
+    const fileEditor = require(`../../examples/example${
+      Math.floor(Math.random() * exampleCount) + 1
+    }.b5.json`)
+    this.loadNewEditor(fileEditor)
+  }
 
   render() {
     const {
@@ -633,6 +638,7 @@ export default class Editor extends Component {
     const functions = {
       save: this.save,
       new: this.initEditor,
+      random: this.randomExample,
     }
 
     return (

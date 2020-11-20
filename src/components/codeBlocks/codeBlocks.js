@@ -12,6 +12,7 @@ import {
   helper_getInd,
   _addClassNameByClass,
   _removeClassNameByClass,
+  blockKeyBuilder,
 } from './codeBlocksMethod'
 
 const _emptyR = {
@@ -577,7 +578,7 @@ export default class CodeBlocks extends Component {
         blocks.push(
           <BlockRenderer
             action={true} // true === 'action', false === 'preview'
-            key={i + ' ' + j + ' ' + data[i][j].name}
+            key={blockKeyBuilder(data[i][j], i, j)}
             thisBlockRef={this.blocksRef[i][j]}
             data={data[i][j]}
             y={i}

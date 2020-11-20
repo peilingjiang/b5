@@ -16,6 +16,7 @@ export const defaultEditor = {
         0: {
           name: 'comment',
           source: 'original',
+          uuid: '89885483-c57c-4ea4-8588-abe67ef7dc71',
           inlineData: [
             '🌈 Welcome to b5!\nThis is still a work-in-progress project. Right now, please feel free to explore it!',
           ],
@@ -23,32 +24,22 @@ export const defaultEditor = {
         1: {
           name: 'numberSlider',
           source: 'original',
-          inlineData: [200, 0, 600, 10],
-          output: {
-            0: [['1', '1', '1']],
-          },
+          uuid: 'fdbab34e-f083-4d38-b06c-0e7bf584a662',
+          inlineData: [70, 0, 100, 5],
+          output: { 0: [['1', '1', '1']] },
         },
-        // '1': {
-        //   name: 'cnv',
-        //   source: 'custom',
-        //   output: {
-        //     '0': [],
-        //   },
-        // },
       },
       1: {
         1: {
           name: 'circle',
           source: 'original',
-          input: {
-            0: null,
-            1: ['0', '1', '0'],
-            2: null,
-          },
+          uuid: 'daddd1b9-9ee0-4fd2-976f-5c250af895d9',
+          input: { 0: null, 1: ['0', '1', '0'], 2: null },
         },
         2: {
           name: 'comment',
           source: 'original',
+          uuid: 'c190ed73-ed0b-40c2-b330-6cbd0581f538',
           inlineData: [
             '😎 By the way, you can double click on the code canvas to add a new block~',
           ],
@@ -58,47 +49,42 @@ export const defaultEditor = {
   },
   factory: {
     variable: [
-      // 0 (The whole section canvas)
       {
-        /* --- data --- */
-        name: 'cnv' /* For the section/constructed block */,
-        type: 'variable' /* What is the type of the customized block? */,
-        lineStyles: {} /* lineStyles */,
+        name: 'cnv',
+        type: 'variable',
+        lineStyles: {},
         blocks: {
-          /* blocks */
           0: {
-            /* Line number - start from 0 */
             0: {
-              /* Column number - start from 0 */
               name: 'number',
               source: 'original',
+              uuid: '363fd6b1-1b3b-4149-945a-cd79b17e492a',
               inlineData: [500],
-              output: { 0: [['1', '0', '0']] }, // For block rendering
+              output: { 0: [['1', '0', '0']] },
             },
             1: {
               name: 'numberSlider',
               source: 'original',
-              inlineData: [300, 0, 600, 50],
-              output: { 0: [['1', '0', '1']] }, // One output node may be connected to multiple input nodes
+              uuid: '1c1ad91c-468a-45c0-9798-4185dc71ee77',
+              inlineData: [300, 0, 600, 100],
+              output: { 0: [['1', '0', '1']] },
             },
           },
           1: {
             0: {
               name: 'createCanvas',
               source: 'original',
+              uuid: '53d3acfc-f9c2-469d-bc83-73e2f16ab8d3',
               input: {
-                0: ['0', '0', '0'], // Line number, column number, index of the node
+                0: ['0', '0', '0'],
                 1: ['0', '1', '0'],
                 2: null,
               },
-              output: {
-                0: [],
-              },
+              output: { 0: [] },
             },
           },
         },
       },
-      // 1...
     ],
     function: [],
     object: [],

@@ -33,6 +33,14 @@ const MenuMemo = ({ name, functions }) => {
           <p className="shortcutHint">{sign + ' + ' + altName + ' + n'}</p>
         </li>
       )
+      li.push(
+        <li key="icon-file-randomExample" onClick={functions.random}>
+          <p>
+            <Emoji emoji="🎲" label="Random" /> random example
+          </p>
+          {/* <p className="shortcutHint">{sign + ' + ' + altName + ' + n'}</p> */}
+        </li>
+      )
       break
 
     case 'Share':

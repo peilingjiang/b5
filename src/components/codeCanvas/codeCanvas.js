@@ -375,18 +375,19 @@ export default class CodeCanvas extends Component {
         ? _b.playground.blocks
         : _b.factory[this.props.data.type][this.props.data.name].blocks
 
-    console.log(_b)
     this.colorEffectInd = []
     for (let i in blocks)
       for (let j in blocks[i])
         if (_colorEffectIndex.includes(blocks[i][j].name))
           // ! Color of affected background
-          this.colorEffectInd.push([
-            i,
-            j,
-            this_bBlocks[i][j].blockColorEffect(),
-            method.getEffectName(blocks[i][j].name),
-          ])
+          try {
+            this.colorEffectInd.push([
+              i,
+              j,
+              this_bBlocks[i][j].blockColorEffect(),
+              method.getEffectName(blocks[i][j].name),
+            ])
+          } catch (error) {}
   }
 
   _refreshCodeCanvasCounts() {
