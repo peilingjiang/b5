@@ -514,7 +514,11 @@ export default class Editor extends Component {
   }
 
   readFile = file => {
-    if (file.type.match('application/json') && file.name.includes('.b5')) {
+    if (
+      file &&
+      file.type.match('application/json') &&
+      file.name.includes('.b5')
+    ) {
       let reader = new FileReader()
       let that = this
 

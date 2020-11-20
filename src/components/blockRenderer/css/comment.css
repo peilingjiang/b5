@@ -14,7 +14,24 @@ $corner-size: 13px;
 
   &.focused {
     .comment {
-      box-shadow: $block-shadow-style color-mod($comment a($hover-op));
+      clip-path: polygon(
+        0 0,
+        100% 0,
+        100% calc(100% - $corner-size),
+        calc(100% - $corner-size) 100%,
+        0 100%
+      );
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: $corner-size;
+        height: $corner-size;
+        background-color: $comment-corner;
+        z-index: 1;
+      }
     }
   }
 
@@ -25,13 +42,6 @@ $corner-size: 13px;
     height: fit-content;
     border-radius: 0 !important;
     overflow: hidden;
-    clip-path: polygon(
-      0 0,
-      100% 0,
-      100% calc(100% - $corner-size),
-      calc(100% - $corner-size) 100%,
-      0 100%
-    );
 
     .writingArea {
       outline: none;
@@ -61,17 +71,6 @@ $corner-size: 13px;
       &::-webkit-scrollbar {
         width: 0;
       }
-    }
-
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      width: $corner-size;
-      height: $corner-size;
-      background-color: $comment-corner;
-      z-index: 1;
     }
   }
 
