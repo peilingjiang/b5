@@ -62,7 +62,7 @@
     "postcss-color-mod-function": "^3.0.3",
     "postcss-scss": "^3.0.4",
     "precss": "^4.0.0",
-    "prettier": "^2.1.2",
+    "prettier": "^2.2.0",
     "resize-observer-polyfill": "^1.5.1"
   },
   "type": "module",
