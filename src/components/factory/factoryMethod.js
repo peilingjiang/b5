@@ -1,12 +1,10 @@
-import isAlphanumeric from 'validator/lib/isAlphanumeric'
-
 import { lineHeight, longestBlockName, roomWidth } from '../constants'
 import _b from '../editor/b5ObjectWrapper'
 
 export const checkSectionNameNotValid = (name, propsName) => {
   // Return true if the name is not valid
   return (
-    !isAlphanumeric(name) ||
+    !/^[0-9A-Z]+$/i.test(name.replace(/\s+/g, '')) ||
     name.length <= 0 ||
     name.length > longestBlockName ||
     (name !== propsName && _b.unavailableNames.includes(name))
