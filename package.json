@@ -15,7 +15,7 @@
     "react-ga": "^3.2.1",
     "react-scripts": "^4.0.0",
     "tinycolor2": "^1.4.2",
-    "typescript": "^4.0.5",
+    "typescript": "^4.1.2",
     "uuid": "^8.3.1",
     "validator": "^13.1.17"
   },
