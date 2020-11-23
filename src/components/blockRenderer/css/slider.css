@@ -5,8 +5,20 @@ $slider-width: 176px;
 
 .blockFill {
   &.preview {
-    .thumb {
+    .thumb,
+    .sliderInput {
       pointer-events: none !important;
+    }
+  }
+
+  &:hover {
+    .sliderInput {
+      pointer-events: initial;
+      opacity: 1 !important;
+    }
+
+    .bottomText {
+      display: none;
     }
   }
 
@@ -19,6 +31,14 @@ $slider-width: 176px;
     display: block;
     width: $slider-width;
     height: 48px;
+
+    &.draw .rangeBelow {
+      background-color: color-mod($draw a($light-op));
+    }
+
+    &.object .rangeBelow {
+      background-color: color-mod($object a($light-op));
+    }
 
     .sliderBox {
       position: relative;
@@ -34,7 +54,6 @@ $slider-width: 176px;
       .rangeBelow {
         display: inline-block;
         height: 100%;
-        background-color: color-mod($object a($light-op));
         margin: 0 auto 0 0;
         pointer-events: none;
       }
@@ -106,7 +125,7 @@ $slider-width: 176px;
         font-size: $small-small;
         margin: 0;
         top: 1px;
-        background-color: color-mod($object blend($black 25%)) !important;
+        background-color: color-mod($black a($op)) !important;
         color: #fff;
 
         &::selection {

@@ -345,11 +345,6 @@ $node-0-1-width: 110px;
   }
 }
 
-.blockFill:hover .sliderInput {
-  pointer-events: auto !important;
-  opacity: 1 !important;
-}
-
 .disabledComponent {
   user-select: none;
   // pointer-events: none;

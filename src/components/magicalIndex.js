@@ -5,7 +5,19 @@ export const _colorEffectIndex = [
   'strokePicker',
   'fillRGBA',
   'strokeRGBA',
+  'noFill',
+  'noStroke',
 
   'stopDraw',
   'startDraw',
+
+  'strokeWeight',
+  'strokeWeightSlider',
+]
+
+export const _colorEffectNames = [
+  'fill',
+  'stroke',
+  'strokeWeight',
+  'stopBeginDraw',
 ]

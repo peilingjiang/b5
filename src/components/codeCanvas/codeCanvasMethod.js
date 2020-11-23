@@ -23,7 +23,7 @@ export const isColorActivated = (allActive, c) => {
 }
 
 export const getEffectName = name => {
-  return _b5BlocksObject[name].effectName
+  return _b5BlocksObject[name].colorEffectName
 }
 
 const _scrollComponentClassName = ['writingArea']
