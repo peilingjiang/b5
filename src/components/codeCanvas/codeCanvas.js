@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
 import ResizeObserver from 'resize-observer-polyfill'
 
@@ -11,13 +11,12 @@ import {
   blockAlphabetHeight,
 } from '../constants'
 import * as method from './codeCanvasMethod'
-import { LineNumberRoom, BlockAlphabetRoom, BlockRoom } from './codeCanvasFrags'
+
 import CodeBlocks from '../codeBlocks/codeBlocks'
 import '../../postcss/components/codeCanvas/codeCanvas.css'
 
 import { _colorEffectIndex } from '../magicalIndex'
-
-import DoubleClick from '../../img/icon/dclick.svg'
+import { CanvasAxis, CanvasGrid } from './canvasGrid'
 
 export default class CodeCanvas extends Component {
   constructor(props) {
@@ -112,6 +111,10 @@ export default class CodeCanvas extends Component {
 
     this.colorEffectInd = []
     this.mouseIsDown = false
+
+    // Grid
+    this.blockAlphabets = createRef()
+    this.lineNumbers = createRef()
   }
 
   componentDidMount() {
@@ -119,9 +122,9 @@ export default class CodeCanvas extends Component {
     this.codeCanvas = thisCodeCanvasRef.current
     /* Init canvasStyle */
     // Transform
-    this.blockAlphabets.style.left = this.blockHome.style.left =
+    this.blockAlphabets.current.style.left = this.blockHome.style.left =
       this.state.left + 'px'
-    this.lineNumbers.style.top = this.blockHome.style.top =
+    this.lineNumbers.current.style.top = this.blockHome.style.top =
       this.state.top + 'px'
     // Scale
     this.codeCanvas.style.transform = 'scale(' + this.state.scale + ')'
@@ -255,7 +258,7 @@ export default class CodeCanvas extends Component {
   }
 
   _moveCanvas = (startLeft, startTop, deltaX, deltaY) => {
-    this.blockAlphabets.style.left = this.blockHome.style.left =
+    this.blockAlphabets.current.style.left = this.blockHome.style.left =
       Math.min(
         Math.max(
           startLeft + deltaX / this.state.scale,
@@ -263,7 +266,7 @@ export default class CodeCanvas extends Component {
         ),
         lineNumberWidth
       ) + 'px'
-    this.lineNumbers.style.top = this.blockHome.style.top =
+    this.lineNumbers.current.style.top = this.blockHome.style.top =
       Math.min(
         Math.max(
           startTop + deltaY / this.state.scale,
@@ -303,14 +306,17 @@ export default class CodeCanvas extends Component {
               0.5 // MIN
             ),
             1.7 // MAX
-          ) * 1000
-        ) / 1000
-      this.setState({
-        scale: s,
-      })
-      this.codeCanvas.style.transform = 'scale(' + s + ')'
-      this.codeCanvas.style.width = 100 / s + '%'
-      this.codeCanvas.style.height = 100 / s + '%'
+          ) * 20
+        ) * 0.05
+
+      if (s !== this.state.scale) {
+        this.setState({
+          scale: s,
+        })
+        this.codeCanvas.style.transform = 'scale(' + s + ')'
+        this.codeCanvas.style.width = 100 / s + '%'
+        this.codeCanvas.style.height = 100 / s + '%'
+      }
 
       clearTimeout(this.zoomTimer)
       this.zoomTimer = setTimeout(() => {
@@ -466,10 +472,6 @@ export default class CodeCanvas extends Component {
   }
 
   render() {
-    let lineNumbers = [],
-      blockAlphabets = [],
-      blockHome = []
-
     const {
         render: { lineStartCount, blockStartCount, lineCount, blockCount },
         scale,
@@ -481,45 +483,23 @@ export default class CodeCanvas extends Component {
         canvasId,
       } = this.props
 
-    for (let i = 0; i < lineCount; i++) {
-      // Key - 'line 17'
-      lineNumbers.push(<LineNumberRoom key={'lineNumber ' + i} num={i} />)
-      if (i >= lineStartCount)
-        for (let j = blockStartCount; j < blockCount; j++) {
-          // Key - 'block 2 17' (line 2, column 17)
-          blockHome.push(
-            <BlockRoom
-              key={'blockRoom ' + i + ' ' + j}
-              y={i}
-              x={j}
-              bg={this._getRoomBackground(i, j)}
-            />
-          )
-        }
-    }
-    for (let j = 0; j < blockCount; j++) {
-      blockAlphabets.push(
-        <BlockAlphabetRoom key={'blockNumber ' + j} num={j} />
-      )
-    }
-
     return (
       <div
         ref={thisCodeCanvasRef}
         className="codeCanvas"
         id={canvasId ? canvasId : null}
       >
-        {/* blockHome */}
         <div ref={e => (this.blockHome = e)} className="blockHome">
-          {blockHome}
+          <CanvasGrid
+            hasBlock={Object(blocks).length !== 0}
+            lineStartCount={lineStartCount}
+            blockStartCount={blockStartCount}
+            lineCount={lineCount}
+            blockCount={blockCount}
+            getRoomBackground={this._getRoomBackground}
+            colorEffectActivated={this.state.render.colorEffectActivated}
+          />
 
-          {/* Tips or codeBlocks */}
-          {Object.keys(blocks).length === 0 && (
-            <div className="addBlockHint">
-              <img src={DoubleClick} alt="Double Click" />
-              <p>double click to add a block</p>
-            </div>
-          )}
           <CodeBlocks
             data={blocks}
             canvas={{
@@ -534,16 +514,12 @@ export default class CodeCanvas extends Component {
           />
         </div>
 
-        {/* blockAlphabets */}
-        <div ref={e => (this.blockAlphabets = e)} className="blockAlphabets">
-          {blockAlphabets}
-        </div>
-        {/* lineNumbers */}
-        <div ref={e => (this.lineNumbers = e)} className="lineNumbers">
-          {lineNumbers}
-        </div>
-        {/* lineJoint */}
-        <div className="lineJoint"></div>
+        <CanvasAxis
+          lineCount={lineCount}
+          blockCount={blockCount}
+          blockAlphabetsRef={this.blockAlphabets}
+          lineNumbersRef={this.lineNumbers}
+        />
       </div>
     )
   }

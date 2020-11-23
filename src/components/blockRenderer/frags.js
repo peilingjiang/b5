@@ -129,7 +129,7 @@ export class InputBox extends PureComponent {
 }
 
 export class ColorPickerEntry extends Component {
-  constructor(props) {
+  constructor() {
     super()
     this.entryRef = createRef()
     this.state = {
@@ -180,7 +180,7 @@ export class ColorPickerEntry extends Component {
   }
 
   render() {
-    const { action, text, thisInlineData } = this.props
+    const { action, text, thisInlineData, scale } = this.props
     return (
       <>
         <div
@@ -196,7 +196,17 @@ export class ColorPickerEntry extends Component {
         {this.state.picking && (
           <div className="sketchPicker">
             <div className="pickerCover" onClick={this.handleClose} />
-            <SketchPicker color={thisInlineData} onChange={this.handleChange} />
+            <div
+              style={{
+                transform: `scale(${1 / scale}) translate3d(0, 0, 0)`,
+                transformOrigin: '0 0',
+              }}
+            >
+              <SketchPicker
+                color={thisInlineData}
+                onChange={this.handleChange}
+              />
+            </div>
           </div>
         )}
       </>

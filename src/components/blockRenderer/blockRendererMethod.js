@@ -1,16 +1,26 @@
 export const isLight = hex => {
   // hex - #12345678
-  let c = hex.substring(1)
-  let rgb = parseInt(c, 16)
-  let a = (rgb >> 0) & 0xff
+  const rgba = getRGBAFromHex(hex)
 
   let luminance =
-    ((0.2126 * ((rgb >> 24) & 0xff) + // r
-      0.7152 * ((rgb >> 16) & 0xff) + // g
-      0.0722 * ((rgb >> 8) & 0xff)) * // b
-      a) /
+    ((0.2126 * rgba[0] + // r
+      0.7152 * rgba[1] + // g
+      0.0722 * rgba[2]) * // b
+      rgba[3]) /
       255 +
-    (255 - a)
+    (255 - rgba[3])
 
   return luminance > 220
+}
+
+export const getRGBAFromHex = hex => {
+  let c = hex.substring(1)
+  let rgb = parseInt(c, 16)
+
+  return [
+    (rgb >> 24) & 0xff,
+    (rgb >> 16) & 0xff,
+    (rgb >> 8) & 0xff,
+    (rgb >> 0) & 0xff,
+  ]
 }

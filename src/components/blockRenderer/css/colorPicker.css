@@ -5,7 +5,7 @@ $picker-size: 110px;
 $picker-gap: 3px;
 
 $entry-hover-color: color-mod($dark-white a($hover-op));
-$entry-active-color: color-mod($grey a($hover-op));
+$entry-active-color: color-mod($light-grey a($hover-op));
 
 @mixin mask-placement {
   width: calc($picker-size - 2 * $picker-gap);
@@ -107,9 +107,10 @@ $entry-active-color: color-mod($grey a($hover-op));
 
     .sketchPicker {
       position: absolute;
-      left: calc($picker-size + 5px);
+      top: 0;
+      left: 0;
+      margin-left: calc($picker-size + 5px);
       cursor: auto;
-      scale: 1 !important;
 
       .sketch-picker {
         // box-sizing: border-box !important;

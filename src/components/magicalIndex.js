@@ -1,5 +1,7 @@
 // Library of special effect blocks
 
+/* --------------------------- Color Effect Blocks -------------------------- */
+
 export const _colorEffectIndex = [
   'fillPicker',
   'strokePicker',
@@ -21,3 +23,7 @@ export const _colorEffectNames = [
   'strokeWeight',
   'stopBeginDraw',
 ]
+
+/* -------------------------- Scale Sensitive Block ------------------------- */
+
+export const _scaleSensitiveBlockKinds = ['slider', 'colorPicker']

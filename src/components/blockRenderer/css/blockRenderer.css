@@ -46,9 +46,7 @@ $node-0-1-width: 110px;
       z-index: 90000;
     }
 
-    .default,
-    .colorPicker {
-      // * colorPicker is not a type, just a block kind
+    .default {
       box-shadow: $block-shadow-style color-mod($default a($hover-op)) !important;
     }
 

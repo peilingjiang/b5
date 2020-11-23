@@ -55,14 +55,17 @@ export default class CodeBlocks extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     if (!equal(nextProps.data, this.props.data)) {
-      // Data updated, e.g. added a new block in block search
+      // Data updated
+      // e.g. added a new block from block search, loaded a new editor from file
       this._updateBlocksRef(nextProps.data)
       if (nextProps.hardRefresh)
         this._hardUpdateBlocksRef(nextProps.data, this.props.data)
     }
 
     return (
-      !equal(nextProps.data, this.props.data) || !equal(nextState, this.state)
+      !equal(nextProps.data, this.props.data) ||
+      !equal(nextState, this.state) ||
+      nextProps.scale !== this.props.scale
     )
   }
 

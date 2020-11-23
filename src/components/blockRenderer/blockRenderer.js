@@ -7,14 +7,12 @@ import { lineHeight, roomWidth } from '../constants'
 import Node from './node'
 import { _getParentBlockInBook } from './frags'
 import { checkSectionNameNotValid } from '../factory/factoryMethod'
-import {
-  InputBlock,
-  SliderBlock,
-  ColorPickerBlock,
-} from './specialBlocks/special'
+import { InputBlock, SliderBlock } from './specialBlocks/special'
+import ColorPickerBlock from './specialBlocks/colorPicker'
 import InlineBlock from './specialBlocks/inline'
 import CommentBlock from './specialBlocks/comment'
 import '../../postcss/components/blockRenderer/css/blockRenderer.css'
+import { _scaleSensitiveBlockKinds } from '../magicalIndex'
 
 function _getTotalOffset(thisNode, targetClassName) {
   // [x, y]
@@ -57,18 +55,14 @@ class BlockRenderer extends Component {
 
     this._refreshInputNodesRef(input)
     this._refreshOutputNodesRef(output)
+
+    // Kind of a block should never change
+    this.kind = _b5BlocksObject[props.data.source][props.data.name].kind
   }
 
   componentDidMount() {
     // Handle collect init positions of nodes
     if (this.props.action) this.handleCollectNodesOffset(true)
-
-    // * Section rendered block only
-    const nR = this.props.thisNameRef
-    if (nR) {
-      nR.current.addEventListener('input', this.handleBlockNameChange)
-      nR.current.addEventListener('blur', this.handleBlockNameBlur)
-    }
   }
 
   componentDidUpdate() {
@@ -86,16 +80,11 @@ class BlockRenderer extends Component {
       !equal(nextProps.data, this.props.data) ||
       nextProps.focused !== this.props.focused ||
       !equal(nextProps.selectedNodes, this.props.selectedNodes) ||
-      !equal(nextProps.isRenaming, this.props.isRenaming)
+      !equal(nextProps.isRenaming, this.props.isRenaming) ||
+      (nextProps.scale !== this.props.scale &&
+        // Block is sensitive to scale change
+        _scaleSensitiveBlockKinds.includes(this.kind))
     )
-  }
-
-  componentWillUnmount() {
-    const nR = this.props.thisNameRef
-    if (nR) {
-      nR.current.removeEventListener('input', this.handleBlockNameChange)
-      nR.current.removeEventListener('blur', this.handleBlockNameBlur)
-    }
   }
 
   _refreshInputNodesRef = input => {
@@ -140,14 +129,14 @@ class BlockRenderer extends Component {
 
   // Edit section block name
   handleBlockNameChange = e => {
+    this.props.thisNameRef.current.focus()
     if (checkSectionNameNotValid(e.target.innerText, this.props.data.name))
       this.props.thisNameRef.current.classList.add('invalid-block-name')
-    else {
-      this.props.thisNameRef.current.classList.remove('invalid-block-name')
-    }
+    else this.props.thisNameRef.current.classList.remove('invalid-block-name')
   }
 
   handleBlockNameBlur = e => {
+    console.log('KKK', e)
     if (checkSectionNameNotValid(e.target.innerText, this.props.data.name))
       this.props.thisNameRef.current.innerText = this.props.data.name
   }
@@ -261,6 +250,7 @@ class BlockRenderer extends Component {
               nodesRef={this.nodesRef}
               focused={focused}
               selectedNodes={selectedNodes}
+              scale={scale}
               description={description}
             />
           </>
@@ -437,8 +427,11 @@ class BlockRenderer extends Component {
                 <div
                   className={'blockName' + (isRenaming ? ' textEditing' : '')}
                   ref={thisNameRef}
-                  contentEditable={isRenaming ? true : false}
+                  // contentEditable={isRenaming ? true : false}
+                  contentEditable
                   suppressContentEditableWarning="true"
+                  onInput={this.handleBlockNameChange}
+                  onBlur={this.handleBlockNameBlur}
                 >
                   {text}
                 </div>

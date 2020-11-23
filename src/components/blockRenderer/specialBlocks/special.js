@@ -3,8 +3,7 @@ import equal from 'react-fast-compare'
 
 import _b5BlocksObject from '../../../b5.js/src/blocks/blocksObjectWrapper'
 import Node from '../node'
-import { InputBox, ColorPickerEntry } from '../frags'
-import { isLight } from '../blockRendererMethod'
+import { InputBox } from '../frags'
 
 function constrain(v, a, b) {
   // Constrain v within a and b without
@@ -80,78 +79,6 @@ export class InputBlock extends Component {
               hintSide={'down'}
             />
           </div>
-        )}
-      </div>
-    )
-  }
-}
-
-export class ColorPickerBlock extends Component {
-  render() {
-    const {
-      action,
-      className,
-      name,
-      text,
-      type,
-      x,
-      y,
-      inlineData,
-      output,
-      outputNodes,
-      collect,
-      nodesRef,
-      focused,
-      selectedNodes,
-      description,
-    } = this.props
-
-    return (
-      <div
-        className={className + (isLight(inlineData[0]) ? ' blockTooLight' : '')}
-        style={{
-          backgroundColor: inlineData[0],
-        }}
-        data-hint={true}
-        data-hint-name={name}
-        data-hint-description={description}
-        data-hint-type={type}
-        data-hint-category={'block'}
-      >
-        {name === 'strokePicker' && <div className="strokeMaskDiv"></div>}
-        {output && (
-          <div className="nodes outputNodes">
-            <Node
-              nodeClass="output"
-              count={1}
-              type={type}
-              connectType={
-                output[0].length !== 0 ? outputNodes[0].type[0] : null
-              }
-              ref={nodesRef.output[0]}
-              focused={focused}
-              selected={selectedNodes.output.includes('0')}
-              hintName={outputNodes[0].name}
-              hintDescription={outputNodes[0].description}
-              hintType={outputNodes[0].type[0]}
-              hintSide={'down'}
-            />
-          </div>
-        )}
-
-        <ColorPickerEntry
-          action={action}
-          thisInlineData={inlineData[0]}
-          thisDataType={_b5BlocksObject.original[name].inlineData[0].type[1]}
-          inlineDataInd={0}
-          name={name}
-          text={text} // Difference from InputBox
-          x={x}
-          y={y}
-          collect={collect}
-        />
-        {name === 'strokePicker' && isLight(inlineData[0]) && (
-          <div className="strokeMaskDivTooLight"></div>
         )}
       </div>
     )
