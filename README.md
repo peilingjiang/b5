@@ -45,7 +45,7 @@ Currently, the project is still under development and you can visit the beta ver
 
 ![Interface Deconstruction](media/interface.jpg)
 
-#### **Editor**
+#### Editor
 
 The programming environment where you can "code" on the fly, consists of two parts: **Factory** and **Playground**:
 
@@ -72,11 +72,11 @@ The programming environment where you can "code" on the fly, consists of two par
   <img alt="Block Search" src="media/search.png" width="70%" />
 </p>
 
-#### **Viewer**
+#### Viewer
 
 The live preview of your sketch, where you can Pause/Start, Refresh, or Capture your canvas. You can also minimize the viewer to the corner.
 
-### Navigation
+#### Navigation
 
 **Left click (and hold)** to select/drag blocks, select/add wires, etc. Double click at code canvas to open block search.<br />
 **Right click and hold** to navigate around the code canvas.<br />
