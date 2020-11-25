@@ -2,5 +2,5 @@
   "files.associations": {
     "*.css": "scss"
   },
-  "cSpell.words": ["eqeqeq", "precss", "uuidv"]
+  "cSpell.words": ["eqeqeq", "precss", "submodule", "uuidv"]
 }

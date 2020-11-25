@@ -19,15 +19,15 @@
     "uuid": "^8.3.1"
   },
   "scripts": {
-    "css": "gulp",
+    "do-gulp": "gulp",
     "build": "react-scripts build",
     "run-test": "react-scripts test",
-    "test": "npm-run-all css run-test",
+    "test": "npm-run-all do-gulp run-test",
     "eject": "react-scripts eject",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,html,css}\"",
-    "dev": "NODE_ENV=development npm-run-all format css",
+    "css": "NODE_ENV=development npm-run-all format do-gulp",
     "start": "react-scripts start",
-    "deploy": "NODE_ENV=production npm-run-all css build",
+    "deploy": "NODE_ENV=production npm-run-all do-gulp build",
     "submodule": "cd src/b5.js && npm i && cd ../..",
     "netlify": "run-s submodule deploy"
   },
