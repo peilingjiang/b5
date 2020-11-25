@@ -1,6 +1,6 @@
 <p align="right">
   <a href="https://b5-editor.netlify.app" rel="noopener noreferrer" target="_blank">
-    <img alt="b~5" src="src/img/logo/logo-3.svg" width="240" />
+    <img alt="b~5" src="src/img/logo/logo-3.svg" width="200" />
   </a>
 </p>
 
@@ -20,7 +20,7 @@ The interface is created to make coding easier and friendlier, more graphical, a
 
 Using the metaphor of building blocks, flow chart, (and electrician diagram,) this new interface features not _lines of code_ but _blocks, nodes, and wires_ for you to draw on and interact with your canvas on the fly. Without restarting the sketch, you can see real-time changes of the canvas reflecting your code.
 
-Currently, the project is still under development and you can visit the beta version at <a href="https://b5-editor.netlify.app" rel="noopener noreferrer" target="_blank"><img alt="b5 Editor" src="src/img/logo/ico.svg" width="17" align="center" /></a> b5 Editor (hosted on Netlify).
+Currently, the project is still under development and you can visit the beta version here <a href="https://b5-editor.netlify.app" rel="noopener noreferrer" target="_blank"><img alt="b5 Editor" src="src/img/logo/ico.svg" width="17" align="center" /></a> (hosted on Netlify).
 
 ## 🌱 Get Started
 
@@ -33,14 +33,14 @@ Currently, the project is still under development and you can visit the beta ver
 ### Quick Facts
 
 1. **Sequence matters**<br />Unlike most node-based visual programming languages, b5 does care about where you put each block. Regardless of how you connect them, b5 always executes blocks **from top to bottom, from left to right** - just like coding with text.
-2. **FPS**<br />The Playground section runs 60 times per second by default.
-3. **Save as JSON**<br />Currently, after each session, you can save (`⌘/ctrl` + `s`) your progress as a JSON file. When you come back, you can just drag it into the editor to load it.
+2. **60 FPS**<br />The Playground section runs 60 times per second by default.
+3. **Save as JSON**<br />Currently, after each session, you can save (`⌘/ctrl` + `s`) your progress as a JSON file. When you return, you can drag it into the editor to load and continue.
 4. **Render with b5.js**<br />The blocks are rendered by a submodule called [b5.js](https://github.com/peilingjiang/b5.js). In the future, this library will be able to run solely and render your b5 JSON files in other websites like p5.js.
 
 ### Interface
 
 <p align="center">
-  <img alt="Whole Interface" src="media/demo.png" width="80%" />
+  <img alt="Whole Interface" src="media/demo.png" width="70%" />
 </p>
 
 ![Interface Deconstruction](media/interface.jpg)
@@ -52,25 +52,27 @@ The programming environment where you can "code" on the fly, consists of two par
 - **Playground**: Just like p5's **draw** function, runs from top to bottom for 60 times per second by default.
 - **Factory**: Instead of only using predefined blocks, you can design and construct your own variables, functions, or objects (not available yet) here.
 
-    <img alt="variable" src="media/variable.svg" width="81px" style="align: center; display: inline" />
+  <img alt="variable" src="media/variable.svg" width="81px" style="align: center; display: inline" /><br />
+  Like p5's **setup** function, the definitions will run for only once before Playground starts running. Any change made to this section will re-initiate the running sketch.<br />
 
-  Like p5's **setup** function, the definitions will run for only once before Playground starts running. Any change made to this section will re-initiate the running sketch.
+  <img alt="function" src="media/function.svg" width="81px" style="align: center; display: inline" /><br />
+  The definitions will not be executed until you put the block into the Playground code canvas.<br />
 
-    <img alt="function" src="media/function.svg" width="81px" style="align: center; display: inline" />
-
-  The definitions will not be executed until you put the block into the Playground code canvas.
-
-    <img alt="object" src="media/object.svg" width="81px" style="align: center; display: inline" />
-
-  _Still work-in-progress_.
+  <img alt="object" src="media/object.svg" width="81px" style="align: center; display: inline" /><br />
+  _Still work-in-progress_.<br />
 
   b5 will render a preview of your customized block for you on the right of each section, you may also rename it. To add the customized blocks into the Playground, you can directly drag the preview block from Factory to it, or you can add them as normal ones using block search.
 
-- **Block Search**: To add new blocks, you can use search - double click at any empty block room that you want to add block to, and search for name, type, or description of that block.
+  <p align="center">
+    <img alt="Block Search" src="media/block-preview.png" width="50%" />
+  </p>
+  <br />
 
-<p align="center">
-  <img alt="Block Search" src="media/search.png" width="70%" />
-</p>
+- **Block Search**: To add new blocks, you can use search - double click at any empty block room that you want to add a block to, and search for name, type, or description of that block.
+
+  <p align="center">
+    <img alt="Block Search" src="media/search.png" width="70%" />
+  </p>
 
 #### **Viewer**
 
@@ -98,10 +100,10 @@ In p5.js, we have some functions that can set the styles or matrix for the follo
 
 ### Documentation
 
-The interface has the whole documentation embedded for reference. Simply hover the cursor onto blocks or nodes to get the explanation.
+The interface has the whole documentation embedded for reference. Simply hover the cursor onto blocks, nodes, or input boxes to get the explanation.
 
 <p align="center">
-  <img alt="Documentation" src="media/gif/doc.gif" width="60%" />
+  <img alt="Documentation" src="media/documentation.jpg" width="70%" />
 </p>
 
 #### Examples
