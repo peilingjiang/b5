@@ -95,8 +95,7 @@ class InputRange extends Component {
   }
 
   componentDidMount() {
-    this.totalLength =
-      this.sliderBox.getBoundingClientRect().width - _inputRangeThumbWidth
+    this.totalLength = this.sliderBox.offsetWidth - _inputRangeThumbWidth
     this._setPosition()
 
     if (this.props.action)
