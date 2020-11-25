@@ -34,7 +34,7 @@ Currently, the project is still under development and you can visit the beta ver
 
 1. **Sequence matters**<br />Unlike most node-based visual programming languages, b5 does care about where you put each block. Regardless of how you connect them, b5 always executes blocks **from top to bottom, from left to right** - just like coding with text.
 2. **FPS**<br />The Playground section runs 60 times per second by default.
-3. **Save as JSON**<br />Currently, after each session, you can save (⌘/ctrl + s) your progress as a JSON file. When you come back, you can just drag it into the editor to load it.
+3. **Save as JSON**<br />Currently, after each session, you can save (`⌘/ctrl` + `s`) your progress as a JSON file. When you come back, you can just drag it into the editor to load it.
 4. **Render with b5.js**<br />The blocks are rendered by a submodule called [b5.js](https://github.com/peilingjiang/b5.js). In the future, this library will be able to run solely and render your b5 JSON files in other websites like p5.js.
 
 ### Interface
@@ -52,32 +52,42 @@ The programming environment where you can "code" on the fly, consists of two par
 - **Playground**: Just like p5's **draw** function, runs from top to bottom for 60 times per second by default.
 - **Factory**: Instead of only using predefined blocks, you can design and construct your own variables, functions, or objects (not available yet) here.
 
-  - <p style="display:inline-block; color: #fff; font-weight: bold; background: #f7b500; border-radius: 3px; padding: 3px 0; width: 70px; text-align: center">variable</p>
+    <img alt="variable" src="media/var.svg" width="81px" style="align: center" />
 
-    Like p5's **setup** function, the definitions will run for only once before Playground starts running. Any change made to this section will re-initiate the running sketch.
+  Like p5's **setup** function, the definitions will run for only once before Playground starts running. Any change made to this section will re-initiate the running sketch.
 
-  - <p style="display:inline-block; color: #fff; font-weight: bold; background: #50d764; border-radius: 3px; padding: 3px 0; width: 70px; text-align: center">function</p>
+    <img alt="function" src="media/func.svg" width="81px" style="align: center" />
 
-    The definitions will not be executed until you put the block into the Playground codeCanvas.
+  The definitions will not be executed until you put the block into the Playground code canvas.
 
-  - <p style="display:inline-block; color: #fff; font-weight: bold; background: #44d7b6; border-radius: 3px; padding: 3px 0; width: 70px; text-align: center">object</p>
+    <img alt="object" src="media/obj.svg" width="81px" style="align: center" />
 
-    _Still work-in-progress_.
+  _Still work-in-progress_.
 
-  To add the customized blocks into the Playground, you can directly drag the preview block from Factory to it, or you can add them as normal ones using block search.
+  b5 will render a preview of your customized block for you on the right of each section, you may also rename it. To add the customized blocks into the Playground, you can directly drag the preview block from Factory to it, or you can add them as normal ones using block search.
 
 - **Block Search**: To add new blocks, you can use search - double click at any empty block room that you want to add block to, and search for name, type, or description of that block.
+
+<p align="center">
+  <img alt="Block Search" src="media/search.png" width="70%" />
+</p>
 
 #### **Viewer**
 
 The live preview of your sketch, where you can Pause/Start, Refresh, or Capture your canvas. You can also minimize the viewer to the corner.
 
+### Navigation
+
+**Left click (and hold)** to select/drag blocks, select/add wires, etc. Double click at code canvas to open block search.<br />
+**Right click and hold** to navigate around the code canvas.<br />
+**Scroll** to zoom in or out the code canvas. Hold the `shift` or `command/ctrl` key to scroll horizontally or vertically.
+
 ### Syntax
 
-The code is based on blocks, nodes, and wires, representing function, input/output, and connection respectively.
+The code is based on blocks, nodes, and wires, representing functionality, input/output, and connection respectively.
 
 <p align="center">
-  <img alt="Whole Interface" src="media/components.png" width="80%" />
+  <img alt="Whole Interface" src="media/components.png" width="70%" />
 </p>
 
 Data flow from top (outputs) to bottom (inputs) via wires between blocks. One output can feed data to different inputs, while one input can only have one data source.
@@ -86,15 +96,23 @@ Data flow from top (outputs) to bottom (inputs) via wires between blocks. One ou
 
 In p5.js, we have some functions that can set the styles or matrix for the following geometries, like `fill()`, `stroke()`, or `scale()`. Here, b5 shares the same concept and when you click on the effect block, you'll also be able to see the affected range of it.
 
-### Examples
+### Documentation
 
-You can load random example files with detailed comments from the _Files_ icon at the top left corner of editor. You are also encouraged to share your projects to be added into the list!
+The interface has the whole documentation embedded for reference. Simply hover the cursor onto blocks or nodes to get the explanation.
+
+<p align="center">
+  <img alt="Documentation" src="media/gif/doc.gif" width="60%" />
+</p>
+
+#### Examples
+
+You can load ⭐ random example files with detailed comments from the _Files_ icon at the top left corner of editor. You are also encouraged to share your projects to be added into the list!
 
 ## 🧑‍💻 Development
 
 This is still an early stage work-in-progress project with tons of features and bugs to expect, and all kinds of contributions - suggestions, discussions, bug report and fix, new blocks and features, UI improvement... - are more than welcome! 💜
 
-You can report the problems, or start a new discussion with the link (at top left corner) in editor, or [here]().
+You can report the problems, or start a new discussion with the link (at top left corner) in editor, or [here](https://github.com/peilingjiang/b5/issues/new).
 
 ### Setup
 
@@ -140,12 +158,13 @@ You don't need to do anything before creating a pull request - the code will be 
 - [ ] Preferences
 - [ ] Quick guide of basic uses
 - [ ] Share the file, section blocks, etc.
-- [ ] Create quick preview version of codeCanvas to embed into websites
+- [ ] Create quick preview version of code canvas to embed into websites
 - [ ] Multi-language support to make it language independent for programming
 - [ ] Select multiple blocks and drag, delete, etc. the collection
-- [ ] ⌘/ctrl + z
-- [ ] ⌘/ctrl + c and v
+- [ ] `⌘/ctrl` + `z`
+- [ ] `⌘/ctrl` + `c` and `v`
 - [ ] Open viewer in a separate tab
+- [ ] Accessibility
 
 ### Status
 
