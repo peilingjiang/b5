@@ -139,7 +139,7 @@ The first one helps listen to changes of CSS files and optimize them, and the se
 
 You don't need to do anything before creating a pull request - the code will be formatted upon commit and the production build will be built in server before hosting.
 
-### Todo
+### To-dos
 
 #### b5 Core
 
