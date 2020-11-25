@@ -52,15 +52,15 @@ The programming environment where you can "code" on the fly, consists of two par
 - **Playground**: Just like p5's **draw** function, runs from top to bottom for 60 times per second by default.
 - **Factory**: Instead of only using predefined blocks, you can design and construct your own variables, functions, or objects (not available yet) here.
 
-    <img alt="variable" src="media/var.svg" width="81px" style="align: center" />
+    <img alt="variable" src="media/variable.svg" width="81px" style="align: center; display: inline" />
 
   Like p5's **setup** function, the definitions will run for only once before Playground starts running. Any change made to this section will re-initiate the running sketch.
 
-    <img alt="function" src="media/func.svg" width="81px" style="align: center" />
+    <img alt="function" src="media/function.svg" width="81px" style="align: center; display: inline" />
 
   The definitions will not be executed until you put the block into the Playground code canvas.
 
-    <img alt="object" src="media/obj.svg" width="81px" style="align: center" />
+    <img alt="object" src="media/object.svg" width="81px" style="align: center; display: inline" />
 
   _Still work-in-progress_.
 
