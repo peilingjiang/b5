@@ -136,7 +136,6 @@ class BlockRenderer extends Component {
   }
 
   handleBlockNameBlur = e => {
-    console.log('KKK', e)
     if (checkSectionNameNotValid(e.target.innerText, this.props.data.name))
       this.props.thisNameRef.current.innerText = this.props.data.name
   }
