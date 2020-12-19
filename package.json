@@ -23,7 +23,6 @@
     "build": "react-scripts build",
     "run-test": "react-scripts test",
     "test": "npm-run-all do-gulp run-test",
-    "eject": "react-scripts eject",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,html,css}\"",
     "css": "NODE_ENV=development npm-run-all format do-gulp",
     "start": "react-scripts start",

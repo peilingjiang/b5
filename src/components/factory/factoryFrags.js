@@ -102,18 +102,19 @@ const TabSection = ({
   const handleRename = useCallback(() => {
     setRenaming(true)
     blockNameRef.current.focus()
-    document.addEventListener('mousedown', function _finishRenaming(e) {
-      if (blockNameRef.current !== e.target) {
-        setRenaming(false)
-        document.removeEventListener('mousedown', _finishRenaming)
-        // Upload rename
-        if (
-          !checkSectionNameNotValid(blockNameRef.current.innerText, data.name)
-        ) {
-          // innerText is valid
-          section('rename', type, [index, blockNameRef.current.innerText])
-        }
+    blockNameRef.current.addEventListener('blur', function _finishRenaming(e) {
+      // Changed from document.addEventListener('mousedown')
+      // if (blockNameRef.current !== e.target) {
+      setRenaming(false)
+      blockNameRef.current.removeEventListener('mousedown', _finishRenaming)
+      // Upload rename
+      if (
+        !checkSectionNameNotValid(blockNameRef.current.innerText, data.name)
+      ) {
+        // innerText is valid
+        section('rename', type, [index, blockNameRef.current.innerText])
       }
+      // }
     })
   }, [data.name, index, section, type])
 

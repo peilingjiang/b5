@@ -128,6 +128,14 @@ class BlockRenderer extends Component {
   // * Section rendered block only
 
   // Edit section block name
+  handleKeyDown = e => {
+    // Ignore Enter key
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      this.props.thisNameRef.current.blur()
+    }
+  }
+
   handleBlockNameChange = e => {
     this.props.thisNameRef.current.focus()
     if (checkSectionNameNotValid(e.target.innerText, this.props.data.name))
@@ -429,6 +437,7 @@ class BlockRenderer extends Component {
                   // contentEditable={isRenaming ? true : false}
                   contentEditable
                   suppressContentEditableWarning="true"
+                  onKeyDown={this.handleKeyDown}
                   onInput={this.handleBlockNameChange}
                   onBlur={this.handleBlockNameBlur}
                 >
