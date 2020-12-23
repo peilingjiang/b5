@@ -132,7 +132,7 @@ export default class CodeCanvas extends Component {
     this.codeCanvas.style.height = 100 / this.state.scale + '%'
 
     // Calc target counts and add listeners
-    this._getSeclusionInd()
+    // this._getSeclusionInd()
     this._getColorEffectInd()
     this._refreshCodeCanvasCounts()
     this.codeCanvas.addEventListener('mousedown', this.handleMouseDown, true)
@@ -162,7 +162,7 @@ export default class CodeCanvas extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     if (!equal(this.props.data, nextProps.data)) {
-      this._getSeclusionInd(nextProps.data.blocks)
+      // this._getSeclusionInd(nextProps.data.blocks)
       this._getColorEffectInd(nextProps.data.blocks)
       return true
     }
@@ -306,8 +306,8 @@ export default class CodeCanvas extends Component {
               0.5 // MIN
             ),
             1.7 // MAX
-          ) * 20
-        ) * 0.05
+          ) * 10
+        ) * 0.1
 
       if (s !== this.state.scale) {
         this.setState({
@@ -358,8 +358,7 @@ export default class CodeCanvas extends Component {
 
     if (Object.entries(blocks).length === 0) {
       // No block in codeCanvas
-      this.seclusionInd.y = 0
-      this.seclusionInd.x = 0
+      this.seclusionInd.y = this.seclusionInd.x = 0
       return
     }
 
@@ -411,17 +410,19 @@ export default class CodeCanvas extends Component {
     )
 
     render.lineCount = Math.min(
-      Math.max(
-        Math.ceil((this.codeCanvas.clientHeight - this.state.top) / lineHeight),
-        this.seclusionInd.y + 2 // Always one more block room to the most seclusive block
-      ),
+      // Math.max(
+      //   Math.ceil((this.codeCanvas.clientHeight - this.state.top) / lineHeight),
+      //   this.seclusionInd.y + 2 // Always one more block room to the most seclusive block
+      // ),
+      Math.ceil((this.codeCanvas.clientHeight - this.state.top) / lineHeight),
       this.maxLineCount
     )
     render.blockCount = Math.min(
-      Math.max(
-        Math.ceil((this.codeCanvas.clientWidth - this.state.left) / roomWidth),
-        this.seclusionInd.x + 2
-      ),
+      // Math.max(
+      //   Math.ceil((this.codeCanvas.clientWidth - this.state.left) / roomWidth),
+      //   this.seclusionInd.x + 2
+      // ),
+      Math.ceil((this.codeCanvas.clientWidth - this.state.left) / roomWidth),
       this.maxBlockCount
     )
 

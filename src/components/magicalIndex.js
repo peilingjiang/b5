@@ -15,6 +15,8 @@ export const _colorEffectIndex = [
 
   'strokeWeight',
   'strokeWeightSlider',
+
+  'translate',
 ]
 
 export const _colorEffectNames = [
