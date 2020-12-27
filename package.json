@@ -9,7 +9,7 @@
     "p5": "^1.1.9",
     "react": "^16.14.0",
     "react-color": "^2.19.3",
-    "react-device-detect": "^1.14.0",
+    "react-device-detect": "^1.15.0",
     "react-dom": "^16.14.0",
     "react-fast-compare": "^3.2.0",
     "react-ga": "^3.3.0",
