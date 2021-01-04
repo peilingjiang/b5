@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react'
+import { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
 
 import BlockRendererLite from '../blockRenderer/blockRendererLite'

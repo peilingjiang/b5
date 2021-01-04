@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import Editor from './components/editor/editor'
 import Viewer from './components/viewer/viewer'

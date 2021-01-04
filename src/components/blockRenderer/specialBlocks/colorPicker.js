@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 
 import _b5BlocksObject from '../../../b5.js/src/blocks/blocksObjectWrapper'
 import Node from '../node'

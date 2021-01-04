@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react'
+import { useRef, useState, useEffect, useCallback } from 'react'
 import { saveAs } from 'file-saver'
 
 import B5Wrapper from './b5ViewerWrapper'

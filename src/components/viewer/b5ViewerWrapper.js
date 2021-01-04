@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import equal from 'react-fast-compare'
 import p5 from 'p5'
 

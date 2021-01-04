@@ -1,4 +1,4 @@
-import React, { Component, createRef, useEffect } from 'react'
+import { Component, createRef, useEffect } from 'react'
 import equal from 'react-fast-compare'
 
 import _b5Search from './blockSearchBase'

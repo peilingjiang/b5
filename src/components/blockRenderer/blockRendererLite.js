@@ -1,4 +1,4 @@
-import React, { useRef, forwardRef } from 'react'
+import { useRef, forwardRef } from 'react'
 
 import BlockRenderer from './blockRenderer'
 import { makeBlock } from '../../b5.js/src/core/make'

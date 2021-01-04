@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react'
+import { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
 
 import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper'

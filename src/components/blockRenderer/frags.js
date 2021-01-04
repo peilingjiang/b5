@@ -1,4 +1,4 @@
-import React, { PureComponent, createRef, Component } from 'react'
+import { PureComponent, createRef, Component } from 'react'
 import { SketchPicker } from 'react-color'
 
 import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper'

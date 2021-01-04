@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import { memo } from 'react'
 import { isMacOs, isWindows } from 'react-device-detect'
 
 import { Emoji } from '../customComponents'

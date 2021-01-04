@@ -1,4 +1,4 @@
-import React, { PureComponent, createRef } from 'react'
+import { PureComponent, createRef } from 'react'
 import ReactDOM from 'react-dom'
 
 import { colorPalette, hintWait } from '../constants'

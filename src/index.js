@@ -1,4 +1,4 @@
-import React from 'react'
+import { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
 
 import App from './App'
@@ -11,9 +11,9 @@ ReactGA.initialize('UA-133943899-3')
 ReactGA.pageview(window.location.pathname + window.location.search)
 
 ReactDOM.render(
-  <React.StrictMode>
+  <StrictMode>
     <App />
-  </React.StrictMode>,
+  </StrictMode>,
   document.getElementById('root')
 )
 

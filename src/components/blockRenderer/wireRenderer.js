@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from 'react'
+import { Component, PureComponent } from 'react'
 import equal from 'react-fast-compare'
 
 import { nodeSize, sizeOffset, dragOvalSize } from '../constants'
