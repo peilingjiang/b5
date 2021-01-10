@@ -429,7 +429,7 @@ class BlockRenderer extends Component {
                 </>
               ) : null}
 
-              {/* No need to split... while looks better */}
+              {/* blockName Editing... */}
               {thisNameRef && (
                 <div
                   className={'blockName' + (isRenaming ? ' textEditing' : '')}
@@ -440,11 +440,17 @@ class BlockRenderer extends Component {
                   onKeyDown={this.handleKeyDown}
                   onInput={this.handleBlockNameChange}
                   onBlur={this.handleBlockNameBlur}
+                  spellCheck={false}
                 >
                   {text}
                 </div>
               )}
-              {!thisNameRef && <div className="blockName">{text}</div>}
+              {/* Or... */}
+              {!thisNameRef && (
+                <div className="blockName" spellCheck={false}>
+                  {text}
+                </div>
+              )}
 
               {outputNodes !== null ? (
                 <>

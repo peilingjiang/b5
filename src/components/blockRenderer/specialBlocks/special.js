@@ -97,18 +97,10 @@ class InputRange extends Component {
   componentDidMount() {
     this.totalLength = this.sliderBox.offsetWidth - _inputRangeThumbWidth
     this._setPosition()
-
-    if (this.props.action)
-      this.thumb.addEventListener('mousedown', this.handleSlide, true)
   }
 
   componentDidUpdate() {
     this._setPosition()
-  }
-
-  componentWillUnmount() {
-    if (this.props.action)
-      this.thumb.removeEventListener('mousedown', this.handleSlide, true)
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -168,7 +160,9 @@ class InputRange extends Component {
   }
 
   handleSlide = e => {
+    e.stopPropagation()
     if (!e.target.classList.contains('inputBox')) {
+      // Not clicking on the input box
       const that = this
       const iD = this.props.inlineData
       let mouse = {
@@ -194,14 +188,14 @@ class InputRange extends Component {
       }
 
       this.sliderBox.classList.replace('defaultCursor', 'ewResizing')
-      this.rangeBelow.classList.add('ewResizing')
+      this.sliderBox.parentElement.classList.replace('grab', 'ewResizing')
 
       document.addEventListener('mousemove', handleDrag, true)
       document.addEventListener(
         'mouseup',
         function _listener() {
           that.sliderBox.classList.replace('ewResizing', 'defaultCursor')
-          that.rangeBelow.classList.remove('ewResizing')
+          that.sliderBox.parentElement.classList.replace('ewResizing', 'grab')
           document.removeEventListener('mousemove', handleDrag, true)
           document.removeEventListener('mouseup', _listener, true)
         },
@@ -229,6 +223,7 @@ class InputRange extends Component {
         ></div>
         <div
           ref={e => (this.thumb = e)}
+          onMouseDown={action ? this.handleSlide : null}
           className="thumb sliderComponent ewResizing"
         >
           <InputBox
