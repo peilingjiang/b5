@@ -80,7 +80,7 @@ $node-0-1-width: 110px;
     .node,
     input {
       user-select: none;
-      cursor: default;
+      cursor: pointer;
     }
 
     textArea {
@@ -345,7 +345,10 @@ $node-0-1-width: 110px;
 
 .disabledComponent {
   user-select: none;
-  // pointer-events: none;
+
+  ::selection {
+    background-color: transparent !important;
+  }
 }
 
 .codeCanvas .sudoBlock {

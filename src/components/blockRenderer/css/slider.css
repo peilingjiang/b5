@@ -96,15 +96,22 @@ $thumb-width: 8px;
         left: calc(50% - $thumb-width / 2);
         transform: translate(-50%, 0);
         pointer-events: initial !important;
+
+        &::selection {
+          background-color: $selected;
+          color: #fff;
+        }
       }
 
       .min {
         left: 0;
         border-radius: $tiny-tiny-radius 0 0 $tiny-tiny-radius;
+        pointer-events: initial !important;
       }
 
       .step {
         right: 0;
+        pointer-events: initial !important;
       }
 
       .stepText {
@@ -119,6 +126,7 @@ $thumb-width: 8px;
       .max {
         left: calc(39px + 1px);
         border-radius: 0 $tiny-tiny-radius $tiny-tiny-radius 0;
+        pointer-events: initial !important;
       }
 
       .sliderSet {
@@ -130,7 +138,8 @@ $thumb-width: 8px;
         color: #fff;
 
         &::selection {
-          background-color: color-mod($selected a(0.99));
+          background-color: #fff;
+          color: $selected;
         }
       }
     }

@@ -87,12 +87,12 @@ $entry-active-color: color-mod($light-grey a($hover-op));
         }
       }
 
-      &:hover {
+      &:hover:not(.disabledComponent) {
         cursor: pointer;
         background-color: $entry-hover-color;
       }
 
-      &:active {
+      &:active:not(.disabledComponent) {
         background-color: $entry-active-color;
       }
     }

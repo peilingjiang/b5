@@ -135,27 +135,16 @@ export default class CodeCanvas extends Component {
     // this._getSeclusionInd()
     this._getColorEffectInd()
     this._refreshCodeCanvasCounts()
-    this.codeCanvas.addEventListener('mousedown', this.handleMouseDown, true)
-    this.codeCanvas.addEventListener('wheel', this.handleWheel, true)
+
     this.resizeObserver.observe(this.codeCanvas)
 
-    this.codeCanvas.addEventListener('contextmenu', this.rightClick, true)
-
-    this.codeCanvas.addEventListener('mouseenter', this.handleHover)
-    this.codeCanvas.addEventListener('mouseleave', this.handleLeave)
-
     // Add block
-    this.codeCanvas.addEventListener('dblclick', this.handleDoubleClick)
+    // this.codeCanvas.addEventListener('dblclick', this.handleDoubleClick)
   }
 
   componentWillUnmount() {
-    this.codeCanvas.removeEventListener('mousedown', this.handleMouseDown, true)
-    this.codeCanvas.removeEventListener('wheel', this.handleWheel, true)
     this.resizeObserver.unobserve(this.codeCanvas)
-    this.codeCanvas.removeEventListener('contextmenu', this.rightClick, true)
-    this.codeCanvas.removeEventListener('mouseenter', this.handleHover)
-    this.codeCanvas.removeEventListener('mouseleave', this.handleLeave)
-    this.codeCanvas.removeEventListener('dblclick', this.handleDoubleClick)
+    // this.codeCanvas.removeEventListener('dblclick', this.handleDoubleClick)
 
     this.codeCanvas = null
   }
@@ -196,8 +185,8 @@ export default class CodeCanvas extends Component {
   handleMouseDown = e => {
     const that = this
     that.mouseIsDown = true
-    if (e.which === 3)
-      // Right click
+    if (e.button === 2)
+      // Right click - 0, 1, 2
       this.handlePan(e)
     else
       document.addEventListener('mouseup', function _listener() {
@@ -277,8 +266,8 @@ export default class CodeCanvas extends Component {
   }
 
   handleWheel = e => {
-    if (method.scrollOnComponent(e.toElement.classList)) return
-    e.preventDefault()
+    if (method.scrollOnComponent(e.target.classList)) return
+    // e.preventDefault()
 
     if (e.metaKey || e.ctrlKey || e.shiftKey) {
       // command or win / control key pressed
@@ -293,11 +282,16 @@ export default class CodeCanvas extends Component {
         -e.deltaY
       )
       this._setCanvasLeftTop()
+
       return
     }
 
     // * SCALE
-    if (!this.mouseIsDown) {
+    if (
+      !this.mouseIsDown &&
+      !(this.state.scale <= 0.5 && e.deltaY > 0) &&
+      !(this.state.scale >= 2 && e.deltaY < 0)
+    ) {
       const s =
         Math.round(
           Math.min(
@@ -305,9 +299,9 @@ export default class CodeCanvas extends Component {
               this.state.scale - e.deltaY * 0.0006 /* Zoom factor */,
               0.5 // MIN
             ),
-            1.7 // MAX
-          ) * 10
-        ) * 0.1
+            2 // MAX
+          ) * 100
+        ) / 100
 
       if (s !== this.state.scale) {
         this.setState({
@@ -489,6 +483,12 @@ export default class CodeCanvas extends Component {
         ref={thisCodeCanvasRef}
         className="codeCanvas"
         id={canvasId ? canvasId : null}
+        onMouseDown={this.handleMouseDown}
+        onWheel={this.handleWheel}
+        onContextMenu={this.rightClick}
+        onMouseEnter={this.handleHover}
+        onMouseLeave={this.handleLeave}
+        onDoubleClick={this.handleDoubleClick}
       >
         <div ref={e => (this.blockHome = e)} className="blockHome">
           <CanvasGrid

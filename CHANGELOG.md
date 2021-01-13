@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Fix canvas zoom in/out (vertical scroll) with trackpad.
+- Performance optimization: codeCanvas.
+
 ### Removed
 
 ## [0.1.2] - 2020.12.23

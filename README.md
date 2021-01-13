@@ -153,7 +153,7 @@ You don't need to do anything before creating a pull request - the code will be 
 - [ ] Output _shape_ objects for drawing blocks: for you to get center, points, etc.
 - [ ] Create your own "object" - what, why, and how?
 - [ ] Bring in more libraries, create for full work flow for current Posenet library
-- [ ] Use more efficient render, like native HTML canvas or q5.js
+- [ ] Use more efficient renderer, like native HTML canvas or q5.js
 
 #### Interface
 

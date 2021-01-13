@@ -9,7 +9,7 @@ const findName = name => {
   if (
     Object.keys(_b5BlocksObject.custom).includes(name) ||
     Object.keys(_b5BlocksObject.library).includes(name) ||
-    Object.keys(_b5BlocksObject.custom).includes(name)
+    Object.keys(_b5BlocksObject.original).includes(name)
   )
     return true
   return false

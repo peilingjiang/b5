@@ -420,6 +420,13 @@ export default class Editor extends Component {
         return newState
       },
       function () {
+        // Clean for Strict Mode
+        if (task === 'add')
+          _b.clearCategories(
+            type,
+            method.getSectionNames(this.state.editor.factory[type])
+          )
+
         this._storeEditor()
       }
     )

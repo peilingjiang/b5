@@ -2,5 +2,12 @@
   "files.associations": {
     "*.css": "scss"
   },
-  "cSpell.words": ["eqeqeq", "perlin", "precss", "submodule", "uuidv"]
+  "cSpell.words": [
+    "eqeqeq",
+    "perlin",
+    "precss",
+    "submodule",
+    "trackpad",
+    "uuidv"
+  ]
 }
