@@ -3,7 +3,7 @@
   "version": "0.1.2",
   "private": true,
   "dependencies": {
-    "blob-polyfill": "^4.0.20200601",
+    "blob-polyfill": "^5.0.20210201",
     "file-saver": "^2.0.5",
     "fuse.js": "^6.4.6",
     "p5": "^1.2.0",
