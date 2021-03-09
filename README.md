@@ -16,7 +16,7 @@
 
 b5 is a visual programming language for learning, prototyping, and fun. Based on [p5.js](https://p5js.org/), b5 shares many concepts while also optimizes for live programming, code visualization, embedded documentation, and more!
 
-The interface is created to make coding easier and friendlier, more graphical, and instantly responsive, and help beginners, artists, and visual learners to quickly get hands on creative programming.
+The interface is created to make coding easier and friendlier, more graphical, and instantly responsive, and help beginners, artists, and visual learners quickly get hands on creative programming.
 
 Using the metaphor of building blocks, flow chart, (and electrician diagram,) this new interface features not _lines of code_ but _blocks, nodes, and wires_ for you to draw on and interact with your canvas on the fly. Without restarting the sketch, you can see real-time changes of the canvas reflecting your code.
 
