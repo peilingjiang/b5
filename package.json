@@ -6,7 +6,7 @@
     "blob-polyfill": "^5.0.20210201",
     "file-saver": "^2.0.5",
     "fuse.js": "^6.4.6",
-    "p5": "^1.2.0",
+    "p5": "^1.3.0",
     "react": "^17.0.1",
     "react-color": "^2.19.3",
     "react-device-detect": "^1.17.0",
