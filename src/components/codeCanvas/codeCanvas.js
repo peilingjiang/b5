@@ -137,15 +137,10 @@ export default class CodeCanvas extends Component {
     this._refreshCodeCanvasCounts()
 
     this.resizeObserver.observe(this.codeCanvas)
-
-    // Add block
-    // this.codeCanvas.addEventListener('dblclick', this.handleDoubleClick)
   }
 
   componentWillUnmount() {
     this.resizeObserver.unobserve(this.codeCanvas)
-    // this.codeCanvas.removeEventListener('dblclick', this.handleDoubleClick)
-
     this.codeCanvas = null
   }
 
@@ -334,14 +329,17 @@ export default class CodeCanvas extends Component {
   }
 
   handleHover = e => {
-    let render = { ...this.state.render }
-    render.hovering = true
-    this.setState({ render })
+    if (this.state.render.hovering === true) return
+    this._setHovering(true)
   }
 
   handleLeave = e => {
+    this._setHovering(false)
+  }
+
+  _setHovering(h) {
     let render = { ...this.state.render }
-    render.hovering = false
+    render.hovering = h
     this.setState({ render })
   }
 
@@ -486,7 +484,7 @@ export default class CodeCanvas extends Component {
         onMouseDown={this.handleMouseDown}
         onWheel={this.handleWheel}
         onContextMenu={this.rightClick}
-        onMouseEnter={this.handleHover}
+        onMouseMove={this.handleHover}
         onMouseLeave={this.handleLeave}
         onDoubleClick={this.handleDoubleClick}
       >

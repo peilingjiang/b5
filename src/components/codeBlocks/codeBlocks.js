@@ -42,14 +42,12 @@ export default class CodeBlocks extends Component {
 
   componentDidMount() {
     document.addEventListener('mousedown', this.handleMouseDown, true)
-    // document.addEventListener('click', this.handleClick)
     // Add delete block listener
     document.addEventListener('keydown', this.handleKeypress)
   }
 
   componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleMouseDown, true)
-    // document.removeEventListener('click', this.handleClick)
     document.removeEventListener('keydown', this.handleKeypress)
   }
 
@@ -97,7 +95,7 @@ export default class CodeBlocks extends Component {
   }
 
   handleMouseDown = e => {
-    if (e.which === 1) {
+    if (e.button === 0) {
       // If:
       // Hovering on the canvas but not click on the block, or
       // Not hovering on the canvas and not doing "operational" tasks
@@ -111,57 +109,56 @@ export default class CodeBlocks extends Component {
 
         const that = this
         const thisBlockInd = this._findBlock(e.target)
-        if (hoveringOnBlock(e.target.classList)) {
+        if (hoveringOnBlock(e.target.classList) && thisBlockInd) {
           // BLOCK
           e.preventDefault()
-          if (thisBlockInd) {
-            const thisBlock = this.blocksRef[thisBlockInd[0]][thisBlockInd[1]]
-            if (thisBlock) {
-              // FOCUS CURRENT
-              this._focus(thisBlockInd) // [2, 0] - [y, x]
-              this.props.canvasCollectFocused(this.state.focused) // Send focused to codeCanvas
 
-              this._deselectWireAll()
-              thisBlock.current.childNodes[0].className = thisBlock.current.childNodes[0].className.replace(
-                'grab',
-                'grabbing'
-              )
-              let mouse = {
-                x: e.clientX,
-                y: e.clientY,
-                blockLeft: thisBlock.current.offsetLeft,
-                blockTop: thisBlock.current.offsetTop,
-                nodesOffset: this.state.nodesOffset[thisBlockInd[0]][
-                  thisBlockInd[1]
-                ],
-              }
+          const thisBlock = this.blocksRef[thisBlockInd[0]][thisBlockInd[1]]
+          if (thisBlock) {
+            // FOCUS CURRENT
+            this._focus(thisBlockInd) // [2, 0] - [y, x]
+            this.props.canvasCollectFocused(this.state.focused) // Send focused to codeCanvas
 
-              const handleMove = this.handleMoveBlock.bind(this, {
-                m: mouse,
-                b: thisBlock.current,
-                bX: thisBlockInd[1],
-                bY: thisBlockInd[0],
-              })
-
-              // const codeBlocksCurrent = this.codeBlocks.current
-              // Add listener to document instead of codeCanvas
-              _addClassNameByClass(thisBlock, 'node', 'no-events')
-              document.addEventListener('mousemove', handleMove, true)
-              document.addEventListener(
-                'mouseup',
-                function _listener() {
-                  _removeClassNameByClass(thisBlock, 'node', 'no-events')
-                  document.removeEventListener('mousemove', handleMove, true)
-                  thisBlock.current.childNodes[0].className = thisBlock.current.childNodes[0].className.replace(
-                    'grabbing',
-                    'grab'
-                  )
-                  that._checkMove(mouse, thisBlock, thisBlockInd)
-                  document.removeEventListener('mouseup', _listener, true)
-                },
-                true
-              )
+            this._deselectWireAll()
+            thisBlock.current.childNodes[0].className = thisBlock.current.childNodes[0].className.replace(
+              'grab',
+              'grabbing'
+            )
+            let mouse = {
+              x: e.clientX,
+              y: e.clientY,
+              blockLeft: thisBlock.current.offsetLeft,
+              blockTop: thisBlock.current.offsetTop,
+              nodesOffset: this.state.nodesOffset[thisBlockInd[0]][
+                thisBlockInd[1]
+              ],
             }
+
+            const handleMove = this.handleMoveBlock.bind(this, {
+              m: mouse,
+              b: thisBlock.current,
+              bX: thisBlockInd[1],
+              bY: thisBlockInd[0],
+            })
+
+            // const codeBlocksCurrent = this.codeBlocks.current
+            // Add listener to document instead of codeCanvas
+            _addClassNameByClass(thisBlock, 'node', 'no-events')
+            document.addEventListener('mousemove', handleMove, true)
+            document.addEventListener(
+              'mouseup',
+              function _listener() {
+                _removeClassNameByClass(thisBlock, 'node', 'no-events')
+                document.removeEventListener('mousemove', handleMove, true)
+                thisBlock.current.childNodes[0].className = thisBlock.current.childNodes[0].className.replace(
+                  'grabbing',
+                  'grab'
+                )
+                that._checkMove(mouse, thisBlock, thisBlockInd)
+                document.removeEventListener('mouseup', _listener, true)
+              },
+              true
+            )
           }
         } else if (e.target.classList.contains('node')) {
           // NODE

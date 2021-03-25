@@ -19,6 +19,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+### Fixed
+
+- Code canvas stops taking actions after adding a new block.
+- Errors in the following blocks: `rotate`.
+
 ## [0.1.2] - 2020.12.23
 
 Hello world! The first release for demo and prototyping purposes.
