@@ -23,7 +23,6 @@ export default class ColorPickerBlock extends Component {
       focused,
       selectedNodes,
       scale,
-      description,
     } = this.props
     const rgba = getRGBAFromHex(inlineData[0])
 
@@ -36,11 +35,7 @@ export default class ColorPickerBlock extends Component {
             ? `0 2px 11px -2px rgba(${rgba[0]}, ${rgba[1]}, ${rgba[2]}, 0.8)`
             : 'none',
         }}
-        data-hint={true}
-        data-hint-name={name}
-        data-hint-description={description}
-        data-hint-type={type}
-        data-hint-category={'block'}
+        data-hints={`${name} block`}
       >
         {name === 'strokePicker' && <div className="strokeMaskDiv"></div>}
         {output && (
@@ -55,9 +50,9 @@ export default class ColorPickerBlock extends Component {
               ref={nodesRef.output[0]}
               focused={focused}
               selected={selectedNodes.output.includes('0')}
-              hintName={outputNodes[0].name}
-              hintDescription={outputNodes[0].description}
-              hintType={outputNodes[0].type[0]}
+              name={name}
+              nodeType={'outputNodes'}
+              refPosition={0}
               hintSide={'down'}
             />
           </div>

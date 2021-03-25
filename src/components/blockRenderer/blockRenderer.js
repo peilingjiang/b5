@@ -232,8 +232,6 @@ class BlockRenderer extends Component {
               focused={focused}
               selectedNodes={selectedNodes}
               scale={scale}
-              source={source}
-              description={description}
             />
           </>
         )
@@ -258,7 +256,6 @@ class BlockRenderer extends Component {
               focused={focused}
               selectedNodes={selectedNodes}
               scale={scale}
-              description={description}
             />
           </>
         )
@@ -346,9 +343,9 @@ class BlockRenderer extends Component {
                 ref={this.nodesRef.input[i]}
                 focused={focused}
                 selected={selectedNodes.input.includes(i)}
-                hintName={inputNodes[i].name}
-                hintDescription={inputNodes[i].description}
-                hintType={inputNodes[i].type[0]}
+                name={name}
+                nodeType={'inputNodes'}
+                refPosition={i}
               />
             )
             inputNodesText.push(
@@ -376,9 +373,9 @@ class BlockRenderer extends Component {
                 ref={this.nodesRef.output[i]}
                 focused={focused}
                 selected={selectedNodes.output.includes(i)}
-                hintName={outputNodes[i].name}
-                hintDescription={outputNodes[i].description}
-                hintType={outputNodes[i].type[0]}
+                name={name}
+                nodeType={'outputNodes'}
+                refPosition={i}
                 hintSide={'down'}
               />
             )
@@ -409,12 +406,7 @@ class BlockRenderer extends Component {
                 maxCount +
                 (draggable ? ' draggable' : '')
               }
-              data-name={name}
-              data-hint={true}
-              data-hint-name={name}
-              data-hint-description={description}
-              data-hint-type={type}
-              data-hint-category={'block'}
+              data-hints={`${name} block`}
             >
               {inputNodes !== null ? (
                 <>

@@ -31,18 +31,12 @@ export class InputBlock extends Component {
       nodesRef,
       focused,
       selectedNodes,
-      description,
     } = this.props
-    const thisInputBox = _b5BlocksObject.original[name].inlineData[0]
     return (
       // * string input block is specially long...
       <div
         className={className + (text === 'str' ? ' longInputWidth' : '')}
-        data-hint={true}
-        data-hint-name={name}
-        data-hint-description={description}
-        data-hint-type={type}
-        data-hint-category={'block'}
+        data-hints={`${name} block`}
       >
         {/* <div className="blockName">{text}</div> */}
         <InputBox
@@ -55,10 +49,7 @@ export class InputBlock extends Component {
           x={x}
           y={y}
           collect={collect}
-          hintName={thisInputBox.name}
-          hintDescription={thisInputBox.description}
-          hintType={thisInputBox.type[0]}
-          hintSide={'up'}
+          refPosition={0}
         />
         <p className="nodeText bottomText">{text}</p>
         {output && (
@@ -73,9 +64,9 @@ export class InputBlock extends Component {
               ref={nodesRef.output[0]}
               focused={focused}
               selected={selectedNodes.output.includes('0')}
-              hintName={name}
-              hintDescription={description}
-              hintType={type}
+              name={name}
+              nodeType={'outputNodes'}
+              refPosition={0}
               hintSide={'down'}
             />
           </div>
@@ -205,9 +196,8 @@ class InputRange extends Component {
   }
 
   render() {
-    const { action, name, x, y, inlineData, collect, source } = this.props
+    const { action, name, x, y, inlineData, collect } = this.props
     const { currentValue } = this.state
-    const thisSliderInlineData = _b5BlocksObject[source][name].inlineData
 
     return (
       <div
@@ -236,10 +226,7 @@ class InputRange extends Component {
             x={x}
             y={y}
             collect={collect}
-            hintName={thisSliderInlineData[0].name}
-            hintDescription={thisSliderInlineData[0].description}
-            hintType={thisSliderInlineData[0].type[0]}
-            hintSide={'up'}
+            refPosition={0}
           />
         </div>
 
@@ -254,9 +241,7 @@ class InputRange extends Component {
             x={x}
             y={y}
             collect={collect}
-            hintName={thisSliderInlineData[1].name}
-            hintDescription={thisSliderInlineData[1].description}
-            hintType={thisSliderInlineData[1].type[0]}
+            refPosition={1}
             hintSide={'down'}
           />
 
@@ -272,9 +257,7 @@ class InputRange extends Component {
             x={x}
             y={y}
             collect={collect}
-            hintName={thisSliderInlineData[3].name}
-            hintDescription={thisSliderInlineData[3].description}
-            hintType={thisSliderInlineData[3].type[0]}
+            refPosition={3}
             hintSide={'down'}
           />
 
@@ -288,10 +271,7 @@ class InputRange extends Component {
             x={x}
             y={y}
             collect={collect}
-            source={source}
-            hintName={thisSliderInlineData[2].name}
-            hintDescription={thisSliderInlineData[2].description}
-            hintType={thisSliderInlineData[2].type[0]}
+            refPosition={2}
             hintSide={'down'}
           />
         </div>
@@ -332,19 +312,10 @@ export class SliderBlock extends Component {
       focused,
       selectedNodes,
       scale,
-      source,
-      description,
     } = this.props
 
     return (
-      <div
-        className={className}
-        data-hint={true}
-        data-hint-name={name}
-        data-hint-description={description}
-        data-hint-type={type}
-        data-hint-category={'block'}
-      >
+      <div className={className} data-hints={`${name} block`}>
         {/* <div className="blockName">{text}</div> */}
         <InputRange
           action={action}
@@ -354,7 +325,6 @@ export class SliderBlock extends Component {
           x={x}
           y={y}
           scale={scale}
-          source={source}
         />
 
         <p className="nodeText bottomText">{text}</p>
@@ -367,9 +337,9 @@ export class SliderBlock extends Component {
             ref={nodesRef.output[0]}
             focused={focused}
             selected={selectedNodes.output.includes('0')}
-            hintName={outputNodes[0].name}
-            hintDescription={outputNodes[0].description}
-            hintType={outputNodes[0].type[0]}
+            name={name}
+            nodeType={'outputNodes'}
+            refPosition={0}
             hintSide={'down'}
           />
         </div>

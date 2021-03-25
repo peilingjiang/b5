@@ -1,11 +1,19 @@
 import { PureComponent, createRef } from 'react'
 import ReactDOM from 'react-dom'
 
+import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper'
+
 import { colorPalette, hintWait } from '../constants'
 import '../../postcss/components/hint/hint.css'
 
 export const _preDescription = d => {
   return d.charAt(d.length - 1) === '.' ? d.slice(0, -1) : d
+}
+
+const dict_cat_to_display_cat = {
+  inputNodes: 'node',
+  outputNodes: 'node',
+  inlineData: 'input',
 }
 
 const HintBlock = (
@@ -75,11 +83,23 @@ export default class Hint extends PureComponent {
   }
 
   addHint = e => {
-    const data = e.target.dataset
+    if (e.target.dataset.hints) {
+      const [
+        blockName,
+        category,
+        position,
+        side,
+      ] = e.target.dataset.hints.split(' ')
 
-    if (data.hint) {
+      /**
+       *
+       * ['blockName', 'category', '[position]', 'hintSide']
+       *
+       */
+
       const rect = e.target.getBoundingClientRect()
-      const hintSide = data.hintSide || 'up'
+      const hintSide = side || 'up'
+      const b = _b5BlocksObject.getBlock(blockName)
 
       const top =
         hintSide === 'up'
@@ -94,11 +114,29 @@ export default class Hint extends PureComponent {
           ? rect.left + rect.width
           : rect.left + rect.width * 0.5
 
+      let name, description, type, categoryDisplay
+      switch (category) {
+        case 'block':
+          name = blockName
+          description = b.description
+          type = b.type
+          categoryDisplay = category
+          break
+
+        default:
+          const component = b[category][position]
+          name = component.name
+          description = component.description
+          type = component.type[0] // !
+          categoryDisplay = dict_cat_to_display_cat[category]
+          break
+      }
+
       const newElement = HintBlock(
-        data.hintName,
-        data.hintDescription,
-        data.hintType,
-        data.hintCategory,
+        name,
+        description,
+        type,
+        categoryDisplay,
         hintSide,
         top,
         left

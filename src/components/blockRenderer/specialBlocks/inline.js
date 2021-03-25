@@ -43,20 +43,13 @@ const InlineBlock = memo(
             ref={nodesRef.input[i]}
             focused={focused}
             selected={selectedNodes.input.includes(i)}
-            hintName={inputNodes[i].name}
-            hintDescription={inputNodes[i].description}
-            hintType={inputNodes[i].type[0]}
+            name={name}
+            nodeType={'inputNodes'}
+            refPosition={i}
           />
         )
     return (
-      <div
-        className={className}
-        data-hint={true}
-        data-hint-name={name}
-        data-hint-description={description}
-        data-hint-type={type}
-        data-hint-category={'block'}
-      >
+      <div className={className} data-hints={`${name} block`}>
         {inputNodes && (
           <>
             <div
@@ -91,9 +84,9 @@ const InlineBlock = memo(
               ref={nodesRef.output[0]}
               focused={focused}
               selected={selectedNodes.output.includes('0')}
-              hintName={outputNodes[0].name}
-              hintDescription={outputNodes[0].description}
-              hintType={outputNodes[0].type[0]}
+              name={name}
+              nodeType={'outputNodes'}
+              refPosition={0}
               hintSide={'down'}
             />
           </div>

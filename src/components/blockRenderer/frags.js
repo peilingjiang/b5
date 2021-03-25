@@ -97,10 +97,8 @@ export class InputBox extends PureComponent {
       className,
       thisInlineData,
       name,
-      hintName,
-      hintDescription,
-      hintType,
-      hintSide,
+      refPosition,
+      hintSide = 'up',
     } = this.props
     return (
       <input
@@ -117,12 +115,7 @@ export class InputBox extends PureComponent {
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         disabled={action ? false : true}
-        data-hint={true}
-        data-hint-name={hintName}
-        data-hint-description={hintDescription}
-        data-hint-type={hintType}
-        data-hint-category={'input'}
-        data-hint-side={hintSide}
+        data-hints={`${name} inlineData ${refPosition} ${hintSide}`}
       ></input>
     )
   }
