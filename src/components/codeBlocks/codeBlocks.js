@@ -283,8 +283,7 @@ export default class CodeBlocks extends Component {
     }
   }
 
-  handleMoveBlock = (props, e) => {
-    const { m, b, bX, bY } = props // mouse, thisBlock.current
+  handleMoveBlock = ({ m, b, bX, bY }, e) => {
     const {
       canvas: { lineCount, blockCount },
     } = this.props
@@ -311,16 +310,18 @@ export default class CodeBlocks extends Component {
     b.style.top = delta.y + m.blockTop + 'px'
 
     // Update node offset
-    let oldData = JSON.parse(JSON.stringify(m.nodesOffset))
-    for (let i in oldData.input) {
-      oldData.input[i][0] += delta.x
-      oldData.input[i][1] += delta.y
+    if (m.nodesOffset.input || m.nodesOffset.output) {
+      let newData = JSON.parse(JSON.stringify(m.nodesOffset))
+      for (let i in newData.input) {
+        newData.input[i][0] += delta.x
+        newData.input[i][1] += delta.y
+      }
+      for (let i in newData.output) {
+        newData.output[i][0] += delta.x
+        newData.output[i][1] += delta.y
+      }
+      this.collectNodesOffset(bX, bY, newData)
     }
-    for (let i in oldData.output) {
-      oldData.output[i][0] += delta.x
-      oldData.output[i][1] += delta.y
-    }
-    this.collectNodesOffset(bX, bY, oldData)
   }
 
   handleKeypress = e => {

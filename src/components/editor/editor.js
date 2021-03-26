@@ -653,11 +653,6 @@ export default class Editor extends Component {
       search: { source, index, x, y },
     } = this
 
-    // const iconNames = ['Settings', 'File', 'Share', 'add']
-    const iconNames = ['Settings', 'File', 'Share']
-    // const iconFunctions = [null, null, null, this.addBlock]
-    const iconFunctions = [null, null, null]
-    const allFalse = [false, false, false]
     const functions = {
       save: this.save,
       new: this.initEditor,
@@ -755,3 +750,13 @@ export default class Editor extends Component {
     )
   }
 }
+
+/* -------------------------------------------------------------------------- */
+
+// Header icon setup
+
+// const iconNames = ['Settings', 'File', 'Share', 'add']
+const iconNames = ['Settings', 'File', 'Share']
+// const iconFunctions = [null, null, null, this.addBlock]
+const iconFunctions = [null, null, null]
+const allFalse = [false, false, false]

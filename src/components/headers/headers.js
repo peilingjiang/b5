@@ -5,7 +5,7 @@ import { Emoji } from '../customComponents'
 
 import '../../postcss/components/headers/headers.css'
 
-const _hasMenuList = ['File', 'Share']
+const _hasMenuList = ['Settings', 'File', 'Share']
 function _hasMenu(name) {
   return _hasMenuList.includes(name)
 }
@@ -16,6 +16,15 @@ const MenuMemo = ({ name, functions }) => {
 
   const li = []
   switch (name) {
+    case 'Settings':
+      li.push(
+        <li key="icon-settings-comingSoon" className="disabledText">
+          <p className="disabledText">
+            <Emoji emoji="🛠️" label="Incoming Envelope" /> coming soon
+          </p>
+        </li>
+      )
+      break
     case 'File':
       li.push(
         <li key="icon-file-save" onClick={functions.save}>
