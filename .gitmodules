@@ -1,3 +1,6 @@
 [submodule "src/b5.js"]
 	path = src/b5.js
 	url = https://github.com/peilingjiang/b5.js.git
+[submodule "src/q5xjs"]
+	path = src/q5xjs
+	url = https://github.com/peilingjiang-DEV/q5xjs.git

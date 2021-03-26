@@ -1,6 +1,8 @@
 import { Component } from 'react'
 import equal from 'react-fast-compare'
-import p5 from 'p5'
+
+import Q5 from '../../q5xjs/q5'
+// import p5 from 'p5'
 
 import _b from '../editor/b5ObjectWrapper'
 
@@ -11,17 +13,13 @@ export default class B5Wrapper extends Component {
     this.myP5 = null
   }
 
-  Sketch = p => {
-    let loop = true
+  setup = () => {
+    if (_b.runSetup) _b.runSetup(this.myP5)
+    else this.loop = false
+  }
 
-    p.setup = () => {
-      if (_b.runSetup) _b.runSetup(p)
-      else loop = false
-    }
-
-    p.draw = () => {
-      if (loop) _b.runDraw(p) // Run Playground blocks
-    }
+  draw = () => {
+    if (this.loop) _b.runDraw(this.myP5) // Run Playground blocks
   }
 
   componentDidMount() {
@@ -51,11 +49,16 @@ export default class B5Wrapper extends Component {
   _initCanvas = () => {
     // Init canvas
     this._clearCanvas() // Always clear the old one first
-    this.myP5 = new p5(this.Sketch, this.props.canvasRef.current)
+    // this.myP5 = new p5(this.Sketch, this.props.canvasRef.current)
+    this.loop = true
+    this.myP5 = new Q5('this', this.props.canvasRef.current)
+    this.myP5.setup = this.setup
+    this.myP5.draw = this.draw
   }
 
   _clearCanvas = () => {
     if (this.myP5 !== null) {
+      this.loop = false
       this.myP5.noLoop()
       // Unplug section blocks output data
       _b.unplug()

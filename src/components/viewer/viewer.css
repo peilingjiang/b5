@@ -66,6 +66,7 @@ $mini-margin: calc($head-height / 2 - $mini-size / 2);
   .p5Canvas {
     margin: 0;
     padding: 0;
+    pointer-events: all;
   }
 }
 
@@ -90,6 +91,7 @@ $mini-margin: calc($head-height / 2 - $mini-size / 2);
     overflow: scroll;
     margin: 0;
     padding: 0;
+    pointer-events: none;
   }
 
   .viewerNoLoop {

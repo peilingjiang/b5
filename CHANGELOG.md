@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix canvas zoom in/out (vertical scroll) with trackpad.
 - Performance optimization: codeCanvas.
 - A much lighter and faster way to parse hint for components.
+- Migrate from p5 to [q5](https://github.com/peilingjiang-DEV/q5xjs.git) for better performance.
 
 ### Removed
 
