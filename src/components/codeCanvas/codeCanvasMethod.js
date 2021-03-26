@@ -32,3 +32,9 @@ export const scrollOnComponent = classList => {
     if (classList.contains(i)) return true
   return false
 }
+
+export const hoveringOnCanvas = classList => {
+  for (let i of ['blockFill', 'blockRoom'])
+    if (classList.contains(i)) return true
+  return false
+}

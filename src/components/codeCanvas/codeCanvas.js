@@ -137,10 +137,16 @@ export default class CodeCanvas extends Component {
     this._refreshCodeCanvasCounts()
 
     this.resizeObserver.observe(this.codeCanvas)
+    this.codeCanvas.addEventListener('wheel', this.handleWheel, {
+      passive: false,
+    })
   }
 
   componentWillUnmount() {
     this.resizeObserver.unobserve(this.codeCanvas)
+    this.codeCanvas.removeEventListener('wheel', this.handleWheel, {
+      passive: false,
+    })
     this.codeCanvas = null
   }
 
@@ -180,9 +186,7 @@ export default class CodeCanvas extends Component {
   handleMouseDown = e => {
     const that = this
     that.mouseIsDown = true
-    if (e.button === 2)
-      // Right click - 0, 1, 2
-      this.handlePan(e)
+    if (method.hoveringOnCanvas(e.target.classList)) this.handlePan(e)
     else
       document.addEventListener('mouseup', function _listener() {
         that.mouseIsDown = false
@@ -262,7 +266,7 @@ export default class CodeCanvas extends Component {
 
   handleWheel = e => {
     if (method.scrollOnComponent(e.target.classList)) return
-    // e.preventDefault()
+    e.preventDefault()
 
     if (e.metaKey || e.ctrlKey || e.shiftKey) {
       // command or win / control key pressed
@@ -278,7 +282,7 @@ export default class CodeCanvas extends Component {
       )
       this._setCanvasLeftTop()
 
-      return
+      return false
     }
 
     // * SCALE
@@ -482,7 +486,6 @@ export default class CodeCanvas extends Component {
         className="codeCanvas"
         id={canvasId ? canvasId : null}
         onMouseDown={this.handleMouseDown}
-        onWheel={this.handleWheel}
         onContextMenu={this.rightClick}
         onMouseMove={this.handleHover}
         onMouseLeave={this.handleLeave}

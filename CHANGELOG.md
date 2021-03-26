@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Performance optimization: codeCanvas.
 - A much lighter and faster way to parse hint for components.
 - Migrate from p5 to [q5](https://github.com/peilingjiang-DEV/q5xjs.git) for better performance.
+- Move (pan) around the canvas by all three keys (left, middle, right) of the mouse, instead of only the right one.
 
 ### Removed
 
@@ -25,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Code canvas stops taking actions after adding a new block.
 - Errors in the following blocks: `rotate`.
+- Canvas `wheel` event can't prevent default.
 
 ## [0.1.2] - 2020.12.23
 
