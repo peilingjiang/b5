@@ -1,6 +1,6 @@
 import { memo } from 'react'
 
-import FoldSVG from '../../img/icon/fold.svg'
+import FoldSVG from '../../img/icons/fold.svg'
 
 const FoldIconMemo = ({ folded, foldFunction }) => {
   return (
