@@ -16,16 +16,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Fix canvas zoom in/out (vertical scroll) with trackpad.
+- Fix canvas zoom in/out (vertical scroll) with the trackpad.
 - Performance optimization: codeCanvas.
-- A much lighter and faster way to parse hint for components.
+- A much lighter and faster way to parse hints for components.
 - Migrate from p5 to [q5](https://github.com/peilingjiang-DEV/q5xjs) for better performance.
 - Move (pan) around the canvas by all three keys (left, middle, right) of the mouse, instead of only the right one.
 - New look of the sliders.
 
 ### Fixed
 
-- Code canvas stops taking actions after adding a new block.
+- Code canvas stops reading actions after adding a new block.
 - Errors in the following blocks: `rotate`.
 - Canvas `wheel` event can't prevent default.
 - "Add block" hint doesn't appear when no block is in the canvas.
