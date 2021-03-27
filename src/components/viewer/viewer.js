@@ -7,7 +7,7 @@ import { headerHeight, targetSize } from '../constants'
 import { usePrevious } from '../useHooks'
 import '../../postcss/components/viewer/viewer.css'
 
-import ViewerNoLoop from '../../img/icon/viewerNoLoop.svg'
+import ViewerNoLoop from '../../img/icons/viewerNoLoop.svg'
 
 const Viewer = ({ data }) => {
   const [loop, setLoop] = useState(true) // Render the canvas or not

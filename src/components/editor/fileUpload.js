@@ -1,6 +1,6 @@
 import { forwardRef } from 'react'
 
-import AddFile from '../../img/icon/addFile.svg'
+import AddFile from '../../img/icons/addFile.svg'
 
 const FileUploadRef = ({ display, thisRef }) => {
   return (

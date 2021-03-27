@@ -7,12 +7,14 @@ import { lineHeight, roomWidth } from '../constants'
 import Node from './node'
 import { _getParentBlockInBook } from './frags'
 import { checkSectionNameNotValid } from '../factory/factoryMethod'
-import { InputBlock, SliderBlock } from './specialBlocks/special'
+import InputBlock from './specialBlocks/input'
+import SliderBlock from './specialBlocks/slider'
 import ColorPickerBlock from './specialBlocks/colorPicker'
 import InlineBlock from './specialBlocks/inline'
 import CommentBlock from './specialBlocks/comment'
 import '../../postcss/components/blockRenderer/css/blockRenderer.css'
 import { _scaleSensitiveBlockKinds } from '../magicalIndex'
+import { getOutputConnectType } from './blockRendererMethod'
 
 function _getTotalOffset(thisNode, targetClassName) {
   // [x, y]
@@ -222,6 +224,8 @@ class BlockRenderer extends Component {
               name={name}
               text={text}
               inlineData={inlineData}
+              input={input}
+              inputNodes={inputNodes}
               output={output}
               outputNodes={outputNodes}
               type={type}
@@ -232,6 +236,7 @@ class BlockRenderer extends Component {
               focused={focused}
               selectedNodes={selectedNodes}
               scale={scale}
+              fraction={name === 'fractionSlider'}
             />
           </>
         )
@@ -345,7 +350,7 @@ class BlockRenderer extends Component {
                 selected={selectedNodes.input.includes(i)}
                 name={name}
                 nodeType={'inputNodes'}
-                refPosition={i}
+                hintRefPosition={i}
               />
             )
             inputNodesText.push(
@@ -367,15 +372,13 @@ class BlockRenderer extends Component {
                 nodeClass="output"
                 count={outputNodesCount}
                 type={type}
-                connectType={
-                  output[i].length !== 0 ? outputNodes[i].type[0] : null
-                } // output can only be [] (when not connected) instead of null
+                connectType={getOutputConnectType(output, outputNodes, i)} // output can only be [] (when not connected) instead of null
                 ref={this.nodesRef.output[i]}
                 focused={focused}
                 selected={selectedNodes.output.includes(i)}
                 name={name}
                 nodeType={'outputNodes'}
-                refPosition={i}
+                hintRefPosition={i}
                 hintSide={'down'}
               />
             )

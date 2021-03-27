@@ -37,8 +37,9 @@ const NodeRef = ({
   selected,
   name,
   nodeType,
-  refPosition,
+  hintRefPosition,
   hintSide = 'up',
+  background = false,
 }) => {
   return (
     <div className={'nodeFill count' + count}>
@@ -46,8 +47,10 @@ const NodeRef = ({
       <div
         className="nodeAdd node"
         ref={thisNodeRef}
-        data-hints={`${name} ${nodeType} ${refPosition} ${hintSide}`}
+        data-hints={`${name} ${nodeType} ${hintRefPosition} ${hintSide}`}
       >
+        {/* Background */}
+        {background && <div className={'nodeBackground ' + type}></div>}
         {/* Display layer */}
         <div
           className={

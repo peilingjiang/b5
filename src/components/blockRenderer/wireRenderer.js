@@ -1,4 +1,4 @@
-import { Component, PureComponent } from 'react'
+import { Component } from 'react'
 import equal from 'react-fast-compare'
 
 import { nodeSize, sizeOffset, dragOvalSize } from '../constants'
@@ -6,7 +6,11 @@ import '../../postcss/components/blockRenderer/wireRenderer.css'
 
 const _dragOvalR = dragOvalSize / 2
 
-class Wire extends PureComponent {
+class Wire extends Component {
+  shouldComponentUpdate(nextProps) {
+    return !equal(nextProps, this.props)
+  }
+
   render() {
     const { focused, selected, dragged, inputNode } = this.props
 

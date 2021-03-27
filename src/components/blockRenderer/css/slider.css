@@ -2,7 +2,7 @@
 @import './constants.css';
 
 $slider-width: 176px;
-$thumb-width: 8px;
+$thumb-width: 9px;
 
 .blockFill {
   &.preview {
@@ -18,7 +18,7 @@ $thumb-width: 8px;
       opacity: 1 !important;
     }
 
-    .slider .bottomText {
+    .slider .bottomText:not(.fractionText):not(.stepText) {
       display: none;
     }
   }
@@ -64,8 +64,14 @@ $thumb-width: 8px;
         display: inline-block;
         height: 100%;
         width: $thumb-width;
-        border-left: $dark-grey solid 1px;
+        // margin: 0 calc(($thumb-width - 1px) / -2);
+        left: calc(($thumb-width - 1px) / -2);
+        padding-left: calc(($thumb-width - 1px) / 2);
+        padding-right: calc(($thumb-width - 1px) / 2);
+        background-color: $dark-grey;
+        background-clip: content-box;
         pointer-events: initial;
+        user-select: none;
       }
 
       .sliderInput {
@@ -80,7 +86,7 @@ $thumb-width: 8px;
       .inputBox {
         position: absolute;
         border-radius: $tiny-tiny-radius;
-        height: 18px;
+        height: calc(27px - 2 * $tiny-gap);
         width: 39px;
         background-color: #fff !important;
         text-align: center;
@@ -91,15 +97,36 @@ $thumb-width: 8px;
       }
 
       .current {
-        top: -18px;
-        border: $dark-grey solid 1px;
-        left: calc(50% - $thumb-width / 2);
-        transform: translate(-50%, 0);
+        top: $tiny-gap;
+        border: $grey solid 1px;
+        left: calc($thumb-width + $gap);
         pointer-events: initial !important;
 
         &::selection {
-          background-color: $selected;
+          background-color: color-mod($selected a($hover-op));
           color: #fff;
+        }
+
+        & + span {
+          position: absolute;
+        }
+      }
+
+      .thumbArrow {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        top: calc(50% - 2px);
+        opacity: $hover-op;
+        pointer-events: none;
+
+        &.thumbArrowLeft {
+          left: -3px;
+        }
+
+        &.thumbArrowRight {
+          transform: rotate(180deg);
+          right: -3px;
         }
       }
 
@@ -115,6 +142,7 @@ $thumb-width: 8px;
       }
 
       .stepText {
+        display: block;
         position: absolute !important;
         font-size: $small-small;
         text-align: right;

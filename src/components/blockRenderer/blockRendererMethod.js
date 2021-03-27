@@ -24,3 +24,12 @@ export const getRGBAFromHex = hex => {
     (rgb >> 0) & 0xff,
   ]
 }
+
+export const getOutputConnectType = (o, nodes, i = 0) => {
+  /**
+   * Get the connect type of the node
+   * o  - output
+   * nodes - outputNodes
+   */
+  return o[i].length !== 0 ? nodes[i].type[0] : null
+}

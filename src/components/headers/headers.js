@@ -92,7 +92,7 @@ const IconMemo = ({ name, onClickFunc, disabled, hasDropdown, functions }) => {
       >
         <img
           src={
-            require(`../../img/toolbar-icon/${name.toLowerCase()}.svg`).default
+            require(`../../img/toolbarIcons/${name.toLowerCase()}.svg`).default
           }
           alt={name}
         />

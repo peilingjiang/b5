@@ -3,7 +3,11 @@ import { Component } from 'react'
 import _b5BlocksObject from '../../../b5.js/src/blocks/blocksObjectWrapper'
 import Node from '../node'
 import { ColorPickerEntry } from '../frags'
-import { getRGBAFromHex, isLight } from '../blockRendererMethod'
+import {
+  getRGBAFromHex,
+  isLight,
+  getOutputConnectType,
+} from '../blockRendererMethod'
 
 export default class ColorPickerBlock extends Component {
   render() {
@@ -44,15 +48,13 @@ export default class ColorPickerBlock extends Component {
               nodeClass="output"
               count={1}
               type={type}
-              connectType={
-                output[0].length !== 0 ? outputNodes[0].type[0] : null
-              }
+              connectType={getOutputConnectType(output, outputNodes, 0)}
               ref={nodesRef.output[0]}
               focused={focused}
               selected={selectedNodes.output.includes('0')}
               name={name}
               nodeType={'outputNodes'}
-              refPosition={0}
+              hintRefPosition={0}
               hintSide={'down'}
             />
           </div>

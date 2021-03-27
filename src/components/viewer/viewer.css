@@ -46,12 +46,12 @@ $mini-margin: calc($head-height / 2 - $mini-size / 2);
     }
 
     .mini {
-      mask: url('../../../img/icon/mini.svg') no-repeat center;
+      mask: url('../../../img/icons/mini.svg') no-repeat center;
     }
 
     .expand {
       display: none;
-      mask: url('../../../img/icon/expand.svg') no-repeat center;
+      mask: url('../../../img/icons/expand.svg') no-repeat center;
     }
   }
 

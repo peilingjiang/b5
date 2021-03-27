@@ -211,6 +211,21 @@ $node-0-1-width: 110px;
         border-color: $alert;
       }
     }
+
+    // Background
+    .nodeBackground {
+      position: absolute;
+      display: block;
+      z-index: -1;
+      width: calc($node-size - 2 * $node-padding + 2px);
+      height: calc($node-size - 2 * $node-padding + 2px);
+      border-radius: calc(($node-size - 2 * $node-padding + 2px) / 2);
+      // clip-path: inset(50% 0 0 0);
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
   }
 
   .nodes {
@@ -344,7 +359,7 @@ $node-0-1-width: 110px;
 }
 
 .disabledComponent {
-  user-select: none;
+  user-select: none !important;
 
   ::selection {
     background-color: transparent !important;

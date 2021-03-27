@@ -164,6 +164,7 @@ export default class CodeBlocks extends Component {
           // NODE
           e.preventDefault()
           this._deselectWireAll()
+
           if (thisBlockInd) {
             const thisNodesRef = this.blocksNodesRef[thisBlockInd[0]][
               thisBlockInd[1]

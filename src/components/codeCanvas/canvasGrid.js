@@ -2,7 +2,7 @@ import { Component, PureComponent } from 'react'
 import equal from 'react-fast-compare'
 
 import { LineNumberRoom, BlockAlphabetRoom, BlockRoom } from './codeCanvasFrags'
-import DoubleClick from '../../img/icon/dclick.svg'
+import DoubleClick from '../../img/icons/dclick.svg'
 
 export class CanvasGrid extends Component {
   shouldComponentUpdate(nextProps) {

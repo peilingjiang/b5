@@ -2,6 +2,7 @@ import { memo } from 'react'
 
 import Node from '../node'
 import { _getParentBlockInBook } from '../frags'
+import { getOutputConnectType } from '../blockRendererMethod'
 
 const InlineBlock = memo(
   ({
@@ -45,7 +46,7 @@ const InlineBlock = memo(
             selected={selectedNodes.input.includes(i)}
             name={name}
             nodeType={'inputNodes'}
-            refPosition={i}
+            hintRefPosition={i}
           />
         )
     return (
@@ -78,15 +79,13 @@ const InlineBlock = memo(
               nodeClass="output"
               count={1}
               type={type}
-              connectType={
-                output[0].length !== 0 ? outputNodes[0].type[0] : null
-              }
+              connectType={getOutputConnectType(output, outputNodes, 0)}
               ref={nodesRef.output[0]}
               focused={focused}
               selected={selectedNodes.output.includes('0')}
               name={name}
               nodeType={'outputNodes'}
-              refPosition={0}
+              hintRefPosition={0}
               hintSide={'down'}
             />
           </div>

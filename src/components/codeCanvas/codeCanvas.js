@@ -215,21 +215,17 @@ export default class CodeCanvas extends Component {
       )
     }
 
-    document.addEventListener('mousemove', grabCanvas, true)
+    document.addEventListener('mousemove', grabCanvas)
 
-    document.addEventListener(
-      'mouseup',
-      function _listener() {
-        that.mouseIsDown = false
-        that.codeCanvas.className = 'codeCanvas'
-        document.removeEventListener('mousemove', grabCanvas, true)
+    document.addEventListener('mouseup', function _listener() {
+      that.mouseIsDown = false
+      that.codeCanvas.className = 'codeCanvas'
+      document.removeEventListener('mousemove', grabCanvas)
 
-        that._setCanvasLeftTop()
+      that._setCanvasLeftTop()
 
-        document.removeEventListener('mouseup', _listener, true)
-      },
-      true
-    )
+      document.removeEventListener('mouseup', _listener)
+    })
   }
 
   _setCanvasLeftTop = () => {
@@ -493,7 +489,7 @@ export default class CodeCanvas extends Component {
       >
         <div ref={e => (this.blockHome = e)} className="blockHome">
           <CanvasGrid
-            hasBlock={Object(blocks).length !== 0}
+            hasBlock={Object.keys(blocks).length !== 0}
             lineStartCount={lineStartCount}
             blockStartCount={blockStartCount}
             lineCount={lineCount}

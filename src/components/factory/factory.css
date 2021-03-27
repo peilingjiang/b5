@@ -11,8 +11,8 @@ $button-gap: calc(2 * $gap);
 $button-init-gap: calc(4 * $gap);
 
 // Images
-$cross: '../../../img/icon/cross.svg';
-$rename: '../../../img/icon/rename.svg';
+$cross: '../../../img/icons/cross.svg';
+$rename: '../../../img/icons/rename.svg';
 
 @mixin section-color($color) {
   .section {

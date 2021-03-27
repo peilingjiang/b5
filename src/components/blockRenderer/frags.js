@@ -1,4 +1,4 @@
-import { PureComponent, createRef, Component } from 'react'
+import { PureComponent, createRef, Component, forwardRef } from 'react'
 import { SketchPicker } from 'react-color'
 
 import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper'
@@ -11,14 +11,14 @@ export function _getParentBlockInBook(name) {
   return _b5BlocksObject[source][name]
 }
 
-export class InputBox extends PureComponent {
+class InputBoxRef extends PureComponent {
   // For both number and string input
   constructor(props) {
     super()
     this.valid = true // valid or not
 
     this.isNumberInput = props.thisDataType === 'number' ? true : false // true of false
-    this.inputRef = createRef()
+    this.inputRef = props.forwardedRef || createRef()
   }
 
   componentDidUpdate() {
@@ -97,7 +97,7 @@ export class InputBox extends PureComponent {
       className,
       thisInlineData,
       name,
-      refPosition,
+      hintRefPosition,
       hintSide = 'up',
     } = this.props
     return (
@@ -115,11 +115,15 @@ export class InputBox extends PureComponent {
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         disabled={action ? false : true}
-        data-hints={`${name} inlineData ${refPosition} ${hintSide}`}
+        data-hints={`${name} inlineData ${hintRefPosition} ${hintSide}`}
       ></input>
     )
   }
 }
+
+export const InputBox = forwardRef((props, ref) => (
+  <InputBoxRef {...props} forwardedRef={ref} />
+))
 
 export class ColorPickerEntry extends Component {
   constructor() {

@@ -75,6 +75,10 @@ body {
   pointer-events: none !important;
 }
 
+.no-select {
+  user-select: none !important;
+}
+
 .no-opacity {
   // display: none;
   pointer-events: none;
