@@ -98,7 +98,7 @@ class InputRange extends Component {
   }
 
   _placeTextBox = () => {
-    if (this.rangeBelow.offsetWidth > this.totalLength * 0.65) {
+    if (this.rangeBelow.offsetWidth > this.totalLength * 0.69) {
       if (this.textBoxPosition === 'r') {
         this.textBoxPosition = 'l'
         this.currentInput.current.style.left = 'unset'

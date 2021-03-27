@@ -29,10 +29,10 @@ class Wire extends Component {
     const canvasLeft = Math.min(startX, endX) - sizeOffset - _dragOvalR
     const canvasTop = Math.min(startY, endY) - _dragOvalR
 
-    startX = startX - canvasLeft
-    endX = endX - canvasLeft
-    startY = startY - canvasTop + sizeOffset
-    endY = endY - canvasTop + sizeOffset
+    startX -= canvasLeft
+    endX -= canvasLeft
+    startY -= canvasTop - sizeOffset
+    endY -= canvasTop - sizeOffset
     // To get the mid point, divide by 2
     const factor = Math.abs(startX - endX) > 50 ? 2 : 2.5
     const yOffset = (endY - startY) / factor
@@ -136,7 +136,7 @@ export default class WireRenderer extends Component {
                   focused={this._isFocused([i, j], [c[0], c[1]])}
                   selected={this._isSelected([i, j, node])}
                   dragged={false}
-                  inputNode={i + ' ' + j + ' ' + node} // For wire selection
+                  inputNode={`${i} ${j} ${node}`} // For wire selection
                 />
               )
             }
@@ -146,7 +146,7 @@ export default class WireRenderer extends Component {
     if (draggingWire)
       wires.push(
         <Wire
-          key={'tempWire'}
+          key="tempWire"
           startX={draggingWire.start[0]}
           startY={draggingWire.start[1]}
           endX={draggingWire.end[0]}
