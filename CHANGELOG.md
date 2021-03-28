@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Dragging dot follows cursor precisely when adding wires.
+- Dragging dot follows the cursor precisely when adding wires.
 - Update slider styles.
 
 ### Fixed
