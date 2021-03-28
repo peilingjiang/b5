@@ -2,7 +2,9 @@
 @import './constants.css';
 
 $slider-width: 176px;
-$thumb-width: 9px;
+$thumb-width: 10px;
+$thumb-display-width: 2px;
+$thumb-offset: calc(($thumb-width - $thumb-display-width) / 2); // 4px
 
 .blockFill {
   &.preview {
@@ -20,6 +22,10 @@ $thumb-width: 9px;
 
     .slider .bottomText:not(.fractionText):not(.stepText) {
       display: none;
+    }
+
+    .slider .sliderBox .thumb {
+      background-color: $dark-grey;
     }
   }
 
@@ -41,8 +47,13 @@ $thumb-width: 9px;
       background-color: color-mod($object a($light-op));
     }
 
+    &.default .rangeBelow {
+      background-color: color-mod($default a($light-op));
+    }
+
     .sliderBox {
       position: relative;
+      display: block;
       height: calc(48px - $bottom-height - 3px);
       width: calc(100% - 6px);
       margin: 3px 3px 0 3px;
@@ -51,27 +62,28 @@ $thumb-width: 9px;
       border-radius: $tiny-tiny-radius;
       text-align: left;
       pointer-events: none;
+      overflow: visible;
 
       .rangeBelow {
-        display: inline-block;
+        position: absolute;
+        left: 0;
+        top: 0;
         height: 100%;
-        margin: 0 auto 0 0;
+        margin: 0 auto auto 0;
         pointer-events: none;
       }
 
       .thumb {
-        position: relative;
-        display: inline-block;
-        height: 100%;
+        position: absolute;
+        height: 29px;
         width: $thumb-width;
-        // margin: 0 calc(($thumb-width - 1px) / -2);
-        left: calc(($thumb-width - 1px) / -2);
-        padding-left: calc(($thumb-width - 1px) / 2);
-        padding-right: calc(($thumb-width - 1px) / 2);
-        background-color: $dark-grey;
+        top: -1px;
+        padding: 0 $thumb-offset;
+        background-color: $grey; /* Color */
         background-clip: content-box;
         pointer-events: initial;
         user-select: none;
+        transition: background-color 0.2s;
       }
 
       .sliderInput {
@@ -97,7 +109,7 @@ $thumb-width: 9px;
       }
 
       .current {
-        top: $tiny-gap;
+        top: calc($tiny-gap + 1px);
         border: $grey solid 1px;
         left: calc($thumb-width + $gap);
         pointer-events: initial !important;
@@ -117,7 +129,6 @@ $thumb-width: 9px;
         width: 4px;
         height: 4px;
         top: calc(50% - 2px);
-        opacity: $hover-op;
         pointer-events: none;
 
         &.thumbArrowLeft {

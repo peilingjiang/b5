@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2021-03-27
+
+### Changed
+
+- Dragging dot follows cursor precisely when adding wires.
+- Update slider styles.
+
+### Fixed
+
+- Fixed `uuid` of introduction editor setup.
+
 ## [0.2.0] - 2021-03-27
 
 ### Added
@@ -34,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Hello world! The first release for demo and prototyping purposes.
 
-[unreleased]: https://github.com/peilingjiang/b5/compare/v0.2.0...HEAD
+[unreleased]: https://github.com/peilingjiang/b5/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/peilingjiang/b5/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/peilingjiang/b5/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/peilingjiang/b5/releases/tag/v0.1.2

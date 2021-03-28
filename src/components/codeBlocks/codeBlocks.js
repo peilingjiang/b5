@@ -173,10 +173,6 @@ export default class CodeBlocks extends Component {
               for (let j in thisNodesRef[io]) // "0", "1", ...
                 if (thisNodesRef[io][j].current === e.target) {
                   const that = this
-                  let mouse = {
-                    x: e.clientX,
-                    y: e.clientY,
-                  }
 
                   thisNodesRef[io][j].current.classList.add('focused')
                   document.body.style.cursor = 'pointer'
@@ -189,10 +185,20 @@ export default class CodeBlocks extends Component {
                     startNodeRef: thisNodesRef[io][j],
                   }
 
+                  const wireStart = this.state.nodesOffset[thisBlockInd[0]][
+                    thisBlockInd[1]
+                  ][io][j]
+
+                  const wireStartRect = startNode.startNodeRef.current.getBoundingClientRect()
+                  const wireStartClient = {
+                    x: wireStartRect.x + wireStartRect.width / 2,
+                    y: wireStartRect.y + wireStartRect.height / 2,
+                  }
+
+                  // Irrelevant to the init position of the cursor
                   const dragWire = this.handleDragWire.bind(this, {
-                    ...startNode,
-                    startBlockInd: thisBlockInd,
-                    m: mouse,
+                    wireStart,
+                    wireStartClient,
                   })
                   // Add the listener to codeCanvas
                   this.codeBlocks.current.parentElement.addEventListener(
@@ -222,21 +228,16 @@ export default class CodeBlocks extends Component {
   }
 
   handleDragWire = (props, e) => {
-    const { startBlockInd, startNodeType, startNodeInd, m } = props
-    const s = this.props.scale
-    let delta = {
-      x: (e.clientX - m.x) / s,
-      y: (e.clientY - m.y) / s,
-    }
+    const { wireStart, wireStartClient } = props
 
-    const wireStart = this.state.nodesOffset[startBlockInd[0]][
-      startBlockInd[1]
-    ][startNodeType][startNodeInd]
     // Render temp Wire
     this.setState({
       draggingWire: {
         start: wireStart,
-        end: [wireStart[0] + delta.x, wireStart[1] + delta.y],
+        end: [
+          wireStart[0] + (e.clientX - wireStartClient.x) / this.props.scale, // delta.x
+          wireStart[1] + (e.clientY - wireStartClient.y) / this.props.scale, // delta.y
+        ],
       },
     })
   }
@@ -311,7 +312,7 @@ export default class CodeBlocks extends Component {
     b.style.top = delta.y + m.blockTop + 'px'
 
     // Update node offset
-    if (m.nodesOffset.input || m.nodesOffset.output) {
+    if (m.nodesOffset.input.length || m.nodesOffset.output.length) {
       let newData = JSON.parse(JSON.stringify(m.nodesOffset))
       for (let i in newData.input) {
         newData.input[i][0] += delta.x

@@ -21,7 +21,7 @@ const countDecimalPlaces = n => {
   return n.toString().split('.')[1].length || 0
 }
 
-const _inputRangeThumbWidth = 1
+const _inputRangeThumbWidth = 0 // Actual width is 2px
 const _stepRange = [0, Infinity]
 
 const _getLength = (totalLen, current, min, max) => {
@@ -87,8 +87,10 @@ class InputRange extends Component {
       collect([x, y, 0, newCurrent], 'inlineDataChange')
       this.setState({ currentValue: newCurrent })
     }
-    this.rangeBelow.style.width =
-      _getLength(this.totalLength, newCurrent, min, max) + 'px'
+
+    let l = _getLength(this.totalLength, newCurrent, min, max)
+    this.rangeBelow.style.width = l + 1 + 'px'
+    this.thumb.style.left = l - 5 + 'px'
   }
 
   collectRangeData() {
