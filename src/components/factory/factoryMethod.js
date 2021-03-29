@@ -15,7 +15,10 @@ export const checkSectionNameNotValid = (name, propsName) => {
 
 const checkAddAnonymousBlock = (newElement, scale, collect) => {
   const nEBounding = newElement.getBoundingClientRect()
-  const blockName = newElement.getElementsByClassName('block')[0].dataset.name
+  // Example hints - 'cnv block'
+  const blockName = newElement
+    .getElementsByClassName('block')[0]
+    .dataset.hints.split(' ')[0]
 
   const mid = {
     x: nEBounding.left + nEBounding.width * 0.5,
