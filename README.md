@@ -1,5 +1,5 @@
 <p align="right">
-  <a href="https://b5-editor.netlify.app" rel="noopener noreferrer" target="_blank">
+  <a href="https://b5editor.app" rel="noopener noreferrer" target="_blank">
     <img alt="b~5" src="src/img/logo/logo-3.svg" width="200" />
   </a>
 </p>
@@ -12,7 +12,7 @@
 </p>
 <br />
 
-[**Go to b5 Editor**](https://b5-editor.netlify.app)
+[**Go to b5 Editor**](https://b5editor.app)
 
 b5 is a visual programming language for learning, prototyping, and fun. Based on [p5.js](https://p5js.org/), b5 shares many concepts while also optimizes for live programming, code visualization, embedded documentation, and more!
 
@@ -20,7 +20,7 @@ The interface is created to make coding easier and friendlier, more graphical, a
 
 Using the metaphor of building blocks, flow chart, (and electrician diagram,) this new interface features not _lines of code_ but _blocks, nodes, and wires_ for you to draw on and interact with your canvas on the fly. Without restarting the sketch, you can see real-time changes of the canvas reflecting your code.
 
-Currently, the project is still under development and you can visit the beta version here <a href="https://b5-editor.netlify.app" rel="noopener noreferrer" target="_blank"><img alt="b5 Editor" src="src/img/logo/ico.svg" width="17" align="center" /></a> (hosted on Netlify).
+Currently, the project is still under development and you can visit the beta version here <a href="https://b5editor.app" rel="noopener noreferrer" target="_blank"><img alt="b5 Editor" src="src/img/logo/ico.svg" width="17" align="center" /></a> (hosted on Netlify).
 
 ## 🌱 Get Started
 

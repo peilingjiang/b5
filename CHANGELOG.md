@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- New domain: https://b5editor.app.
+
 ### Fixed
 
 - Can't add customized block to code canvas due to the new hint system.
