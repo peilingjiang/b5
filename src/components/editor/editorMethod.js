@@ -152,3 +152,18 @@ export const getSectionNames = factoryType => {
   for (let f of factoryType) names.push(f.name)
   return names
 }
+
+/**
+ * Parse the version string got from package.json
+ * If beta set to true, '0.2.1' will become '0.2.1+ beta'
+ */
+export const parseVersion = (versionString, beta) => {
+  return beta ? (
+    <>
+      {versionString}
+      <span className="sup-text">+ beta</span>
+    </>
+  ) : (
+    versionString
+  )
+}

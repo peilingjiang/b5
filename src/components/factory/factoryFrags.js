@@ -235,7 +235,7 @@ export const TabContent = ({
         )
       })}
       <button className="addButton" onClick={handleAddSection}>
-        add
+        new
       </button>
     </div>
   )

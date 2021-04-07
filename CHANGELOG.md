@@ -7,9 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add "+" and "beta" tags after the version number for each build of the online editor.
+
 ### Changed
 
 - New domain: https://b5editor.app.
+- Change "add" to "new" for the button to define customized variables, function, etc.
 
 ### Fixed
 

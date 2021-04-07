@@ -28,6 +28,9 @@ import Logo from '../../img/logo/logo.svg'
 import { isMacOs, isWindows } from 'react-device-detect'
 import Hint from '../hint/hint'
 
+// For loading the version number
+import packageJSON from '../../../package.json'
+
 /* -------------------------------- Examples -------------------------------- */
 
 const exampleCount = 3
@@ -671,14 +674,16 @@ export default class Editor extends Component {
           />
 
           <p className="dev issueTag">
-            {/* Take env! */}v{process.env.REACT_APP_VERSION} -{' '}
-            <a
-              href="https://github.com/peilingjiang/b5/issues/new"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              report issue
-            </a>
+            v{method.parseVersion(packageJSON.version, true)}
+            <span id="text-options">
+              <a
+                href="https://github.com/peilingjiang/b5/issues/new"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                report issue
+              </a>
+            </span>
           </p>
 
           <a

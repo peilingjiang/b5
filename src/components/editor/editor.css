@@ -130,6 +130,18 @@
       color: $grey;
     }
   }
+
+  #text-options {
+    display: inline-block;
+    margin-left: 1rem;
+  }
+}
+
+.sup-text {
+  font-size: inherit;
+  color: inherit;
+  vertical-align: top;
+  font-size: smaller;
 }
 
 .fileUpload {
