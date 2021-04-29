@@ -8,6 +8,19 @@ import BlockRendererLite from '../blockRenderer/blockRendererLite'
 import { searchBarWidth } from '../constants'
 import { _preDescription } from '../hint/hint'
 
+const _truncateDescription = d => {
+  if (d.length < 65) return d
+  let d_arr = d.split(' ')
+  let returner = ''
+  let i = 0
+  while (returner.length < 65) {
+    returner += d_arr[i] + ' '
+    i++
+  }
+  if (returner.slice(-2) === '. ') returner = returner.slice(0, -2) + ' '
+  return returner + '...'
+}
+
 export default class BlockSearch extends Component {
   constructor(props) {
     super(props)
@@ -181,7 +194,9 @@ const BlockList = ({ blocks, focus }) => {
                 draggable={false} // ! Should be enabled
               />
               <div className={'description' + (i === focus ? ' focused' : '')}>
-                <div>{_preDescription(b.item.description)}</div>
+                <div>
+                  {_truncateDescription(_preDescription(b.item.description))}
+                </div>
               </div>
             </div>
           </div>

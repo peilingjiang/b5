@@ -70,7 +70,7 @@ $node-padding: 4px;
 $search-bar-width: 654px;
 $search-bar-height: 52px;
 $block-list-height: 144px;
-$block-list-text-height: 50px;
+$block-list-text-height: 45px;
 
 $regular-border-style: 1px solid;
 $node-border-style: $node-border-width solid;
