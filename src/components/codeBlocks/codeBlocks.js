@@ -100,6 +100,7 @@ export default class CodeBlocks extends Component {
       // Hovering on the canvas but not click on the block, or
       // Not hovering on the canvas and not doing "operational" tasks
       // Then: _blurAll()
+      if ('activeElement' in document) document.activeElement.blur()
       if (!this.props.hovering && !operationalClick(e.target)) {
         this._blurAll()
         this._deselectWireAll()

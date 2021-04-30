@@ -1,6 +1,7 @@
 import Fuse from 'fuse.js'
 
 import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper'
+import _b from '../editor/b5ObjectWrapper'
 
 const options = {
   keys: [
@@ -41,9 +42,9 @@ _b5Fuse.prototype.update = function (source) {
   this._constructOriginal(this.base, this.originalBase, source)
 
   if (source === 'playground')
-    this._constructBase(this.base, this.b5Blocks.custom, 'custom')
+    this._constructBase(this.base, this.b5Blocks.custom, 'custom', source)
 
-  this._constructBase(this.base, this.b5Blocks.library, 'library')
+  this._constructBase(this.base, this.b5Blocks.library, 'library', source)
   this.fuse.setCollection(this.base)
 }
 
@@ -75,37 +76,61 @@ _b5Fuse.prototype._constructArray = function (obj, src) {
         description: obj[key].description,
         text: obj[key].text,
         type: obj[key].type,
+        filter: obj[key].filter,
       })
     }
     return result
   }, [])
 }
 
-_b5Fuse.prototype._constructBase = function (base, addon, src) {
+_b5Fuse.prototype._constructBase = function (
+  base,
+  addon,
+  src,
+  targetCodeCanvas
+) {
   Object.keys(addon).reduce((result, key) => {
-    if (typeof addon[key] === 'object') {
+    if (
+      typeof addon[key] === 'object' &&
+      this._filter(targetCodeCanvas, addon[key], key)
+    ) {
       base.push({
         name: key,
         source: src,
         description: addon[key].description,
         text: addon[key].text,
         type: addon[key].type,
+        filter: addon[key].filter,
       })
     }
     return result
   }, [])
 }
 
+_b5Fuse.prototype._filter = function (target, element, name) {
+  name = name || element.name
+
+  // No filter
+  if (!element.filter) return true
+
+  // setup
+  if (element.filter.includes('setup') && target !== 'variable') return false
+  // unique
+  if (element.filter.includes('unique') && _b.getAllBlockNames().includes(name))
+    return false
+  return true
+}
+
 _b5Fuse.prototype._filterForPlayground = function (element) {
-  return element.name !== 'createCanvas'
+  return this._filter('playground', element)
 }
 
 _b5Fuse.prototype._filterForFunction = function (element) {
-  return element.name !== 'createCanvas'
+  return this._filter('function', element)
 }
 
 _b5Fuse.prototype._filterForVariable = function (element) {
-  return true
+  return this._filter('variable', element)
 }
 
 const _b5Search = new _b5Fuse(_b5BlocksObject, options)
