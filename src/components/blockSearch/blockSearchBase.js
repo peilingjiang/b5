@@ -115,6 +115,8 @@ _b5Fuse.prototype._filter = function (target, element, name) {
 
   // setup
   if (element.filter.includes('setup') && target !== 'variable') return false
+  // draw
+  if (element.filter.includes('draw') && target !== 'playground') return false
   // unique
   if (element.filter.includes('unique') && _b.getAllBlockNames().includes(name))
     return false

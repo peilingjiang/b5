@@ -122,6 +122,7 @@ To clone the project to local for development, please follow the steps below: (R
 
 ```
 git clone --recurse-submodules https://github.com/peilingjiang/b5.git
+cd b5
 npm install
 ```
 

@@ -10,8 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add "+" and "beta" tags after the version number for each build of the online editor.
-- Several new blocks, including logical AND and OR, round, mouseClicked, etc.
-- Add physical engine library blocks based on [matter.js](https://brm.io/matter-js/).
+- Several new blocks, including logical AND and OR, `round`, `mouseClicked`, `backgroundPicker`, etc.
+- Add physical engine library blocks based on [matter.js](https://brm.io/matter-js/), including `engine`, `ground`, `box`, `ball`, etc.
 - A new optional field for blocks: `filter`. An array of filters that determine whether a block can be added to the codeCanvas, e.g., `setup` filter constrains the block to be added only inside the `variable` section, `unique` filter limits the number of the block across the whole project to one. Example blocks using the field are `createCanvas` and `matter_startEngine`.
 
 ### Changed
@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Can't add customized block to code canvas due to the new hint system.
 - Can't set or get framerate.
 - Can't blur input elements like the ones in comment or slider blocks.
+- Saved files don't have the version number.
 
 ## [0.2.1] - 2021-03-27
 

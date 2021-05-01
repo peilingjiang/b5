@@ -33,7 +33,7 @@ import packageJSON from '../../../package.json'
 
 /* -------------------------------- Examples -------------------------------- */
 
-const exampleCount = 3
+const exampleCount = 4
 
 /* -------------------------------------------------------------------------- */
 
@@ -484,7 +484,7 @@ export default class Editor extends Component {
   }
 
   save = () => {
-    method._saveEditor(this.state.editor)
+    method._saveEditor(this.state.editor, packageJSON.version)
   }
 
   // ! Drag and Drop

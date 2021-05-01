@@ -135,9 +135,9 @@ export function getFormattedTime() {
 }
 
 // ! SAVE
-export function _saveEditor(editor) {
+export function _saveEditor(editor, v) {
   const e = Object.assign({}, editor)
-  e.version = process.env.REACT_APP_VERSION
+  e.version = v
   let b = new Blob([JSON.stringify(e)], {
     type: 'application/json',
   })
