@@ -123,7 +123,7 @@ To clone the project to local for development, please follow the steps below: (R
 ```
 git clone --recurse-submodules https://github.com/peilingjiang/b5.git
 cd b5
-npm install
+npm run setup
 ```
 
 To start developing, please open **two** terminal windows both looking at the root of this project folder and run the following two commands in each of them:

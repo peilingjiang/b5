@@ -27,7 +27,8 @@
     "start": "react-scripts start",
     "deploy": "NODE_ENV=production npm-run-all do-gulp build",
     "submodule": "cd src/b5.js && npm i && cd ../..",
-    "netlify": "run-s submodule deploy"
+    "netlify": "run-s submodule deploy",
+    "setup": "npm install && npm run submodule"
   },
   "eslintConfig": {
     "extends": "react-app"
