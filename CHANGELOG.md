@@ -7,12 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.2] - 2021-05-02
+
 ### Added
 
 - Add "+" and "beta" tags after the version number for each build of the online editor.
 - Several new blocks, including logical AND and OR, `round`, `mouseClicked`, `backgroundPicker`, etc.
 - Add physical engine library blocks based on [matter.js](https://brm.io/matter-js/), including `engine`, `ground`, `box`, `ball`, etc.
 - A new optional field for blocks: `filter`. An array of filters that determine whether a block can be added to the codeCanvas, e.g., `setup` filter constrains the block to be added only inside the `variable` section, `unique` filter limits the number of the block across the whole project to one. Example blocks using the field are `createCanvas` and `matter_startEngine`.
+- New `npm run setup` script for easier development environment setup.
 
 ### Changed
 
@@ -69,7 +72,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Hello world! The first release for demo and prototyping purposes.
 
-[unreleased]: https://github.com/peilingjiang/b5/compare/v0.2.1...HEAD
+[unreleased]: https://github.com/peilingjiang/b5/compare/v0.2.2...HEAD
+[0.2.2]: https://github.com/peilingjiang/b5/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/peilingjiang/b5/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/peilingjiang/b5/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/peilingjiang/b5/releases/tag/v0.1.2
