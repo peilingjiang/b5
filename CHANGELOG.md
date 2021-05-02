@@ -27,6 +27,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Can't blur input elements like the ones in comment or slider blocks.
 - Saved files don't have the version number.
 
+### Removed
+
+- Remove global `push()` and `pop()` in `runDraw` function (interface.js) as q5 by default does this for each redraw.
+
 ## [0.2.1] - 2021-03-27
 
 ### Changed
