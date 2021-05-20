@@ -4,13 +4,15 @@
 
 ![Demo 0](media/interface_1.png)
 
-**b5 is for graphics, fast prototyping, and fun. Using blocks and wires, non-programmers can quickly build and share creative coding projects with the online editor featuring live coding and embedded documentation. Inspired by [p5.js](https://p5js.org/), b5 is multilingual and beginner-friendly.**
+**b5 is for graphics, fast prototyping, and fun. Using blocks and wires, non-programmers can quickly build and share\* creative coding projects with the online editor featuring live coding and embedded documentation. Inspired by [p5.js](https://p5js.org/), b5 is multilingual\* and beginner-friendly.**
 
 The interface is created to make coding easier, friendlier, more graphical, and instantly responsive to help beginners, artists, and visual learners quickly get hands on creative programming.
 
 Using the metaphor of building blocks, flow chart, (and electrician diagram,) this new interface features not _lines of code_ but _blocks, nodes, and wires_ for you to draw on and interact with your canvas on the fly. Without restarting the sketch, you can see real-time changes of the canvas reflecting your code.
 
 The project is still actively under development and you can visit the latest build at <a href="https://b5editor.app" rel="noopener noreferrer" target="_blank"><img alt="b5 Editor" src="src/img/logo/ico.svg" width="17" align="center" /> https://b5editor.app</a>.
+
+_\* work-in-progress_
 
 ---
 
