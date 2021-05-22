@@ -1,1 +1,105 @@
-{"playground":{"type":"playground","lineStyles":{},"blocks":{"0":{"0":{"name":"comment","source":"original","uuid":"c4695fe5-a0cb-40bd-b7aa-6a104dfc853c","inlineData":["💃Welcome to b5!\nThis is the PoseNet example.  Feel free to play around!"]},"1":{"name":"cameraVideo","source":"original","uuid":"3d83ad32-5de2-4bc5-8f38-8503f1d55dcd","input":{"0":null,"1":null,"2":null,"3":null},"output":{"0":[["1","2","0"]]}},"2":{"name":"numberSlider","source":"original","uuid":"41cb0bb7-2007-4031-a435-4b639fd51f4b","inlineData":[0,0,3,1],"output":{"0":[["1","2","1"]]}},"3":{"name":"comment","source":"original","uuid":"66312ef0-6f3b-4d17-8b35-2d06f19e59ad","inlineData":["⬅️Which pose to draw? The default value is 0 and will draw the one with the highest \"confidence score.\""]}},"1":{"0":{"name":"fillPicker","source":"original","uuid":"6a090ef8-30fb-4454-b20c-7cd61c4d0a4b","inlineData":["#bd10e0ff"]},"2":{"name":"posenet","source":"library","uuid":"a4ced680-3538-4c01-a063-1a910330b089","input":{"0":["0","1","0"],"1":["0","2","0"],"2":null}},"3":{"name":"comment","source":"original","uuid":"67d26c0a-545b-4de5-9368-e1878174bbca","inlineData":["⬅️Posenet is still a demo block here in b5, so it doesn't have any output nor can do complex tasks."]}}}},"factory":{"variable":[{"name":"cnv","type":"variable","lineStyles":{},"blocks":{"0":{"0":{"name":"number","source":"original","uuid":"363fd6b1-1b3b-4149-945a-cd79b17e492a","inlineData":[500],"output":{"0":[["1","0","0"]]}},"1":{"name":"numberSlider","source":"original","uuid":"1c1ad91c-468a-45c0-9798-4185dc71ee77","inlineData":[300,0,600,100],"output":{"0":[["1","0","1"]]}}},"1":{"0":{"name":"createCanvas","source":"original","uuid":"53d3acfc-f9c2-469d-bc83-73e2f16ab8d3","input":{"0":["0","0","0"],"1":["0","1","0"],"2":null},"output":{"0":[]}}}}}],"function":[],"object":[]},"version":"0.1.2"}
+{
+  "playground": {
+    "type": "playground",
+    "lineStyles": {},
+    "blocks": {
+      "0": {
+        "0": {
+          "name": "comment",
+          "source": "original",
+          "uuid": "c4695fe5-a0cb-40bd-b7aa-6a104dfc853c",
+          "inlineData": [
+            "💃Welcome to b5!\nThis is the PoseNet example.  Feel free to play around!"
+          ]
+        },
+        "1": {
+          "name": "cameraVideo",
+          "source": "original",
+          "uuid": "3d83ad32-5de2-4bc5-8f38-8503f1d55dcd",
+          "input": { "0": null, "1": null, "2": null, "3": null },
+          "output": { "0": [["1", "2", "0"]] }
+        },
+        "2": {
+          "name": "numberSlider",
+          "source": "original",
+          "uuid": "41cb0bb7-2007-4031-a435-4b639fd51f4b",
+          "inlineData": [0, 0, 3, 1],
+          "output": { "0": [["1", "2", "1"]] }
+        },
+        "3": {
+          "name": "comment",
+          "source": "original",
+          "uuid": "66312ef0-6f3b-4d17-8b35-2d06f19e59ad",
+          "inlineData": [
+            "⬅️Which pose to draw? The default value is 0 and will draw the one with the highest \"confidence score.\""
+          ]
+        }
+      },
+      "1": {
+        "0": {
+          "name": "fillPicker",
+          "source": "original",
+          "uuid": "6a090ef8-30fb-4454-b20c-7cd61c4d0a4b",
+          "inlineData": ["#bd10e0ff"]
+        },
+        "2": {
+          "name": "posenet",
+          "source": "library",
+          "uuid": "a4ced680-3538-4c01-a063-1a910330b089",
+          "input": { "0": ["0", "1", "0"], "1": ["0", "2", "0"], "2": null }
+        },
+        "3": {
+          "name": "comment",
+          "source": "original",
+          "uuid": "67d26c0a-545b-4de5-9368-e1878174bbca",
+          "inlineData": [
+            "⬅️Posenet is still a demo block here in b5, so it doesn't have any output nor can do complex tasks."
+          ]
+        }
+      }
+    }
+  },
+  "factory": {
+    "variable": [
+      {
+        "name": "cnv",
+        "type": "variable",
+        "lineStyles": {},
+        "blocks": {
+          "0": {
+            "0": {
+              "name": "number",
+              "source": "original",
+              "uuid": "363fd6b1-1b3b-4149-945a-cd79b17e492a",
+              "inlineData": [400],
+              "output": { "0": [["1", "0", "0"]] }
+            },
+            "1": {
+              "name": "numberSlider",
+              "source": "original",
+              "uuid": "1c1ad91c-468a-45c0-9798-4185dc71ee77",
+              "inlineData": [300, 0, 600, 100],
+              "output": { "0": [["1", "0", "1"]] }
+            }
+          },
+          "1": {
+            "0": {
+              "name": "createCanvas",
+              "source": "original",
+              "uuid": "53d3acfc-f9c2-469d-bc83-73e2f16ab8d3",
+              "input": {
+                "0": ["0", "0", "0"],
+                "1": ["0", "1", "0"],
+                "2": null
+              },
+              "output": { "0": [] }
+            }
+          }
+        }
+      }
+    ],
+    "function": [],
+    "object": []
+  },
+  "version": "0.1.2"
+}

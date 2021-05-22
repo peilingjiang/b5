@@ -1,1 +1,305 @@
-{"playground":{"type":"playground","lineStyles":{},"blocks":{"0":{"0":{"name":"comment","source":"original","uuid":"89885483-c57c-4ea4-8588-abe67ef7dc71","inlineData":["🏀Welcome to b5!\nThis is Bounce Ball example. Feel free to play around!"]},"1":{"name":"numberSlider","source":"original","uuid":"fdbab34e-f083-4d38-b06c-0e7bf584a662","inlineData":[40,0,50,5],"output":{"0":[["5","3","2"],["1","2","0"]]}},"2":{"name":"comment","source":"original","uuid":"b08e06fe-2eff-4533-adca-2185e35e5652","inlineData":["⬅️Radius of the circle "]}},"1":{"1":{"name":"comment","source":"original","uuid":"3a751eb7-e3d6-40a7-8e2a-09d6cc312e2f","inlineData":["➡️You can see the definition of the function under the function tab"]},"2":{"name":"boundaries","source":"custom","uuid":"152a072d-ed6c-4541-bfa1-bc4f41182111","input":{"0":["0","1","0"]},"output":{"0":[["3","1","0"],["3","3","0"]],"1":[["3","1","1"]],"2":[["3","3","1"]]}},"3":{"name":"number","source":"original","uuid":"9b5e521b-0412-4442-a727-74e42ff457d1","inlineData":[7],"output":{"0":[["3","3","2"],["3","1","2"]]}},"4":{"name":"comment","source":"original","uuid":"3bea3eb9-1df5-4c2f-bb12-d5dec5f5f033","inlineData":["⬅️Each step of bouncing"]}},"3":{"0":{"name":"comment","source":"original","uuid":"33b7c27d-695d-4138-8c41-bf9e595fd728","inlineData":["➡️Move the value between (radius) and (width - radius)"]},"1":{"name":"bounce","source":"original","uuid":"a68f2c01-0fd9-4144-8022-d56d468fc917","input":{"0":["1","2","0"],"1":["1","2","1"],"2":["1","3","0"]},"output":{"0":[["5","3","0"],["5","2","0"]]}},"2":{"name":"comment","source":"original","uuid":"eeea47c9-3e2f-4190-8884-e52618eb59aa","inlineData":["➡️Move the value between (radius) and (height - radius)"]},"3":{"name":"bounce","source":"original","uuid":"d3e74308-7f1d-4277-b7eb-34db63176cfa","input":{"0":["1","2","0"],"1":["1","2","2"],"2":["1","3","0"]},"output":{"0":[["5","3","1"],["5","2","1"]]}}},"5":{"0":{"name":"strokePicker","source":"original","uuid":"153881f0-3015-44e7-add9-14078c1cf22e","inlineData":["#4a90e2ff"]},"1":{"name":"comment","source":"original","uuid":"2a6c5238-ccb7-4589-9599-f6a87685be88","inlineData":["➡️Map the x position to red value, and y position to green value"]},"2":{"name":"fillRGBA","source":"original","uuid":"039f84f8-7952-4ae9-ad78-27f440d18039","input":{"0":["3","1","0"],"1":["3","3","0"],"2":null,"3":null}},"3":{"name":"circle","source":"original","uuid":"daddd1b9-9ee0-4fd2-976f-5c250af895d9","input":{"0":["3","1","0"],"1":["3","3","0"],"2":["0","1","0"]}}},"6":{"0":{"name":"comment","source":"original","uuid":"161c18bf-9d78-4411-8847-daeb836fb1ce","inlineData":["⬆️Use the color picker to quickly set the stroke color"]}}}},"factory":{"variable":[{"name":"cnv","type":"variable","lineStyles":{},"blocks":{"0":{"0":{"name":"number","source":"original","uuid":"363fd6b1-1b3b-4149-945a-cd79b17e492a","inlineData":[500],"output":{"0":[["1","0","0"]]}},"1":{"name":"numberSlider","source":"original","uuid":"1c1ad91c-468a-45c0-9798-4185dc71ee77","inlineData":[300,0,600,100],"output":{"0":[["1","0","1"]]}}},"1":{"0":{"name":"createCanvas","source":"original","uuid":"53d3acfc-f9c2-469d-bc83-73e2f16ab8d3","input":{"0":["0","0","0"],"1":["0","1","0"],"2":null},"output":{"0":[]}}}}}],"function":[{"name":"boundaries","type":"function","lineStyles":{},"blocks":{"0":{"0":{"name":"number","source":"original","uuid":"884b15da-2154-4d45-b848-271ab8e2f089","inlineData":[0],"output":{"0":[["2","0","0"]]}},"1":{"name":"comment","source":"original","uuid":"08da8013-6bee-4362-bf59-e8cbf75d094c","inlineData":["➡️Take the radius of the circle into the function"]},"2":{"name":"num","source":"original","uuid":"dab4e663-ed98-4531-8bd3-684653a1276a","input":{"0":null},"output":{"0":[["2","2","1"],["2","3","1"],["2","0","1"]]}},"3":{"name":"canvasSize","source":"original","uuid":"8be0d00c-ed62-4be7-8e96-4a3a29587c95","output":{"0":[["2","2","0"]],"1":[["2","3","0"]]}}},"2":{"0":{"name":"add","source":"original","uuid":"08a72ee0-9055-4d1c-8c72-6dafac5d4c83","input":{"0":["0","0","0"],"1":["0","2","0"]},"output":{"0":[]}},"1":{"name":"comment","source":"original","uuid":"10b41c78-99f9-4b1a-9000-b237f48638a4","inlineData":["⬅️The lower boundaries of the width and height"]},"2":{"name":"subtract","source":"original","uuid":"09b6136d-0db0-408f-b7ac-772e007a7f01","input":{"0":["0","3","0"],"1":["0","2","0"]},"output":{"0":[]}},"3":{"name":"subtract","source":"original","uuid":"32896d63-b092-4be7-9f04-c57bff9af9df","input":{"0":["0","3","1"],"1":["0","2","0"]},"output":{"0":[]}}},"3":{"2":{"name":"comment","source":"original","uuid":"4da0f86b-b79e-4820-ad2f-39b30e6d0c0e","inlineData":["⬆️The upper boundary of the width"]},"3":{"name":"comment","source":"original","uuid":"1984a143-b717-43d6-a677-106a7cf3fa8a","inlineData":["⬆️The upper boundary of the height"]}}}}],"object":[]},"version":"0.1.2"}
+{
+  "playground": {
+    "type": "playground",
+    "lineStyles": {},
+    "blocks": {
+      "0": {
+        "0": {
+          "name": "comment",
+          "source": "original",
+          "uuid": "89885483-c57c-4ea4-8588-abe67ef7dc71",
+          "inlineData": [
+            "🏀Welcome to b5!\nThis is Bounce Ball example. Feel free to play around!"
+          ]
+        },
+        "1": {
+          "name": "numberSlider",
+          "source": "original",
+          "uuid": "fdbab34e-f083-4d38-b06c-0e7bf584a662",
+          "inlineData": [40, 0, 50, 5],
+          "output": {
+            "0": [
+              ["5", "3", "2"],
+              ["1", "2", "0"]
+            ]
+          }
+        },
+        "2": {
+          "name": "comment",
+          "source": "original",
+          "uuid": "b08e06fe-2eff-4533-adca-2185e35e5652",
+          "inlineData": ["⬅️Radius of the circle "]
+        }
+      },
+      "1": {
+        "1": {
+          "name": "comment",
+          "source": "original",
+          "uuid": "3a751eb7-e3d6-40a7-8e2a-09d6cc312e2f",
+          "inlineData": [
+            "➡️You can see the definition of the function under the function tab"
+          ]
+        },
+        "2": {
+          "name": "boundaries",
+          "source": "custom",
+          "uuid": "152a072d-ed6c-4541-bfa1-bc4f41182111",
+          "input": { "0": ["0", "1", "0"] },
+          "output": {
+            "0": [
+              ["3", "1", "0"],
+              ["3", "3", "0"]
+            ],
+            "1": [["3", "1", "1"]],
+            "2": [["3", "3", "1"]]
+          }
+        },
+        "3": {
+          "name": "number",
+          "source": "original",
+          "uuid": "9b5e521b-0412-4442-a727-74e42ff457d1",
+          "inlineData": [7],
+          "output": {
+            "0": [
+              ["3", "3", "2"],
+              ["3", "1", "2"]
+            ]
+          }
+        },
+        "4": {
+          "name": "comment",
+          "source": "original",
+          "uuid": "3bea3eb9-1df5-4c2f-bb12-d5dec5f5f033",
+          "inlineData": ["⬅️Each step of bouncing"]
+        }
+      },
+      "3": {
+        "0": {
+          "name": "comment",
+          "source": "original",
+          "uuid": "33b7c27d-695d-4138-8c41-bf9e595fd728",
+          "inlineData": [
+            "➡️Move the value between (radius) and (width - radius)"
+          ]
+        },
+        "1": {
+          "name": "bounce",
+          "source": "original",
+          "uuid": "a68f2c01-0fd9-4144-8022-d56d468fc917",
+          "input": {
+            "0": ["1", "2", "0"],
+            "1": ["1", "2", "1"],
+            "2": ["1", "3", "0"]
+          },
+          "output": {
+            "0": [
+              ["5", "3", "0"],
+              ["5", "2", "0"]
+            ]
+          }
+        },
+        "2": {
+          "name": "comment",
+          "source": "original",
+          "uuid": "eeea47c9-3e2f-4190-8884-e52618eb59aa",
+          "inlineData": [
+            "➡️Move the value between (radius) and (height - radius)"
+          ]
+        },
+        "3": {
+          "name": "bounce",
+          "source": "original",
+          "uuid": "d3e74308-7f1d-4277-b7eb-34db63176cfa",
+          "input": {
+            "0": ["1", "2", "0"],
+            "1": ["1", "2", "2"],
+            "2": ["1", "3", "0"]
+          },
+          "output": {
+            "0": [
+              ["5", "3", "1"],
+              ["5", "2", "1"]
+            ]
+          }
+        }
+      },
+      "5": {
+        "0": {
+          "name": "strokePicker",
+          "source": "original",
+          "uuid": "153881f0-3015-44e7-add9-14078c1cf22e",
+          "inlineData": ["#4a90e2ff"]
+        },
+        "1": {
+          "name": "comment",
+          "source": "original",
+          "uuid": "2a6c5238-ccb7-4589-9599-f6a87685be88",
+          "inlineData": [
+            "➡️Map the x position to red value, and y position to green value"
+          ]
+        },
+        "2": {
+          "name": "fillRGBA",
+          "source": "original",
+          "uuid": "039f84f8-7952-4ae9-ad78-27f440d18039",
+          "input": {
+            "0": ["3", "1", "0"],
+            "1": ["3", "3", "0"],
+            "2": null,
+            "3": null
+          }
+        },
+        "3": {
+          "name": "circle",
+          "source": "original",
+          "uuid": "daddd1b9-9ee0-4fd2-976f-5c250af895d9",
+          "input": {
+            "0": ["3", "1", "0"],
+            "1": ["3", "3", "0"],
+            "2": ["0", "1", "0"]
+          }
+        }
+      },
+      "6": {
+        "0": {
+          "name": "comment",
+          "source": "original",
+          "uuid": "161c18bf-9d78-4411-8847-daeb836fb1ce",
+          "inlineData": [
+            "⬆️Use the color picker to quickly set the stroke color"
+          ]
+        }
+      }
+    }
+  },
+  "factory": {
+    "variable": [
+      {
+        "name": "cnv",
+        "type": "variable",
+        "lineStyles": {},
+        "blocks": {
+          "0": {
+            "0": {
+              "name": "number",
+              "source": "original",
+              "uuid": "363fd6b1-1b3b-4149-945a-cd79b17e492a",
+              "inlineData": [500],
+              "output": { "0": [["1", "0", "0"]] }
+            },
+            "1": {
+              "name": "numberSlider",
+              "source": "original",
+              "uuid": "1c1ad91c-468a-45c0-9798-4185dc71ee77",
+              "inlineData": [300, 0, 600, 100],
+              "output": { "0": [["1", "0", "1"]] }
+            }
+          },
+          "1": {
+            "0": {
+              "name": "createCanvas",
+              "source": "original",
+              "uuid": "53d3acfc-f9c2-469d-bc83-73e2f16ab8d3",
+              "input": {
+                "0": ["0", "0", "0"],
+                "1": ["0", "1", "0"],
+                "2": null
+              },
+              "output": { "0": [] }
+            }
+          }
+        }
+      }
+    ],
+    "function": [
+      {
+        "name": "boundaries",
+        "type": "function",
+        "lineStyles": {},
+        "blocks": {
+          "0": {
+            "0": {
+              "name": "number",
+              "source": "original",
+              "uuid": "884b15da-2154-4d45-b848-271ab8e2f089",
+              "inlineData": [0],
+              "output": { "0": [["2", "0", "0"]] }
+            },
+            "1": {
+              "name": "comment",
+              "source": "original",
+              "uuid": "08da8013-6bee-4362-bf59-e8cbf75d094c",
+              "inlineData": [
+                "➡️Take the radius of the circle into the function"
+              ]
+            },
+            "2": {
+              "name": "num",
+              "source": "original",
+              "uuid": "dab4e663-ed98-4531-8bd3-684653a1276a",
+              "input": { "0": null },
+              "output": {
+                "0": [
+                  ["2", "2", "1"],
+                  ["2", "3", "1"],
+                  ["2", "0", "1"]
+                ]
+              }
+            },
+            "3": {
+              "name": "canvasSize",
+              "source": "original",
+              "uuid": "8be0d00c-ed62-4be7-8e96-4a3a29587c95",
+              "output": { "0": [["2", "2", "0"]], "1": [["2", "3", "0"]] }
+            }
+          },
+          "2": {
+            "0": {
+              "name": "add",
+              "source": "original",
+              "uuid": "08a72ee0-9055-4d1c-8c72-6dafac5d4c83",
+              "input": { "0": ["0", "0", "0"], "1": ["0", "2", "0"] },
+              "output": { "0": [] }
+            },
+            "1": {
+              "name": "comment",
+              "source": "original",
+              "uuid": "10b41c78-99f9-4b1a-9000-b237f48638a4",
+              "inlineData": ["⬅️The lower boundaries of the width and height"]
+            },
+            "2": {
+              "name": "subtract",
+              "source": "original",
+              "uuid": "09b6136d-0db0-408f-b7ac-772e007a7f01",
+              "input": { "0": ["0", "3", "0"], "1": ["0", "2", "0"] },
+              "output": { "0": [] }
+            },
+            "3": {
+              "name": "subtract",
+              "source": "original",
+              "uuid": "32896d63-b092-4be7-9f04-c57bff9af9df",
+              "input": { "0": ["0", "3", "1"], "1": ["0", "2", "0"] },
+              "output": { "0": [] }
+            }
+          },
+          "3": {
+            "2": {
+              "name": "comment",
+              "source": "original",
+              "uuid": "4da0f86b-b79e-4820-ad2f-39b30e6d0c0e",
+              "inlineData": ["⬆️The upper boundary of the width"]
+            },
+            "3": {
+              "name": "comment",
+              "source": "original",
+              "uuid": "1984a143-b717-43d6-a677-106a7cf3fa8a",
+              "inlineData": ["⬆️The upper boundary of the height"]
+            }
+          }
+        }
+      }
+    ],
+    "object": []
+  },
+  "version": "0.1.2"
+}
