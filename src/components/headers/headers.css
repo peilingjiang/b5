@@ -47,6 +47,7 @@
   .toolbarIcon {
     position: relative;
     margin-left: $gap;
+    z-index: 1;
 
     .toolbarIconBg {
       display: inline-flex;

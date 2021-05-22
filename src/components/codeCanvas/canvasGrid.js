@@ -57,12 +57,8 @@ export class CanvasAxis extends PureComponent {
     const lineNumbers = [],
       blockAlphabets = []
 
-    const {
-      lineCount,
-      blockCount,
-      blockAlphabetsRef,
-      lineNumbersRef,
-    } = this.props
+    const { lineCount, blockCount, blockAlphabetsRef, lineNumbersRef } =
+      this.props
 
     for (let i = 0; i < lineCount; i++)
       // Key - 'line17'

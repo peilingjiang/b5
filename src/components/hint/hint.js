@@ -84,12 +84,8 @@ export default class Hint extends PureComponent {
 
   addHint = e => {
     if (e.target.dataset.hints) {
-      const [
-        blockName,
-        category,
-        position,
-        side,
-      ] = e.target.dataset.hints.split(' ')
+      const [blockName, category, position, side] =
+        e.target.dataset.hints.split(' ')
 
       /**
        *

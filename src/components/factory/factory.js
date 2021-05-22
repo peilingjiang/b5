@@ -34,12 +34,8 @@ export default class Factory extends Component {
       state: { activeTab },
     } = this
 
-    const {
-      collect,
-      collectStyle,
-      factoryCodeCanvasRef,
-      hardRefresh,
-    } = this.props
+    const { collect, collectStyle, factoryCodeCanvasRef, hardRefresh } =
+      this.props
 
     return (
       <>

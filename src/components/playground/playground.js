@@ -16,12 +16,8 @@ export default class Playground extends Component {
   }
 
   render() {
-    const {
-      collect,
-      collectStyle,
-      playgroundCodeCanvasRef,
-      hardRefresh,
-    } = this.props
+    const { collect, collectStyle, playgroundCodeCanvasRef, hardRefresh } =
+      this.props
     return (
       <div id="playground">
         <CodeCanvas

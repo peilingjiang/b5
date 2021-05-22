@@ -380,9 +380,8 @@ export default class Editor extends Component {
             )
 
             if (_b.factory[type][nameDelete])
-              this.currentEntities.current = _b.factory[type][
-                nameDelete
-              ].entities.getEntities()
+              this.currentEntities.current =
+                _b.factory[type][nameDelete].entities.getEntities()
             _b.handleSection(
               task,
               type,
@@ -396,9 +395,8 @@ export default class Editor extends Component {
               newName = data[1]
 
             if (_b.factory[type][oldBlock.name])
-              this.currentEntities.current = _b.factory[type][
-                oldBlock.name
-              ].entities.getEntities()
+              this.currentEntities.current =
+                _b.factory[type][oldBlock.name].entities.getEntities()
             _b.handleSection(
               task,
               type,

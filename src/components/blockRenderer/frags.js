@@ -78,10 +78,8 @@ class InputBoxRef extends PureComponent {
         this.inputRef.current.className += ' invalid'
         this.valid = false
       } else if (!isNaN(v)) {
-        this.inputRef.current.className = this.inputRef.current.className.replace(
-          ' invalid',
-          ''
-        )
+        this.inputRef.current.className =
+          this.inputRef.current.className.replace(' invalid', '')
         this.valid = true
       }
     }

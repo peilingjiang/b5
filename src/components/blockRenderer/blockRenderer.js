@@ -168,14 +168,8 @@ class BlockRenderer extends Component {
       draggable,
     } = this.props
 
-    const {
-      text,
-      type,
-      kind,
-      inputNodes,
-      outputNodes,
-      description,
-    } = _b5BlocksObject[source][name]
+    const { text, type, kind, inputNodes, outputNodes, description } =
+      _b5BlocksObject[source][name]
     let inputNodesCount = inputNodes === null ? 0 : inputNodes.length,
       outputNodesCount = outputNodes === null ? 0 : outputNodes.length
 

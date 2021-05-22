@@ -121,18 +121,18 @@ export default class CodeBlocks extends Component {
             this.props.canvasCollectFocused(this.state.focused) // Send focused to codeCanvas
 
             this._deselectWireAll()
-            thisBlock.current.childNodes[0].className = thisBlock.current.childNodes[0].className.replace(
-              'grab',
-              'grabbing'
-            )
+            thisBlock.current.childNodes[0].className =
+              thisBlock.current.childNodes[0].className.replace(
+                'grab',
+                'grabbing'
+              )
             let mouse = {
               x: e.clientX,
               y: e.clientY,
               blockLeft: thisBlock.current.offsetLeft,
               blockTop: thisBlock.current.offsetTop,
-              nodesOffset: this.state.nodesOffset[thisBlockInd[0]][
-                thisBlockInd[1]
-              ],
+              nodesOffset:
+                this.state.nodesOffset[thisBlockInd[0]][thisBlockInd[1]],
             }
 
             const handleMove = this.handleMoveBlock.bind(this, {
@@ -151,10 +151,11 @@ export default class CodeBlocks extends Component {
               function _listener() {
                 _removeClassNameByClass(thisBlock, 'node', 'no-events')
                 document.removeEventListener('mousemove', handleMove, true)
-                thisBlock.current.childNodes[0].className = thisBlock.current.childNodes[0].className.replace(
-                  'grabbing',
-                  'grab'
-                )
+                thisBlock.current.childNodes[0].className =
+                  thisBlock.current.childNodes[0].className.replace(
+                    'grabbing',
+                    'grab'
+                  )
                 that._checkMove(mouse, thisBlock, thisBlockInd)
                 document.removeEventListener('mouseup', _listener, true)
               },
@@ -167,9 +168,8 @@ export default class CodeBlocks extends Component {
           this._deselectWireAll()
 
           if (thisBlockInd) {
-            const thisNodesRef = this.blocksNodesRef[thisBlockInd[0]][
-              thisBlockInd[1]
-            ]
+            const thisNodesRef =
+              this.blocksNodesRef[thisBlockInd[0]][thisBlockInd[1]]
             for (let io in thisNodesRef) // "input" or "output"
               for (let j in thisNodesRef[io]) // "0", "1", ...
                 if (thisNodesRef[io][j].current === e.target) {
@@ -186,11 +186,13 @@ export default class CodeBlocks extends Component {
                     startNodeRef: thisNodesRef[io][j],
                   }
 
-                  const wireStart = this.state.nodesOffset[thisBlockInd[0]][
-                    thisBlockInd[1]
-                  ][io][j]
+                  const wireStart =
+                    this.state.nodesOffset[thisBlockInd[0]][thisBlockInd[1]][
+                      io
+                    ][j]
 
-                  const wireStartRect = startNode.startNodeRef.current.getBoundingClientRect()
+                  const wireStartRect =
+                    startNode.startNodeRef.current.getBoundingClientRect()
                   const wireStartClient = {
                     x: wireStartRect.x + wireStartRect.width / 2,
                     y: wireStartRect.y + wireStartRect.height / 2,
