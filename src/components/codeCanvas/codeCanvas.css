@@ -135,6 +135,7 @@
   position: absolute;
   top: $block-alphabet-height;
   left: $line-numbers-width;
+  z-index: -1;
 
   .blockRoom {
     position: absolute;
