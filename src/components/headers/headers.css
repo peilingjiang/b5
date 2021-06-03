@@ -5,6 +5,7 @@
   user-select: none;
   width: 100%;
   white-space: nowrap;
+  z-index: 200020;
 
   .toolbarIcon {
     display: inline-flex;
@@ -17,7 +18,7 @@
     text-align: center;
     cursor: pointer;
     background: none;
-    z-index: 200017;
+    z-index: 1;
   }
 
   .toolbarIconDisabled {
