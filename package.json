@@ -50,7 +50,7 @@
     "@testing-library/user-event": "^13.2.1",
     "autoprefixer": "^10.3.1",
     "canvas": "^2.8.0",
-    "cssnano": "^5.0.7",
+    "cssnano": "^5.0.8",
     "gulp": "^4.0.2",
     "gulp-postcss": "^9.0.0",
     "lint-staged": "^11.1.1",
