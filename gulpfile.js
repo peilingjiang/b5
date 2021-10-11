@@ -18,7 +18,7 @@ task('clean', function () {
 
 task('css', function () {
   console.log('Building PostCSS...')
-  return src(['./src/**/*.css', '!./src/postcss/**/*.css'])
+  return src(['./src/**/*.css', '!./src/postcss/**/*.css', '!./src/b5.js/**/*'])
     .pipe(
       postcss(
         [
@@ -38,7 +38,10 @@ task('css', function () {
 
 task('watch', function () {
   task('css')()
-  return watch(['./src/**/*.css', '!./src/postcss/**/*.css'], series('css'))
+  return watch(
+    ['./src/**/*.css', '!./src/postcss/**/*.css', '!./src/b5.js/**/*'],
+    series('css')
+  )
 })
 
 task(

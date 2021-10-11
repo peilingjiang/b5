@@ -131,7 +131,7 @@
     }
   }
 
-  #text-options {
+  .text-options {
     display: inline-block;
     margin-left: 1rem;
   }
