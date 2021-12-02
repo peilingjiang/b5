@@ -8,12 +8,12 @@
     "fuse.js": "^6.4.6",
     "react": "^17.0.2",
     "react-color": "^2.19.3",
-    "react-device-detect": "^2.0.1",
+    "react-device-detect": "^2.1.2",
     "react-dom": "^17.0.2",
     "react-fast-compare": "^3.2.0",
     "react-scripts": "^4.0.3",
     "tinycolor2": "^1.4.2",
-    "typescript": "^4.4.3",
+    "typescript": "^4.5.2",
     "uuid": "^8.3.2"
   },
   "scripts": {
@@ -55,7 +55,7 @@
     "gulp-postcss": "^9.0.1",
     "lint-staged": "^11.2.3",
     "npm-run-all": "^4.1.5",
-    "postcss": "^8.3.9",
+    "postcss": "^8.4.4",
     "postcss-color-mod-function": "^3.0.3",
     "postcss-scss": "^4.0.1",
     "precss": "^4.0.0",
