@@ -7,10 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- (Core) More Effect Block types.
+
+### Changed
+
+- (Chore) Dependencies.
+
 ### Fixed
 
 - (UI) Sometimes the dropdown menu is covered by the Factory panel.
 - (UI) Blocks float above line numbers and alphabets.
+- (b5.js) Fatal error when deleting `matter_box` and `matter_ball` blocks.
+- (b5.js) `frameRateShow` cannot show framerate on high performance machines (when the default framerate is too high).
 
 ## [0.2.2] - 2021-05-02
 

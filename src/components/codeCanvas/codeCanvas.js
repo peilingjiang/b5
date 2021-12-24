@@ -375,7 +375,7 @@ export default class CodeCanvas extends Component {
     this.colorEffectInd = []
     for (let i in blocks)
       for (let j in blocks[i])
-        if (_colorEffectIndex.includes(blocks[i][j].name))
+        if (blocks[i][j].name in _colorEffectIndex) {
           // ! Color of affected background
           try {
             this.colorEffectInd.push([
@@ -383,8 +383,10 @@ export default class CodeCanvas extends Component {
               j,
               this_bBlocks[i][j].blockColorEffect(),
               method.getEffectName(blocks[i][j].name),
+              blocks[i][j].name,
             ])
           } catch (error) {}
+        }
   }
 
   _refreshCodeCanvasCounts() {
@@ -429,7 +431,7 @@ export default class CodeCanvas extends Component {
       for (let i of focused) // [[y, x], [2, 9], [1, 0], ...]
         for (let j of this.colorEffectInd)
           if (i[0] === j[0] && i[1] === j[1])
-            render.colorEffectActivated.push(i)
+            render.colorEffectActivated.push([...j])
     }
     this.setState({ render })
   }
@@ -440,10 +442,13 @@ export default class CodeCanvas extends Component {
 
     if (!colorEffectActivated.length) return null
 
-    let lastCompare = [-1, -1, null, null]
     let color = null
+
+    // TYPE 0
+    let lastCompare = [-1, -1, null, null]
     for (let c of this.colorEffectInd) {
       if (
+        _colorEffectIndex[c[4]] === 0 &&
         method.hasGreaterEqualPosition(y, x, c[0], c[1]) &&
         method.hasGreaterEqualPosition(
           c[0],
@@ -459,6 +464,15 @@ export default class CodeCanvas extends Component {
           color = null
         }
       }
+    }
+
+    // TYPE 2
+    for (let c of colorEffectActivated) {
+      if (
+        _colorEffectIndex[c[3]] === 2 &&
+        method.hasSurroundingPosition(y, x, c[0], c[1])
+      )
+        color = c[2]
     }
 
     return color

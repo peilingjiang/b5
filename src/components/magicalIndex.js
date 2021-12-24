@@ -2,23 +2,34 @@
 
 /* --------------------------- Color Effect Blocks -------------------------- */
 
-export const _colorEffectIndex = [
-  'fillPicker',
-  'strokePicker',
-  'fillRGBA',
-  'strokeRGBA',
-  'noFill',
-  'noStroke',
+/**
+ * TYPES
+ * 0: All after
+ * 1: All before
+ * 2: Surroundings
+ * 3: One line
+ * 4: One column
+ */
 
-  'stopDraw',
-  'startDraw',
+export const _colorEffectIndex = {
+  fillPicker: 0,
+  strokePicker: 0,
+  fillRGBA: 0,
+  strokeRGBA: 0,
+  noFill: 0,
+  noStroke: 0,
 
-  'strokeWeight',
-  'strokeWeightSlider',
+  stopDraw: 0,
+  startDraw: 0,
 
-  'translate',
-  'rotate',
-]
+  strokeWeight: 0,
+  strokeWeightSlider: 0,
+
+  translate: 0,
+  rotate: 0,
+
+  quadratic: 2,
+}
 
 export const _colorEffectNames = [
   'fill',
