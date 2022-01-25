@@ -4,31 +4,46 @@
 
 /**
  * TYPES
- * 0: All after
- * 1: All before
- * 2: Surroundings
- * 3: One line
- * 4: One column
+ * 0: All Canvas
+ * 1: All After
+ * 2: All Before
+ * 3: Inline
+ * 4: Column
+ * 5: Around
  */
 
 export const _colorEffectIndex = {
-  fillPicker: 0,
-  strokePicker: 0,
-  fillRGBA: 0,
-  strokeRGBA: 0,
-  noFill: 0,
-  noStroke: 0,
+  // 0
+  frameRate: 0,
 
-  stopDraw: 0,
-  startDraw: 0,
+  // 1
+  fillPicker: 1,
+  strokePicker: 1,
+  fillRGBA: 1,
+  strokeRGBA: 1,
+  noFill: 1,
+  noStroke: 1,
 
-  strokeWeight: 0,
-  strokeWeightSlider: 0,
+  stopDraw: 1,
+  startDraw: 1,
 
-  translate: 0,
-  rotate: 0,
+  strokeWeight: 1,
+  strokeWeightSlider: 1,
 
-  quadratic: 2,
+  translate: 1,
+  rotate: 1,
+
+  // 2
+  hideBefore: 2,
+
+  // 3
+  disableRow: 3,
+
+  // 4
+  disableColumn: 4,
+
+  // 5
+  quadratic: 5,
 }
 
 export const _colorEffectNames = [

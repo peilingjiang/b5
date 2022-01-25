@@ -444,11 +444,16 @@ export default class CodeCanvas extends Component {
 
     let color = null
 
-    // TYPE 0
+    // TYPE 0 - All Canvas
+    for (let c of colorEffectActivated) {
+      if (_colorEffectIndex[c[3]] === 0) color = c[2]
+    }
+
+    // TYPE 1 - All After
     let lastCompare = [-1, -1, null, null]
     for (let c of this.colorEffectInd) {
       if (
-        _colorEffectIndex[c[4]] === 0 &&
+        _colorEffectIndex[c[4]] === 1 &&
         method.hasGreaterEqualPosition(y, x, c[0], c[1]) &&
         method.hasGreaterEqualPosition(
           c[0],
@@ -466,10 +471,45 @@ export default class CodeCanvas extends Component {
       }
     }
 
-    // TYPE 2
+    // TYPE 2 - All Before
+    lastCompare = [99999, 99999, null, null]
+    for (let c of this.colorEffectInd) {
+      if (
+        _colorEffectIndex[c[4]] === 2 &&
+        method.hasSmallerEqualPosition(y, x, c[0], c[1]) &&
+        method.hasSmallerEqualPosition(
+          c[0],
+          c[1],
+          lastCompare[0],
+          lastCompare[1]
+        )
+      ) {
+        if (method.isColorActivated(colorEffectActivated, c)) {
+          color = c[2]
+          lastCompare = c
+        } else if (c[3] === lastCompare[3] || lastCompare[3] === null) {
+          color = null
+        }
+      }
+    }
+
+    // TYPE 3 - Inline
+    for (let c of colorEffectActivated) {
+      if (_colorEffectIndex[c[4]] === 3 && method.sameNumberPosition(y, c[0])) {
+        color = c[2]
+      }
+    }
+
+    // TYPE 4 - Column
+    for (let c of colorEffectActivated) {
+      if (_colorEffectIndex[c[4]] === 4 && method.sameNumberPosition(x, c[1]))
+        color = c[2]
+    }
+
+    // TYPE 5 - Around
     for (let c of colorEffectActivated) {
       if (
-        _colorEffectIndex[c[3]] === 2 &&
+        _colorEffectIndex[c[3]] === 5 &&
         method.hasSurroundingPosition(y, x, c[0], c[1])
       )
         color = c[2]

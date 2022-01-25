@@ -13,6 +13,14 @@ export const getYX = (target, canvas) => {
 
 /* -------------------------------------------------------------------------- */
 
+export const sameNumberPosition = (a, b) => {
+  return parseInt(a) === parseInt(b)
+}
+
+export const hasSmallerEqualPosition = (aY, aX, bY, bX) => {
+  return aY < bY ? true : aY > bY ? false : aX <= bX ? true : false
+}
+
 export const hasGreaterEqualPosition = (aY, aX, bY, bX) => {
   // Return true if a has greater or equal position than b does
   // a and b are both arrays - [y, x]
