@@ -48,7 +48,7 @@
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "autoprefixer": "^10.4.0",
-    "cssnano": "^5.0.14",
+    "cssnano": "^5.1.5",
     "gulp": "^4.0.2",
     "gulp-postcss": "^9.0.1",
     "lint-staged": "^12.1.3",
