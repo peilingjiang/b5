@@ -47,7 +47,7 @@
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
-    "autoprefixer": "^10.4.0",
+    "autoprefixer": "^10.4.4",
     "cssnano": "^5.0.14",
     "gulp": "^4.0.2",
     "gulp-postcss": "^9.0.1",
