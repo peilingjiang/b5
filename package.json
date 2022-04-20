@@ -55,7 +55,7 @@
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.12",
     "postcss-color-mod-function": "^3.0.3",
-    "postcss-scss": "^4.0.2",
+    "postcss-scss": "^4.0.3",
     "precss": "^4.0.0",
     "prettier": "^2.5.1",
     "react-error-overlay": "6.0.9",
