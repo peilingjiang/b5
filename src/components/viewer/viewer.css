@@ -5,9 +5,9 @@ $viewer-min-height: 150px;
 $viewer-max-width: 700px;
 $viewer-max-height: 700px;
 
-$mini-size: 22px; // Size of minimize icon
+$mini-size: 22px; /* Size of minimize icon */
 $mini-margin: calc($head-height / 2 - $mini-size / 2);
-// $expand-size: 22px;
+/* $expand-size: 22px; */
 
 #viewer {
   position: absolute;
@@ -16,9 +16,9 @@ $mini-margin: calc($head-height / 2 - $mini-size / 2);
   box-shadow: $regular-shadow;
   border-radius: $radius;
   border: $regular-border;
-  z-index: 9999999; // Above everything
+  z-index: 9999999; /* Above everything */
 
-  // * Scroll bar
+  /* * Scroll bar */
   -ms-overflow-style: none;
   scrollbar-width: none;
 
@@ -55,9 +55,9 @@ $mini-margin: calc($head-height / 2 - $mini-size / 2);
     }
   }
 
-  // * Scroll bar
+  /* * Scroll bar */
   ::-webkit-scrollbar {
-    // TODO: Add customized styling to indicate current position
+    /* TODO: Add customized styling to indicate current position */
     width: 0;
     height: 0;
     background: transparent;
@@ -108,10 +108,10 @@ $mini-margin: calc($head-height / 2 - $mini-size / 2);
   left: unset !important;
   bottom: calc(2 * $gap);
   right: calc(2 * $gap);
-  // opacity: $hover-op;
+  /* opacity: $hover-op; */
   overflow: hidden;
 
-  // TODO: Min sizes for normal and mini view
+  /* TODO: Min sizes for normal and mini view */
   min-width: calc($mini-size + 2 * $mini-margin + $gap) !important;
   min-height: calc($head-height + $gap) !important;
 

@@ -22,8 +22,8 @@ $h-s-gap: 14px;
   height: auto;
   background-color: color-mod(
     $background-grey a(0.96)
-  ); // Search window background
-  // backdrop-filter: blur(3px); // TODO: Optimize performance
+  ); /* Search window background */
+  /* backdrop-filter: blur(3px); // TODO: Optimize performance */
   border-radius: $radius;
   border: $regular-border;
   box-shadow: $high-shadow;
@@ -86,7 +86,7 @@ $h-s-gap: 14px;
       }
 
       &.focused {
-        // color: $grey;
+        /* color: $grey; */
         color: #888;
       }
     }

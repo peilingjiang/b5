@@ -4,7 +4,7 @@
 $slider-width: 176px;
 $thumb-width: 10px;
 $thumb-display-width: 2px;
-$thumb-offset: calc(($thumb-width - $thumb-display-width) / 2); // 4px
+$thumb-offset: calc(($thumb-width - $thumb-display-width) / 2); /* 4px */
 
 .blockFill {
   &.preview {
@@ -30,7 +30,7 @@ $thumb-offset: calc(($thumb-width - $thumb-display-width) / 2); // 4px
   }
 
   .sliderWidth {
-    // For blockList
+    /* For blockList */
     width: $slider-width;
   }
 

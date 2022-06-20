@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import equal from 'react-fast-compare'
 
-import CodeCanvas from '../codeCanvas/codeCanvas'
+import CodeCanvas from '../codeCanvas/codeCanvas.js'
 
 export default class Playground extends Component {
   shouldComponentUpdate(nextProps) {

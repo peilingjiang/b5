@@ -1,9 +1,9 @@
 import { Component } from 'react'
 
-import _b5BlocksObject from '../../../b5.js/src/blocks/blocksObjectWrapper'
-import Node from '../node'
-import { InputBox } from '../frags'
-import { getOutputConnectType } from '../blockRendererMethod'
+import _b5BlocksObject from '../../../b5.js/src/blocks/blocksObjectWrapper.js'
+import Node from '../node.js'
+import { InputBox } from '../frags.js'
+import { getOutputConnectType } from '../blockRendererMethod.js'
 
 export default class InputBlock extends Component {
   render() {

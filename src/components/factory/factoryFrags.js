@@ -12,9 +12,9 @@ import ResizeObserver from 'resize-observer-polyfill'
 import {
   checkSectionNameNotValid,
   handleMoveAnonymousBlock,
-} from './factoryMethod'
-import BlockPreview from '../blockPreview/blockPreview'
-import CodeCanvas from '../codeCanvas/codeCanvas'
+} from './factoryMethod.js'
+import BlockPreview from '../blockPreview/blockPreview.js'
+import CodeCanvas from '../codeCanvas/codeCanvas.js'
 
 const canvasSizes = {
   variable: [3, 3], // maxLineCount, maxBlockCount

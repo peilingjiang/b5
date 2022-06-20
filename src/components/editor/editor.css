@@ -63,7 +63,7 @@
 #factory {
   position: relative;
   border-radius: $radius;
-  // overflow: hidden;
+  /* overflow: hidden; */
 }
 
 #playground {
@@ -159,7 +159,7 @@
 }
 
 .yes-opacity {
-  // backdrop-filter: blur(3px);
+  /* backdrop-filter: blur(3px); */
   opacity: 1;
 }
 

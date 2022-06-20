@@ -1,5 +1,5 @@
-import { searchBarWidth, searchBarHeight } from '../constants'
 import tinycolor from 'tinycolor2'
+import { searchBarWidth, searchBarHeight } from '../constants.js'
 
 export const hoveringOnSearchBar = target => {
   let depth = 0

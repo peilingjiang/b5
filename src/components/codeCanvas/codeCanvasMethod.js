@@ -1,7 +1,7 @@
 import equal from 'react-fast-compare'
-import { lineHeight, roomWidth } from '../constants'
 
-import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper'
+import { lineHeight, roomWidth } from '../constants.js'
+import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper.js'
 
 export const getYX = (target, canvas) => {
   // Get the Y and X index of a blockRoom in its codeCanvas

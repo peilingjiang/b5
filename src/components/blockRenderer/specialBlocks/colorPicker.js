@@ -1,13 +1,13 @@
 import { Component } from 'react'
 
-import _b5BlocksObject from '../../../b5.js/src/blocks/blocksObjectWrapper'
-import Node from '../node'
-import { ColorPickerEntry } from '../frags'
+import _b5BlocksObject from '../../../b5.js/src/blocks/blocksObjectWrapper.js'
+import Node from '../node.js'
+import { ColorPickerEntry } from '../frags.js'
 import {
   getRGBAFromHex,
   isLight,
   getOutputConnectType,
-} from '../blockRendererMethod'
+} from '../blockRendererMethod.js'
 
 export default class ColorPickerBlock extends Component {
   render() {

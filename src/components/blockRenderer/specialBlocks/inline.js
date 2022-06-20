@@ -1,8 +1,8 @@
 import { memo } from 'react'
 
-import Node from '../node'
-import { _getParentBlockInBook } from '../frags'
-import { getOutputConnectType } from '../blockRendererMethod'
+import Node from '../node.js'
+import { _getParentBlockInBook } from '../frags.js'
+import { getOutputConnectType } from '../blockRendererMethod.js'
 
 const InlineBlock = memo(
   ({

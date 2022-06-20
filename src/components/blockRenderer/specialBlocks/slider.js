@@ -1,11 +1,11 @@
 import { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
 
-import Node from '../node'
-import { InputBox } from '../frags'
+import Node from '../node.js'
+import { InputBox } from '../frags.js'
+import { getOutputConnectType } from '../blockRendererMethod.js'
 
 import ThumbArrow from '../../../img/components/arrow.svg'
-import { getOutputConnectType } from '../blockRendererMethod'
 
 function constrain(v, a, b) {
   // Constrain v within a and b without

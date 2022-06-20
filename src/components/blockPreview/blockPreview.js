@@ -1,7 +1,7 @@
 import { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
 
-import BlockRendererLite from '../blockRenderer/blockRendererLite'
+import BlockRendererLite from '../blockRenderer/blockRendererLite.js'
 import '../../postcss/components/blockPreview/blockPreview.css'
 
 export default class BlockPreview extends Component {

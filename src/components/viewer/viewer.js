@@ -1,10 +1,10 @@
 import { useRef, useState, useEffect, useCallback } from 'react'
 import { saveAs } from 'file-saver'
 
-import B5Wrapper from './b5ViewerWrapper'
-import { IconList } from '../headers/headers'
-import { headerHeight, targetSize } from '../constants'
-import { usePrevious } from '../useHooks'
+import B5Wrapper from './b5ViewerWrapper.js'
+import { IconList } from '../headers/headers.js'
+import { headerHeight, targetSize } from '../constants.js'
+import { usePrevious } from '../useHooks.js'
 import '../../postcss/components/viewer/viewer.css'
 
 import ViewerNoLoop from '../../img/icons/viewerNoLoop.svg'

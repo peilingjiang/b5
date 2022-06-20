@@ -1,7 +1,7 @@
 import { PureComponent, createRef, Component, forwardRef } from 'react'
 import { SketchPicker } from 'react-color'
 
-import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper'
+import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper.js'
 
 export function _getParentBlockInBook(name) {
   let source = null

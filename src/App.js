@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
-import Editor from './components/editor/editor'
-import Viewer from './components/viewer/viewer'
+import Editor from './components/editor/editor.js'
+import Viewer from './components/viewer/viewer.js'
 import './postcss/css/main.css'
 
 function App() {

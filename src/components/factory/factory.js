@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import equal from 'react-fast-compare'
 
-import { TabList, TabContent } from './factoryFrags'
+import { TabList, TabContent } from './factoryFrags.js'
 import '../../postcss/components/factory/factory.css'
 
 export default class Factory extends Component {

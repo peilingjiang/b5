@@ -8,6 +8,16 @@ import precss from 'precss'
 import scss from 'postcss-scss'
 import postcssColorMod from 'postcss-color-mod-function'
 
+// const postcss = require('gulp-postcss')
+// const pkg = require('gulp')
+// const del = require('del')
+
+// const autoprefixer = require('autoprefixer')
+// const cssnano = require('cssnano')
+// const precss = require('precss')
+// const scss = require('postcss-scss')
+// const postcssColorMod = require('postcss-color-mod-function')
+
 const { task, src, dest, series, watch } = pkg
 
 /* PostCSS */

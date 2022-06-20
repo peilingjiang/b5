@@ -11,8 +11,8 @@
     display: inline-flex;
     width: $icon-total-size;
     height: $icon-total-size;
-    // background-color: #fff;
-    // border: $regular-border;
+    /* background-color: #fff; */
+    /* border: $regular-border; */
     margin: $gap 0;
     padding: 0;
     text-align: center;
@@ -52,7 +52,7 @@
 
     .toolbarIconBg {
       display: inline-flex;
-      background-color: $background-grey; // Default background color
+      background-color: $background-grey; /* Default background color */
       border-radius: 18px;
       width: 100%;
       height: 100%;
@@ -67,10 +67,10 @@
     pointer-events: none;
   }
 
-  // .toolbarIconBg .emoji {
-  //   font-size: $normal;
-  //   margin: auto;
-  // }
+  /* .toolbarIconBg .emoji { */
+  /*   font-size: $normal; */
+  /*   margin: auto; */
+  /* } */
 
   .toolbarIcon .iconMenuHolder {
     position: absolute;
@@ -88,7 +88,7 @@
       background-color: #fff;
       box-shadow: $regular-shadow;
       border-radius: $radius;
-      // backdrop-filter: blur(3px);
+      /* backdrop-filter: blur(3px); */
       cursor: default;
     }
 
@@ -126,7 +126,7 @@
         align-self: center;
         color: $hover-grey;
         font-size: $small;
-        // padding-top: 1px;
+        /* padding-top: 1px; */
       }
     }
   }

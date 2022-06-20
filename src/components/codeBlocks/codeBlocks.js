@@ -1,9 +1,9 @@
 import { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
 
-import BlockRenderer from '../blockRenderer/blockRenderer'
-import { roomWidth, lineHeight } from '../constants'
-import WireRenderer from '../blockRenderer/wireRenderer'
+import BlockRenderer from '../blockRenderer/blockRenderer.js'
+import { roomWidth, lineHeight } from '../constants.js'
+import WireRenderer from '../blockRenderer/wireRenderer.js'
 import {
   hoveringOnBlock,
   hoveringOnWire,
@@ -12,7 +12,7 @@ import {
   _addClassNameByClass,
   _removeClassNameByClass,
   blockKeyBuilder,
-} from './codeBlocksMethod'
+} from './codeBlocksMethod.js'
 
 const _emptyR = {
   input: [],

@@ -1,9 +1,9 @@
 import { PureComponent, createRef } from 'react'
 import ReactDOM from 'react-dom'
 
-import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper'
+import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper.js'
 
-import { colorPalette, hintWait } from '../constants'
+import { colorPalette, hintWait } from '../constants.js'
 import '../../postcss/components/hint/hint.css'
 
 export const _preDescription = d => {
@@ -119,11 +119,11 @@ export default class Hint extends PureComponent {
           categoryDisplay = category
           break
 
-        default:
+        default: // !
           const component = b[category][position]
           name = component.name
           description = component.description
-          type = component.type[0] // !
+          type = component.type[0]
           categoryDisplay = dict_cat_to_display_cat[category]
           break
       }

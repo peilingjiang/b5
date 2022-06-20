@@ -1,20 +1,22 @@
 import { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
 
-import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper'
+import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper.js'
 
-import { lineHeight, roomWidth } from '../constants'
-import Node from './node'
-import { _getParentBlockInBook } from './frags'
-import { checkSectionNameNotValid } from '../factory/factoryMethod'
-import InputBlock from './specialBlocks/input'
-import SliderBlock from './specialBlocks/slider'
-import ColorPickerBlock from './specialBlocks/colorPicker'
-import InlineBlock from './specialBlocks/inline'
-import CommentBlock from './specialBlocks/comment'
+import { lineHeight, roomWidth } from '../constants.js'
+import Node from './node.js'
+import { _getParentBlockInBook } from './frags.js'
+import { checkSectionNameNotValid } from '../factory/factoryMethod.js'
+import InputBlock from './specialBlocks/input.js'
+import SliderBlock from './specialBlocks/slider.js'
+import ColorPickerBlock from './specialBlocks/colorPicker.js'
+import InlineBlock from './specialBlocks/inline.js'
+import CommentBlock from './specialBlocks/comment.js'
+
+import { _scaleSensitiveBlockKinds } from '../magicalIndex.js'
+import { getOutputConnectType } from './blockRendererMethod.js'
+
 import '../../postcss/components/blockRenderer/css/blockRenderer.css'
-import { _scaleSensitiveBlockKinds } from '../magicalIndex'
-import { getOutputConnectType } from './blockRendererMethod'
 
 function _getTotalOffset(thisNode, targetClassName) {
   // [x, y]

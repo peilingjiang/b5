@@ -35,12 +35,12 @@ body {
   filter: grayscale(100%);
 }
 
-// ! dev
-// .dev {
-//   display: none;
-// }
+/* ! dev */
+/* .dev { */
+/*   display: none; */
+/* } */
 
-// For all grab and grabbing...
+/* For all grab and grabbing... */
 .defaultCursor {
   cursor: default;
 }
@@ -80,7 +80,7 @@ body {
 }
 
 .no-opacity {
-  // display: none;
+  /* display: none; */
   pointer-events: none;
   opacity: 0;
 }
