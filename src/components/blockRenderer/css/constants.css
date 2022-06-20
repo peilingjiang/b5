@@ -5,11 +5,11 @@ $bottom-tiny-height: 11px;
 
 @mixin bottom-text {
   font-size: $small;
-  // font-weight: $medium;
+  /* font-weight: $medium; */
   height: $bottom-height;
   width: 50%;
   text-align: left;
-  // padding: calc($bottom-height / 2 - $small / 2) 3px;
+  /* padding: calc($bottom-height / 2 - $small / 2) 3px; */
   padding: 3px 4px;
   pointer-events: none;
 }

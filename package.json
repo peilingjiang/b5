@@ -21,7 +21,7 @@
     "run-test": "react-scripts test",
     "test": "npm-run-all do-gulp run-test",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,html,css}\"",
-    "css": "NODE_ENV=development npm-run-all format do-gulp",
+    "css": "NODE_ENV=development npm-run-all do-gulp",
     "start": "react-scripts start",
     "deploy": "NODE_ENV=production npm-run-all do-gulp build",
     "submodule": "cd src/b5.js && npm i && cd ../..",

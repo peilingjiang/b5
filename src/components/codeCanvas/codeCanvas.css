@@ -12,14 +12,14 @@
     box-shadow: 0 1px 0 0 $room-border-bottom; /* Bottom, avoid 45 degree border joint */
   }
 
-  // TOP
+  /* TOP */
   .blockAlphabets {
-    // border-bottom: 1px solid $canvas-headers; // ALL Bottom
+    /* border-bottom: 1px solid $canvas-headers; // ALL Bottom */
     background-color: $headers-background;
 
     .blockAlphabetRoom {
-      // border-right: 1px solid $room-border-right; // IND Right
-      border-right: 1px solid $background; // IND Right
+      /* border-right: 1px solid $room-border-right; // IND Right */
+      border-right: 1px solid $background; /* IND Right */
 
       p {
         color: $canvas-headers;
@@ -27,14 +27,14 @@
     }
   }
 
-  // SIDE
+  /* SIDE */
   .lineNumbers {
-    // border-right: 1px solid $canvas-headers; // ALL Right
+    /* border-right: 1px solid $canvas-headers; // ALL Right */
     background-color: $headers-background;
 
     .lineNumberRoom {
-      // box-shadow: 0 1px 0 0 $room-border-bottom; // IND Bottom
-      box-shadow: 0 1px 0 0 $background; // IND Bottom
+      /* box-shadow: 0 1px 0 0 $room-border-bottom; // IND Bottom */
+      box-shadow: 0 1px 0 0 $background; /* IND Bottom */
 
       p {
         color: $canvas-headers;
@@ -43,14 +43,14 @@
   }
 
   .lineJoint {
-    // border: 1px solid $canvas-headers;
+    /* border: 1px solid $canvas-headers; */
     box-shadow: 0 0 0 1px $background;
     background-color: $headers-background;
   }
 }
 
 #playground {
-  // $room-border-right, $room-border-bottom, $canvas-headers, $headers-background, $background
+  /* $room-border-right, $room-border-bottom, $canvas-headers, $headers-background, $background */
   @include canvas-colors(
     $background-grey,
     $background-grey,
@@ -80,7 +80,7 @@
 }
 
 .lineNumbers {
-  // Fixed to left
+  /* Fixed to left */
   position: absolute;
   width: $line-numbers-width;
   top: $block-alphabet-height;
@@ -105,7 +105,7 @@
 }
 
 .blockAlphabets {
-  // Fixed to top
+  /* Fixed to top */
   position: absolute;
   height: $block-alphabet-height;
   top: 0;
@@ -163,7 +163,7 @@
     p {
       font-size: $small;
       font-weight: $regular;
-      letter-spacing: 0.01rem; // * Can we avoid?
+      letter-spacing: 0.01rem; /* * Can we avoid? */
       color: #fff;
     }
   }

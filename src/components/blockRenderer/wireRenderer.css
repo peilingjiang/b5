@@ -24,7 +24,7 @@
       z-index: 40000;
 
       &.selected {
-        // For selected wire
+        /* For selected wire */
         z-index: 40700;
         filter: drop-shadow(0 0 5px color-mod($selected a($fade-op)));
       }
@@ -49,7 +49,7 @@
   }
 
   .unfocused {
-    stroke: #e7e7e7; // Between $dark-white and $hover-grey
+    stroke: #e7e7e7; /* Between $dark-white and $hover-grey */
   }
 
   .focused {

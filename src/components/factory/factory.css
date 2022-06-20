@@ -10,7 +10,7 @@ $section-outline-blender: blend($background-grey 50%);
 $button-gap: calc(2 * $gap);
 $button-init-gap: calc(4 * $gap);
 
-// Images
+/* Images */
 $cross: '../../../img/icons/cross.svg';
 $rename: '../../../img/icons/rename.svg';
 
@@ -19,7 +19,7 @@ $rename: '../../../img/icons/rename.svg';
     border: 2px solid color-mod($color $section-outline-blender);
 
     .blockHolder {
-      // Left and right divider in a section
+      /* Left and right divider in a section */
       box-shadow: -2px 0 0 0 color-mod($color $section-divider-blender);
     }
 
@@ -55,17 +55,17 @@ $rename: '../../../img/icons/rename.svg';
   padding: 0 $gap;
   pointer-events: none;
 
-  // &.activeVariable {
-  //   border-bottom: 2px solid $variable;
-  // }
+  /* &.activeVariable { */
+  /*   border-bottom: 2px solid $variable; */
+  /* } */
 
-  // &.activeFunction {
-  //   border-bottom: 2px solid $function;
-  // }
+  /* &.activeFunction { */
+  /*   border-bottom: 2px solid $function; */
+  /* } */
 
-  // &.activeObject {
-  //   border-bottom: 2px solid $object;
-  // }
+  /* &.activeObject { */
+  /*   border-bottom: 2px solid $object; */
+  /* } */
 
   .tab {
     display: inline-block;
@@ -91,7 +91,7 @@ $rename: '../../../img/icons/rename.svg';
 
     &.variable {
       background-color: color-mod($variable a($fade-op));
-      // border-radius: $radius 0 0 $radius;
+      /* border-radius: $radius 0 0 $radius; */
     }
 
     &.function {
@@ -100,7 +100,7 @@ $rename: '../../../img/icons/rename.svg';
 
     &.object {
       background-color: color-mod($object a($fade-op));
-      // border-radius: 0 $radius $radius 0;
+      /* border-radius: 0 $radius $radius 0; */
 
       /* ! Lock object tab */
       cursor: not-allowed;
@@ -154,7 +154,7 @@ $rename: '../../../img/icons/rename.svg';
   }
 
   &::-webkit-scrollbar {
-    // TODO: Add customized styling to indicate current position
+    /* TODO: Add customized styling to indicate current position */
     width: 0;
   }
 
@@ -208,7 +208,7 @@ $rename: '../../../img/icons/rename.svg';
     box-sizing: border-box;
     overflow: hidden;
 
-    // Special styles compare to original codeCanvas
+    /* Special styles compare to original codeCanvas */
     .wireBackground {
       stroke: $background-grey;
     }
@@ -221,7 +221,7 @@ $rename: '../../../img/icons/rename.svg';
     z-index: 180000;
     border: none;
 
-    // When in factory preview, the cursor should be grab instead of pointer
+    /* When in factory preview, the cursor should be grab instead of pointer */
     .block {
       cursor: grab !important;
     }
@@ -240,7 +240,7 @@ $rename: '../../../img/icons/rename.svg';
     }
 
     .invalid-block-name {
-      // background-color: color-mod($alert a($hover-op)) !important;
+      /* background-color: color-mod($alert a($hover-op)) !important; */
       color: $alert;
     }
   }
@@ -254,7 +254,7 @@ $rename: '../../../img/icons/rename.svg';
     z-index: 190000;
   }
 
-  // Buttons
+  /* Buttons */
   .sectionControls {
     position: absolute;
     display: inline-flex;

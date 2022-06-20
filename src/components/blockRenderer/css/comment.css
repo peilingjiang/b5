@@ -8,7 +8,7 @@ $corner-size: 13px;
 
 .blockFill {
   .commentWidth {
-    // For sudoBlock
+    /* For sudoBlock */
     width: $comment-width;
   }
 
@@ -49,7 +49,7 @@ $corner-size: 13px;
       display: flex;
       margin: 3px 3px $bottom-tiny-height;
       padding: 3px 7px 3px;
-      // border-radius: $tiny-tiny-radius;
+      /* border-radius: $tiny-tiny-radius; */
       background-color: color-mod($comment blend(#fff 70%));
       width: calc($comment-width - 6px);
       height: fit-content;

@@ -9,7 +9,7 @@ $entry-active-color: color-mod($light-grey a($hover-op));
 
 @mixin mask-placement {
   width: calc($picker-size - 2 * $picker-gap);
-  // height: calc(71px - 2 * $picker-gap);
+  /* height: calc(71px - 2 * $picker-gap); */
   height: calc(71px - 3px - $bottom-tiny-height);
   position: absolute;
   top: $picker-gap;
@@ -113,14 +113,14 @@ $entry-active-color: color-mod($light-grey a($hover-op));
       cursor: auto;
 
       .sketch-picker {
-        // box-sizing: border-box !important;
+        /* box-sizing: border-box !important; */
         border-radius: $tiny-radius !important;
-        // border: $regular-border !important;
+        /* border: $regular-border !important; */
         box-shadow: 0 0 0 1px $hover-grey, $high-shadow !important;
       }
 
       input {
-        width: 100% !important; // * ?
+        width: 100% !important; /* * ? */
       }
     }
 

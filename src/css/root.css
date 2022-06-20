@@ -45,10 +45,10 @@ $medium: 500;
 $bold: 700;
 
 /* Font Size */
-$normal: 0.875rem; // 14px
-$small: 0.75rem; // 12px
-$large: 1rem; // 16px
-$small-small: 0.65rem; // 10.72px
+$normal: 0.875rem; /* 14px */
+$small: 0.75rem; /* 12px */
+$large: 1rem; /* 16px */
+$small-small: 0.65rem; /* 10.72px */
 
 /* Icons */
 $icon-total-size: 36px;

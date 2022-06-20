@@ -7,7 +7,7 @@ $long-input-width: 150px;
 @mixin boxStyle {
   border-radius: $tiny-tiny-radius;
   margin: 3px 3px 0 3px;
-  padding-top: 1px; // * Vertical align
+  padding-top: 1px; /* * Vertical align */
   padding-left: 3px;
   padding-right: 3px;
   height: calc(48px - $bottom-height - 3px);
@@ -18,7 +18,7 @@ $long-input-width: 150px;
 
 .blockFill {
   .inputWidth {
-    // For blockList
+    /* For blockList */
     width: $input-width;
   }
 
@@ -37,7 +37,7 @@ $long-input-width: 150px;
       opacity: 1;
     }
 
-    // .inputBox:focus {}
+    /* .inputBox:focus {} */
 
     .stringInput {
       padding-top: 0 !important;

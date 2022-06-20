@@ -27,7 +27,7 @@ $inline-height: 39px;
       padding-right: auto;
     }
 
-    // TEXT
+    /* TEXT */
     .inlineText {
       position: absolute;
       display: inline-flex;
@@ -54,7 +54,7 @@ $inline-height: 39px;
       }
     }
 
-    // NODE
+    /* NODE */
     .inlineInputCount1 {
       width: 100%;
 

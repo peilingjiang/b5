@@ -212,7 +212,7 @@ $node-0-1-width: 110px;
       }
     }
 
-    // Background
+    /* Background */
     .nodeBackground {
       position: absolute;
       display: block;
@@ -220,7 +220,7 @@ $node-0-1-width: 110px;
       width: calc($node-size - 2 * $node-padding + 2px);
       height: calc($node-size - 2 * $node-padding + 2px);
       border-radius: calc(($node-size - 2 * $node-padding + 2px) / 2);
-      // clip-path: inset(50% 0 0 0);
+      /* clip-path: inset(50% 0 0 0); */
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
@@ -242,7 +242,7 @@ $node-0-1-width: 110px;
         position: absolute;
         left: 50%;
         transform: translate(-50%, 0);
-        // box-shadow: 0 0 3px -1px $grey;
+        /* box-shadow: 0 0 3px -1px $grey; */
       }
     }
   }
@@ -264,10 +264,10 @@ $node-0-1-width: 110px;
       margin: 0 auto;
       width: 100%;
 
-      // .nodeText {
-      //   text-edge: cap alphabetic;
-      //   leading-trim: both;
-      // }
+      /* .nodeText { */
+      /*   text-edge: cap alphabetic; */
+      /*   leading-trim: both; */
+      /* } */
     }
 
     .inputNodesText {
@@ -280,7 +280,7 @@ $node-0-1-width: 110px;
       margin-top: 3px;
     }
 
-    // Block nodes and nodesText widths are smaller than block widths
+    /* Block nodes and nodesText widths are smaller than block widths */
     .blockCount2 {
       width: 80px;
 
@@ -326,7 +326,7 @@ $node-0-1-width: 110px;
     }
   }
 
-  // For .normal blocks
+  /* For .normal blocks */
   .nodesCount1 {
     width: $node-0-1-width;
   }
@@ -349,8 +349,8 @@ $node-0-1-width: 110px;
 
   .nodesCount0 {
     width: $node-0-1-width;
-    // height: 39px;
-    padding: 7px 0; // Make the height 39px
+    /* height: 39px; */
+    padding: 7px 0; /* Make the height 39px */
 
     .blockName {
       background: none;
@@ -367,6 +367,6 @@ $node-0-1-width: 110px;
 }
 
 .codeCanvas .sudoBlock {
-  // For blockList in blockSearch
+  /* For blockList in blockSearch */
   display: none;
 }

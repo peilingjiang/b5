@@ -60,14 +60,14 @@
     margin: 0 auto $gap;
     text-align: center;
     width: calc(100% - $gap * 4);
-    padding-top: calc(1px + $gap); // ? How to do it more elegantly?
+    padding-top: calc(1px + $gap); /* ? How to do it more elegantly? */
     padding-bottom: 0;
     font-size: $small-small;
     color: $light-grey;
     border-top: 1px solid $dark-white;
   }
 
-  // hintSide
+  /* hintSide */
 
   &.up {
     transform: translate(-50%, calc(-100% - $large-gap));
