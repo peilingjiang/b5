@@ -5,7 +5,7 @@ import {
   blockAlphabetHeight,
   factoryCanvasDefaultScale,
   sectionHeightDefault,
-} from '../constants'
+} from '../constants.js'
 
 /* ------------------------------ Intro Editor ------------------------------ */
 

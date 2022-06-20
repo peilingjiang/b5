@@ -1,5 +1,5 @@
-import { lineHeight, longestBlockName, roomWidth } from '../constants'
-import _b from '../editor/b5ObjectWrapper'
+import { lineHeight, longestBlockName, roomWidth } from '../constants.js'
+import _b from '../editor/b5ObjectWrapper.js'
 
 export const checkSectionNameNotValid = (name, propsName) => {
   // Return true if the name is not valid

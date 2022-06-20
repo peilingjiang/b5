@@ -1,32 +1,33 @@
 import { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
+import { isMacOs, isWindows } from 'react-device-detect'
 
-import { IconList } from '../headers/headers'
-import FoldIcon from '../playground/foldIcon'
+import { IconList } from '../headers/headers.js'
+import FoldIcon from '../playground/foldIcon.js'
 
-import * as method from './editorMethod'
-import * as secMethod from './sectionMethod'
+import * as method from './editorMethod.js'
+import * as secMethod from './sectionMethod.js'
 
-import Playground from '../playground/playground'
-import Factory from '../factory/factory'
-import BlockSearch from '../blockSearch/blockSearch'
-import FileUpload from './fileUpload'
+import Playground from '../playground/playground.js'
+import Factory from '../factory/factory.js'
+import BlockSearch from '../blockSearch/blockSearch.js'
+import FileUpload from './fileUpload.js'
 import '../../postcss/components/editor/editor.css'
 
-import _b from './b5ObjectWrapper'
-import { makeBlock } from '../../b5.js/src/core/make'
+import _b from './b5ObjectWrapper.js'
+import { makeBlock } from '../../b5.js/src/core/make.js'
 
-import { lineNumberWidth, blockAlphabetHeight, gap } from '../constants'
+import { lineNumberWidth, blockAlphabetHeight, gap } from '../constants.js'
 import {
   defaultEditor,
   // defaultEditorCanvasStyle,
   introEditor,
   introEditorCanvasStyle,
   nativeSectionStyleToAdd,
-} from './defaultValue'
+} from './defaultValue.js'
+import Hint from '../hint/hint.js'
+
 import Logo from '../../img/logo/logo.svg'
-import { isMacOs, isWindows } from 'react-device-detect'
-import Hint from '../hint/hint'
 
 // For loading the version number
 import packageJSON from '../../../package.json'
@@ -628,9 +629,11 @@ export default class Editor extends Component {
 
   /* ----------------------------- Random Example ----------------------------- */
 
-  randomExample = () => {
-    const fileEditor = require(`../../examples/example${this.randomExampleCounter.current}.b5.json`)
-    this.loadNewEditor(fileEditor)
+  randomExample = async () => {
+    const fileEditor = await import(
+      `../../examples/example${this.randomExampleCounter.current}.b5.json`
+    )
+    this.loadNewEditor(fileEditor.default)
 
     this.randomExampleCounter.current++
     if (this.randomExampleCounter.current > exampleCount)

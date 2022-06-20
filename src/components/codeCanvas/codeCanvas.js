@@ -2,21 +2,22 @@ import { Component, createRef } from 'react'
 import equal from 'react-fast-compare'
 import ResizeObserver from 'resize-observer-polyfill'
 
-import _b from '../editor/b5ObjectWrapper'
+import _b from '../editor/b5ObjectWrapper.js'
 
 import {
   lineHeight,
   roomWidth,
   lineNumberWidth,
   blockAlphabetHeight,
-} from '../constants'
-import * as method from './codeCanvasMethod'
+} from '../constants.js'
+import * as method from './codeCanvasMethod.js'
 
-import CodeBlocks from '../codeBlocks/codeBlocks'
+import CodeBlocks from '../codeBlocks/codeBlocks.js'
+
+import { _colorEffectIndex } from '../magicalIndex.js'
+import { CanvasAxis, CanvasGrid } from './canvasGrid.js'
+
 import '../../postcss/components/codeCanvas/codeCanvas.css'
-
-import { _colorEffectIndex } from '../magicalIndex'
-import { CanvasAxis, CanvasGrid } from './canvasGrid'
 
 export default class CodeCanvas extends Component {
   constructor(props) {

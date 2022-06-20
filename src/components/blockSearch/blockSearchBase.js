@@ -1,7 +1,7 @@
 import Fuse from 'fuse.js'
 
-import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper'
-import _b from '../editor/b5ObjectWrapper'
+import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper.js'
+import _b from '../editor/b5ObjectWrapper.js'
 
 const options = {
   keys: [

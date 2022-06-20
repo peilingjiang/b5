@@ -1,6 +1,6 @@
 import { PureComponent } from 'react'
 
-import { lineHeight, roomWidth } from '../constants'
+import { lineHeight, roomWidth } from '../constants.js'
 
 /*
  * All Block and Line counts start from 0

@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import equal from 'react-fast-compare'
 
-import { nodeSize, sizeOffset, dragOvalSize } from '../constants'
+import { nodeSize, sizeOffset, dragOvalSize } from '../constants.js'
 import '../../postcss/components/blockRenderer/wireRenderer.css'
 
 const _dragOvalR = dragOvalSize / 2

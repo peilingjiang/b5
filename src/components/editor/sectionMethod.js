@@ -1,6 +1,9 @@
-import { nativeSectionDataToAdd, nativeSectionStyleToAdd } from './defaultValue'
+import {
+  nativeSectionDataToAdd,
+  nativeSectionStyleToAdd,
+} from './defaultValue.js'
 
-import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper'
+import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper.js'
 
 // * Base Functions
 const findName = name => {

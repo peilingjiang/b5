@@ -1,10 +1,10 @@
 import { Component } from 'react'
 import equal from 'react-fast-compare'
 
-import Q5 from '../../q5xjs/q5'
+import Q5 from '../../q5xjs/q5.js'
 // import p5 from 'p5'
 
-import _b from '../editor/b5ObjectWrapper'
+import _b from '../editor/b5ObjectWrapper.js'
 
 export default class B5Wrapper extends Component {
   // props - Readily available b5 object

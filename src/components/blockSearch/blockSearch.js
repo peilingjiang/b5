@@ -1,12 +1,13 @@
 import { Component, createRef, useEffect } from 'react'
 import equal from 'react-fast-compare'
 
-import _b5Search from './blockSearchBase'
-import * as method from './blockSearchMethod'
+import _b5Search from './blockSearchBase.js'
+import * as method from './blockSearchMethod.js'
+import BlockRendererLite from '../blockRenderer/blockRendererLite.js'
+import { searchBarWidth } from '../constants.js'
+import { _preDescription } from '../hint/hint.js'
+
 import '../../postcss/components/blockSearch/blockSearch.css'
-import BlockRendererLite from '../blockRenderer/blockRendererLite'
-import { searchBarWidth } from '../constants'
-import { _preDescription } from '../hint/hint'
 
 const _truncateDescription = d => {
   if (d.length < 65) return d
