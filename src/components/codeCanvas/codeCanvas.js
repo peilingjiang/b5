@@ -425,8 +425,9 @@ export default class CodeCanvas extends Component {
   }
 
   handleFocused = focused => {
-    let render = { ...this.state.render }
+    let render = JSON.parse(JSON.stringify({ ...this.state.render }))
     render.colorEffectActivated = []
+
     if (focused && focused.length) {
       // fill or stroke
       for (let i of focused) // [[y, x], [2, 9], [1, 0], ...]

@@ -1,5 +1,5 @@
 import { PureComponent, createRef } from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 
 import _b5BlocksObject from '../../b5.js/src/blocks/blocksObjectWrapper.js'
 
@@ -139,7 +139,8 @@ export default class Hint extends PureComponent {
       )
 
       try {
-        ReactDOM.render(newElement, this.hintHolder.current)
+        this.root = createRoot(this.hintHolder.current)
+        this.root.render(newElement)
         this.hint = true
         this.target = e.target
       } catch (error) {}
@@ -148,7 +149,7 @@ export default class Hint extends PureComponent {
 
   clearHint = () => {
     if (this.hint) {
-      ReactDOM.unmountComponentAtNode(this.hintHolder.current)
+      this.root.unmount()
       this.hint = false
       this.target = null
     }

@@ -117,8 +117,9 @@ export default class CodeBlocks extends Component {
           const thisBlock = this.blocksRef[thisBlockInd[0]][thisBlockInd[1]]
           if (thisBlock) {
             // FOCUS CURRENT
-            this._focus(thisBlockInd) // [2, 0] - [y, x]
-            this.props.canvasCollectFocused(this.state.focused) // Send focused to codeCanvas
+            this._focus(thisBlockInd, false, () => {
+              this.props.canvasCollectFocused(this.state.focused) // Send focused to codeCanvas
+            }) // [2, 0] - [y, x]
 
             this._deselectWireAll()
             thisBlock.current.childNodes[0].className =
@@ -413,8 +414,9 @@ export default class CodeBlocks extends Component {
 
       // Replace Focus
       this._blur(bInd)
-      this._focus([y.toString(), x.toString()])
-      this.props.canvasCollectFocused(this.state.focused) // Send focused to codeCanvas
+      this._focus([y.toString(), x.toString()], false, () => {
+        this.props.canvasCollectFocused(this.state.focused) // Send focused to codeCanvas
+      })
     }
   }
 
@@ -452,14 +454,19 @@ export default class CodeBlocks extends Component {
     return inputBlocks
   }
 
-  _focus = (bInd, add = false) => {
+  _focus = (bInd, add = false, setStateCallback = null) => {
     // Do we need to check if bInd is in state?
     // add - true to add current, false to clear (blur all) and add current
-    this.setState({
-      focused: add
-        ? [...this.state.focused, [bInd[0], bInd[1]]]
-        : [[bInd[0], bInd[1]]],
-    })
+    this.setState(
+      {
+        focused: add
+          ? [...this.state.focused, [bInd[0], bInd[1]]]
+          : [[bInd[0], bInd[1]]],
+      },
+      () => {
+        if (setStateCallback) setStateCallback()
+      }
+    )
   }
 
   _blur = bInd => {
