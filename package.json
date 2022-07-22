@@ -46,10 +46,10 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
-    "@testing-library/user-event": "^14.2.1",
+    "@testing-library/user-event": "^14.3.0",
     "autoprefixer": "^10.4.7",
     "cssnano": "^5.1.12",
-    "del": "^6.1.1",
+    "del": "^7.0.0",
     "gulp": "^4.0.2",
     "gulp-postcss": "^9.0.1",
     "lint-staged": "^13.0.3",

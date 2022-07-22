@@ -1,6 +1,6 @@
 import postcss from 'gulp-postcss'
 import pkg from 'gulp'
-import del from 'del'
+import { deleteAsync } from 'del'
 
 import autoprefixer from 'autoprefixer'
 import cssnano from 'cssnano'
@@ -23,7 +23,7 @@ const { task, src, dest, series, watch } = pkg
 /* PostCSS */
 
 task('clean', function () {
-  return del(['./src/postcss/**'])
+  return deleteAsync(['./src/postcss/**'])
 })
 
 task('css', function () {
