@@ -12,8 +12,8 @@
     "react-dom": "^18.2.0",
     "react-fast-compare": "^3.2.0",
     "react-scripts": "^5.0.1",
-    "tinycolor2": "^1.4.2",
-    "uuid": "^8.3.2"
+    "tinycolor2": "^1.5.2",
+    "uuid": "^9.0.0"
   },
   "scripts": {
     "do-gulp": "gulp",
@@ -45,23 +45,23 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.3.0",
-    "@testing-library/user-event": "^14.4.2",
-    "autoprefixer": "^10.4.8",
-    "cssnano": "^5.1.12",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.4.3",
+    "autoprefixer": "^10.4.13",
+    "cssnano": "^5.1.14",
     "del": "^7.0.0",
     "gulp": "^4.0.2",
     "gulp-postcss": "^9.0.1",
-    "lint-staged": "^13.0.3",
+    "lint-staged": "^13.1.0",
     "npm-run-all": "^4.1.5",
-    "postcss": "^8.4.14",
+    "postcss": "^8.4.21",
     "postcss-color-mod-function": "^3.0.3",
-    "postcss-scss": "^4.0.4",
+    "postcss-scss": "^4.0.6",
     "precss": "^4.0.0",
-    "prettier": "^2.7.1",
+    "prettier": "^2.8.2",
     "react-error-overlay": "6.0.11",
     "resize-observer-polyfill": "^1.5.1",
-    "simple-git-hooks": "^2.8.0"
+    "simple-git-hooks": "^2.8.1"
   },
   "type": "module",
   "jest": {
