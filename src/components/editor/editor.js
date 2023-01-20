@@ -678,7 +678,7 @@ export default class Editor extends Component {
             v{method.parseVersion(packageJSON.version, true)}
             <span className="text-options">
               <a
-                href="https://www.jpl.design/b5"
+                href="https://anonymous.4open.science/r/b5editor/"
                 rel="noopener noreferrer"
                 target="_blank"
               >
@@ -687,17 +687,18 @@ export default class Editor extends Component {
             </span>
             <span className="text-options">
               <a
-                href="https://github.com/peilingjiang/b5/issues/new"
+                href="https://anonymous.4open.science/r/b5editor/"
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                report issue
+                report issue (temporarily unavailable for an anonymous
+                submission)
               </a>
             </span>
           </p>
 
           <a
-            href="https://github.com/peilingjiang/b5"
+            href="https://anonymous.4open.science/r/b5editor/"
             rel="noopener noreferrer"
             target="_blank"
           >
