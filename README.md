@@ -18,6 +18,25 @@ _\* work-in-progress_
 
 > Peiling Jiang. 2023. Positional Control in Node-Based Programming. In Extended Abstracts of the 2023 CHI Conference on Human Factors in Computing Systems (CHI EA ’23), April 23–28, 2023, Hamburg, Germany. ACM, New York, NY, USA, 7 pages. https://doi.org/10.1145/3544549.3585878
 
+```bibtex
+@inproceedings{jiang2023node,
+  author = {Jiang, Peiling},
+  title = {Positional Control in Node-Based Programming},
+  year = {2023},
+  isbn = {9781450394222},
+  publisher = {Association for Computing Machinery},
+  address = {New York, NY, USA},
+  url = {https://doi.org/10.1145/3544549.3585878},
+  doi = {10.1145/3544549.3585878},
+  booktitle = {Extended Abstracts of the 2023 CHI Conference on Human Factors in Computing Systems},
+  articleno = {231},
+  numpages = {7},
+  keywords = {Creative coding, Authoring environment, Visual programming},
+  location = {Hamburg, Germany},
+  series = {CHI EA '23}
+}
+```
+
 ---
 
 <br />
