@@ -678,7 +678,7 @@ export default class Editor extends Component {
             v{method.parseVersion(packageJSON.version, true)}
             <span className="text-options">
               <a
-                href="https://www.jpl.design/b5"
+                href="https://github.com/peilingjiang/b5"
                 rel="noopener noreferrer"
                 target="_blank"
               >
