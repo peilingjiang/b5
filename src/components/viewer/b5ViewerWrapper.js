@@ -14,8 +14,9 @@ export default class B5Wrapper extends Component {
   }
 
   setup = () => {
-    if (_b.runSetup) _b.runSetup(this.myP5)
-    else this.loop = false
+    if (_b.runSetup) {
+      _b.runSetup(this.myP5)
+    } else this.loop = false
   }
 
   draw = () => {

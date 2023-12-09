@@ -101,14 +101,14 @@ export default class Hint extends PureComponent {
         hintSide === 'up'
           ? rect.top
           : hintSide === 'down'
-          ? rect.top + rect.height
-          : rect.top + 0.5 * rect.height
+            ? rect.top + rect.height
+            : rect.top + 0.5 * rect.height
       const left =
         hintSide === 'left'
           ? rect.left
           : hintSide === 'right'
-          ? rect.left + rect.width
-          : rect.left + rect.width * 0.5
+            ? rect.left + rect.width
+            : rect.left + rect.width * 0.5
 
       let name, description, type, categoryDisplay
       switch (category) {

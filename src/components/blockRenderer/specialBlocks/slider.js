@@ -28,8 +28,8 @@ const _getLength = (totalLen, current, min, max) => {
   return current === min
     ? 0
     : current === max
-    ? totalLen
-    : totalLen * ((current - min) / (max - min))
+      ? totalLen
+      : totalLen * ((current - min) / (max - min))
 }
 
 const _getValue = (totalLen, length, min, max, step) => {
@@ -37,14 +37,14 @@ const _getValue = (totalLen, length, min, max, step) => {
   return length === 0
     ? min
     : length === totalLen
-    ? max
-    : Math.max(
-        Math.min(
-          Math.round(((length / totalLen) * (max - min) + min) / step) * step,
-          max
-        ),
-        min
-      )
+      ? max
+      : Math.max(
+          Math.min(
+            Math.round(((length / totalLen) * (max - min) + min) / step) * step,
+            max
+          ),
+          min
+        )
 }
 
 class InputRange extends Component {

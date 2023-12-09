@@ -343,7 +343,9 @@ $rename: '../../../img/icons/rename.svg';
     border-radius: 18px;
     border: $regular-border;
     box-shadow: $regular-shadow;
-    transition: visibility 0.2s linear, opacity 0.2s linear;
+    transition:
+      visibility 0.2s linear,
+      opacity 0.2s linear;
 
     img {
       display: block;

@@ -10,6 +10,7 @@ import '../../postcss/components/viewer/viewer.css'
 import ViewerNoLoop from '../../img/icons/viewerNoLoop.svg'
 
 const Viewer = ({ data }) => {
+  const [mini, setMini] = useState(false) // Mini or not
   const [loop, setLoop] = useState(true) // Render the canvas or not
   let toggle = useRef(true) // true if toggleLoop, false if refreshCanvas
 
@@ -18,19 +19,17 @@ const Viewer = ({ data }) => {
 
   const canvasRef = useRef() // Going to viewerCanvas
 
-  const miniStateRef = useRef(false)
-
   const prevData = usePrevious(data)
   useEffect(() => {
     if (
-      miniStateRef.current &&
+      mini &&
       prevData &&
       prevData.factory &&
       data.factory.variable !== prevData.factory.variable
     ) {
       _handleResize()
     }
-  }, [data, prevData])
+  }, [data, mini, prevData])
 
   useEffect(() => {
     if (!toggle.current) {
@@ -112,17 +111,19 @@ const Viewer = ({ data }) => {
   }, [viewerHeader])
 
   const _handleResize = () => {
-    const canvas = document.getElementById('defaultCanvas0')
+    setTimeout(() => {
+      const canvas = document.getElementById('defaultCanvas0')
 
-    const targetScale = Math.min(
-      (targetSize / canvas.height) * 2,
-      (targetSize / canvas.width) * 2
-    )
+      const targetScale = Math.min(
+        (targetSize / canvas.height) * 2,
+        (targetSize / canvas.width) * 2
+      )
 
-    canvasRef.current.style = `transform: scale(${targetScale})`
-    viewer.current.style = `width: ${
-      (canvas.width / 2) * targetScale
-    }px; height: ${(canvas.height / 2) * targetScale}px;`
+      canvasRef.current.style = `transform: scale(${targetScale})`
+      viewer.current.style = `width: ${
+        (canvas.width / 2) * targetScale
+      }px; height: ${(canvas.height / 2) * targetScale}px;`
+    }, 10)
   }
 
   // ! Mini
@@ -134,7 +135,7 @@ const Viewer = ({ data }) => {
 
       if (loop) {
         _handleResize()
-        miniStateRef.current = true
+        setMini(true)
       }
     },
     [loop]
@@ -143,7 +144,7 @@ const Viewer = ({ data }) => {
   const _handleExpand = useCallback(
     e => {
       viewer.current.classList.replace('miniDown', 'popup')
-      miniStateRef.current = false
+      setMini(false)
 
       if (loop) {
         const viewerCanvas = document.getElementById('viewerCanvas')
@@ -158,7 +159,7 @@ const Viewer = ({ data }) => {
   )
 
   return (
-    <div ref={viewer} id="viewer" className="viewer popup">
+    <div key="b5-viewer" ref={viewer} id="viewer" className="viewer popup">
       {/* popup is the default status of the viewer window */}
       <div ref={viewerHeader} className="header grab">
         <IconList
@@ -175,7 +176,7 @@ const Viewer = ({ data }) => {
       </div>
 
       {loop ? (
-        <B5Wrapper data={data} canvasRef={canvasRef} />
+        <B5Wrapper key="b5-viewer-wrapper" data={data} canvasRef={canvasRef} />
       ) : (
         <img
           id="viewerNoLoop"

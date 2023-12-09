@@ -116,7 +116,9 @@ $entry-active-color: color-mod($light-grey a($hover-op));
         /* box-sizing: border-box !important; */
         border-radius: $tiny-radius !important;
         /* border: $regular-border !important; */
-        box-shadow: 0 0 0 1px $hover-grey, $high-shadow !important;
+        box-shadow:
+          0 0 0 1px $hover-grey,
+          $high-shadow !important;
       }
 
       input {
