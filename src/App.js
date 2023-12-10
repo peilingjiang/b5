@@ -15,7 +15,7 @@ function App() {
   return (
     <>
       <Editor bridge={bridgeData} />
-      <Viewer data={data} />
+      <Viewer key="b5-viewer" data={data} />
     </>
   )
 }

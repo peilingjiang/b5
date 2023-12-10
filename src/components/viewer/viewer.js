@@ -159,7 +159,7 @@ const Viewer = ({ data }) => {
   )
 
   return (
-    <div key="b5-viewer" ref={viewer} id="viewer" className="viewer popup">
+    <div key="b5-viewer-div" ref={viewer} id="viewer" className="viewer popup">
       {/* popup is the default status of the viewer window */}
       <div ref={viewerHeader} className="header grab">
         <IconList
